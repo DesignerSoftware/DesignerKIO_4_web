@@ -1,0 +1,37 @@
+import {RouterModule, Routes} from '@angular/router';
+import { PagesComponent } from './components/pages/pages.component';
+import { HomeComponent } from './components/pages/home/home.component';
+import { DatosPersonalesComponent } from './components/pages/datos-personales/datos-personales.component';
+import { CambioClaveComponent } from './components/pages/cambio-clave/cambio-clave.component';
+import { ReportesComponent } from './components/pages/reportes/reportes.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegistroComponent } from './components/registro/registro.component';
+import { OlvidoClaveComponent } from './components/olvido-clave/olvido-clave.component';
+import { ValidaTokenComponent } from './components/valida-token/valida-token.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { AboutComponent } from './components/pages/about/about.component';
+
+
+const APP_ROUTES: Routes = [
+    {
+    path: '',
+     component: PagesComponent,
+     children: [
+    // Rutas secundarias
+    {path: 'home', component: HomeComponent},
+    {path: 'kiodatopersonal', component: DatosPersonalesComponent},
+    {path: 'cambioClave', component: CambioClaveComponent},
+    {path: 'reportes', component: ReportesComponent},
+    {path: 'reportes/:id', component: ReportesComponent},
+    {path: 'about', component: AboutComponent},
+    {path: '', redirectTo: '/login', pathMatch: 'full'}
+]},
+// Rutas principales
+{path: 'login', component: LoginComponent },
+{path: 'registro', component: RegistroComponent },
+{path: 'olvidoClave', component: OlvidoClaveComponent },
+{path: 'validaToken', component: ValidaTokenComponent},
+{path: '**', component: PageNotFoundComponent},
+];
+
+export const APP_ROUTING = RouterModule.forRoot(APP_ROUTES, {useHash: true});
