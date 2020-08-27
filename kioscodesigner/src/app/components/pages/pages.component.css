@@ -1,0 +1,24 @@
+@media (max-width: 342px) {
+    #opc-rep {
+        display: none;
+    }
+}
+
+@media (max-width: 304px) {
+    #opc-datos {
+        display: none;
+    }
+}
+
+@media (max-width: 336px) {
+    #opc-datos {
+        display: none;
+    }
+}
+
+@media (max-width: 260px) {
+    #opc-home {
+        display: none;
+    }
+}
+

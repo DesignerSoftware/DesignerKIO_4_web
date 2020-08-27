@@ -9,37 +9,19 @@
               </div>
               <div class="profile-name">
                 <p class="name">
-                  Welcome Usuario
+                  Bienvenido
                 </p>
                 <p class="designation">
-                  C.C 000.000.000
+                  
                 </p>
               </div>
             </div>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/home']">
-              <i class="fa fa-home menu-icon"></i>
-              <span class="menu-title">Inicio</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/kiodatopersonal']">
-              <i class="far fa-compass menu-icon"></i>
-              <span class="menu-title">Datos Personales</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/reportes']">
-              <i class="fas fa-file menu-icon"></i>
-              <span class="menu-title">Reportes</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/about']">
-              <i class="fa fa-exclamation-circle menu-icon"></i>
-              <span class="menu-title">Acerca de</span>
+          <li class="nav-item" *ngFor="let opc of opcionesKioskos" routerLinkActive="active">
+            <a class="nav-link" [routerLink]="['/', opc['NOMBRERUTA']]">
+              <i [class]="opc['ICONO']"></i>
+              <span class="menu-title">{{opc['DESCRIPCION']}}</span>
             </a>
           </li>
         </ul>

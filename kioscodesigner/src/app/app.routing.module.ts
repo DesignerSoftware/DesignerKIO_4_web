@@ -10,7 +10,8 @@ import { OlvidoClaveComponent } from './components/olvido-clave/olvido-clave.com
 import { ValidaTokenComponent } from './components/valida-token/valida-token.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AboutComponent } from './components/pages/about/about.component';
-
+import { AuthGuard } from './guards/auth.guard';
+import { CambioFotoComponent } from './components/pages/cambio-foto/cambio-foto.component';
 
 const APP_ROUTES: Routes = [
     {
@@ -18,19 +19,20 @@ const APP_ROUTES: Routes = [
      component: PagesComponent,
      children: [
     // Rutas secundarias
-    {path: 'home', component: HomeComponent},
-    {path: 'kiodatopersonal', component: DatosPersonalesComponent},
-    {path: 'cambioClave', component: CambioClaveComponent},
-    {path: 'reportes', component: ReportesComponent},
+    {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+    {path: 'kioDatoPersonal', component: DatosPersonalesComponent, canActivate: [AuthGuard]},
+    {path: 'cambioClave', component: CambioClaveComponent, canActivate: [AuthGuard]},
+    {path: 'cambioFoto', component: CambioFotoComponent, canActivate: [AuthGuard]},
+    {path: 'reportes', component: ReportesComponent },
     {path: 'reportes/:id', component: ReportesComponent},
-    {path: 'about', component: AboutComponent},
+    {path: 'about', component: AboutComponent, canActivate: [AuthGuard]},
     {path: '', redirectTo: '/login', pathMatch: 'full'}
 ]},
 // Rutas principales
 {path: 'login', component: LoginComponent },
 {path: 'registro', component: RegistroComponent },
 {path: 'olvidoClave', component: OlvidoClaveComponent },
-{path: 'validaToken', component: ValidaTokenComponent},
+{path: 'validacionToken', component: ValidaTokenComponent},
 {path: '**', component: PageNotFoundComponent},
 ];
 

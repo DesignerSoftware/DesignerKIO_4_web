@@ -1,1 +1,153 @@
-<p>datos-personales works!</p>
+<div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Datos Personales</h4>
+          <p class="card-description">
+            Información personal
+          </p>
+          <hr>
+
+          <div class="col-md-12 col-sm-12 grid-margin stretch-card" *ngIf="datos == null">
+            <div class="loader-demo-box" style="border: 0px !important;">
+              <div class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="datos!=null && datos.length>0">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Primer Apellido</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control form-control-sm" [value]="datos['apellido1']" disabled />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Segundo Apellido</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control form-control-sm" [value]="datos['apellido2']" disabled />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Nombres</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control form-control-sm" [value]="datos['nombres']" disabled />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Sexo</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control form-control-sm" [value]="datos['sexo']" disabled />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label col-form-label-sm">Fecha de Nacimiento</label>
+                  <div class="col-sm-9">
+                    <input class="form-control form-control-sm" [value]="datos['fechaNacimiento']" disabled/>
+                  </div>
+                </div>
+              </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label col-form-label-sm">Lugar de Nacimiento</label>
+                  <div class="col-sm-9">
+                    <input class="form-control form-control-sm" [value]="datos['ciudadNacimiento']" disabled/>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label col-form-label-sm">Grupo Sanguineo</label>
+                  <div class="col-sm-9">
+                    <input class="form-control form-control-sm" [value]="datos['grupoSanguineo']" disabled />
+                  </div>
+                </div>
+              </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label col-form-label-sm">Factor RH</label>
+                  <div class="col-sm-9">
+                    <input class="form-control form-control-sm" [value]="datos['factorRH']" disabled />
+                  </div>
+                </div>
+              </div>
+          </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm">Tipo Documento:</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control form-control-sm" [value]="datos['tipoDocu']" disabled />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm">Número documento:</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control form-control-sm" [value]="datos['documento']" disabled />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm">Lugar de expedición</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control form-control-sm" [value]="datos['ciudadEmpleado']" disabled />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm">Email</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control form-control-sm" [value]="datos['email']" disabled />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+          <p class="card-description">
+            Información Empresa
+          </p>
+          <hr>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Nit:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control form-control-sm" [value]="datos['nitEmpresa']" disabled />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Nombre:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control form-control-sm" [value]="datos['nombreEmpresa']" disabled />
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>

@@ -1,1 +1,131 @@
-<p>reportes works!</p>
+<div class="page-header">
+    <h3 class="page-title">
+        Reportes
+    </h3>
+</div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/reportes']"
+                (click)="limpiarSeleccionado()">Reportes</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{reporteSeleccionado['DESCRIPCION']}}</li>
+    </ol>
+</nav>
+<div class="col-md-12 col-sm-12 grid-margin stretch-card" *ngIf="opcionesReportes.length==0">
+    <div class="loader-demo-box" style="border: 0px !important;">
+      <div class="dot-opacity-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+<pre *ngIf="false">
+    {{reporteSeleccionado | json }}
+</pre>
+<p *ngIf="!reporteSeleccionado">Seleccione el reporte que desea generar</p>
+<div class="row" *ngIf="!reporteSeleccionado">
+    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of
+        opcionesReportes[0]['SUBOPCION']; index as i">
+        <div class="card" id="divReportes">
+            <div class="card-body">
+                <div class="d-flex flex-row">
+                    <img src="assets/images/reporte.png"
+                        class="img-lg rounded img-fluid" alt="profile image" />
+                    <div class="ml-3 d-flex align-items-center">
+                        <h6>{{op['DESCRIPCION']}}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="button" class="btn btn-outline-primary"
+                    (click)="seleccionarReporte(i)">Seleccionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="reporteSeleccionado!=null && reporteSeleccionado!=[]">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h5 style="font-family: Arial, Helvetica, sans-serif;
+                    font-weight: lighter; font-size: 17px;">
+                    <i class="fas fa-file-pdf"></i>
+                    Generar Reporte - {{reporteSeleccionado['DESCRIPCION']}}
+                </h5>
+
+                <div class="row">
+                    <div class="col-2">
+                        <img src="assets/images/reporte.png"
+                            class="img-fluid">
+                    </div>
+                    <div class="col-10">
+                        <div id="divm"></div>
+                        <h6 style="font-weight: bold;">Información del reporte</h6>
+                        <p>{{reporteSeleccionado['AYUDA']}}</p>
+
+                        <div class="col-12 grid-margin">
+                            <form class="form-sample" [formGroup]="formulario" (ngSubmit)="enviar()">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Fecha desde:</label>
+                                        <div class="col-sm-9">
+                                            <input type="date"
+                                                class="form-control
+                                                form-control-sm" formControlName="fechadesde" />
+                                                <small class="text-danger" *ngIf="formulario.get('fechadesde').errors?.required
+                                                && this.formulario.get('fechadesde').touched">
+                                                    Seleccione una fecha valida
+                                                </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Fecha hasta:</label>
+                                        <div class="col-sm-9">
+                                            <input type="date"
+                                                class="form-control
+                                                form-control-sm" formControlName="fechahasta"/>
+                                                <small class="text-danger" *ngIf="formulario.get('fechahasta').errors?.required
+                                                && formulario.get('fechahasta').touched">
+                                                    Seleccione una fecha válida
+                                                </small>
+                                        </div>
+
+                             
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox"
+                                        class="custom-control-input"
+                                        id="customCheck1" formControlName="enviocorreo">
+                                    <label class="custom-control-label"
+                                        for="customCheck1">¿Desea enviar el
+                                        reporte al correo?</label>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary
+                                        btn-icon-text">
+                                        <i class="fa fa-download
+                                            btn-icon-prepend"></i>
+                                        Descargar Reporte
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>

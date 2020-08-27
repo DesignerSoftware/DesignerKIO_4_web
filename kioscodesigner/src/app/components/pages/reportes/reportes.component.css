@@ -1,0 +1,14 @@
+#divReportes .card-body {
+    padding: 5px;
+}
+
+#divReportes .card-footer {
+    padding: 5px;
+}
+
+@media(max-width: 282px) {
+    #divReportes img {
+        width: 70px;
+        height: 70px;
+    }
+}

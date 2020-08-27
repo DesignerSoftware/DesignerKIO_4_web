@@ -1,1 +1,115 @@
-<p>login works!</p>
+<div class="container-fluid animated fadeIn slow">
+  <div class="row no-gutter">
+    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+      <div class="col-md-8 col-lg-6">
+        <div class="login d-flex align-items-center py-5">
+    
+          <div class="container">
+            <div class="row" id="row-img-logo">
+              <div class="col-md-12 text-center">
+                <img src="assets/images/fotos_empleados/logodesigner-dark-xl.png" id="img-logo" class="img-fluid" width="40%"/>
+              </div>
+            </div> 
+            <br/>
+            <br/>
+
+            <div class="row">
+              <div class="col-md-9 col-lg-8 mx-auto">
+                <h3 class="login-heading mb-4 text-center">Módulo autoconsulta Kiosco</h3>
+                <br/>
+                <h6 class="text-center">Inicie sesión para consultar sus datos de personal.</h6>
+                <br>
+                <form novalidate [formGroup]="formulario" (ngSubmit)="enviar()">
+  
+                  <!-- <div *ngIf="formulario.get('usuario').hasError('required') && formulario.get('usuario').touched
+                    || formulario.get('clave').hasError('required') && formulario.get('clave').touched
+                    || formulario.get('empresa').hasError('required')"
+                     class="alert alert-danger alert-dismissible fade show" role="alert">
+                     Error ¡Todos los campos son obligatorios!
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div> -->
+  
+                  <div class="form-label-group">
+                    <input formControlName="usuario" type="text" id="inputUsuario" name="inputUsuario" 
+                        class="form-control" placeholder="Usuario" required autofocus>
+                    <label for="inputUsuario">Usuario</label>
+                    <small *ngIf="formulario.get('usuario').invalid &&
+                    formulario.get('usuario').touched" class="text-danger">
+                    Digite un usuario válido
+                  </small>
+                  </div>
+  
+                  <div class="form-label-group">
+                    <input formControlName="clave" type="password" id="inputClave" name="inputClave" 
+                        class="form-control" placeholder="Clave" required>
+                    <label for="inputClave">Clave</label>
+                    <small *ngIf="formulario.get('clave').errors?.required &&
+                    formulario.get('clave').touched" class="text-danger">
+                    Digite su clave
+                  </small>
+                  </div>
+  
+                  <div class="form-label-group">
+                    <!-----Si solo hay una empresa configurada se deshabilita la selección de empresa-->
+                    <select formControlName="empresa" class="form-control" id="SelectEmpresa" name="SelectEmpresa" 
+                        [disabled]="cadenaskioskos.length==1">
+                      <option value="" *ngIf="cadenaskioskos.length>1">Seleccione una empresa</option>
+                      <option *ngFor="let ck of cadenaskioskos" value="{{ck.nit}}" [defaultSelected]="cadenaskioskos.length==1">
+                        {{ck.descripcion}}
+                      </option>
+                    </select>
+                  </div>
+  
+                  <!-- <div class="custom-control custom-checkbox mb-3">
+                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                    <label class="custom-control-label" for="customCheck1">Remember password</label>
+                  </div> -->
+
+                  <div class="text-right mb-2">
+                      <a class="small" href="#" routerLink="/olvidoClave">¿Olvidó su clave o bloqueó su usuario?</a>
+                  </div>
+
+                  <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Ingresar</button>
+
+                  <div class="text-center">
+                    <a class="small" href="#" routerLink="/registro">¿No tiene una cuenta? Registrarse</a>
+                  </div>
+
+                </form>
+
+                <br>
+
+                  <div class="d-md-flex align-items-center justify-content-center d-flex align-items-center" id="contentRedesSociales">
+                    <div class="d-flex align-items-center">
+                      <a class="btn btn-social-icon btn-facebook btn-red-social-login text-white" 
+                         href="https://www.facebook.com/nominads" target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                      </a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <a class="btn btn-social-icon btn-youtube btn-red-social-login text-white" 
+                         href="https://www.youtube.com/user/nominads" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                      </a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <a class="btn btn-social-icon btn-twitter btn-red-social-login text-white" 
+                         href="https://twitter.com/NominaDesigner" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                      </a>
+                    </div>
+
+
+                  </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

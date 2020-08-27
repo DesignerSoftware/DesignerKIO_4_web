@@ -1,0 +1,23 @@
+#contentRedesSociales {
+    text-align: center;
+    justify-content: center;
+    justify-items: center;
+  }
+  
+  .btn.btn-social-icon {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  
+  .align-items-center {
+    padding: 0px 5px 0px 5px !important;
+  }
+  
+  .btn-red-social-login {
+    padding-top: 6px;
+    color: white;
+  }
+
+  #foot_about {
+    margin-top: 16%;
+  }

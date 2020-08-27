@@ -1,1 +1,70 @@
-<p>olvido-clave works!</p>
+<form [formGroup]="formulario" novalidate (ngSubmit)="enviar()">
+
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper">
+  
+          <div class="card">
+            <h5 class="card-header bg-info" style="color: white">Registro - Kiosko Designer.KIO</h5>
+  
+            <div class="card-body">
+              <h4>Reseteo de Contraseña</h4>
+              <br>
+                Por favor digite su usuario y el nit de su empresa para enviar a su correo la nueva contraseña.
+              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="form-group row" style="margin-bottom: 0px">
+                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
+                    col-md-6
+                    col-sm-4">*Usuario:</label>
+                  <div class="col col-xl-5 col-md-7">
+                    <input type="text" class="form-control form-control-sm"
+                      formControlName="seudonimo" />
+                    <small *ngIf="formulario.get('seudonimo').errors?.required &&
+                      formulario.get('seudonimo').touched" class="text-danger">
+                      Digite su usuario
+                    </small>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="form-group row" style="margin-bottom: 0px">
+                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
+                    col-md-6
+                    col-sm-4">*Nit Empresa:</label>
+                  <div class="col col-xl-5 col-md-7">
+                    <input type="text" class="form-control form-control-sm"
+                      formControlName="nitempresa" />
+                    <small *ngIf="formulario.get('nitempresa').errors?.required &&
+                      formulario.get('nitempresa').touched" class="text-danger">
+                      Digite el nit de la empresa en la que trabaja sin digito de verificación, espacios ni simbolos.
+                    </small>
+                    <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
+                      Sólo se permiten números y no se permiten espacios
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-xl-3">
+                  <button type="button" class="form-control btn btn-info mt-2" (click)="enviar()">Continuar</button>
+                </div>
+                <div class="col-12 col-xl-3">
+                  <button type="button" class="form-control btn btn-secondary mt-2" (click)="redirigirInicio()">Cancelar</button>
+                </div>
+              </div>
+              <hr>
+
+
+  
+  
+  
+  
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </form>
