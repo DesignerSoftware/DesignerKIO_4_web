@@ -10,9 +10,15 @@ export class ReportesService {
 
   constructor(private http: HttpClient) { }
 
-  generarReporte(reporte: string, secuenciaEmpl: string, envioCorreo: boolean) {
-    const url = `${environment.urlKioskoReportes}reportes/generaReporte/${reporte}/${secuenciaEmpl}/${envioCorreo}`;
+  generarReporte(reporte: string, secuenciaEmpl: string, envioCorreo: boolean, correo: string, descripcionReporte: string) {
+    const url = `${environment.urlKioskoReportes}reportes/generaReporte/${reporte}/${secuenciaEmpl}/${envioCorreo}/${correo}?descripcionReporte=${descripcionReporte}`;
     console.log(url);
     return this.http.get(url, { responseType: 'blob' });
+  }
+
+  validaFechasCertingresos(fechaDesde: string, fechaHasta: string) {
+    const url = `${environment.urlKioskoDesigner}restKiosco/validarFechasCertingresos?fechadesde=${fechaDesde}&fechahasta=${fechaHasta}`;
+    console.log(url);
+    return this.http.get(url);
   }
 }

@@ -12,3 +12,17 @@
         height: 70px;
     }
 }
+
+@media(max-width: 500px) {
+    #div-img-rep  {
+        display: none;
+    }
+
+    #img-rep{
+        display: inline-block !important;
+    }
+}
+
+#img-rep {
+    display: none;
+}

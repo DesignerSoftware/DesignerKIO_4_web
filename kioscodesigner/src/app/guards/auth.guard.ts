@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
   canActivate(): boolean {
     console.log('AuthGuard canActivate');
     if (this.usuarioServicio.isAutenticado()) { // si existe el registro del usuario en el localstorage, permitir el ingreso
-      return true; 
+      return true;
     } else {
       this.router.navigateByUrl('/login');
       return false;

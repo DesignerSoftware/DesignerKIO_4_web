@@ -3,6 +3,7 @@
         Reportes
     </h3>
 </div>
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [routerLink]="['/reportes']"
@@ -18,11 +19,9 @@
         <span></span>
       </div>
     </div>
-  </div>
-<pre *ngIf="false">
-    {{reporteSeleccionado | json }}
-</pre>
-<p *ngIf="!reporteSeleccionado">Seleccione el reporte que desea generar</p>
+</div>
+
+<p *ngIf="!reporteSeleccionado && opcionesReportes.length!=0">Seleccione el reporte que desea generar</p>
 <div class="row" *ngIf="!reporteSeleccionado">
     <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of
         opcionesReportes[0]['SUBOPCION']; index as i">
@@ -55,14 +54,15 @@
                 </h5>
 
                 <div class="row">
-                    <div class="col-2">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2" id="div-img-rep">
                         <img src="assets/images/reporte.png"
                             class="img-fluid">
                     </div>
-                    <div class="col-10">
+                    <div class="col-12 col-xl-10 col-lg-10 col-sm-10 col-md-10">
                         <div id="divm"></div>
-                        <h6 style="font-weight: bold;">Información del reporte</h6>
-                        <p>{{reporteSeleccionado['AYUDA']}}</p>
+                        
+                        <h6 style="font-weight: bold;"><img id="img-rep" src="assets/images/reporte.png" height="30px"> Información del reporte</h6>
+                        <p class="text-justify">{{reporteSeleccionado['AYUDA']}}</p>
 
                         <div class="col-12 grid-margin">
                             <form class="form-sample" [formGroup]="formulario" (ngSubmit)="enviar()">
@@ -72,11 +72,12 @@
                                         <label class="col-sm-3 col-form-label">Fecha desde:</label>
                                         <div class="col-sm-9">
                                             <input type="date"
+                                                [value]="fechaDesde | date: 'yyyy-MM-dd'"
                                                 class="form-control
                                                 form-control-sm" formControlName="fechadesde" />
                                                 <small class="text-danger" *ngIf="formulario.get('fechadesde').errors?.required
                                                 && this.formulario.get('fechadesde').touched">
-                                                    Seleccione una fecha valida
+                                                    Seleccione una fecha válida
                                                 </small>
                                         </div>
                                     </div>
@@ -86,7 +87,8 @@
                                         <label class="col-sm-3 col-form-label">Fecha hasta:</label>
                                         <div class="col-sm-9">
                                             <input type="date"
-                                                class="form-control
+                                            [value]="fechaHasta | date: 'yyyy-MM-dd'"
+                                                class="form-control 
                                                 form-control-sm" formControlName="fechahasta"/>
                                                 <small class="text-danger" *ngIf="formulario.get('fechahasta').errors?.required
                                                 && formulario.get('fechahasta').touched">
@@ -129,3 +131,5 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>    

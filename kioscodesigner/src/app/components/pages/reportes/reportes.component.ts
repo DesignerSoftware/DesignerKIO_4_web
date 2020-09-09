@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ReportesService } from 'src/app/services/reportes.service';
+import { DatePipe } from '@angular/common';
 import swal from 'sweetalert2';
 
 @Component({
@@ -17,11 +18,18 @@ export class ReportesComponent implements OnInit {
   reporteSeleccionado = null;
   private usuario: string;
   private empresa: string;
+  fechaDesde: Date = null;
+  fechaHasta: Date = null;
+  enviocorreo: boolean;
+  correo: string = null;
 
   constructor(private opcionesKioskosServicio: OpcionesKioskosService, private router: Router, private fb: FormBuilder,
-              private usuarioServicio: UsuarioService, private reporteServicio: ReportesService) {
+              private usuarioServicio: UsuarioService, private reporteServicio: ReportesService, public datepipe: DatePipe) {
     console.log('constructor');
     this.crearFormulario();
+      let date: Date= new Date(datepipe.transform('2019-04-13T00:00:00', 'yyyy-MM-dd'));
+      console.log('transformada', date);
+      console.log(this.conviertefecha('2019-04-13'));
     /*this.activatedRoute.params
     .subscribe(params => {
     console.log(params);
@@ -34,18 +42,50 @@ export class ReportesComponent implements OnInit {
     this.empresa = sesion['empresa'];
     console.log('usuario: ' + this.usuario + ' empresa: ' + this.empresa);
     this.filtrarOpcionesReportes();
+    this.consultarParametrosReportes();
+    this.getCorreoConexioneskioskos();
   }
+
+   conviertefecha(fecharecibidatexto)
+{
+        let fec = fecharecibidatexto;
+
+        let anio = fec.substring(0, 4);
+        let mes = fec.substring(500,7);
+        let dia = fec.substring(8,10);
+
+        let ensamble = dia +  "-" + mes +  "-" + anio;
+        let fecha = new Date(ensamble).toLocaleDateString('es-CO');
+        return fecha;
+}
 
   ngOnInit() {
     console.log('ngOnInit');
   }
 
   crearFormulario() {
+    console.log('crearFormulario()');
     this.formulario = this.fb.group({
       fechadesde: [, Validators.required],
       fechahasta: [, Validators.required],
       enviocorreo: [false]
     });
+  }
+
+  consultarParametrosReportes() {
+    this.usuarioServicio.getParametros(this.usuario, this.empresa)
+    .subscribe(
+      data => {
+        console.log('data', data);
+        console.log('fecha desde: ' + data[0][0]);
+        this.fechaDesde =  data[0][0];
+        this.fechaHasta = data[0][1];
+        this.enviocorreo = data[0][2];
+        this.formulario.get('fechadesde').setValue(this.fechaDesde);
+        this.formulario.get('fechahasta').setValue(this.fechaHasta);
+        this.formulario.get('enviocorreo').setValue(data[0][2] === 'S' ? true : false);
+      }
+    );
   }
 
   filtrarOpcionesReportes() {
@@ -59,7 +99,7 @@ export class ReportesComponent implements OnInit {
           this.opcionesReportes = opkTempo.filter(
             (opcKio) => opcKio['CODIGO'] === '20'
           );
-          console.log('filter 1', this.opcionesReportes[0]['SUBOPCION']);
+          // console.log('filter 1', this.opcionesReportes[0]['SUBOPCION']);
         });
     } else {
       opkTempo = this.opcionesKioskosServicio.opcionesKioskos;
@@ -70,6 +110,15 @@ export class ReportesComponent implements OnInit {
     }
   }
 
+  getCorreoConexioneskioskos() {
+    this.usuarioServicio.consultarCorreoConexioneskioskos(this.usuario, this.empresa)
+    .subscribe(
+      data => {
+        this.correo = data['result'];
+        console.log('correo: ' + this.correo);
+      }
+    )
+  }
 
   seleccionarReporte(index: number) {
     console.log('opcionesActuales', this.opcionesReportes);
@@ -79,7 +128,7 @@ export class ReportesComponent implements OnInit {
   }
 
   limpiarSeleccionado() {
-    console.log('seleccio');
+    console.log('clear seleccionado');
     this.reporteSeleccionado = null;
   }
 
@@ -101,12 +150,50 @@ export class ReportesComponent implements OnInit {
         '</button>' +
         '</div>';
         document.getElementById('divm').innerHTML = text;
+        document.getElementById('divm').style.display = '';
+        swal.fire(
+          '¡Validar fechas!',
+          'Error: La fecha hasta debe ser mayor a la fecha desde.!',
+          'error'
+        );
         return false;
       } else {
         document.getElementById('divm').innerHTML = '';
         document.getElementById('divm').style.display = 'none';
 
-        if (this.usuarioServicio.secuenciaEmpleado == null) {
+        if (this.reporteSeleccionado['CODIGO'] === '22') { // si el reporte seleccionado es certingresos
+          // let fechaDesde: Date = new Date(this.conviertefecha(this.formulario.get('fechadesde').value)/* + 'T00:00:00'*/);
+          // let fechaHasta: Date = new Date(this.conviertefecha(this.formulario.get('fechahasta').value)/* + 'T00:00:00'*/);
+          this.reporteServicio.validaFechasCertingresos(
+            this.formulario.get('fechadesde').value, this.formulario.get('fechahasta').value
+          )
+          .subscribe(
+            data => {
+              console.log(data);
+              if (data['result']==="true") {
+                console.log('fechas correctas');
+                this.obtenerSecuenciaEmpleado();
+              } else {
+                swal.fire(
+                  '¡Validar Fechas!',
+                  'Para generar el Certificado de Ingresos y Retenciones se requiere que seleccione las fechas de todo un año ' +
+                  '(1 de enero a 31 de diciembre).',
+                  'info'
+                );
+                return false;
+              }
+            }
+          );
+        } else {
+          this.obtenerSecuenciaEmpleado();
+        }
+      }
+
+    }
+  }
+
+  obtenerSecuenciaEmpleado() {
+            if (this.usuarioServicio.secuenciaEmpleado == null) {
           this.usuarioServicio.getSecuenciaEmpl(this.usuario)
           .subscribe(
             info => {
@@ -117,37 +204,55 @@ export class ReportesComponent implements OnInit {
         } else {
          this.actualizaParametros();
         }
-      }
-
-    }
   }
 
   actualizaParametros() {
-    this.usuarioServicio.actualizaParametrosReportes(this.usuario, this.empresa, this.formulario.get('fechadesde').value,
-    this.formulario.get('fechahasta').value, this.formulario.get('enviocorreo').value )
-    .subscribe(
-      data => {
-        if (data['update'] === true) {
-          console.log('parametros actualizados');
-          this.descargarReporte();
-        }
+    swal.fire({
+      title: 'Por favor espere un momento',
+      text: 'Su reporte se está generando.',
+      icon: 'info',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if (result.value) {
+        this.usuarioServicio.actualizaParametrosReportes(this.usuario, this.empresa, this.formulario.get('fechadesde').value,
+        this.formulario.get('fechahasta').value, this.formulario.get('enviocorreo').value )
+        .subscribe(
+          data => {
+            console.log(data);
+            if (data === 1) {
+              console.log('parametros actualizados');
+              this.descargarReporte();
+            }
+          },
+          error => {
+            swal.fire(
+              'Error!',
+              'Se presentó un error al actualizar las fechas del reporte, por favor inténtelo de nuevo más tarde!',
+              'error'
+            );
+          }
+        );
       }
-    );
+    });
+
   }
 
 
   descargarReporte() {
     console.log('descargarReporte');
-    swal.fire(
-      'Generando reporte!',
-      'Su reporte se descargará automaticamente en un momento!',
-      'info'
-    );
-    this.reporteServicio.generarReporte(this.reporteSeleccionado['NOMBRERUTA'], this.usuarioServicio.secuenciaEmpleado, 
-    this.formulario.get('enviocorreo').value)
+    this.reporteServicio.generarReporte(this.reporteSeleccionado['NOMBRERUTA'], this.usuarioServicio.secuenciaEmpleado,
+    this.formulario.get('enviocorreo').value, this.correo, this.reporteSeleccionado['DESCRIPCION'])
     .subscribe(
       (res) => {
         console.log(res);
+        swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Reporte generado exitosamente, se descargará en un momento',
+          showConfirmButton: false,
+          timer: 1500
+        });
         const newBlob = new Blob([res], { type: 'application/pdf' });
         if (window.navigator && window.navigator.msSaveOrOpenBlob) {
           window.navigator.msSaveOrOpenBlob(newBlob);

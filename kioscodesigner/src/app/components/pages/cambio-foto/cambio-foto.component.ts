@@ -11,8 +11,7 @@ export class CambioFotoComponent implements OnInit {
   url = '../../assets/images/fotos_empleados/sinFoto.jpg';
   isImageLoading = false;
 
-  constructor(private usuarioService: UsuarioService) { 
-    this.getImageFromService();
+  constructor(private usuarioService: UsuarioService) {
   }
 
   ngOnInit() {
@@ -40,7 +39,7 @@ createImageFromBlob(image: Blob) {
    }
 }
 
-getImageFromService() {
+/*getImageFromService() {
       this.isImageLoading = true;
       this.usuarioService.getImage('').subscribe(data => {
         this.createImageFromBlob(data);
@@ -50,6 +49,6 @@ getImageFromService() {
         this.isImageLoading = false;
         console.log(error);
       });
-}
+}*/
 
 }

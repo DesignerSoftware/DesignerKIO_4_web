@@ -10,12 +10,19 @@ export class LoginService {
   constructor(private http: HttpClient) {
   }
 
-  registrarUsuario(seudonimo: string, usuario: string,
-                   clave: string, nitempresa: string, correo: string){
-    const url = `${environment.urlKioskoDesigner}conexioneskioskos?seudonimo=${seudonimo}&usuario=${usuario}&clave=${clave}&nitEmpresa=${nitempresa}&correo=${correo}`;
+  registrarUsuario(seudonimo: string, usuario: string, clave: string, nitEmpresa: string, correo: string) {
+    // const url = `${environment.urlKioskoDesigner}conexioneskioskos?seudonimo=${seudonimo}&usuario=${usuario}&clave=${clave}&nitEmpresa=${nitempresa}&correo=${correo}`;
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/creaUsuario?seudonimo=${seudonimo}&usuario=${usuario}&clave=${clave}&nitEmpresa=${nitEmpresa}&correo=${correo}`;
     console.log(url);
-    let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*');
-    return this.http.post(url, {}, {headers: headers});
+
+    // let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*');
+    return this.http.post(url, { params: {
+      seudonimo,
+      usuario,
+      clave,
+      nitEmpresa,
+      correo
+    }});
   }
 
   validarUsuarioYEmpresa(codEmpleado: string, nitEmpresa: string) {
@@ -32,7 +39,7 @@ export class LoginService {
 
   enviarCorreoConfirmaCuenta(usuario: string, clave: string, nitEmpresa: string, urlKiosco: string) {
     //const url = `${environment.urlKioskoDesigner}restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&urlKiosco=${urlKiosco}`;
-    const url = `${environment.urlKioskoDesigner}restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&urlKiosco=${urlKiosco}`;
+    const url = `${environment.urlKioskoDesigner}restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&urlKiosco=${environment.urlKiosko}`;
     console.log(url);
     return this.http.get(url);
   }

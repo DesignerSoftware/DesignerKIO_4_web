@@ -26,8 +26,7 @@ export class UsuarioService {
 
   getUserLoggedIn() {
     const obj: any = JSON.parse(localStorage.getItem('currentUser')) ;
-    console.log(obj);
-    console.log('getUserLoggedIn()');
+    console.log('getUserLoggedIn()', obj);
     return JSON.parse(localStorage.getItem('currentUser'));
   }
 
@@ -53,15 +52,25 @@ export class UsuarioService {
   }
 
   actualizaParametrosReportes(codigoEmp: string, nitEmpresa: string, fechadesde: Date, fechahasta: Date, enviocorreo: boolean) {
-    const url = `${environment.urlKioskoDesigner}actualizarParametrosReportes` +
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/updateFechas` +
     `?usuario=${codigoEmp}&nitEmpresa=${nitEmpresa}&fechadesde=${fechadesde}&fechahasta=${fechahasta}&enviocorreo=${enviocorreo}`;
     console.log(url);
-    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*');
-    return this.http.post(url, {}, { headers: headers });
+    return this.http.post(url, {});
   }
 
-  validarIngresoKioscoSeudonimo(seudonimo: string, clave: string, nitEmpresa: string) {
-    const url = `${environment.urlKioskoDesigner}restKiosco/validarIngresoSeudonimoKiosco?usuario=${seudonimo}&clave=${clave}&nitEmpresa=${nitEmpresa}`;
+  validarIngresoKioscoSeudonimo(seudonimo: string, password: string, nit: string) {
+    const url = `${environment.urlKioskoDesigner}restKiosco/validarIngresoSeudonimoKiosco`;
+    console.log(
+      `${environment.urlKioskoDesigner}restKiosco/validarIngresoSeudonimoKiosco?usuario=${seudonimo}&clave=${password}&nitEmpresa=${nit}`);
+    return this.http.get(url, {params: {
+      usuario: seudonimo,
+      clave: password,
+      nitEmpresa: nit
+    }});
+  }
+
+  validarSeudonimoClaveNit(seudonimo: string, clave: string, nitEmpresa: string) {
+    const url = `${environment.urlKioskoDesigner}restKiosco/validarUsuarioSeudonimoRegistrado?usuario=${seudonimo}&clave=${clave}&nitEmpresa=${nitEmpresa}`;
     console.log(url);
     return this.http.get(url);
   }
@@ -72,5 +81,35 @@ export class UsuarioService {
     return this.http.get(url);
   }
 
+  getParametros(usuario: string, empresa: string) {
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/parametros?usuario=${usuario}&nitEmpresa=${empresa}`;
+    console.log(url);
+    return this.http.get(url);
+  }
+
+  consultarCorreoConexioneskioskos(usuario: string, empresa: string) {
+    const url = `${environment.urlKioskoDesigner}restKiosco/correoconexioneskioskos/${usuario}/${empresa}`;
+    console.log(url);
+    return this.http.get(url);
+  }
+
+  // actualizar clave conexioneskioskos:
+  actualizaClave(usuario: string, nit: string, clave: string) {
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/updateClave?usuario=${usuario}&nitEmpresa=${nit}&clave=${clave}`;
+    console.log(url);
+    return this.http.post(url, {});
+  }
+
+  generaClaveAleatoria(usuario: string, nit: string){
+    const url = `${environment.urlKioskoDesigner}restKiosco/generarClave?usuario=${usuario}&nit=${nit}`;
+    console.log(url);
+    return this.http.get(url);
+  }
+
+  validaToken(jwt: string) { /// retorna 0 si el token es válido.
+    const url = `${environment.urlKioskoDesigner}restKiosco/validarJWTActivarCuenta?jwt=${jwt}`;
+    console.log(url);
+    return this.http.get(url);
+  }
 
 }

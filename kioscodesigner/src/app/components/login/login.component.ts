@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   formulario: FormGroup;
 
   cadenaskioskos = [
-/*    {
+   /* {
       id: 1,
       descripcion: 'TRONEX',
       cadena: 'DEFAULT1',
@@ -25,11 +25,11 @@ export class LoginComponent implements OnInit {
     },*/
     {
       id: 2,
-      descripcion: "DESIGNER SOFTWARE LTDA",
-      cadena: "DEFAULT1",
-      nit: "830045567",
-      fondo: "fondoMenu.jpg",
-      grupo: "GrupoEmpresarial2",
+      descripcion: 'DESIGNER SOFTWARE LTDA',
+      cadena: 'DEFAULT1',
+      nit: '830045567',
+      fondo: 'fondoMenu.jpg',
+      grupo: 'GrupoEmpresarial2',
     },
   ];
 
@@ -40,7 +40,12 @@ export class LoginComponent implements OnInit {
     private usuarioService: UsuarioService,
     private router: Router
   ) {
-    this.crearFormulario();
+    console.log('usuario logueado', usuarioService.getUserLoggedIn());
+    if (!usuarioService.getUserLoggedIn()) {
+      this.crearFormulario();
+    } else {
+      this.navigate();
+    }
   }
 
   ngOnInit() {
@@ -149,8 +154,19 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']);
     }
 
+    mostrarModalContacto() {
+      if (this.formulario.get('empresa').value) {
+        console.log('presiono botón');
+        $('#staticBackdrop').modal('show');
+      } else {
+        swal.fire({
+          icon: 'error',
+          title: 'Por favor seleccione una empresa',
+          text: 'Seleccione la empresa a la que pertenece para indicarle con quien puede contactarse.',
+          showConfirmButton: true
+        });
+      }
+
+    }
 
   }
-
-
-

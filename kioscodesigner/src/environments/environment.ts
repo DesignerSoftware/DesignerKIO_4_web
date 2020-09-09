@@ -5,7 +5,8 @@
 export const environment = {
   production: true,
   urlKioskoDesigner: 'http://localhost:8080/restKiosco-master/wsKiosco/restapi/',
-  urlKioskoReportes: 'http://localhost:8082/wsreporte/webresources/'
+  urlKioskoReportes: 'http://localhost:8082/wsreporte/webresources/',
+  urlKiosko: 'http://localhost:4200'
 };
 
 /*

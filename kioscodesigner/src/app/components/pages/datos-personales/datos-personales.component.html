@@ -1,7 +1,9 @@
 <div class="col-12 grid-margin">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Datos Personales</h4>
+        <h4 class="card-title">
+          <i class="fas fa-address-card"></i>
+          Datos Personales</h4>
           <p class="card-description">
             Información personal
           </p>
@@ -16,7 +18,7 @@
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="datos!=null && datos.length>0">
+          <div class="row" *ngIf="datos!=null">
             <div class="col-md-6">
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label col-form-label-sm">Primer Apellido</label>
@@ -34,7 +36,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="datos!=null">
             <div class="col-md-6">
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label col-form-label-sm">Nombres</label>
@@ -52,7 +54,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="datos!=null"> 
             <div class="col-md-6">
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label col-form-label-sm">Fecha de Nacimiento</label>
@@ -71,7 +73,7 @@
               </div>
 
           </div>
-          <div class="row">
+          <div class="row" *ngIf="datos!=null">
             <div class="col-md-6">
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label col-form-label-sm">Grupo Sanguineo</label>
@@ -89,7 +91,7 @@
                 </div>
               </div>
           </div>
-              <div class="row">
+              <div class="row" *ngIf="datos!=null">
                 <div class="col-md-6">
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label col-form-label-sm">Tipo Documento:</label>
@@ -107,7 +109,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row" *ngIf="datos!=null">
                 <div class="col-md-6">
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label col-form-label-sm">Lugar de expedición</label>
@@ -130,7 +132,16 @@
             Información Empresa
           </p>
           <hr>
-          <div class="row">
+          <div class="col-md-12 col-sm-12 grid-margin stretch-card" *ngIf="datos == null">
+            <div class="loader-demo-box" style="border: 0px !important;">
+              <div class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="datos!=null">
             <div class="col-md-6">
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label col-form-label-sm">Nit:</label>

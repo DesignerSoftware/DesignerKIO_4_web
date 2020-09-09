@@ -9,17 +9,17 @@
           </button>
         </div>
         <div class="modal-body text-center">
-          <img [src]="url" height="200px">
+          <img [src]="url" height="200px" class="img-fluid">
           <input type="file" (change)="onSelectFile($event)" class="btn-primary">
         </div>
 
 
-        <img [src]="imageToShow"
+        <!-- <img [src]="imageToShow"
         alt="Place image title"
         *ngIf="!isImageLoading; else noImageFound">
    <ng-template #noImageFound>
         <img src="fallbackImage.png" alt="Fallbackimage">
-   </ng-template>
+   </ng-template> -->
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

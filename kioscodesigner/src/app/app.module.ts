@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { DatePipe, registerLocaleData } from '@angular/common';
 
 // Rutas
 import {APP_ROUTING} from './app.routing.module';
@@ -25,12 +26,15 @@ import { HttpClientModule} from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { LOCALE_ID } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
-import localeCo from '@angular/common/locales/es-co';
+/*import { registerLocaleData } from '@angular/common';
+import localeCo from '@angular/common/locales/es-co';*/
 import { CambioFotoComponent } from './components/pages/cambio-foto/cambio-foto.component';
-
-import * as bootstrap from "bootstrap";
-import * as $ from "jquery";
+import localeEsCO from '@angular/common/locales/es-CO';
+registerLocaleData(localeEsCO);
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { FaqComponent } from './components/pages/faq/faq.component';
+import { FAQGENERALESComponent } from './components/faqgenerales/faqgenerales.component';
 
 @NgModule({
   declarations: [
@@ -49,16 +53,19 @@ import * as $ from "jquery";
     SidebarComponent,
     FooterComponent,
     PagesComponent,
-    CambioFotoComponent
+    CambioFotoComponent,
+    FaqComponent, // FAQ dentro de la aplicación
+    FAQGENERALESComponent // FAQ del login
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    APP_ROUTING
+    APP_ROUTING,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    {provide: LOCALE_ID, useValue: 'es-co'}
+    DatePipe, {provide: LOCALE_ID, useValue: 'es-CO'}
   ],
   bootstrap: [AppComponent]
 })

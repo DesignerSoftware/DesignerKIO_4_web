@@ -13,7 +13,9 @@ import { Router } from '@angular/router';
 @Injectable()
 export class HomeComponent implements OnInit {
 
-  constructor(private usuarioServicio: UsuarioService, private router: Router, private opcionesKioskosService: OpcionesKioskosService) { }
+  constructor(private usuarioServicio: UsuarioService, private router: Router,
+              private opcionesKioskosService: OpcionesKioskosService) {
+              }
 
   ngOnInit() {
   }

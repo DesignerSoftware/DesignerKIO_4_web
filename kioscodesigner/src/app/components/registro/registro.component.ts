@@ -95,7 +95,7 @@ export class RegistroComponent implements OnInit {
       } else {
         seudonimoCuenta = this.formulario.get('documento').value;
       }
-      this.loginService.registrarUsuario(seudonimoCuenta, this.usuario,
+      this.loginService.registrarUsuario(seudonimoCuenta, this.formulario.get('documento').value,
         this.formulario.get('pass1').value, this.formulario.get('nitempresa').value,
         this.formulario.get('correo').value)
       .subscribe(
@@ -148,7 +148,7 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
       this.loginService.enviarCorreoConfirmaCuenta(
         seudonimo,
         this.formulario.get('pass1').value,
-      this.formulario.get('nitempresa').value, 'www.nominadesigner.co/kiosko/#')
+      this.formulario.get('nitempresa').value, 'www.nominadesigner.co')
       .subscribe(
         data => {
           if (data['envioCorreo']==true) {
@@ -180,6 +180,15 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
               }
             });
           }
+        },
+        (error) => {
+          swal.fire({
+            icon: 'error',
+            title: 'Hubo un error al enviarte el correo de confirmación.',
+            text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión para enviarte '+
+            'nuevamente el correo.',
+            showConfirmButton: true
+          });
         }
       );
     },

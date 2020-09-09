@@ -89,7 +89,7 @@
                     col-sm-5"
                     style="margin: 0px">*Nueva contraseña:</label>
                   <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                    <input type="text" class="form-control form-control-sm"
+                    <input type="password" class="form-control form-control-sm"
                       [class.is-invalid]="formulario.get('pass1').invalid &&
                       formulario.get('pass1').touched"
                       [class.is-valid]="formulario.get('pass1').valid"
@@ -112,7 +112,7 @@
                     col-md-4
                     col-sm-5" style="margin: 0px">*Confirmar contraseña:</label>
                   <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                    <input type="text" class="form-control form-control-sm
+                    <input type="password" class="form-control form-control-sm
                       is-valid"
                       maxlength="16" formControlName="pass2"
                       [class.is-invalid]="formulario.get('pass2').invalid &&
@@ -163,13 +163,13 @@
               <div class="col-12 col-xl-3">
                 <button type="submit" class="form-control btn btn-info">Finalizar</button>
               </div>
-              <pre>
+              <pre *ngIf="false">
                 {{formulario.value | json}}
               </pre>
-              <pre>
+              <pre *ngIf="false">
                 Estado del formulario: {{formulario.valid}}
               </pre>
-              <pre>Status formulario: {{formulario.status}}</pre>
+              <pre *ngIf="false">Status formulario: {{formulario.status}}</pre>
 
               <br>
                   <div id="loader" style="display: none">

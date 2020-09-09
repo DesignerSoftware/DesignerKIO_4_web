@@ -1,95 +1,117 @@
 <form [formGroup]="formulario" novalidate (ngSubmit)="enviar()">
-<div class="container-scroller">
-  <div class="container-fluid page-body-wrapper full-page-wrapper">
-    <div class="content-wrapper">
+        <div class="col-12 grid-margin stretch-card">
 
-      <div class="card">
-        <h5 class="card-header bg-info" style="color: white">Actualización
-          contraseña</h5>
+        <div class="card">
+          <h5 class="card-header bg-info" style="color: white">Cambiar
+            Contraseña</h5>
 
-        <div class="card-body">
-          <h4>Actualizar Contraseña:</h4>
-          <br>
-          <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
-            <div class="form-group row" style="margin-bottom: 0px">
-              <label
-                class="font-weight-bold col-form-label col-xl-2 col-lg-3
-                col-md-4
-                col-sm-5"
-                style="margin: 0px">*Contraseña Actual:</label>
-              <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                <input type="text" class="form-control form-control-sm"
-                  [class.is-invalid]="formulario.get('passActual').invalid &&
-                  formulario.get('passActual').touched"
-                  [class.is-valid]="formulario.get('pass1').valid"
-                  maxlength="16" formControlName="passActual">
-                <small *ngIf="formulario.get('passActual').errors?.required &&
-                  formulario.get('passActual').touched" class="text-danger">
-                  Digite su contraseña actual
-                </small>
-                <small *ngIf="formulario.get('passActual').errors?.pattern &&
-                  formulario.get('passActual').touched" class="text-danger">
-                </small>
+          <div class="card-body">
+            <h5 style="font-weight: bold;"><img img id="img-rep" src="assets/images/cambioClave.png" height="30px"> Actualizar Contraseña:</h5>
+            <br>
+            <div class="row align-items-center d-flex flex-row">
+              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2"
+                id="div-img-rep">
+                <img src="assets/images/cambioClave.png"
+                  class="img-fluid" style="padding-left: 15px;">
               </div>
+              <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
+
+                <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group row" style="margin-bottom: 0px">
+                    <label
+                      class="font-weight-bold col-form-label col-xl-3 col-lg-3
+                      col-md-4
+                      col-sm-5"
+                      style="margin: 0px">*Contraseña Actual:</label>
+                    <div class="col col-xl-3 col-lg-4 col-md-4 col-sm-5">
+                      <input type="password" class="form-control form-control-sm"
+                        [class.is-invalid]="formulario.get('passActual').invalid
+                        &&
+                        formulario.get('passActual').touched"
+                        maxlength="16" formControlName="passActual">
+                      <small *ngIf="formulario.get('passActual').errors?.required
+                        &&
+                        formulario.get('passActual').touched" class="text-danger">
+                        Digite su contraseña actual
+                      </small>
+                      <small *ngIf="formulario.get('passActual').errors?.pattern
+                        &&
+                        formulario.get('passActual').touched" class="text-danger">
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group row" style="margin-bottom: 0px">
+                    <label
+                      class="font-weight-bold col-form-label col-xl-3 col-lg-3
+                      col-md-4
+                      col-sm-5"
+                      style="margin: 0px">*Nueva Contraseña:</label>
+                    <div class="col col-xl-3 col-lg-4 col-md-4 col-sm-5">
+                      <input type="password" class="form-control form-control-sm"
+                        [class.is-invalid]="formulario.get('pass1').invalid &&
+                        formulario.get('pass1').touched"
+                        [class.is-valid]="formulario.get('pass1').valid"
+                        maxlength="16" formControlName="pass1">
+                      <small *ngIf="formulario.get('pass1').errors?.required &&
+                        formulario.get('pass1').touched" class="text-danger">
+                        Digite su nueva contraseña
+                      </small>
+                      <small *ngIf="formulario.get('pass1').errors?.pattern &&
+                        formulario.get('pass1').touched" class="text-danger">
+                        La contraseña debe contener al menos un número, una letra
+                        minúscula, una letra mayúscula,
+                        un cáracter especial y su longitud mínima es de 8
+                        carácteres.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group row" style="margin-bottom: 0px">
+                    <label class="font-weight-bold col-form-label col-xl-3
+                      col-lg-3
+                      col-md-4
+                      col-sm-5" style="margin: 0px">*Confirmar contraseña:</label>
+                    <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-5">
+                      <input type="password" class="form-control form-control-sm"
+                        [class.is-invalid]="formulario.get('pass2').invalid &&
+                        formulario.get('pass2').errors?.required &&
+                        formulario.get('pass2').touched"
+                        [class.is-valid]="formulario.get('pass2').valid &&
+                        formulario.get('pass2').touched &&
+                        formulario.get('pass1').valid" formControlName="pass2">
+                      <small *ngIf="formulario.get('pass2').touched &&
+                        formulario.get('pass2').errors?.required"
+                        class="text-danger">
+                        Confirme su contraseña
+                      </small>
+                      <small *ngIf="formulario.get('pass2').errors?.noEsIgual &&
+                        formulario.get('pass2').touched" class="text-danger">
+                        Las contraseñas no coinciden
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
             </div>
           </div>
+            <hr>
 
-          <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
-            <div class="form-group row" style="margin-bottom: 0px">
-              <label
-                class="font-weight-bold col-form-label col-xl-2 col-lg-3
-                col-md-4
-                col-sm-5"
-                style="margin: 0px">*Nueva contraseña:</label>
-              <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                <input type="text" class="form-control form-control-sm"
-                  [class.is-invalid]="formulario.get('pass1').invalid &&
-                  formulario.get('pass1').touched"
-                  [class.is-valid]="formulario.get('pass1').valid"
-                  maxlength="16" formControlName="pass1">
-                <small *ngIf="formulario.get('pass1').errors?.required &&
-                  formulario.get('pass1').touched" class="text-danger">
-                  Digite su nueva contraseña
-                </small>
-                <small *ngIf="formulario.get('pass1').errors?.pattern &&
-                  formulario.get('pass1').touched" class="text-danger">
-                  La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula, 
-                un cáracter especial y su longitud mínima es de 8 carácteres.
-                </small>
+            <div class="row">
+              <div class="col-12 col-xl-3">
+                <button type="submit" class="form-control btn btn-info">Cambiar
+                  contraseña</button>
+              </div>
+              <div class="col-12 col-xl-3">
+                <button type="submit" class="form-control btn btn-secondary" (click)="navegarHome()">Cancelar</button>
               </div>
             </div>
-          </div>
 
-          <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
-            <div class="form-group row" style="margin-bottom: 0px">
-              <label class="font-weight-bold col-form-label col-xl-2 col-lg-3
-                col-md-4
-                col-sm-5" style="margin: 0px">*Confirmar contraseña:</label>
-              <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                <input type="text" class="form-control form-control-sm"
-                  [class.is-invalid]="formulario.get('pass2').invalid && formulario.get('pass2').errors?.required && 
-                  formulario.get('pass2').touched"
-                  [class.is-valid]="formulario.get('pass2').valid &&
-                  formulario.get('pass2').touched &&
-                  formulario.get('pass1').valid" formControlName="pass2">
-                <small *ngIf="formulario.get('pass2').touched &&
-                  formulario.get('pass2').errors?.required"
-                  class="text-danger">
-                  Confirme su contraseña
-                </small>
-                <small *ngIf="formulario.get('pass2').errors?.noEsIgual &&
-                  formulario.get('pass2').touched" class="text-danger">
-                  Las contraseñas no coinciden
-                </small>
-              </div>
-            </div>
           </div>
-
-          <hr>
-
-          <div class="col-12 col-xl-3">
-            <button type="submit" class="form-control btn btn-info">Finalizar</button>
-          </div>
-        </div></div></div>
-  </div></div>
-  </form>
+        </div>
+      </div>
+</form>

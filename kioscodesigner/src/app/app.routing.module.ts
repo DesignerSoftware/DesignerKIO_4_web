@@ -12,6 +12,8 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { AboutComponent } from './components/pages/about/about.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CambioFotoComponent } from './components/pages/cambio-foto/cambio-foto.component';
+import { FaqComponent } from './components/pages/faq/faq.component';
+import { FAQGENERALESComponent } from './components/faqgenerales/faqgenerales.component';
 
 const APP_ROUTES: Routes = [
     {
@@ -25,6 +27,7 @@ const APP_ROUTES: Routes = [
     {path: 'cambioFoto', component: CambioFotoComponent, canActivate: [AuthGuard]},
     {path: 'reportes', component: ReportesComponent },
     {path: 'reportes/:id', component: ReportesComponent},
+    {path: 'FAQ', component: FaqComponent},
     {path: 'about', component: AboutComponent, canActivate: [AuthGuard]},
     {path: '', redirectTo: '/login', pathMatch: 'full'}
 ]},
@@ -32,7 +35,8 @@ const APP_ROUTES: Routes = [
 {path: 'login', component: LoginComponent },
 {path: 'registro', component: RegistroComponent },
 {path: 'olvidoClave', component: OlvidoClaveComponent },
-{path: 'validacionToken', component: ValidaTokenComponent},
+{path: 'validacionCuenta/:token', component: ValidaTokenComponent},
+{path: 'FAQ1', component: FAQGENERALESComponent},
 {path: '**', component: PageNotFoundComponent},
 ];
 

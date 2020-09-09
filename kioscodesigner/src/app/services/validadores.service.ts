@@ -18,7 +18,10 @@ export class ValidadoresService {
       const pass2Control = formGroup.controls[pass2Name];
 
       if (pass1Control.value === pass2Control.value) {
-        pass2Control.setErrors(null);
+        if (pass2Control.getError('required')) {
+        } else {
+          pass2Control.setErrors(null);
+        }
       } else {
         pass2Control.setErrors({noEsIgual: true});
       }
