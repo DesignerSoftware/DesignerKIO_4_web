@@ -18,6 +18,7 @@ export class SidebarComponent implements OnInit {
     console.log(sesion);
     this.usuario = sesion['usuario'];
     this.empresa = sesion['empresa'];
+    console.log(this.usuario);
     this.cargarOpciones();
   }
 

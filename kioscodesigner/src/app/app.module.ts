@@ -20,6 +20,7 @@ import { CambioClaveComponent } from './components/pages/cambio-clave/cambio-cla
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
+import { CambioFotoComponent } from './components/pages/cambio-foto/cambio-foto.component';
 import { PagesComponent } from './components/pages/pages.component';
 
 import { HttpClientModule} from '@angular/common/http';
@@ -28,7 +29,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LOCALE_ID } from '@angular/core';
 /*import { registerLocaleData } from '@angular/common';
 import localeCo from '@angular/common/locales/es-co';*/
-import { CambioFotoComponent } from './components/pages/cambio-foto/cambio-foto.component';
 import localeEsCO from '@angular/common/locales/es-CO';
 registerLocaleData(localeEsCO);
 import { ServiceWorkerModule } from '@angular/service-worker';

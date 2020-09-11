@@ -21,6 +21,31 @@
         <img src="fallbackImage.png" alt="Fallbackimage">
    </ng-template> -->
 
+
+<!-- <form [formGroup]="formulario" (ngSubmit)="pruebaImagen">
+  <input type="file" name="fichero" formControlName="passActual" />
+  <input type="submit"/>
+</form> -->
+
+<!-- <div class="form-group">
+  <label for="file">Choose File</label>
+  <input type="file"
+         id="file"
+         (change)="handleFileInput($event.target.files)">
+         <button (click)="uploadFileToActivity()">Enviar</button>
+</div> -->
+
+
+  <form [formGroup] = "formulario" (ngSubmit)="onSubmit()">      
+    <div>
+      <input type="file" name="profile" (change)="onFileSelect($event)" />
+    </div>
+    <div>
+      <button type="submit">Upload</button>
+    </div>
+  </form>
+
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-primary">Guardar</button>

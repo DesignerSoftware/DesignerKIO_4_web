@@ -15,14 +15,14 @@ export class LoginComponent implements OnInit {
   formulario: FormGroup;
 
   cadenaskioskos = [
-   /* {
+    {
       id: 1,
       descripcion: 'TRONEX',
       cadena: 'DEFAULT1',
       nit: '811025446',
       fondo: 'fondoMenu.jpg',
       grupo: 'GrupoEmpresarial1',
-    },*/
+    },
     {
       id: 2,
       descripcion: 'DESIGNER SOFTWARE LTDA',
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     this.formulario = this.fb.group({
       usuario: ['', Validators.required],
       clave: ['', Validators.required],
-      empresa: [],
+      empresa: [,Validators.required]
     });
   }
 
@@ -128,26 +128,32 @@ export class LoginComponent implements OnInit {
     
                         swal.fire({
                           icon: 'error',
-                          title: 'Oops...',
-                          text: 'Hubo un error, intentalo de nuevo. Error: cod ' + error.status + ' :' + error.statusText
+                          title: '¡Se ha presentado un error!',
+                          text: 'Error de conexión. Por favor intentélo de nuevo más tarde. Error: cod ' + error.status + ' :' + error.statusText
                         });
               },
               () => this.navigate()
             );
           } else {
             swal.fire(
-              'Error!',
+              '¡Usuario incorrecto!',
               `${data['mensaje']}`,
               'error'
             );
           }
 
+        },
+        error => {
+          swal.fire(
+            '¡Se ha presentado un error de conexión!',
+            'Por favor inténtelo de nuevo más tarde.',
+            'error'
+          );
         }
       );
 
       }
     }
-
 
 
     navigate() {

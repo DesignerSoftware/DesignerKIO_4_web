@@ -60,6 +60,10 @@
                         {{ck.descripcion}}
                       </option>
                     </select>
+                    <small *ngIf="formulario.get('empresa').errors?.required &&
+                    formulario.get('empresa').touched" class="text-danger">
+                    Seleccione su empresa
+                  </small>
                   </div>
   
                   <!-- <div class="custom-control custom-checkbox mb-3">

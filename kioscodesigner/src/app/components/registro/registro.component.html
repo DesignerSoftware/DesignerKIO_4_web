@@ -30,14 +30,14 @@
                 </div>
               </div>
   
-              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <!-- <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="form-group row" style="margin-bottom: 0px">
                   <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
                     col-md-6
                     col-sm-4">*Nit Empresa:</label>
                   <div class="col col-xl-5 col-md-7">
                     <input type="text" class="form-control form-control-sm"
-                      formControlName="nitempresa" />
+                       />
                     <small *ngIf="formulario.get('nitempresa').errors?.required &&
                       formulario.get('nitempresa').touched" class="text-danger">
                       Digite el nit de la empresa en la que trabaja sin digito de verificación, espacios ni simbolos.
@@ -47,7 +47,29 @@
                     </small>
                   </div>
                 </div>
+              </div> -->
+
+
+              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="form-group row" style="margin-bottom: 0px">
+                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
+                    col-md-6
+                    col-sm-4">*Nit Empresa:</label>
+                  <div class="col col-xl-5 col-md-7">
+                   <select class="form-control" formControlName="nitempresa">
+                     <option *ngFor="let e of empresas" [value]="e['NIT']">{{e['NOMBRE']}}</option>
+                   </select>
+                    <small *ngIf="formulario.get('nitempresa').errors?.required &&
+                      formulario.get('nitempresa').touched" class="text-danger">
+                      Seleccione la empresa en la que trabaja.
+                    </small>
+                    <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
+                      Sólo se permiten números y no se permiten espacios
+                    </small>
+                  </div>
+                </div>
               </div>
+              <pre *ngIf="false">{{empresas}}</pre>
 
               <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" style="display: none;" id="divCorreo">
                 <div class="form-group row" style="margin-bottom: 0px">
@@ -68,16 +90,12 @@
                 </div>
               </div>
 
-              <div class="row">
                 <div class="col-12 col-xl-3">
-                  <button type="button" class="form-control btn btn-info mt-2" (click)="validarUsuario()">Continuar</button>
+                  <button type="button" *ngIf="!habilitaCamposClave" class="form-control btn btn-info mt-2" (click)="validarUsuario()">Continuar</button>
                 </div>
-                <div class="col-12 col-xl-3">
-                  <button type="button" class="form-control btn btn-secondary mt-2" (click)="redirigirInicio()">Cancelar</button>
-                </div>
-              </div>
+
+            <div *ngIf="habilitaCamposClave" style="padding-bottom: 0px;">
               <hr>
-            <div *ngIf="habilitaCamposClave">
               <div class="col-12 mb-4">La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula, 
                 un cáracter especial y su longitud mínima es de 8 carácteres.</div>
               <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -163,15 +181,14 @@
               <div class="col-12 col-xl-3">
                 <button type="submit" class="form-control btn btn-info">Finalizar</button>
               </div>
-              <pre *ngIf="false">
+              <pre>
                 {{formulario.value | json}}
               </pre>
-              <pre *ngIf="false">
+              <pre>
                 Estado del formulario: {{formulario.valid}}
               </pre>
               <pre *ngIf="false">Status formulario: {{formulario.status}}</pre>
 
-              <br>
                   <div id="loader" style="display: none">
                     <div class="col-md-12 col-sm-12 grid-margin stretch-card">
                       <div class="loader-demo-box" style="height: 50px">
@@ -186,9 +203,9 @@
                   </div>
             </div>
 
-  
-  
-  
+            <div class="col-12 col-xl-3">
+              <button type="button" class="form-control btn btn-secondary mt-2" (click)="redirigirInicio()">Cancelar</button>
+            </div>
   
             </div>
           </div>

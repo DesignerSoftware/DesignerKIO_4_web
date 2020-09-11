@@ -112,4 +112,22 @@ export class UsuarioService {
     return this.http.get(url);
   }
 
+  cambiaEstadoUsuario() {
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/cambioEstadoUsuario?seudonimo=8125176&nitEmpresa=811025446&activo=P`;
+    console.log(url);
+    return this.http.get(url);
+  }
+
+  // valida si esta registrado en conexioneskioskos por empleado y nitempresa, corregir para que sea por persona
+  validaUsuarioYNitEmpresaRegistrado(usuario: string, nitEmpresa: string) {
+    const url = `${environment.urlKioskoDesigner}restKiosco/validarUsuarioRegistrado/${usuario}/${nitEmpresa}`;
+    console.log(url);
+    return this.http.get(url);
+  }
+
+  getEmpresas() {
+    const url = `${environment.urlKioskoDesigner}restKiosco/empresas`;
+    console.log(url);
+    return this.http.get(url);
+  }
 }

@@ -25,12 +25,13 @@ export class CambioClaveComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.crearFormulario();
   }
 
   crearFormulario() {
     this.formulario = this.fb.group({
       passActual: ['', Validators.required],
-      pass1: ['', [Validators.required, Validators.pattern('((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\*\.\-_\+~\/;,\(\)!]).{8,})')]],
+      pass1: ['', [Validators.required, Validators.pattern("^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\\*\\.\\-_\\+~\\/;,\\(\\)!\\&]).{8,})$")]],
       pass2: ['', [Validators.required]]
     },
     {

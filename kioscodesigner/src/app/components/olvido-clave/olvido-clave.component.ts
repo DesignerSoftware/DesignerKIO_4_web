@@ -48,8 +48,8 @@ formulario: FormGroup;
                 this.enviaClave();
               } else {
                 swal.fire(
-                  '¡Error!',
-                  'No hemos encontrado información, verifique que digitó correctamente su usuario y el nit de la empresa.',
+                  '¡Datos incorrectos!',
+                  'No hemos encontrado información, verifique que su usuario y su empresa son correctos',
                   'error'
                 );
               }

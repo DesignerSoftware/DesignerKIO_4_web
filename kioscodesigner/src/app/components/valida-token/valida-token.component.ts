@@ -21,11 +21,7 @@ export class ValidaTokenComponent implements OnInit {
       data => {
         console.log(data);
         if (data == 0){
-          swal.fire({
-            icon: 'success',
-            title: 'Token válido',
-            showConfirmButton: true
-          });
+           console.log('Token es válido');
         } else {
             swal.fire({
             icon: 'error',

@@ -16,10 +16,17 @@ export class RegistroComponent implements OnInit {
   usuario;
   empresa;
   habilitaCamposClave = false;
+  empresas;
 
   constructor(private fb: FormBuilder, private router: Router, private loginService: LoginService,
               private usuarioServicio: UsuarioService, private validadores: ValidadoresService) {
     this.crearFormulario();
+    this.usuarioServicio.getEmpresas()
+    .subscribe(
+      data => {
+        this.empresas = data;
+      }
+    )
   }
 
   ngOnInit() {
@@ -31,7 +38,7 @@ export class RegistroComponent implements OnInit {
       correo: ['', Validators.required],
       nitempresa: ['', [Validators.required, Validators.pattern("^([0-9])*$")] ],
       seudonimo: [, Validators.required],
-      pass1: [, [Validators.required, Validators.pattern("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\*\.\-_\+~\/;,\(\)!]).{8,})")]],
+      pass1: [, [Validators.required, Validators.pattern("^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\\*\\.\\-_\\+~\\/;,\\(\\)!\\&]).{8,})$")]],
       pass2: [, [Validators.required]]
     },
     {
@@ -39,7 +46,7 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  validarUsuario() {
+  validarUsuario() { // validar si existe 
     console.log(this.formulario);
     Object.values( this.formulario.controls ).forEach( control => {
       control.markAsTouched();
@@ -50,19 +57,48 @@ export class RegistroComponent implements OnInit {
         data => {
           if (data['result'] === 'true') {
             console.log('usuario valido');
-            this.habilitaCamposClave = true;
-            this.consultarCorreo();
-            this.formulario.get('pass1').markAsUntouched();
-            this.formulario.get('pass2').markAsUntouched();
-            this.formulario.get('seudonimo').markAsUntouched();
+
+            this.validarUsuarioRegistrado();
           } else {
-            alert('usuario o nit incorrectos');
+            swal.fire({
+              icon: 'error',
+              title: 'El usuario o el nit de la empresa no son correctos.',
+              showConfirmButton: true
+            });
           }
         }
       );
     } else {
       return false;
     }
+  }
+
+  validarUsuarioRegistrado() {
+     this.usuarioServicio.validaUsuarioYNitEmpresaRegistrado(
+      this.formulario.get('documento').value,
+      this.formulario.get('nitempresa').value
+     )
+     .subscribe(
+       data => {
+         console.log(data);
+         if (data['result']==="false"){
+          this.habilitaCamposClave = true;
+          this.consultarCorreo();
+          this.formulario.get('pass1').markAsUntouched();
+          this.formulario.get('pass2').markAsUntouched();
+          this.formulario.get('seudonimo').markAsUntouched();
+         } else {
+          swal.fire({
+            icon: 'error',
+            title: 'Ya existe un usuario registrado al nit de la empresa digitada.',
+            showConfirmButton: true
+          }).then((result) => {
+            console.log('redireccionando a login');
+            this.router.navigate(['/login']);
+          })
+         }
+       }
+     )
   }
 
   consultarCorreo() {
