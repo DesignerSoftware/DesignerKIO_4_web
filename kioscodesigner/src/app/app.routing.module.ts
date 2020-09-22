@@ -14,6 +14,12 @@ import { AuthGuard } from './guards/auth.guard';
 import { CambioFotoComponent } from './components/pages/cambio-foto/cambio-foto.component';
 import { FaqComponent } from './components/pages/faq/faq.component';
 import { FAQGENERALESComponent } from './components/faqgenerales/faqgenerales.component';
+import { ContactoComponent } from './components/pages/contacto/contacto.component';
+import { VacacionesComponent } from './components/pages/vacaciones/vacaciones/vacaciones.component';
+import { CrearSolicitudComponent } from './components/pages/vacaciones/crear-solicitud/crear-solicitud.component';
+import { VerSoliciEmpleadosComponent } from './components/pages/vacaciones/ver-solici-empleados/ver-solici-empleados.component';
+import { ProcesarSoliciComponent } from './components/pages/vacaciones/procesar-solici/procesar-solici.component';
+import { SoliProcesadasComponent } from './components/pages/vacaciones/soli-procesadas/soli-procesadas.component';
 
 const APP_ROUTES: Routes = [
     {
@@ -29,6 +35,12 @@ const APP_ROUTES: Routes = [
     {path: 'reportes/:id', component: ReportesComponent},
     {path: 'FAQ', component: FaqComponent},
     {path: 'about', component: AboutComponent, canActivate: [AuthGuard]},
+    {path: 'contacto', component: ContactoComponent, canActivate: [AuthGuard]},
+    {path: 'vacaciones', component: VacacionesComponent, canActivate: [AuthGuard]},
+    {path: 'crearSolicitud', component: CrearSolicitudComponent, canActivate: [AuthGuard]},
+    {path: 'verSolicitudesPropias', component: VerSoliciEmpleadosComponent, canActivate: [AuthGuard]},
+    {path: 'procesarSolicitudes', component: ProcesarSoliciComponent, canActivate: [AuthGuard]},
+    {path: 'solicitudesProcesadas', component: SoliProcesadasComponent, canActivate: [AuthGuard]},
     {path: '', redirectTo: '/login', pathMatch: 'full'}
 ]},
 // Rutas principales

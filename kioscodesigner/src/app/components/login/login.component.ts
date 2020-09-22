@@ -13,9 +13,10 @@ import swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
   formulario: FormGroup;
+  empresas;
 
   cadenaskioskos = [
-    {
+   {
       id: 1,
       descripcion: 'TRONEX',
       cadena: 'DEFAULT1',
@@ -43,6 +44,13 @@ export class LoginComponent implements OnInit {
     console.log('usuario logueado', usuarioService.getUserLoggedIn());
     if (!usuarioService.getUserLoggedIn()) {
       this.crearFormulario();
+      this.usuarioService.getEmpresas()
+      .subscribe(
+        data => {
+          this.empresas = data;
+          console.log(data);
+        }
+      );
     } else {
       this.navigate();
     }
@@ -60,7 +68,7 @@ export class LoginComponent implements OnInit {
     this.formulario = this.fb.group({
       usuario: ['', Validators.required],
       clave: ['', Validators.required],
-      empresa: [,Validators.required]
+      empresa: [, Validators.required]
     });
   }
 
@@ -69,15 +77,15 @@ export class LoginComponent implements OnInit {
     Object.values( this.formulario.controls ).forEach( control => {
       control.markAsTouched();
     });
-
     if (this.formulario.valid) {
-      this.usuarioService.validarIngresoKioscoSeudonimo(this.formulario.get('usuario').value, this.formulario.get('clave').value,
+      this.usuarioService.validarIngresoKioscoSeudonimo(this.formulario.get('usuario').value.toLowerCase(), 
+      this.formulario.get('clave').value,
       this.formulario.get('empresa').value)
       .subscribe(
         data => {
           console.log(data);
           if (data['ingresoExitoso']) {
-            this.loginService.generarToken(this.formulario.get('usuario').value,
+            this.loginService.generarToken(this.formulario.get('usuario').value.toLowerCase(),
             this.formulario.get('clave').value, this.formulario.get('empresa').value)
             .subscribe(
               res => {
@@ -111,13 +119,13 @@ export class LoginComponent implements OnInit {
                       this.navigate();
                       // sesion guardará el arreglo que se guardará en el localStorage
                       const sesion: any = {
-                        usuario: this.formulario.get('usuario').value,
+                        usuario: this.formulario.get('usuario').value.toLowerCase(),
                         JWT: jwt['JWT'],
                         empresa: this.formulario.get('empresa').value
                       };
                       this.usuarioService.setUserLoggedIn(sesion);
                       this.usuarioService.getUserLoggedIn(); // Mostrar por consola los datos del usuario actual
-    
+
                     }
                   });
                 }
@@ -135,11 +143,13 @@ export class LoginComponent implements OnInit {
               () => this.navigate()
             );
           } else {
-            swal.fire(
-              '¡Usuario incorrecto!',
-              `${data['mensaje']}`,
-              'error'
-            );
+            swal.fire({
+              icon: 'error',
+              // title: '¡Usuario o contraseña incorrectos!',
+              /*'¡Usuario o contraseña incorrectos!',*/
+              title: `${data['mensaje']}`
+              /*'error'*/
+            });
           }
 
         },

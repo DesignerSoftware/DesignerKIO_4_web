@@ -240,55 +240,74 @@ export class ReportesComponent implements OnInit {
 
 
   descargarReporte() {
-    console.log('descargarReporte');
-    this.reporteServicio.generarReporte(this.reporteSeleccionado['NOMBRERUTA'], this.usuarioServicio.secuenciaEmpleado,
-    this.formulario.get('enviocorreo').value, this.correo, this.reporteSeleccionado['DESCRIPCION'])
-    .subscribe(
-      (res) => {
-        console.log(res);
-        swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Reporte generado exitosamente, se descargará en un momento',
-          showConfirmButton: false,
-          timer: 1500
-        });
-        const newBlob = new Blob([res], { type: 'application/pdf' });
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          window.navigator.msSaveOrOpenBlob(newBlob);
-          return;
-        }
-        // For other browsers:
-        // Create a link pointing to the ObjectURL containing the blob.
-        const data = window.URL.createObjectURL(newBlob);
+    swal.fire({
+      title: 'Generando reporte, por favor espere...',
+      onBeforeOpen: () => {
+        swal.showLoading();
+        console.log('descargarReporte');
+        this.reporteServicio
+          .generarReporte(
+            this.reporteSeleccionado['NOMBRERUTA'],
+            this.usuarioServicio.secuenciaEmpleado,
+            this.formulario.get('enviocorreo').value,
+            this.correo,
+            this.reporteSeleccionado['DESCRIPCION']
+          )
+          .subscribe(
+            (res) => {
+              console.log(res);
+              swal.fire({
+                icon: 'success',
+                title:
+                  'Reporte generado exitosamente, se descargará en un momento',
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              const newBlob = new Blob([res], { type: "application/pdf" });
+              if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveOrOpenBlob(newBlob);
+                return;
+              }
+              // For other browsers:
+              // Create a link pointing to the ObjectURL containing the blob.
+              const data = window.URL.createObjectURL(newBlob);
 
-        const link = document.createElement('a');
-        link.href = data;
-        let f = new Date();
-        link.download = this.reporteSeleccionado['NOMBRERUTA'] +  '_' + this.usuario + '_' + f.getTime() + '.pdf';
-        // this is necessary as link.click() does not work on the latest firefox
-        link.dispatchEvent( 
-          new MouseEvent('click', {
-            bubbles: true,
-            cancelable: true,
-            view: window,
-          })
-        );
+              const link = document.createElement("a");
+              link.href = data;
+              let f = new Date();
+              link.download =
+                this.reporteSeleccionado["NOMBRERUTA"] +
+                "_" +
+                this.usuario +
+                "_" +
+                f.getTime() +
+                ".pdf";
+              // this is necessary as link.click() does not work on the latest firefox
+              link.dispatchEvent(
+                new MouseEvent("click", {
+                  bubbles: true,
+                  cancelable: true,
+                  view: window,
+                })
+              );
 
-        setTimeout(function () {
-          // For Firefox it is necessary to delay revoking the ObjectURL
-          window.URL.revokeObjectURL(data);
-        }, 100);
-      },
-      (error) => {
-        console.log(error);
-        swal.fire(
-          'Error!',
-          'Se presentó un error al generar el reporte, por favor intentelo de nuevo más tarde!',
-          'info'
-        );
-      }
-    );
+              setTimeout(function () {
+                // For Firefox it is necessary to delay revoking the ObjectURL
+                window.URL.revokeObjectURL(data);
+              }, 100);
+            },
+            (error) => {
+              console.log(error);
+              swal.fire(
+                'Se ha presentado un error',
+                'Se presentó un error al generar el reporte, por favor intentelo de nuevo más tarde!',
+                'info'
+              );
+            }
+          );
+  },
+  allowOutsideClick: () => !swal.isLoading()
+});
   }
 
 

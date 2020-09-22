@@ -12,6 +12,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class OlvidoClaveComponent implements OnInit {
 formulario: FormGroup;
+empresas;
 
   constructor(private fb: FormBuilder, private router: Router, private loginService: LoginService,
               private usuarioService: UsuarioService) {
@@ -24,8 +25,14 @@ formulario: FormGroup;
   crearFormulario() {
     this.formulario = this.fb.group({
       seudonimo: [, Validators.required],
-      nitempresa: ['', [Validators.required, Validators.pattern("^([0-9])*$")] ]
+      nitempresa: ['', [Validators.required/*, Validators.pattern("^([0-9])*$")*/] ]
     });
+    this.usuarioService.getEmpresas()
+    .subscribe(
+      data => {
+        this.empresas = data;
+      }
+    )
   }
 
   enviar() {
@@ -35,7 +42,7 @@ formulario: FormGroup;
     if (this.formulario.valid) {
 
       swal.fire({
-        title: 'Espera un momento... Estamos validando la información.',
+        title: 'Espere un momento... Estamos validando la información.',
         onBeforeOpen: () => {
           swal.showLoading();
           this.loginService.validarSeudonimoYNitEmpresaRegistrado(this.formulario.get('seudonimo').value,

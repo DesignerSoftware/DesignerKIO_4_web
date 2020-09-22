@@ -38,7 +38,10 @@ export class RegistroComponent implements OnInit {
       correo: ['', Validators.required],
       nitempresa: ['', [Validators.required, Validators.pattern("^([0-9])*$")] ],
       seudonimo: [, Validators.required],
-      pass1: [, [Validators.required, Validators.pattern("^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\\*\\.\\-_\\+~\\/;,\\(\\)!\\&]).{8,})$")]],
+      pass1: [, [Validators.required, 
+                 Validators.pattern("^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\\*\\.\\-_\\+~\\/;,\\(\\)!\\&]).{8,})$")
+                ]
+             ],
       pass2: [, [Validators.required]]
     },
     {
@@ -62,7 +65,7 @@ export class RegistroComponent implements OnInit {
           } else {
             swal.fire({
               icon: 'error',
-              title: 'El usuario o el nit de la empresa no son correctos.',
+              title: 'El documento no es correcto o no pertenece a la empresa seleccionada',
               showConfirmButton: true
             });
           }
@@ -87,30 +90,40 @@ export class RegistroComponent implements OnInit {
           this.formulario.get('pass1').markAsUntouched();
           this.formulario.get('pass2').markAsUntouched();
           this.formulario.get('seudonimo').markAsUntouched();
-         } else {
+          // document.getElementById("documento").disabled = true;
+          // document.getElementById("empresa").disabled = true;
+        } else {
           swal.fire({
             icon: 'error',
-            title: 'Ya existe un usuario registrado al nit de la empresa digitada.',
+            title: 'Ya existe un usuario relacionado a la empresa seleccionada.',
             showConfirmButton: true
           }).then((result) => {
             console.log('redireccionando a login');
             this.router.navigate(['/login']);
-          })
+          });
          }
        }
-     )
+     );
   }
 
   consultarCorreo() {
     this.loginService.getCorreoAsociadoPersonaEmpresa(this.formulario.get('documento').value, this.formulario.get('nitempresa').value)
     .subscribe(
       data => {
-        if (data['result']!=null || data['result']!='') {
+        if (data['result'] && (data['result']!=null || data['result']!='')) {
           this.formulario.get('correo').setValue(data['result']);
           document.getElementById('divCorreo').style.display='';
           console.log( data['result']);
         } else {
-          alert('Por favor verifique su correo asociado con el área de recursos humanos y nómina para poder crear su usuario de Kiosco')
+          this.habilitaCamposClave = false;
+          swal.fire({
+            icon: 'error',
+            title: 'No existe un correo relacionado.',
+            text: 'Por favor verifique su correo asociado con el área de recursos humanos y/o nómina para poder crear su usuario de Kiosco',
+            showConfirmButton: true
+          }).then((result) => {
+            this.router.navigate(['/login']);
+          });
         }
       }
     );
@@ -124,7 +137,7 @@ export class RegistroComponent implements OnInit {
     if (this.formulario.valid) {
       this.habilitaCamposClave = false;
       document.getElementById('loader').style.display='';
-      document.getElementById('mensaje').innerHTML='Estamos validando su información';
+      document.getElementById('mensaje').innerHTML='Estamos validando la información';
       var seudonimoCuenta;
       if (this.formulario.get('seudonimo').value === 'correo') {
         seudonimoCuenta = this.formulario.get('correo').value;
@@ -178,13 +191,13 @@ export class RegistroComponent implements OnInit {
 enviarCorreoConfirmaCuenta(seudonimo: string) {
   console.log('enviarCorreoConfirmación');
   swal.fire({
-    title: 'Espera un momento.. Estamos enviandote el correo de confirmación',
+    title: 'Espera un momento.. Estamos enviándote el correo de confirmación',
     onBeforeOpen: () => {
       swal.showLoading();
       this.loginService.enviarCorreoConfirmaCuenta(
         seudonimo,
         this.formulario.get('pass1').value,
-      this.formulario.get('nitempresa').value, 'www.nominadesigner.co')
+        this.formulario.get('nitempresa').value, 'www.nominadesigner.co')
       .subscribe(
         data => {
           if (data['envioCorreo']==true) {
@@ -205,14 +218,14 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
           } else {
             swal.fire({
               icon: 'error',
-              title: 'Hubo un error al enviarte el correo de confirmación.',
-              text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión para enviarte '+
-              'nuevamente el correo.',
+              title: 'Se ha presentado un error al enviarte el correo de confirmación.',
+              text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión y haz clic en la opción ' +
+              'para enviarte nuevamente el correo.',
               showConfirmButton: true
             }).then((result) => {
               if (result.value) {
                 // document.location.href = './login';
-                this.router.navigate(['/login']);
+                this.redirigirInicio();
               }
             });
           }
@@ -220,9 +233,9 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
         (error) => {
           swal.fire({
             icon: 'error',
-            title: 'Hubo un error al enviarte el correo de confirmación.',
-            text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión para enviarte '+
-            'nuevamente el correo.',
+            title: 'Se ha presentado un error al enviarte el correo de confirmación.',
+            text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión y haz clic en la opción ' +
+            'para enviarte nuevamente el correo.',
             showConfirmButton: true
           });
         }

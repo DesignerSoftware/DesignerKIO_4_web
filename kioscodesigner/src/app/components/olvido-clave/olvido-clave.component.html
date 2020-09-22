@@ -31,16 +31,15 @@
                 <div class="form-group row" style="margin-bottom: 0px">
                   <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
                     col-md-6
-                    col-sm-4">*Nit Empresa:</label>
+                    col-sm-4">*Empresa:</label>
                   <div class="col col-xl-5 col-md-7">
-                    <input type="text" class="form-control form-control-sm"
-                      formControlName="nitempresa" />
+                    <select class="form-control" formControlName="nitempresa">
+                      <option value="">Seleccione una empresa</option>
+                      <option *ngFor="let e of empresas" [value]="e['NIT']">{{e['NOMBRE']}}</option>
+                    </select>
                     <small *ngIf="formulario.get('nitempresa').errors?.required &&
                       formulario.get('nitempresa').touched" class="text-danger">
-                      Digite el nit de la empresa en la que trabaja sin digito de verificación, espacios ni simbolos.
-                    </small>
-                    <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
-                      Sólo se permiten números y no se permiten espacios
+                      Seleccione una empresa
                     </small>
                   </div>
                 </div>

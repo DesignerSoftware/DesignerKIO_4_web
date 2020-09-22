@@ -51,8 +51,8 @@
                   </small>
                   </div>
   
+                   <!-----Si solo hay una empresa configurada se deshabilita la selección de empresa-->
                   <div class="form-label-group">
-                    <!-----Si solo hay una empresa configurada se deshabilita la selección de empresa-->
                     <select formControlName="empresa" class="form-control" id="SelectEmpresa" name="SelectEmpresa" 
                         [disabled]="cadenaskioskos.length==1">
                       <option value="" *ngIf="cadenaskioskos.length>1">Seleccione una empresa</option>
@@ -65,6 +65,22 @@
                     Seleccione su empresa
                   </small>
                   </div>
+
+                  <!-----Si solo hay una empresa configurada se deshabilita la selección de empresa-->
+                  <!-- <div class="form-label-group">
+                    
+                    <select formControlName="empresa" class="form-control" id="SelectEmpresa" name="SelectEmpresa" 
+                        [disabled]="empresas.length==1">
+                      <option value="" *ngIf="empresas.length>1">Seleccione una empresa</option>
+                      <option *ngFor="let ck of empresas" value="{{ck.NIT}}" [defaultSelected]="empresas.length==1">
+                        {{ck.NOMBRE}}
+                      </option>
+                    </select>
+                    <small *ngIf="formulario.get('empresa').errors?.required &&
+                    formulario.get('empresa').touched" class="text-danger">
+                    Seleccione su empresa
+                  </small>
+                  </div> -->
   
                   <!-- <div class="custom-control custom-checkbox mb-3">
                     <input type="checkbox" class="custom-control-input" id="customCheck1">
@@ -108,8 +124,7 @@
 
                   </div>
 
-                  <br>
-                  <div class="d-md-flex align-items-center justify-content-center d-flex align-items-center">
+                  <div *ngIf="false" class="d-md-flex align-items-center justify-content-center d-flex align-items-center">
                     <div class="d-flex align-items-center">
                         <a class="small" routerLink="/FAQ1"> Preguntas frecuentes 
                         </a>&nbsp;|&nbsp; <a class="small" (click)="mostrarModalContacto()" style="cursor: pointer; color: #017CFF">Contacto</a>

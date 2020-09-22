@@ -9,7 +9,7 @@
 
 .bg-image {
   background-image: url('../../../assets/images/fondologinkiosco.png');
-  background-size: cover;
+  /*background-size: cover;*/
   background-position: center;
 }
 

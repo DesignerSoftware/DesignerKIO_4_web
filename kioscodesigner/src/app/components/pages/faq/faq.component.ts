@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { KiopreguntasfrecuentesService } from 'src/app/services/kiopreguntasfrecuentes.service';
 
 @Component({
   selector: 'app-faq',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./faq.component.css']
 })
 export class FaqComponent implements OnInit {
+  kioPregF;
 
-  constructor() { }
+  constructor(private kioPreguntasFrecuentes: KiopreguntasfrecuentesService ) { }
 
   ngOnInit() {
+    this.kioPreguntasFrecuentes.getKioPreguntasFrecuentes('811025446')
+    .subscribe(
+      data => {
+        console.log(data);
+        this.kioPregF = data;
+      }
+    );
   }
 
 }

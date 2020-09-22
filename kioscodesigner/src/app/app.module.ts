@@ -21,6 +21,7 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { CambioFotoComponent } from './components/pages/cambio-foto/cambio-foto.component';
+import { ContactoComponent } from './components/pages/contacto/contacto.component';
 import { PagesComponent } from './components/pages/pages.component';
 
 import { HttpClientModule} from '@angular/common/http';
@@ -35,6 +36,11 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FaqComponent } from './components/pages/faq/faq.component';
 import { FAQGENERALESComponent } from './components/faqgenerales/faqgenerales.component';
+import { VacacionesComponent } from './components/pages/vacaciones/vacaciones/vacaciones.component';
+import { CrearSolicitudComponent } from './components/pages/vacaciones/crear-solicitud/crear-solicitud.component';
+import { ProcesarSoliciComponent } from './components/pages/vacaciones/procesar-solici/procesar-solici.component';
+import { VerSoliciEmpleadosComponent } from './components/pages/vacaciones/ver-solici-empleados/ver-solici-empleados.component';
+import { SoliProcesadasComponent } from './components/pages/vacaciones/soli-procesadas/soli-procesadas.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +61,13 @@ import { FAQGENERALESComponent } from './components/faqgenerales/faqgenerales.co
     PagesComponent,
     CambioFotoComponent,
     FaqComponent, // FAQ dentro de la aplicación
-    FAQGENERALESComponent // FAQ del login
+    FAQGENERALESComponent, // FAQ del login
+    ContactoComponent,
+    VacacionesComponent,
+    CrearSolicitudComponent,
+    ProcesarSoliciComponent,
+    VerSoliciEmpleadosComponent,
+    SoliProcesadasComponent
   ],
   imports: [
     BrowserModule,

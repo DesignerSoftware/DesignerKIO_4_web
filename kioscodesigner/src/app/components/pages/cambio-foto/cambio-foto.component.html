@@ -4,13 +4,13 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Cambiar foto de perfil</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body text-center">
-          <img [src]="url" height="200px" class="img-fluid">
-          <input type="file" (change)="onSelectFile($event)" class="btn-primary">
+          <img [src]="url" width="150px" height="auto" class="img-fluid" id="imgPrevia">
+          <!-- <input type="file" (change)="onSelectFile($event)" class="btn-primary"> -->
         </div>
 
 
@@ -37,18 +37,23 @@
 
 
   <form [formGroup] = "formulario" (ngSubmit)="onSubmit()">      
-    <div>
+    <div class="text-center">
+      <p>Seleccione un archivo .jpg</p>
       <input type="file" name="profile" (change)="onFileSelect($event)" />
     </div>
-    <div>
-      <button type="submit">Upload</button>
+    <div class="text-center">
+      <small class="text-danger mt-2">
+        {{msjValidFotoPerfil}}
+      </small>
+    </div>
+    <div class="text-center mt-2">
+      <button type="submit" class="btn btn-primary" [disabled]="!habilitaBtnCargar">Subir Foto</button>
     </div>
   </form>
 
-
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Guardar</button>
+          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Guardar</button> -->
         </div>
       </div>
     </div>

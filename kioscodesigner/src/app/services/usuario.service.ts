@@ -12,7 +12,11 @@ export class UsuarioService {
   private isUserLoggedIn;
   public usserLogged;
   secuenciaEmpleado = null;
+  nombrePersona = 'Bienvenido';
   datos;
+  usuario;
+  empresa;
+  public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
 
   constructor(private http: HttpClient) {
     this.isUserLoggedIn =  false;
@@ -29,6 +33,14 @@ export class UsuarioService {
     console.log('getUserLoggedIn()', obj);
     return JSON.parse(localStorage.getItem('currentUser'));
   }
+
+setUsuario(usuario: string) {
+  this.usuario = usuario;
+}
+
+setEmpresa(nitEmpresa: string) {
+  this.empresa = nitEmpresa;
+}
 
   getDatosUsuario(usuario: string, nit: string) {
     const obj: any = this.getUserLoggedIn;
@@ -106,16 +118,16 @@ export class UsuarioService {
     return this.http.get(url);
   }
 
-  validaToken(jwt: string) { /// retorna 0 si el token es válido.
+  validaToken(jwt: string) { 
     const url = `${environment.urlKioskoDesigner}restKiosco/validarJWTActivarCuenta?jwt=${jwt}`;
     console.log(url);
     return this.http.get(url);
   }
 
-  cambiaEstadoUsuario() {
-    const url = `${environment.urlKioskoReportes}conexioneskioskos/cambioEstadoUsuario?seudonimo=8125176&nitEmpresa=811025446&activo=P`;
+  cambiaEstadoUsuario(seudonimo: string, nitEmpresa: string, activo: string) {
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/cambioEstadoUsuario?seudonimo=${seudonimo}&nitEmpresa=${nitEmpresa}&activo=${activo}`;
     console.log(url);
-    return this.http.get(url);
+    return this.http.post(url, {});
   }
 
   // valida si esta registrado en conexioneskioskos por empleado y nitempresa, corregir para que sea por persona
@@ -129,5 +141,17 @@ export class UsuarioService {
     const url = `${environment.urlKioskoDesigner}restKiosco/empresas`;
     console.log(url);
     return this.http.get(url);
+  }
+
+  getDocumentoSeudonimo(seudonimo: string, nit: string) { // requiere el seudonimo y el nit de la empresa para retornar el documento asociado
+    const url = `${environment.urlKioskoDesigner}restKiosco/documentoconexioneskioskos?seudonimo=${seudonimo}&nit=${nit}`;
+    console.log(url);
+    return this.http.get(url);
+  }
+
+  inactivaToken(jwt: string) { // recibe token y cambia estado a N
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/inactivaToken?jwt=${jwt}`;
+    console.log(url);
+    return this.http.post(url, {});
   }
 }

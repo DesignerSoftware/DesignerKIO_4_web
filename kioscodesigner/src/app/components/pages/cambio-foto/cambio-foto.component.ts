@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UsuarioService } from '../../../services/usuario.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ManejoArchivosService } from '../../../services/manejo-archivos.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-cambio-foto',
@@ -11,22 +13,49 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./cambio-foto.component.css']
 })
 export class CambioFotoComponent implements OnInit {
+  usuario;
+  empresa;
+
   imageToShow: any;
-  url = '../../assets/images/fotos_empleados/sinFoto.jpg';
+  url = 'assets/images/fotos_empleados/sinFoto.jpg';
   isImageLoading = false;
   formulario: FormGroup;
 
   fileToUpload: File = null; // variable archivo seleccionado 10/septiembre
-
+  fotoPerfil;
+  habilitaBtnCargar = false;
+  msjValidFotoPerfil = '';
+  @Input() urlFotoPerfil: string; // recibe valor de pages.component
+  @Output() cambio = new EventEmitter(); // emite a pages.component
 
   constructor(private usuarioService: UsuarioService, private fb: FormBuilder, private fileUploadService: ManejoArchivosService,
-    private http: HttpClient) {
+              private http: HttpClient, private router: Router) {
+      const sesion = this.usuarioService.getUserLoggedIn();
+      console.log(sesion);
+      this.usuario = sesion['usuario'];
+      this.empresa = sesion['empresa'];
+      this.cargarFotoActual();
   }
 
   ngOnInit() {
     this.formulario = this.fb.group({
       profile: ['']
     });
+  }
+
+  cargarFotoActual() {
+    // this.url='http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/1032508864.jpg';
+    this.usuarioService.getDocumentoSeudonimo(this.usuario, this.empresa)
+    .subscribe(
+      data => {
+        console.log(data);
+        this.fotoPerfil = data['result'];
+        console.log('documento: ' + this.fotoPerfil);
+        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`;
+        /* document.getElementById("imgPrevia").setAttribute("src", 
+        `http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`); */
+      }
+    );
   }
 
   // crearFormulario() {
@@ -36,34 +65,97 @@ export class CambioFotoComponent implements OnInit {
   // }
   onFileSelect(event) {
     if (event.target.files.length > 0) {
+      console.log('archivo seleccionado');
       const file = event.target.files[0];
+      console.log(file);
       this.formulario.get('profile').setValue(file);
+      if (file.type == 'image/jpeg' ) {
+          console.log('Es .jpg');
+          // cargar foto previa
+          if (event.target.files) {
+            const reader = new FileReader();
+            reader.readAsDataURL(event.target.files[0]);
+            reader.onload = ( event: any) => {
+            this.url = event.target.result;
+            };
+          }
+          this.msjValidFotoPerfil = '';
+          this.habilitaBtnCargar = true;
+      } else {
+        this.msjValidFotoPerfil = 'El tipo de archivo seleccionado no es válido.';
+        this.habilitaBtnCargar = false;
+      }
+
+    } else {
+      swal.fire({
+        icon: 'error',
+        title: 'Ha ocurrido un error.',
+        showConfirmButton: true
+      });
     }
   }
-  // onSelectFile(e) {
-  //   if (e.target.files) {
-  //     var reader = new FileReader();
-  //     reader.readAsDataURL(e.target.files[0]);
-  //     reader.onload=(event: any)=>{
-  //       this.url = event.target.result;
-  //     }
-  //   }
-  // }
+
+/*  onSelectFile(e) {
+    if (e.target.files) {
+      var reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload=(event: any)=>{
+        this.url = event.target.result;
+      }
+    }
+  }*/
 
   onSubmit() {
-    // const formData = new FormData();
-    // formData.append('file', this.formulario.get('profile').value);
+    const formData = new FormData();
+    const nombreFoto: any = this.fotoPerfil;
+    console.log(nombreFoto);
+    formData.append('fichero', this.formulario.get('profile').value, nombreFoto + '.jpg');
 
-    // this.http.post<any>('http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/cargarFoto', formData  ).subscribe(
-    //   (res) => console.log(res),
-    //   (err) => console.log(err)
-    // );
+    this.http
+      .post<any>(
+        `${environment.urlKioskoReportes}conexioneskioskos/cargarFoto`, formData
+      )
+      .subscribe(
+        (data) => {
+          console.log(data);
+        },
+        (error) => {
+          if (error.status == 200) {
+            this.cambio.emit(this.url);
+            swal
+              .fire({
+                icon: 'success',
+                title: 'Se ha actualizado tu foto de perfil exitosamente.',
+                showConfirmButton: true,
+              })
+              .then((result) => {
+                $('#staticBackdrop').modal('hide');
+                this.router.navigated = false;
+                this.router.navigate([this.router.url]);
+              });
+          } else if (error.status !== 200) {
+            swal
+              .fire({
+                icon: 'error',
+                title: 'Se ha presentado un error',
+                text:
+                  'No se ha podido cargar la foto de perfil, por favor inténtalo de nuevo más tarde.',
+                showConfirmButton: true,
+              })
+              .then((result) => {
+                $('#staticBackdrop').modal('hide');
+                this.router.navigated = false;
+                this.router.navigateByUrl('/home');
+              });
+          }
+        }
+      );
     console.log(this.formulario.value);
   }
 
 createImageFromBlob(image: Blob) {
    let reader = new FileReader();
-   reader.addEventListener("load", () => {
+   reader.addEventListener('load', () => {
       this.imageToShow = reader.result;
    }, false);
 
@@ -102,11 +194,20 @@ uploadFileToActivity() { // 10 sep
     });*/
     /*const fd = new FormData();
     fd.append('file', this.fileToUpload, 'miarchivo.jpg');*/
-    this.http.post('http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/cargarFoto', this.fileToUpload)
-    .subscribe(
-      (response) => console.log(response),
-      (error) => console.log(error)
-    )
+  this.http.post(`${environment.urlKioskoReportes}conexioneskioskos/cargarFoto`, this.fileToUpload)
+  .subscribe(
+    (response) => console.log(response),
+    (error) => console.log(error)
+  );
+}
+
+cambiar() {
+  //this.cambio.emit('Dato emitido');
+}
+
+close() {
+  console.log('close');
+  this.cargarFotoActual();
 }
 
 }

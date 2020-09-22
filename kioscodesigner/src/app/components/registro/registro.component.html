@@ -17,7 +17,7 @@
                     col-md-6
                     col-sm-4">*Número de Documento:</label>
                   <div class="col col-xl-5 col-md-7">
-                    <input type="text" class="form-control form-control-sm"
+                    <input type="text" class="form-control form-control-sm" id="documento"
                       formControlName="documento" />
                     <small *ngIf="formulario.get('documento').errors?.required &&
                       formulario.get('documento').touched" class="text-danger">
@@ -54,14 +54,15 @@
                 <div class="form-group row" style="margin-bottom: 0px">
                   <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
                     col-md-6
-                    col-sm-4">*Nit Empresa:</label>
+                    col-sm-4">*Empresa:</label>
                   <div class="col col-xl-5 col-md-7">
-                   <select class="form-control" formControlName="nitempresa">
+                   <select class="form-control" formControlName="nitempresa" id="empresa">
+                     <option value="">Seleccione una empresa</option>
                      <option *ngFor="let e of empresas" [value]="e['NIT']">{{e['NOMBRE']}}</option>
                    </select>
                     <small *ngIf="formulario.get('nitempresa').errors?.required &&
                       formulario.get('nitempresa').touched" class="text-danger">
-                      Seleccione la empresa en la que trabaja.
+                      Seleccione una empresa
                     </small>
                     <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
                       Sólo se permiten números y no se permiten espacios
@@ -69,7 +70,8 @@
                   </div>
                 </div>
               </div>
-              <pre *ngIf="false">{{empresas}}</pre>
+
+
 
               <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" style="display: none;" id="divCorreo">
                 <div class="form-group row" style="margin-bottom: 0px">
@@ -97,7 +99,7 @@
             <div *ngIf="habilitaCamposClave" style="padding-bottom: 0px;">
               <hr>
               <div class="col-12 mb-4">La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula, 
-                un cáracter especial y su longitud mínima es de 8 carácteres.</div>
+                un cáracter especial ( @#$%*.-_+~/;,()! ) y su longitud mínima debe ser de 8 carácteres.</div>
               <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <!-- <p>Su contraseña {{mensajeValidacionClave}}</p> -->
                 <div class="form-group row" style="margin-bottom: 0px">
@@ -119,6 +121,7 @@
                     <small *ngIf="formulario.get('pass1').errors?.pattern &&
                       formulario.get('pass1').touched" class="text-danger">
                       <!-- {{mensajeValidacionClave}} -->
+                      La contraseña no cumple con el formato solicitado.
                     </small>
                   </div>
                 </div>
@@ -181,10 +184,10 @@
               <div class="col-12 col-xl-3">
                 <button type="submit" class="form-control btn btn-info">Finalizar</button>
               </div>
-              <pre>
+              <pre *ngIf="false">
                 {{formulario.value | json}}
               </pre>
-              <pre>
+              <pre *ngIf="false">
                 Estado del formulario: {{formulario.valid}}
               </pre>
               <pre *ngIf="false">Status formulario: {{formulario.status}}</pre>
