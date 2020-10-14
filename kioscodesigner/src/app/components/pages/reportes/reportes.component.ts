@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OpcionesKioskosService } from 'src/app/services/opciones-kioskos.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ReportesService } from 'src/app/services/reportes.service';
@@ -14,40 +14,35 @@ import swal from 'sweetalert2';
 })
 export class ReportesComponent implements OnInit {
   formulario: FormGroup;
-  opcionesReportes: any = [];
-  reporteSeleccionado = null;
-  private usuario: string;
-  private empresa: string;
+  //opcionesReportes: any = [];
+  //reporteSeleccionado = null;
   fechaDesde: Date = null;
   fechaHasta: Date = null;
   enviocorreo: boolean;
   correo: string = null;
+  //codigoReporteSeleccionado;
 
   constructor(private opcionesKioskosServicio: OpcionesKioskosService, private router: Router, private fb: FormBuilder,
-              private usuarioServicio: UsuarioService, private reporteServicio: ReportesService, public datepipe: DatePipe) {
+              private usuarioServicio: UsuarioService, public reporteServicio: ReportesService, public datepipe: DatePipe) {
     console.log('constructor');
     this.crearFormulario();
-      let date: Date= new Date(datepipe.transform('2019-04-13T00:00:00', 'yyyy-MM-dd'));
-      console.log('transformada', date);
-      console.log(this.conviertefecha('2019-04-13'));
+    this.reporteServicio.reporteSeleccionado = null;
+
+    // let date: Date= new Date(datepipe.transform('2019-04-13T00:00:00', 'yyyy-MM-dd'));
+    // console.log('transformada', date);
+    // console.log(this.conviertefecha('2019-04-13'));
     /*this.activatedRoute.params
     .subscribe(params => {
     console.log(params);
   	console.log(params['id']);
     });*/
 
-    const sesion = this.usuarioServicio.getUserLoggedIn();
-    console.log(sesion);
-    this.usuario = sesion['usuario'];
-    this.empresa = sesion['empresa'];
-    console.log('usuario: ' + this.usuario + ' empresa: ' + this.empresa);
     this.filtrarOpcionesReportes();
     this.consultarParametrosReportes();
     this.getCorreoConexioneskioskos();
   }
 
-   conviertefecha(fecharecibidatexto)
-{
+  conviertefecha(fecharecibidatexto) {
         let fec = fecharecibidatexto;
 
         let anio = fec.substring(0, 4);
@@ -57,7 +52,7 @@ export class ReportesComponent implements OnInit {
         let ensamble = dia +  "-" + mes +  "-" + anio;
         let fecha = new Date(ensamble).toLocaleDateString('es-CO');
         return fecha;
-}
+  }
 
   ngOnInit() {
     console.log('ngOnInit');
@@ -73,7 +68,7 @@ export class ReportesComponent implements OnInit {
   }
 
   consultarParametrosReportes() {
-    this.usuarioServicio.getParametros(this.usuario, this.empresa)
+    this.usuarioServicio.getParametros(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
     .subscribe(
       data => {
         console.log('data', data);
@@ -90,46 +85,48 @@ export class ReportesComponent implements OnInit {
 
   filtrarOpcionesReportes() {
     let opkTempo: any = [];
-    if (this.opcionesReportes == null || this.opcionesReportes.length===0 || this.opcionesReportes===[]) {
+    if (this.reporteServicio.opcionesReportes == null || this.reporteServicio.opcionesReportes.length === 0 || this.reporteServicio.opcionesReportes === []) {
       opkTempo = this.opcionesKioskosServicio
-        .getOpcionesKiosco(this.empresa)
+        .getOpcionesKiosco(this.usuarioServicio.empresa, this.usuarioServicio.usuario)
         .subscribe((data) => {
           console.log('opciones Consultadas', data);
           opkTempo = data;
-          this.opcionesReportes = opkTempo.filter(
+          this.reporteServicio.opcionesReportes = opkTempo.filter(
             (opcKio) => opcKio['CODIGO'] === '20'
           );
           // console.log('filter 1', this.opcionesReportes[0]['SUBOPCION']);
         });
     } else {
-      opkTempo = this.opcionesKioskosServicio.opcionesKioskos;
+      /*opkTempo = this.opcionesKioskosServicio.opcionesKioskos;
       this.opcionesReportes = opkTempo.filter(
         (opcKio) => opcKio['CODIGO'] === '20'
       );
-      console.log('filter 2', this.opcionesReportes[0]['SUBOPCION']);
+      console.log('filter 2', this.opcionesReportes[0]['SUBOPCION']);*/
     }
   }
 
   getCorreoConexioneskioskos() {
-    this.usuarioServicio.consultarCorreoConexioneskioskos(this.usuario, this.empresa)
+    this.usuarioServicio.consultarCorreoConexioneskioskos(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
     .subscribe(
       data => {
         this.correo = data['result'];
         console.log('correo: ' + this.correo);
       }
-    )
+    );
   }
 
   seleccionarReporte(index: number) {
-    console.log('opcionesActuales', this.opcionesReportes);
+    console.log('seleccionarReporte');
+    console.log('opcionesActuales', this.reporteServicio.opcionesReportes);
     console.log(index);
-    this.reporteSeleccionado = this.opcionesReportes[0]['SUBOPCION'][index];
+    this.reporteServicio.reporteSeleccionado = this.reporteServicio.opcionesReportes[0]['SUBOPCION'][index];
     // this.router.navigateByUrl(`/reportes/${index}`);
+    this.reporteServicio.codigoReporteSeleccionado = this.reporteServicio.opcionesReportes[0]['SUBOPCION'][index]['CODIGO'];
   }
 
   limpiarSeleccionado() {
     console.log('clear seleccionado');
-    this.reporteSeleccionado = null;
+    this.reporteServicio.reporteSeleccionado = null;
   }
 
   enviar() {
@@ -153,7 +150,7 @@ export class ReportesComponent implements OnInit {
         document.getElementById('divm').style.display = '';
         swal.fire(
           '¡Validar fechas!',
-          'Error: La fecha hasta debe ser mayor a la fecha desde.!',
+          'La fecha hasta debe ser mayor a la fecha desde.',
           'error'
         );
         return false;
@@ -161,7 +158,7 @@ export class ReportesComponent implements OnInit {
         document.getElementById('divm').innerHTML = '';
         document.getElementById('divm').style.display = 'none';
 
-        if (this.reporteSeleccionado['CODIGO'] === '22') { // si el reporte seleccionado es certingresos
+        if (this.reporteServicio.reporteSeleccionado['CODIGO'] === '22') { // si el reporte seleccionado es certingresos
           // let fechaDesde: Date = new Date(this.conviertefecha(this.formulario.get('fechadesde').value)/* + 'T00:00:00'*/);
           // let fechaHasta: Date = new Date(this.conviertefecha(this.formulario.get('fechahasta').value)/* + 'T00:00:00'*/);
           this.reporteServicio.validaFechasCertingresos(
@@ -170,7 +167,7 @@ export class ReportesComponent implements OnInit {
           .subscribe(
             data => {
               console.log(data);
-              if (data['result']==="true") {
+              if (data['result'] === 'true') {
                 console.log('fechas correctas');
                 this.obtenerSecuenciaEmpleado();
               } else {
@@ -194,7 +191,7 @@ export class ReportesComponent implements OnInit {
 
   obtenerSecuenciaEmpleado() {
             if (this.usuarioServicio.secuenciaEmpleado == null) {
-          this.usuarioServicio.getSecuenciaEmpl(this.usuario)
+          this.usuarioServicio.getSecuenciaEmpl(this.usuarioServicio.usuario)
           .subscribe(
             info => {
               this.usuarioServicio.secuenciaEmpleado = info['SECUENCIA'];
@@ -215,24 +212,26 @@ export class ReportesComponent implements OnInit {
       confirmButtonText: 'Aceptar'
     }).then((result) => {
       if (result.value) {
-        this.usuarioServicio.actualizaParametrosReportes(this.usuario, this.empresa, this.formulario.get('fechadesde').value,
-        this.formulario.get('fechahasta').value, this.formulario.get('enviocorreo').value )
-        .subscribe(
-          data => {
-            console.log(data);
-            if (data === 1) {
-              console.log('parametros actualizados');
-              this.descargarReporte();
-            }
-          },
-          error => {
-            swal.fire(
-              'Error!',
-              'Se presentó un error al actualizar las fechas del reporte, por favor inténtelo de nuevo más tarde!',
-              'error'
+        this.usuarioServicio.actualizaParametrosReportes(this.usuarioServicio.usuario, this.usuarioServicio.empresa,
+            this.formulario.get('fechadesde').value,
+            this.formulario.get('fechahasta').value,
+            this.formulario.get('enviocorreo').value )
+            .subscribe(
+              data => {
+                console.log(data);
+                if (data === 1) {
+                  console.log('parametros actualizados');
+                  this.descargarReporte();
+                }
+              },
+              error => {
+                swal.fire(
+                  '¡Se ha presentado un error!',
+                  'Se presentó un error al actualizar las fechas del reporte, por favor inténtelo de nuevo más tarde.',
+                  'error'
+                );
+              }
             );
-          }
-        );
       }
     });
 
@@ -240,6 +239,9 @@ export class ReportesComponent implements OnInit {
 
 
   descargarReporte() {
+    console.log('cadenaReporte: ',this.usuarioServicio.cadenaConexion);
+    this.fechaDesde = this.formulario.get('fechadesde').value;
+    this.fechaHasta = this.formulario.get('fechahasta').value;
     swal.fire({
       title: 'Generando reporte, por favor espere...',
       onBeforeOpen: () => {
@@ -247,11 +249,14 @@ export class ReportesComponent implements OnInit {
         console.log('descargarReporte');
         this.reporteServicio
           .generarReporte(
-            this.reporteSeleccionado['NOMBRERUTA'],
+            this.reporteServicio.reporteSeleccionado['NOMBRERUTA'],
             this.usuarioServicio.secuenciaEmpleado,
             this.formulario.get('enviocorreo').value,
             this.correo,
-            this.reporteSeleccionado['DESCRIPCION']
+            this.reporteServicio.reporteSeleccionado['DESCRIPCION'],
+            this.reporteServicio.codigoReporteSeleccionado,
+            this.usuarioServicio.empresa,
+            this.usuarioServicio.cadenaConexion
           )
           .subscribe(
             (res) => {
@@ -263,28 +268,34 @@ export class ReportesComponent implements OnInit {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              const newBlob = new Blob([res], { type: "application/pdf" });
-              if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                window.navigator.msSaveOrOpenBlob(newBlob);
-                return;
+              const newBlob = new Blob([res], { type: 'application/pdf' });
+              let fileUrl = window.URL.createObjectURL(newBlob); // add 290920
+
+              //if (window.navigator && window.navigator.msSaveOrOpenBlob) { 290920
+                //window.navigator.msSaveOrOpenBlob(newBlob);
+              if (window.navigator.msSaveOrOpenBlob) { // add 290920
+                  window.navigator.msSaveOrOpenBlob(newBlob, fileUrl.split(':')[1] + '.pdf');
+              } else {
+                window.open(fileUrl);
               }
+                //return;
+              ///}
               // For other browsers:
               // Create a link pointing to the ObjectURL containing the blob.
               const data = window.URL.createObjectURL(newBlob);
-
-              const link = document.createElement("a");
+              const link = document.createElement('a');
               link.href = data;
               let f = new Date();
               link.download =
-                this.reporteSeleccionado["NOMBRERUTA"] +
-                "_" +
-                this.usuario +
-                "_" +
+                this.reporteServicio.reporteSeleccionado['NOMBRERUTA'] +
+                '_' +
+                this.usuarioServicio.usuario +
+                '_' +
                 f.getTime() +
-                ".pdf";
+                '.pdf';
               // this is necessary as link.click() does not work on the latest firefox
               link.dispatchEvent(
-                new MouseEvent("click", {
+                new MouseEvent('click', {
                   bubbles: true,
                   cancelable: true,
                   view: window,

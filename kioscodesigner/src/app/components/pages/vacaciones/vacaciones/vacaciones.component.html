@@ -3,76 +3,125 @@
         Vacaciones
     </h3>
 </div>
-<p>Seleccione la opción que desea realizar.</p> 
 
-<div class="row">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{reporteSeleccionado && reporteSeleccionado['DESCRIPCION'] || ''}}</li>
+    </ol>
+</nav>
+<div class="col-md-12 col-sm-12 grid-margin stretch-card" *ngIf="vacacionesService.opcionesKiosco.length==0">
+    <div class="loader-demo-box" style="border: 0px !important;">
+      <div class="dot-opacity-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+</div>
 
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+<p *ngIf="!reporteSeleccionado && vacacionesService.opcionesKiosco && vacacionesService.opcionesKiosco.length!=0 && vacacionesService.opcionesKiosco[0]['SUBOPCION']">Seleccione la opción que desea realizar.</p>
+<p *ngIf="vacacionesService.opcionesKiosco && vacacionesService.opcionesKiosco && !vacacionesService.opcionesKiosco[0]['SUBOPCION']">No hay opciones habilitadas.</p>
+<div class="row" *ngIf="vacacionesService.opcionesKiosco && vacacionesService.opcionesKiosco.length>0 && !reporteSeleccionado">
+    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of vacacionesService.opcionesKiosco[0]['SUBOPCION']; index as i">
+        <div class="card" id="divReportes">
+            <div class="card-body">
+                <div class="d-flex flex-row">
+                    <img src="assets/images/reporte.png"
+                        class="img-lg rounded img-fluid" alt="profile image" />
+                    <div class="ml-3 d-flex align-items-center">
+                        <h6>{{  op['DESCRIPCION'] || ''}}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="button" class="btn btn-outline-primary"
+                    (click)="seleccionarReporte(i)">Seleccionar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div class="card" id="divReportes">
-        <div class="card-body">
-            <div class="d-flex flex-row">
-                <img src="assets/images/reporte.png"
-                    class="img-lg rounded img-fluid" alt="profile image" />
-                <div class="ml-3 d-flex align-items-center">
-                    <h6>CREAR SOLICITUD</h6>
+<div class="row" *ngIf="reporteSeleccionado!=null && reporteSeleccionado!=[]">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h5 style="font-family: Arial, Helvetica, sans-serif;
+                    font-weight: lighter; font-size: 17px;">
+                    <i class="fas fa-file-pdf"></i>
+                    Generar Reporte - {{reporteSeleccionado['DESCRIPCION'] || ''}}
+                </h5>
+
+                <div class="row">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2" id="div-img-rep">
+                        <img src="assets/images/reporte.png"
+                            class="img-fluid">
+                    </div>
+                    <div class="col-12 col-xl-10 col-lg-10 col-sm-10 col-md-10">
+                        <div id="divm"></div>
+                        
+                        <h6 style="font-weight: bold;"><img id="img-rep" src="assets/images/reporte.png" height="30px"> Información del reporte</h6>
+                        <p class="text-justify">{{reporteSeleccionado['AYUDA'] || ''}}</p>
+
+                        <div class="col-12 grid-margin">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Fecha desde:</label>
+                                        <div class="col-sm-9">
+                                            <input type="date"
+                                                class="form-control
+                                                form-control-sm" formControlName="fechadesde" />
+                                                <small class="text-danger">
+                                                    Seleccione una fecha válida
+                                                </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Fecha hasta:</label>
+                                        <div class="col-sm-9">
+                                            <input type="date"
+                                                class="form-control 
+                                                form-control-sm" formControlName="fechahasta"/>
+                                                <small class="text-danger">
+                                                    Seleccione una fecha válida
+                                                </small>
+                                        </div>
+
+                             
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox"
+                                        class="custom-control-input"
+                                        id="customCheck1" formControlName="enviocorreo">
+                                    <label class="custom-control-label"
+                                        for="customCheck1">¿Desea enviar el reporte al correo?</label>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary
+                                        btn-icon-text">
+                                        <i class="fa fa-download
+                                            btn-icon-prepend"></i>
+                                        Descargar Reporte
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="card-footer text-right">
-            <button type="button" class="btn btn-outline-primary" [routerLink]="['/crearSolicitud']">Seleccionar</button>
-        </div>
-</div>
-
-
-<div class="card" id="divReportes">
-    <div class="card-body">
-        <div class="d-flex flex-row">
-            <img src="assets/images/reporte.png"
-                class="img-lg rounded img-fluid" alt="profile image" />
-            <div class="ml-3 d-flex align-items-center">
-                <h6>VER SOLICITUDES PROPIAS</h6>
-            </div>
-        </div>
     </div>
-    
-    <div class="card-footer text-right">
-        <button type="button" class="btn btn-outline-primary">Seleccionar</button>
-    </div>
-</div>
-
-<div class="card" id="divReportes">
-    <div class="card-body">
-        <div class="d-flex flex-row">
-            <img src="assets/images/reporte.png"
-                class="img-lg rounded img-fluid" alt="profile image" />
-            <div class="ml-3 d-flex align-items-center">
-                <h6>PROCESAR SOLICITUDES</h6>
-            </div>
-        </div>
-    </div>
-    
-    <div class="card-footer text-right">
-        <button type="button" class="btn btn-outline-primary">Seleccionar</button>
-    </div>
-</div>
-
-<div class="card" id="divReportes">
-    <div class="card-body">
-        <div class="d-flex flex-row">
-            <img src="assets/images/reporte.png"
-                class="img-lg rounded img-fluid" alt="profile image" />
-            <div class="ml-3 d-flex align-items-center">
-                <h6>SOLICITUDES PROCESADAS</h6>
-            </div>
-        </div>
-    </div>
-    
-    <div class="card-footer text-right">
-        <button type="button" class="btn btn-outline-primary">Seleccionar</button>
-    </div>
-</div>
-
-</div>
-</div>
+</div>    

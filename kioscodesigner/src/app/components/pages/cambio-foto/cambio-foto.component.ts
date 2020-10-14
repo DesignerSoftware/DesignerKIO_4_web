@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UsuarioService } from '../../../services/usuario.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { ManejoArchivosService } from '../../../services/manejo-archivos.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import swal from 'sweetalert2';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cambio-foto',
@@ -13,8 +13,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./cambio-foto.component.css']
 })
 export class CambioFotoComponent implements OnInit {
-  usuario;
-  empresa;
 
   imageToShow: any;
   url = 'assets/images/fotos_empleados/sinFoto.jpg';
@@ -30,10 +28,6 @@ export class CambioFotoComponent implements OnInit {
 
   constructor(private usuarioService: UsuarioService, private fb: FormBuilder, private fileUploadService: ManejoArchivosService,
               private http: HttpClient, private router: Router) {
-      const sesion = this.usuarioService.getUserLoggedIn();
-      console.log(sesion);
-      this.usuario = sesion['usuario'];
-      this.empresa = sesion['empresa'];
       this.cargarFotoActual();
   }
 
@@ -45,12 +39,13 @@ export class CambioFotoComponent implements OnInit {
 
   cargarFotoActual() {
     // this.url='http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/1032508864.jpg';
-    this.usuarioService.getDocumentoSeudonimo(this.usuario, this.empresa)
+    this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa)
     .subscribe(
       data => {
         console.log(data);
         this.fotoPerfil = data['result'];
         console.log('documento: ' + this.fotoPerfil);
+        this.usuarioService.documento=this.fotoPerfil;
         this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`;
         /* document.getElementById("imgPrevia").setAttribute("src", 
         `http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`); */
@@ -69,7 +64,7 @@ export class CambioFotoComponent implements OnInit {
       const file = event.target.files[0];
       console.log(file);
       this.formulario.get('profile').setValue(file);
-      if (file.type == 'image/jpeg' ) {
+      if (file.type === 'image/jpeg' ) {
           console.log('Es .jpg');
           // cargar foto previa
           if (event.target.files) {
@@ -120,7 +115,7 @@ export class CambioFotoComponent implements OnInit {
           console.log(data);
         },
         (error) => {
-          if (error.status == 200) {
+          if (error.status === 200) {
             this.cambio.emit(this.url);
             swal
               .fire({
@@ -154,7 +149,7 @@ export class CambioFotoComponent implements OnInit {
   }
 
 createImageFromBlob(image: Blob) {
-   let reader = new FileReader();
+   const reader = new FileReader();
    reader.addEventListener('load', () => {
       this.imageToShow = reader.result;
    }, false);

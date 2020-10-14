@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
+
 import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
 
 @Component({
@@ -8,31 +9,26 @@ import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
   styleUrls: ['./datos-personales.component.css']
 })
 export class DatosPersonalesComponent implements OnInit {
-usuario: string;
-empresa: string;
-datos = null;
+// datos = null;
 
-  constructor(private usuarioServicio: UsuarioService) { 
-    const sesion = this.usuarioServicio.getUserLoggedIn();
-    console.log(sesion);
-    this.usuario = sesion['usuario'];
-    this.empresa = sesion['empresa'];
-    this.cargarDatos();
+  constructor(public usuarioServicio: UsuarioService) {
+    //this.cargarDatos();
   }
 
   ngOnInit() {
+
   }
 
-  cargarDatos() {
-    if (this.datos == null) {
-      this.usuarioServicio.getDatosUsuario(this.usuario, this.empresa)
-      .subscribe(
-        data => {
-          this.datos = data;
-          console.log('datos', this.datos);
-        }
-      );
-    }
-  }
+  // cargarDatos() {
+  //   if (this.usuarioServicio.datosPersonales == null) {
+  //     this.usuarioServicio.getDatosUsuario(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+  //     .subscribe(
+  //       data => {
+  //         this.usuarioServicio.datosPersonales = data;
+  //         console.log('datos', this.usuarioServicio.datosPersonales);
+  //       }
+  //     );
+  //   }
+  // }
 
 }

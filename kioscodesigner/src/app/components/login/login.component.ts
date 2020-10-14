@@ -1,29 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { HttpClient } from '@angular/common/http';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
+
 import swal from 'sweetalert2';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  validaParametroGrupo = '';
+  cadenasApp: any;
   formulario: FormGroup;
   empresas;
-
+  grupoEmpresarial = null;
   cadenaskioskos = [
-   {
+   /*{
       id: 1,
       descripcion: 'TRONEX',
       cadena: 'DEFAULT1',
       nit: '811025446',
       fondo: 'fondoMenu.jpg',
       grupo: 'GrupoEmpresarial1',
-    },
+    },*/
     {
       id: 2,
       descripcion: 'DESIGNER SOFTWARE LTDA',
@@ -39,32 +43,70 @@ export class LoginComponent implements OnInit {
     private http: HttpClient,
     private loginService: LoginService,
     private usuarioService: UsuarioService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private cadenasKioskos: CadenaskioskosappService
   ) {
+    this.cadenasApp = null;
     console.log('usuario logueado', usuarioService.getUserLoggedIn());
+
     if (!usuarioService.getUserLoggedIn()) {
+      this.activatedRoute.params
+      .subscribe(params => {
+        if (params['grupo']) {
+          this.grupoEmpresarial = params['grupo'];
+          console.log(params);
+
+          /*console.log(params.id);
+    	console.log(params[‘id’]);*/
+          this.cadenasKioskos
+            .getCadenasKioskosEmp(params['grupo'])
+            .subscribe((data) => {
+              console.log('cadenasKioskos form Registro',data);
+              this.cadenasApp = data;
+
+              if (this.cadenasApp.length === 1) {
+                this.formulario
+                  .get('empresa')
+                  // .setValue(this.cadenasApp[0].NITEMPRESA); // si solo hay una empresa se asigna el nit de ésta por defecto
+                  .setValue(this.cadenasApp[0][2]); // si solo hay una empresa se asigna el nit de ésta por defecto
+              } else {
+                // this.formulario.get('empresa').setValue('');
+              }
+            });
+        } else {
+          console.log('no hay parámetro');
+          this.validaParametroGrupo = 'Importante: El link de acceso no es válido, por favor confirme con su empresa el enlace correcto.';
+          $('#staticBackdrop').modal('show');
+        }
+
+    });
+
+
       this.crearFormulario();
-      this.usuarioService.getEmpresas()
+      /*this.usuarioService.getEmpresas()
       .subscribe(
         data => {
           this.empresas = data;
           console.log(data);
         }
-      );
+      );*/
     } else {
       this.navigate();
     }
   }
 
   ngOnInit() {
-    if (this.cadenaskioskos.length === 1) {
+   /* if (this.cadenaskioskos.length === 1) {
       this.formulario.get('empresa').setValue(this.cadenaskioskos[0].nit); // si solo hay una empresa se asigna el nit de ésta por defecto
     } else {
       this.formulario.get('empresa').setValue('');
-    }
+    }*/
+
   }
 
   crearFormulario() {
+    console.log('crearFormulario()');
     this.formulario = this.fb.group({
       usuario: ['', Validators.required],
       clave: ['', Validators.required],
@@ -85,10 +127,12 @@ export class LoginComponent implements OnInit {
         data => {
           console.log(data);
           if (data['ingresoExitoso']) {
+            console.log('ingresoExitoso: ' + data['ingresoExitoso']);
             this.loginService.generarToken(this.formulario.get('usuario').value.toLowerCase(),
             this.formulario.get('clave').value, this.formulario.get('empresa').value)
             .subscribe(
               res => {
+                console.log('Respuesta token generado: ', res);
                 let jwt:any = JSON.parse(JSON.stringify(res));
                 console.log('JWT Generado: ' + jwt['JWT']);
                 if (!res) {
@@ -118,10 +162,18 @@ export class LoginComponent implements OnInit {
                       // al cerrarse la ventana modal:
                       this.navigate();
                       // sesion guardará el arreglo que se guardará en el localStorage
+                      const cadenaEmpresa = this.cadenasApp.filter( // consultar empresa seleccionada
+                        //(opcKio) => opcKio['NITEMPRESA'] === this.formulario.get('empresa').value
+                        (opcKio) => opcKio[2] === this.formulario.get('empresa').value
+                      );
+                      console.log('empresa seleccionada', cadenaEmpresa);
                       const sesion: any = {
                         usuario: this.formulario.get('usuario').value.toLowerCase(),
                         JWT: jwt['JWT'],
-                        empresa: this.formulario.get('empresa').value
+                        empresa: this.formulario.get('empresa').value,
+                        grupo: this.grupoEmpresarial,
+                        // cadena: cadenaEmpresa['CADENA']
+                        cadena: cadenaEmpresa[4]
                       };
                       this.usuarioService.setUserLoggedIn(sesion);
                       this.usuarioService.getUserLoggedIn(); // Mostrar por consola los datos del usuario actual
@@ -130,18 +182,31 @@ export class LoginComponent implements OnInit {
                   });
                 }
               },
-    
               error => {
                         console.log('Error: ' + JSON.stringify(error.statusText));
-    
                         swal.fire({
                           icon: 'error',
                           title: '¡Se ha presentado un error!',
-                          text: 'Error de conexión. Por favor intentélo de nuevo más tarde. Error: cod ' + error.status + ' :' + error.statusText
+                          text: 'Error de conexión. Por favor intentélo de nuevo más tarde. Error: cod ' +
+                                 error.status + ' :' + error.statusText
                         });
               },
               () => this.navigate()
             );
+          } else if (data['EstadoUsuario']=='P') {
+            swal.fire({
+              icon: 'error',
+              title: '¡Cuenta no validada!',
+              /*'¡Usuario o contraseña incorrectos!',*/
+              text: `${data['mensaje']}`,
+              showCancelButton: true,
+              cancelButtonText: 'Ok',
+              confirmButtonText: `Reenviar`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   this.enviarCorreoConfirmaCuenta(this.usuarioService.usuario);
+                }
+              });
           } else {
             swal.fire({
               icon: 'error',
@@ -165,23 +230,87 @@ export class LoginComponent implements OnInit {
       }
     }
 
+enviarCorreoConfirmaCuenta(seudonimo: string) {
+  console.log('enviarCorreoConfirmación');
+  swal.fire({
+    title: 'Espera un momento.. Estamos enviándote el correo de confirmación',
+    onBeforeOpen: () => {
+      swal.showLoading();
+      this.usuarioService.inactivaTokensTipo('VALIDACUENTA', this.usuarioService.usuario, this.usuarioService.empresa)
+      .subscribe(
+        data => {
+        console.log(data);
+        this.loginService.enviarCorreoConfirmaCuenta(
+        this.formulario.get('usuario').value,
+        this.formulario.get('clave').value,
+        this.formulario.get('empresa').value, 'www.nominadesigner.co')
+      .subscribe(
+        data2 => {
+          if (data2['envioCorreo'] === true) {
+            console.log('Por favor verifica tu cuenta de correo');
+            swal.fire({
+              icon: 'success',
+              title: '¡Revisa tu correo!',
+              text: 'Se te ha enviado un nuevo correo '+
+              ' para que valides tu cuenta. Recuerda que tienes una hora para validarla, de lo contrario ' +
+              'deberas solicitar la generación de un nuevo correo.',
+              showConfirmButton: true
+            }).then((result) => {
+              if (result.value) {
+                // document.location.href = './login';
+                //this.router.navigate(['/login']);
+                this.router.navigate(['/']);
+              }
+            });
+          } else {
+            swal.fire({
+              icon: 'error',
+              title: 'Se ha presentado un error al enviarte el correo de confirmación.',
+              text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión '+
+              'y haz clic en la opción para enviarte nuevamente el correo.',
+              showConfirmButton: true
+            }).then((result) => {
+              if (result.value) {
+                // document.location.href = './login';
+                this.navigate();
+              }
+            });
+          }
+        },
+        (error) => {
+          swal.fire({
+            icon: 'error',
+            title: 'Se ha presentado un error al enviarte el correo de confirmación.',
+            text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión y haz clic en la opción ' +
+            'para enviarte nuevamente el correo.',
+            showConfirmButton: true
+          });
+        }
+      );
+        }
+      )
+    },
+    allowOutsideClick: () => !swal.isLoading()
+  });
+}
+
 
     navigate() {
       this.router.navigate(['/home']);
     }
 
     mostrarModalContacto() {
-      if (this.formulario.get('empresa').value) {
-        console.log('presiono botón');
+      /*if (this.formulario.get('empresa').value) {
+        console.log('presiono botón');*/
         $('#staticBackdrop').modal('show');
-      } else {
+      /*} else {
         swal.fire({
           icon: 'error',
           title: 'Por favor seleccione una empresa',
           text: 'Seleccione la empresa a la que pertenece para indicarle con quien puede contactarse.',
           showConfirmButton: true
         });
-      }
+      }*/
 
     }
 

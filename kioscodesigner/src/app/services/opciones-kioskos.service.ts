@@ -11,8 +11,8 @@ export class OpcionesKioskosService {
 
   constructor(private http: HttpClient) { }
 
-  getOpcionesKiosco(empresa: string) {
-    const url = `${environment.urlKioskoDesigner}opcioneskioskos/${empresa}`;
+  getOpcionesKiosco(empresa: string, seudonimo: string) {
+    const url = `${environment.urlKioskoDesigner}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
     console.log(url);
     return this.http.get(url);
   }

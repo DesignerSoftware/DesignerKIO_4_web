@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ValidadoresService } from '../../../services/validadores.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cambio-clave',
@@ -12,16 +12,11 @@ import { Router } from '@angular/router';
 })
 export class CambioClaveComponent implements OnInit {
   formulario: FormGroup;
-  usuario;
-  empresa;
 
-  constructor(private fb: FormBuilder, private validadores: ValidadoresService, private usuarioServicio: UsuarioService,
-              private router: Router) {
+
+  constructor(private fb: FormBuilder, private validadores: ValidadoresService,
+              private usuarioServicio: UsuarioService, private router: Router) {
     this.crearFormulario();
-    const sesion = this.usuarioServicio.getUserLoggedIn();
-    console.log(sesion);
-    this.usuario = sesion['usuario'];
-    this.empresa = sesion['empresa'];
   }
 
   ngOnInit() {
@@ -47,16 +42,16 @@ export class CambioClaveComponent implements OnInit {
     console.log(this.formulario);
     if (this.formulario.valid) {
       this.usuarioServicio.validarSeudonimoClaveNit(
-        this.usuario, this.formulario.get('passActual').value, this.empresa
+        this.usuarioServicio.usuario, this.formulario.get('passActual').value, this.usuarioServicio.empresa
       )
       .subscribe(
         data => {
           console.log(data);
-          if (data['result']=='true'){ // si la contraseña actual es correcta
-              this.actualizaClave();  
+          if (data['result'] === 'true') { // si la contraseña actual es correcta
+              this.actualizaClave();
           } else {
             swal.fire(
-              'Error!',
+              '¡Contraseña incorrecta!',
               'La contraseña actual no coincide!',
               'error'
             );
@@ -73,7 +68,7 @@ export class CambioClaveComponent implements OnInit {
         swal.showLoading();
         setTimeout(() => {
           this.usuarioServicio.actualizaClave(
-            this.usuario, this.empresa, this.formulario.get('pass1').value
+            this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.formulario.get('pass1').value
           )
           .subscribe(
             data => {

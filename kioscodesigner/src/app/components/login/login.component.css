@@ -8,7 +8,8 @@
 }
 
 .bg-image {
-  background-image: url('../../../assets/images/fondologinkiosco.png');
+  /*background-image: url('../../../assets/images/fondologinkiosco.png');*/
+  background-image: url('../../../assets/images/fondologinkiosco.webp');
   /*background-size: cover;*/
   background-position: center;
 }

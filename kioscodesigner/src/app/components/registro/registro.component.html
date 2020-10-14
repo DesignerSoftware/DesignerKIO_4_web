@@ -10,8 +10,8 @@
             <div class="card-body">
               <h4>Registro de usuario</h4>
               <br>
-  
-              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <h6 class="text-danger">{{validaParametroGrupo}}</h6>
+              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
                 <div class="form-group row" style="margin-bottom: 0px">
                   <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
                     col-md-6
@@ -50,7 +50,7 @@
               </div> -->
 
 
-              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <!-- <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
                 <div class="form-group row" style="margin-bottom: 0px">
                   <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
                     col-md-6
@@ -69,8 +69,28 @@
                     </small>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
+               <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
+                <div class="form-group row" style="margin-bottom: 0px">
+                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
+                    col-md-6
+                    col-sm-4">*Empresa:</label>
+                  <div class="col col-xl-5 col-md-7">
+                   <select class="form-control" formControlName="nitempresa" id="empresa">
+                     <option value="">Seleccione una empresa</option>
+                     <option *ngFor="let e of cadenasApp" [value]="e[2]">{{e[1]}}</option>
+                   </select>
+                    <small *ngIf="formulario.get('nitempresa').errors?.required &&
+                      formulario.get('nitempresa').touched" class="text-danger">
+                      Seleccione una empresa
+                    </small>
+                    <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
+                      Sólo se permiten números y no se permiten espacios
+                    </small>
+                  </div>
+                </div>
+              </div> 
 
 
               <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" style="display: none;" id="divCorreo">
@@ -93,7 +113,7 @@
               </div>
 
                 <div class="col-12 col-xl-3">
-                  <button type="button" *ngIf="!habilitaCamposClave" class="form-control btn btn-info mt-2" (click)="validarUsuario()">Continuar</button>
+                  <button type="button" *ngIf="!habilitaCamposClave && grupoEmpresarial" class="form-control btn btn-info mt-2" (click)="validarUsuario()">Continuar</button>
                 </div>
 
             <div *ngIf="habilitaCamposClave" style="padding-bottom: 0px;">

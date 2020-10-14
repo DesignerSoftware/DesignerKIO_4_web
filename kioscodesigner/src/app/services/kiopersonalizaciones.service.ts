@@ -5,12 +5,13 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class KiopreguntasfrecuentesService {
+export class KiopersonalizacionesService {
 
   constructor(private http: HttpClient) { }
 
-  getKioPreguntasFrecuentes(nit: string) {
-    const url = `${environment.urlKioskoDesigner}restKiosco/kioPreguntasFrecuentes/${nit}`;
+  getDatosContacto(nit: string) {
+    //const url = `${environment.urlKioskoDesigner}restKiosco/datosContactoKiosco/${nit}`;
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/datosContactoKiosco/${nit}`;
     console.log(url);
     return this.http.get(url);
   }

@@ -1,1 +1,106 @@
-<p>crear-solicitud works!</p>
+<div class="page-header">
+    <h3 class="page-title">
+        Crear solicitud
+    </h3>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Solicitud</li>
+    </ol>
+</nav>
+<div class="alert alert-warning" role="alert">
+  Esta página está en construcción
+</div>
+<br>
+<div class="container">
+
+  <div class="card border-success mb-3" style="max-width: 18rem;">
+    <div class="card-header">DÍAS PENDIENTES</div>
+    <div class="card-body text-success">
+      <h5 class="card-title">X</h5>
+      <p class="card-text">DÍAS ACUMULADOS</p>
+    </div>
+  </div>
+
+<hr>
+
+  <!-- <form> -->
+    <div class="form-group row">
+      <label for="inidisf" class="col-sm-3 col-form-label">Fecha inicial de disfrute:</label>
+      <div class="col-sm-9">
+        <input type="date" class="form-control" id="inidisf" placeholder="">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-3 col-form-label">Tipo de vacación:</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="inputPassword3" value="VACACIÓN" enabled="enabled" readonly>
+      </div>
+    </div>
+
+      <div class="form-group row">
+        <label for="inputPassword3" class="col-sm-3 col-form-label">Periodo:</label>
+        <div class="col-sm-9">
+          <select class="form-control">
+            <option value="0">Seleccione periodo</option>
+            <option value="secuencia">##/##/#### a ##/##/####  ---> X DÍAS DISPONIBLES</option>
+            <option value="secuencia">##/##/#### a ##/##/####  ---> X DÍAS DISPONIBLES</option>
+            </select>
+        </div>
+      </div>
+
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-3 col-form-label">Días a disfrutar:</label>
+      <div class="col-sm-9">
+      <select class="form-control">
+        <option value="0">Seleccione</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+      </select>
+    </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="finVaca" class="col-sm-3 col-form-label">Fecha fin de disfrute:</label>
+      <div class="col-sm-9">
+        <input type="date" class="form-control" id="finVaca" placeholder="" readonly
+         title="Este campo se calcula automaticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="finRegreso" class="col-sm-3 col-form-label">Fecha fin de disfrute:</label>
+      <div class="col-sm-9">
+        <input type="date" class="form-control" id="finRegreso" placeholder="" readonly
+            title="Este campo se calcula automaticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina">
+      </div>
+    </div>
+
+    <div class="form-group row">
+
+
+      <div class="col-sm-6" style="text-align: right;">
+        <button type="button" class="btn btn-outline-primary btn-lg">Enviar solicitud</button>
+      </div>
+
+      <div class="col-sm-6">
+        <button type="button" class="btn btn-outline-danger btn-lg"routerLink="/home">Cancelar</button>
+      </div>
+    </div>
+<!--- </form> --->
+
+
+</div>

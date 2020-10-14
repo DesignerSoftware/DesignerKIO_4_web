@@ -1,1 +1,98 @@
-<p>procesar-solici works!</p>
+<div class="page-header">
+    <h3 class="page-title">
+        Procesar solicitudes pendientes <span class="badge badge-info" *ngIf="false">3</span>
+    </h3>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Procesar solicitudes</li>
+    </ol>
+</nav>
+<div class="alert alert-warning" role="alert">
+Página en construcción</div>
+<div class="container" *ngIf="false">
+    <br>
+            <div class="card-deck" id="">
+              <div class="card card1" style="text-align: center;">
+                <div class="card-body card_hover">
+                  <img src="../../../assets/img/prueba.jpg" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+                  <h6 class="card-title text-muted">THALIA VALENTINA MANRIQUE BELLO</h6>
+                    <h6 class="text-muted">COD. 111.111.111</h6>
+                  <hr>
+                  <p class="card-text">Fecha inicio Vacaciones: 01/01/2020</p>
+                  <p>Fecha fin vacaciones: 12/01/2020</p>
+                  <p>Fecha regreso a laborar: 13/01/2020</p>
+                  <p>Días: 11</p>
+                  <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">PROCESAR</button>
+    
+                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+              </div>
+              <div class="card card1" style="text-align: center;">
+                <div class="card-body card_hover">
+                  <img src="../../../assets/img/sinFoto.jpg" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+                  <h5 class="card-title">THALIA VALENTINA MANRIQUE BELLO</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    
+                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+              </div>
+              <div class="card card1" style="text-align: center;">
+                <div class="card-body card_hover">
+                  <img src="../../../assets/img/prueba.jpg" alt="..." style=" width: 80px; height: 80px; border-radius: 50%;">
+                  <h5 class="card-title">THALIA VALENTINA MANRIQUE BELLO</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    
+                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+              </div>
+            </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Procesar solicitud</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+                <div class="modal-body">
+                  <div class="card" style="text-align: center;">
+                    <div class="card-body">
+                      <img src="../../../assets/img/prueba.jpg" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+                      <h6 class="card-title text-muted">THALIA VALENTINA MANRIQUE BELLO</h6>
+                        <h6 class="text-muted">COD. 111.111.111</h6>
+                      <hr>
+                      <p class="card-text">Fecha inicio Vacaciones: 01/01/2020</p>
+                      <p>Fecha fin vacaciones: 12/01/2020</p>
+                      <p>Fecha regreso a laborar: 13/01/2020</p>
+                      <p>Días: 11</p>
+                      <p>Periodo: 01/01/2019 a 31/12/2019</p>
+                      <p>Jefe inmediato: XXXXXXXXX</p>
+                      <p>Fecha pago: 30/01/2020</p>
+                      <p class="card-text"><small class="text-muted">Fecha solicitud: 01/01/02019</small></p>
+                      <hr>
+                      <h6>ACCIONES PERMITIDAS</h6><br>
+                      <p>Motivo:</p>
+                        <textarea id="form7" class="md-textarea form-control" rows="3" cols="12" placeholder="Este campo es obligatorio para el caso de que rechace la solicitud."></textarea>
+                        <br>
+                      <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">APROBAR</button>
+                      <button type="button" class="btn btn-outline-danger">RECHAZAR</button>
+                    </div>
+                  </div>
+          </div>
+          <div class="modal-footer">
+    
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    </div>
+    

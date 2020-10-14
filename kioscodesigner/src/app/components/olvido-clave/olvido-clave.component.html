@@ -10,8 +10,11 @@
             <div class="card-body">
               <h4>Reseteo de Contraseña</h4>
               <br>
-                Por favor digite su usuario y el nit de su empresa para enviar a su correo la nueva contraseña.
-              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+              <h5 id="msj" class="text-danger" *ngIf="validaParametroGrupo">{{validaParametroGrupo}}</h5>
+              <h6 *ngIf="grupoEmpresarial">Por favor digite su usuario y el nit de su empresa para enviar a su correo la nueva contraseña.
+              </h6>
+              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
                 <div class="form-group row" style="margin-bottom: 0px">
                   <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
                     col-md-6
@@ -27,7 +30,7 @@
                 </div>
               </div>
   
-              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <!-- <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="form-group row" style="margin-bottom: 0px">
                   <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
                     col-md-6
@@ -43,9 +46,27 @@
                     </small>
                   </div>
                 </div>
+              </div> -->
+
+              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
+                <div class="form-group row" style="margin-bottom: 0px">
+                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
+                    col-md-6
+                    col-sm-4">*Empresa:</label>
+                  <div class="col col-xl-5 col-md-7">
+                    <select class="form-control" formControlName="nitempresa">
+                      <option value="">Seleccione una empresa</option>
+                      <option *ngFor="let e of cadenasApp" [value]="e[2]">{{e[1]}}</option>
+                    </select>
+                    <small *ngIf="formulario.get('nitempresa').errors?.required &&
+                      formulario.get('nitempresa').touched" class="text-danger">
+                      Seleccione una empresa
+                    </small>
+                  </div>
+                </div>
               </div>
 
-              <div class="row">
+              <div class="row" *ngIf="grupoEmpresarial">
                 <div class="col-12 col-xl-3">
                   <button type="button" class="form-control btn btn-info mt-2" (click)="enviar()">Continuar</button>
                 </div>
@@ -56,10 +77,6 @@
               <hr>
 
 
-  
-  
-  
-  
             </div>
           </div>
         </div>

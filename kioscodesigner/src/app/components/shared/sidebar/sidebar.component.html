@@ -1,6 +1,6 @@
 <!-- partial -->
       <!-- partial:../../partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas sidebar-dark" id="sidebar">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item nav-profile">
             <div class="nav-link">
@@ -9,7 +9,7 @@
               </div>
               <div class="profile-name">
                 <p class="name">
-                  {{nombreUsuario}} 
+                  {{usuarioServicio.nombrePersona}} 
                 </p>
                 <p class="designation">
                   
@@ -19,7 +19,7 @@
           </li>
 
           <li class="nav-item" *ngFor="let opc of opcionesKioskos" routerLinkActive="active">
-            <a class="nav-link" [routerLink]="['/', opc['NOMBRERUTA']]">
+            <a class="nav-link" [routerLink]="['/', opc['NOMBRERUTA']]" (click)="clic()">
               <i [class]="opc['ICONO']"></i>
               <span class="menu-title">{{opc['DESCRIPCION']}}</span>
             </a>

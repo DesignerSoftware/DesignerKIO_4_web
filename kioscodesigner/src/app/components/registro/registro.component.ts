@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import swal from 'sweetalert2';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ValidadoresService } from 'src/app/services/validadores.service';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registro',
@@ -12,21 +13,51 @@ import { ValidadoresService } from 'src/app/services/validadores.service';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
+  validaParametroGrupo=null;
+  cadenasApp: any;
+  grupoEmpresarial= null;
   formulario: FormGroup;
-  usuario;
-  empresa;
   habilitaCamposClave = false;
   empresas;
 
   constructor(private fb: FormBuilder, private router: Router, private loginService: LoginService,
-              private usuarioServicio: UsuarioService, private validadores: ValidadoresService) {
+              private usuarioServicio: UsuarioService, private validadores: ValidadoresService,
+              private activatedRoute: ActivatedRoute,
+              private cadenasKioskos: CadenaskioskosappService) {
     this.crearFormulario();
-    this.usuarioServicio.getEmpresas()
+      this.activatedRoute.params
+      .subscribe(params => {
+        if (params['grupo']) {
+        this.grupoEmpresarial = params['grupo'];
+      console.log(params);
+
+    	/*console.log(params.id);
+    	console.log(params[‘id’]);*/
+      this.cadenasKioskos.getCadenasKioskosEmp(params['grupo'])
+      .subscribe(
+        data => {
+        console.log(data);
+        this.cadenasApp = data;
+
+    if (this.cadenasApp.length===1){
+      this.formulario.get('empresa').setValue(this.cadenasApp[0][2]); // si solo hay una empresa se asigna el nit de ésta por defecto
+    } else {
+      //this.formulario.get('empresa').setValue('');
+    }
+        }
+      )
+        } else {
+          console.log('no hay parámetro');
+          this.validaParametroGrupo='Importante: El link de acceso no es válido, por favor confirme con su empresa el enlace correcto.';
+        }
+
+    });
+    /*this.usuarioServicio.getEmpresas()
     .subscribe(
       data => {
         this.empresas = data;
       }
-    )
+    );*/
   }
 
   ngOnInit() {
@@ -38,7 +69,7 @@ export class RegistroComponent implements OnInit {
       correo: ['', Validators.required],
       nitempresa: ['', [Validators.required, Validators.pattern("^([0-9])*$")] ],
       seudonimo: [, Validators.required],
-      pass1: [, [Validators.required, 
+      pass1: [, [Validators.required,
                  Validators.pattern("^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\\*\\.\\-_\\+~\\/;,\\(\\)!\\&]).{8,})$")
                 ]
              ],
@@ -49,7 +80,7 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  validarUsuario() { // validar si existe 
+  validarUsuario() { // validar si existe
     console.log(this.formulario);
     Object.values( this.formulario.controls ).forEach( control => {
       control.markAsTouched();
@@ -60,7 +91,6 @@ export class RegistroComponent implements OnInit {
         data => {
           if (data['result'] === 'true') {
             console.log('usuario valido');
-
             this.validarUsuarioRegistrado();
           } else {
             swal.fire({
@@ -84,8 +114,10 @@ export class RegistroComponent implements OnInit {
      .subscribe(
        data => {
          console.log(data);
-         if (data['result']==="false"){
+         if (data['result'] === 'false') {
           this.habilitaCamposClave = true;
+          this.formulario.get('documento').disable();
+          this.formulario.get('nitempresa').disable();
           this.consultarCorreo();
           this.formulario.get('pass1').markAsUntouched();
           this.formulario.get('pass2').markAsUntouched();
@@ -99,7 +131,8 @@ export class RegistroComponent implements OnInit {
             showConfirmButton: true
           }).then((result) => {
             console.log('redireccionando a login');
-            this.router.navigate(['/login']);
+            //this.router.navigate(['/login']);
+            this.router.navigate(['/']);
           });
          }
        }
@@ -110,9 +143,9 @@ export class RegistroComponent implements OnInit {
     this.loginService.getCorreoAsociadoPersonaEmpresa(this.formulario.get('documento').value, this.formulario.get('nitempresa').value)
     .subscribe(
       data => {
-        if (data['result'] && (data['result']!=null || data['result']!='')) {
+        if (data['result'] && (data['result'] != null || data['result'] !== '')) {
           this.formulario.get('correo').setValue(data['result']);
-          document.getElementById('divCorreo').style.display='';
+          document.getElementById('divCorreo').style.display = '';
           console.log( data['result']);
         } else {
           this.habilitaCamposClave = false;
@@ -122,7 +155,8 @@ export class RegistroComponent implements OnInit {
             text: 'Por favor verifique su correo asociado con el área de recursos humanos y/o nómina para poder crear su usuario de Kiosco',
             showConfirmButton: true
           }).then((result) => {
-            this.router.navigate(['/login']);
+            //this.router.navigate(['/login']);
+            this.router.navigate(['/']);
           });
         }
       }
@@ -136,9 +170,9 @@ export class RegistroComponent implements OnInit {
 
     if (this.formulario.valid) {
       this.habilitaCamposClave = false;
-      document.getElementById('loader').style.display='';
-      document.getElementById('mensaje').innerHTML='Estamos validando la información';
-      var seudonimoCuenta;
+      document.getElementById('loader').style.display = '';
+      document.getElementById('mensaje').innerHTML = 'Estamos validando la información';
+      let seudonimoCuenta;
       if (this.formulario.get('seudonimo').value === 'correo') {
         seudonimoCuenta = this.formulario.get('correo').value;
       } else {
@@ -158,8 +192,6 @@ export class RegistroComponent implements OnInit {
           showConfirmButton: true
         }).then((result) => {
           if (result.value) {
-            // document.location.href = './login';
-            //this.router.navigate(['/login']);
             this.enviarCorreoConfirmaCuenta(seudonimoCuenta);
           }
         });
@@ -172,7 +204,8 @@ export class RegistroComponent implements OnInit {
         }).then((result) => {
           if (result.value) {
             // document.location.href = './login';
-            this.router.navigate(['/login']);
+            //this.router.navigate(['/login']);
+            this.router.navigate(['/']);
           }
         });
       }
@@ -200,7 +233,7 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
         this.formulario.get('nitempresa').value, 'www.nominadesigner.co')
       .subscribe(
         data => {
-          if (data['envioCorreo']==true) {
+          if (data['envioCorreo'] === true) {
             console.log('Por favor verifica tu cuenta de correo');
             swal.fire({
               icon: 'success',
@@ -212,15 +245,16 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
             }).then((result) => {
               if (result.value) {
                 // document.location.href = './login';
-                this.router.navigate(['/login']);
+                //this.router.navigate(['/login']);
+                this.router.navigate(['/']);
               }
             });
           } else {
             swal.fire({
               icon: 'error',
               title: 'Se ha presentado un error al enviarte el correo de confirmación.',
-              text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión y haz clic en la opción ' +
-              'para enviarte nuevamente el correo.',
+              text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión '+
+              'y haz clic en la opción para enviarte nuevamente el correo.',
               showConfirmButton: true
             }).then((result) => {
               if (result.value) {
@@ -247,8 +281,12 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
 
 
 redirigirInicio() {
-  this.router.navigate(['/login']);
+  if (this.grupoEmpresarial!=null) {
+     //this.router.navigate(['/', this.grupoEmpresarial]);
+  //} else {
+    this.router.navigate(['/']);
+  }
+  
 }
-
 
 }

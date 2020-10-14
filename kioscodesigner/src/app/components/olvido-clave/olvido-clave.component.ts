@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { LoginService } from 'src/app/services/login.service';
-import swal from 'sweetalert2';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-olvido-clave',
@@ -13,10 +14,41 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class OlvidoClaveComponent implements OnInit {
 formulario: FormGroup;
 empresas;
+grupoEmpresarial = null;
+cadenasApp;
+validaParametroGrupo = '';
 
   constructor(private fb: FormBuilder, private router: Router, private loginService: LoginService,
-              private usuarioService: UsuarioService) {
-    this.crearFormulario();
+              private usuarioService: UsuarioService, private activatedRoute: ActivatedRoute,
+              private cadenasKioskos: CadenaskioskosappService
+              ) {
+    this.activatedRoute.params
+    .subscribe(params => {
+      this.crearFormulario(); // crear formulario
+      if (params['grupo']) {
+        this.grupoEmpresarial = params['grupo'];
+        console.log(params);
+
+        this.cadenasKioskos
+        .getCadenasKioskosEmp(params['grupo'])
+        .subscribe((data) => {
+          console.log(data);
+          this.cadenasApp = data;
+
+          if (this.cadenasApp.length === 1) {
+            this.formulario
+              .get('empresa')
+              .setValue(this.cadenasApp[0].NITEMPRESA); // si solo hay una empresa se asigna el nit de ésta por defecto
+          } else {
+            // this.formulario.get('empresa').setValue('');
+          }
+        });
+      } else {
+        // si no existe el parámetro
+        console.log('no hay parámetro');
+        this.validaParametroGrupo = 'Importante: El link de acceso no es válido, por favor confirme con su empresa el enlace correcto.';
+      }
+    });
   }
 
   ngOnInit() {
@@ -87,7 +119,7 @@ empresas;
           )
           .subscribe(
             data => {
-              if (data['envioCorreo']==true) {
+              if (data['envioCorreo'] === true) {
                 swal.fire({
                   icon: 'success',
                   title: '¡Revisa tu correo! Te hemos enviado tu nueva contraseña!',
@@ -118,6 +150,11 @@ empresas;
   }
 
   redirigirInicio() {
-    this.router.navigate(['/login']);
+    if (this.grupoEmpresarial!=null) {
+       this.router.navigate(['/login', this.grupoEmpresarial]);
+    } else {
+      this.router.navigate(['/login']);
+    }
+    
   }
 }
