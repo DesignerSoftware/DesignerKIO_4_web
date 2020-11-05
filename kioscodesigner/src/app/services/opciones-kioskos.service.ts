@@ -24,4 +24,14 @@ export class OpcionesKioskosService {
     return this.http.get(`${environment.urlKioskoDesigner}restKiosco/validarIngresoUsuarioKiosco`, user);
   }
 
+  getPrueba2() {
+    const url = `${environment.urlKioskoReportes}opcioneskioskos/prueba`;
+    console.log(url);
+    return this.http.get(url);
+  }
+
+  clear() {
+    this.opcionesKioskos = [];
+  }
+
 }

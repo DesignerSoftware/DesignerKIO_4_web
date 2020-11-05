@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { UsuarioService } from './usuario.service';
+import { ReportesService } from './reportes.service';
+import { OpcionesKioskosService } from './opciones-kioskos.service';
+import { VacacionesService } from './vacaciones.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private usuarioService: UsuarioService, private reportesService: ReportesService,
+              private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService) {
   }
 
   registrarUsuario(seudonimo: string, usuario: string, clave: string, nitEmpresa: string, correo: string) {
@@ -59,6 +64,15 @@ export class LoginService {
     const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarSeudonimoyEmpresaRegistrado/${seudonimo}/${nitempresa}`;
     console.log(url);
     return this.http.get(url);
+  }
+
+  // Cerrar sesión
+  logOut() {
+    console.log('logOut() loginService');
+    this.usuarioService.clear();
+    this.reportesService.clear();
+    this.opcionesKioskosService.clear();
+    this.vacacionesService.clear();
   }
 
 }

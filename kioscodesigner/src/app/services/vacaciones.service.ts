@@ -21,6 +21,10 @@ export class VacacionesService {
     return this.http.get(url);
   }
 
+  clear() {
+    this.opcionesKiosco = [];
+  }
+
 
 
 }

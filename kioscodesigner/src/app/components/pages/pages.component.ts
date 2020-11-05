@@ -126,7 +126,8 @@ export class PagesComponent implements OnInit {
     console.log('cerrar sesion');
     localStorage.removeItem('currentUser');
     this.router.navigate(['/login']);
-    if (this.usuarioServicio.grupoEmpresarial != null){
+    this.loginService.logOut(); // Limpiar datos
+    if (this.usuarioServicio.grupoEmpresarial != null) {
       // this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
       this.router.navigate(['/']);
     } else {

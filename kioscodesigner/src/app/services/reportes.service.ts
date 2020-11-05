@@ -10,6 +10,7 @@ export class ReportesService {
   opcionesReportes: any = [];
   codigoReporteSeleccionado;
   reporteSeleccionado = null;
+  nombreReporteSeleccionado;
   
   constructor(private http: HttpClient) { }
 
@@ -23,5 +24,12 @@ export class ReportesService {
     const url = `${environment.urlKioskoDesigner}restKiosco/validarFechasCertingresos?fechadesde=${fechaDesde}&fechahasta=${fechaHasta}`;
     console.log(url);
     return this.http.get(url);
+  }
+
+  clear() {
+    this.opcionesReportes = [];
+    this.codigoReporteSeleccionado = null;
+    this.reporteSeleccionado = null;
+    this.nombreReporteSeleccionado = null;
   }
 }

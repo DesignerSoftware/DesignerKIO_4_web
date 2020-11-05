@@ -243,7 +243,8 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
         this.loginService.enviarCorreoConfirmaCuenta(
         this.formulario.get('usuario').value,
         this.formulario.get('clave').value,
-        this.formulario.get('empresa').value, 'www.nominadesigner.co')
+        //this.formulario.get('empresa').value, 'www.nominadesigner.co')
+        this.formulario.get('empresa').value, 'www.designer.com.co')
       .subscribe(
         data2 => {
           if (data2['envioCorreo'] === true) {

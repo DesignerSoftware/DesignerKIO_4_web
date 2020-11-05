@@ -12,23 +12,23 @@ export class DatosPersonalesComponent implements OnInit {
 // datos = null;
 
   constructor(public usuarioServicio: UsuarioService) {
-    //this.cargarDatos();
+    this.cargarDatos();
   }
 
   ngOnInit() {
 
   }
 
-  // cargarDatos() {
-  //   if (this.usuarioServicio.datosPersonales == null) {
-  //     this.usuarioServicio.getDatosUsuario(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
-  //     .subscribe(
-  //       data => {
-  //         this.usuarioServicio.datosPersonales = data;
-  //         console.log('datos', this.usuarioServicio.datosPersonales);
-  //       }
-  //     );
-  //   }
-  // }
+  cargarDatos() {
+    if (this.usuarioServicio.datosPersonales == null) {
+      this.usuarioServicio.getDatosUsuario(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+      .subscribe(
+        data => {
+          this.usuarioServicio.datosPersonales = data;
+          console.log('datos', this.usuarioServicio.datosPersonales);
+        }
+      );
+    }
+  }
 
 }

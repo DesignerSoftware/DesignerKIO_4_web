@@ -122,6 +122,7 @@ export class ReportesComponent implements OnInit {
     this.reporteServicio.reporteSeleccionado = this.reporteServicio.opcionesReportes[0]['SUBOPCION'][index];
     // this.router.navigateByUrl(`/reportes/${index}`);
     this.reporteServicio.codigoReporteSeleccionado = this.reporteServicio.opcionesReportes[0]['SUBOPCION'][index]['CODIGO'];
+    this.reporteServicio.nombreReporteSeleccionado = this.reporteServicio.opcionesReportes[0]['SUBOPCION'][index]['DESCRIPCION'];
   }
 
   limpiarSeleccionado() {
@@ -194,7 +195,7 @@ export class ReportesComponent implements OnInit {
           this.usuarioServicio.getSecuenciaEmpl(this.usuarioServicio.usuario)
           .subscribe(
             info => {
-              this.usuarioServicio.secuenciaEmpleado = info['SECUENCIA'];
+              this.usuarioServicio.secuenciaEmpleado = info;
               this.actualizaParametros();
             }
           );
@@ -203,13 +204,33 @@ export class ReportesComponent implements OnInit {
         }
   }
 
+  formatoddmmyyyy(fecha){
+    let anio = fecha.substring(0, 4);
+    let mes = fecha.substring(5,7);
+    let dia = fecha.substring(8,11);
+    let ensamble = dia +"-"+ mes+"-"+ anio;
+    return ensamble;
+  }
+
+
   actualizaParametros() {
+    console.log('actualizaParametros(): ');
+    let msjConfirmacion = '';
+    if (this.reporteServicio.codigoReporteSeleccionado=='25' || this.reporteServicio.codigoReporteSeleccionado=='26' || this.reporteServicio.codigoReporteSeleccionado=='27' || this.reporteServicio.codigoReporteSeleccionado=='28') {
+      msjConfirmacion = 'Se dispone a generar el reporte '+this.reporteServicio.nombreReporteSeleccionado+'. Tenga presente que para los valores de la certificación se tiene en cuenta la fecha de generación del reporte.';
+    } else {
+      msjConfirmacion = 'Se dispone a generar el reporte '+this.reporteServicio.nombreReporteSeleccionado+' con fechas desde el '+
+      this.formatoddmmyyyy(this.formulario.get('fechadesde').value)+
+      ' hasta el '+
+      this.formatoddmmyyyy(this.formulario.get('fechahasta').value);
+    }
     swal.fire({
-      title: 'Por favor espere un momento',
-      text: 'Su reporte se está generando.',
+      title: 'Confirmación',
+      text: msjConfirmacion,
       icon: 'info',
       confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Aceptar'
+      confirmButtonText: 'Aceptar',
+      showCancelButton: true
     }).then((result) => {
       if (result.value) {
         this.usuarioServicio.actualizaParametrosReportes(this.usuarioServicio.usuario, this.usuarioServicio.empresa,
@@ -242,6 +263,7 @@ export class ReportesComponent implements OnInit {
     console.log('cadenaReporte: ',this.usuarioServicio.cadenaConexion);
     this.fechaDesde = this.formulario.get('fechadesde').value;
     this.fechaHasta = this.formulario.get('fechahasta').value;
+    console.log('this.usuarioServicio.secuenciaEmpleado: '+this.usuarioServicio.secuenciaEmpleado);
     swal.fire({
       title: 'Generando reporte, por favor espere...',
       onBeforeOpen: () => {

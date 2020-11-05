@@ -73,8 +73,8 @@ import { SoliProcesadasComponent } from './components/pages/vacaciones/soli-proc
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    APP_ROUTING,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    APP_ROUTING/*,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })*/
   ],
   providers: [
     DatePipe, {provide: LOCALE_ID, useValue: 'es-CO'}

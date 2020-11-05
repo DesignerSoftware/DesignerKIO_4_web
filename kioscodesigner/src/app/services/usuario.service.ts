@@ -90,7 +90,8 @@ export class UsuarioService {
 
   getSecuenciaEmpl(codEmpleado: string) {
     //const url = `${environment.urlKioskoDesigner}empleados/` + codEmpleado;
-    const url = `${environment.urlKioskoDesigner}empleados/` + codEmpleado;
+    // const url = `${environment.urlKioskoDesigner}empleados/` + codEmpleado;
+    const url = `${environment.urlKioskoReportes}empleados/${codEmpleado}`;
     console.log(url);
     return this.http.get(url);
   }
@@ -207,5 +208,23 @@ export class UsuarioService {
     const url = `${environment.urlKioskoReportes}conexioneskioskos/inactivaTokensTipo?tipo=${tipo}&seudonimo=${usuario}&nit=${nitEmpresa}`;
     console.log(url);
     return this.http.post(url, {});
+  }
+
+  clear() {
+    this.isUserLoggedIn = null;
+    this.usserLogged = null;
+    this.secuenciaEmpleado = null;
+    this.nombrePersona = 'Bienvenido';
+    this.datos = null;
+    this.usuario = null;
+    this.empresa = null;
+    this.tokenJWT = null;
+    this.urlLogoEmpresa = null;
+    this.urlLogoEmpresaDarkXl = null;
+    this.urlLogoEmpresaMin = null;
+    this.grupoEmpresarial = null;
+    this.documento = null;
+    this.cadenaConexion = null;
+    this.datosPersonales = null;
   }
 }
