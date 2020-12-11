@@ -73,7 +73,8 @@ export class ReportesComponent implements OnInit {
       data => {
         console.log('data', data);
         console.log('fecha desde: ' + data[0][0]);
-        this.fechaDesde =  data[0][0];
+        //this.fechaDesde =  new Date(Date.UTC(2020,11,12,3,0,0,0));
+        this.fechaDesde = data[0][0];
         this.fechaHasta = data[0][1];
         this.enviocorreo = data[0][2];
         this.formulario.get('fechadesde').setValue(this.fechaDesde);
@@ -92,9 +93,10 @@ export class ReportesComponent implements OnInit {
           console.log('opciones Consultadas', data);
           opkTempo = data;
           this.reporteServicio.opcionesReportes = opkTempo.filter(
-            (opcKio) => opcKio['CODIGO'] === '20'
+            (opcKio) => opcKio['clase'] === 'REPORTE'
           );
           // console.log('filter 1', this.opcionesReportes[0]['SUBOPCION']);
+          console.log("opciones filtradas reportes ", this.reporteServicio.opcionesReportes);
         });
     } else {
       /*opkTempo = this.opcionesKioskosServicio.opcionesKioskos;
@@ -119,10 +121,10 @@ export class ReportesComponent implements OnInit {
     console.log('seleccionarReporte');
     console.log('opcionesActuales', this.reporteServicio.opcionesReportes);
     console.log(index);
-    this.reporteServicio.reporteSeleccionado = this.reporteServicio.opcionesReportes[0]['SUBOPCION'][index];
+    this.reporteServicio.reporteSeleccionado = this.reporteServicio.opcionesReportes[index];
     // this.router.navigateByUrl(`/reportes/${index}`);
-    this.reporteServicio.codigoReporteSeleccionado = this.reporteServicio.opcionesReportes[0]['SUBOPCION'][index]['CODIGO'];
-    this.reporteServicio.nombreReporteSeleccionado = this.reporteServicio.opcionesReportes[0]['SUBOPCION'][index]['DESCRIPCION'];
+    this.reporteServicio.codigoReporteSeleccionado = this.reporteServicio.opcionesReportes[index]['codigo'];
+    this.reporteServicio.nombreReporteSeleccionado = this.reporteServicio.opcionesReportes[index]['descripcion'];
   }
 
   limpiarSeleccionado() {
@@ -159,7 +161,7 @@ export class ReportesComponent implements OnInit {
         document.getElementById('divm').innerHTML = '';
         document.getElementById('divm').style.display = 'none';
 
-        if (this.reporteServicio.reporteSeleccionado['CODIGO'] === '22') { // si el reporte seleccionado es certingresos
+        if (this.reporteServicio.reporteSeleccionado['codigo'] === '22') { // si el reporte seleccionado es certingresos
           // let fechaDesde: Date = new Date(this.conviertefecha(this.formulario.get('fechadesde').value)/* + 'T00:00:00'*/);
           // let fechaHasta: Date = new Date(this.conviertefecha(this.formulario.get('fechahasta').value)/* + 'T00:00:00'*/);
           this.reporteServicio.validaFechasCertingresos(
@@ -216,7 +218,9 @@ export class ReportesComponent implements OnInit {
   actualizaParametros() {
     console.log('actualizaParametros(): ');
     let msjConfirmacion = '';
-    if (this.reporteServicio.codigoReporteSeleccionado=='25' || this.reporteServicio.codigoReporteSeleccionado=='26' || this.reporteServicio.codigoReporteSeleccionado=='27' || this.reporteServicio.codigoReporteSeleccionado=='28') {
+    console.log("Codigo reporte seleccionado: "+this.reporteServicio.codigoReporteSeleccionado);
+    if (this.reporteServicio.codigoReporteSeleccionado=='25' || this.reporteServicio.codigoReporteSeleccionado=='26' || this.reporteServicio.codigoReporteSeleccionado=='27' || this.reporteServicio.codigoReporteSeleccionado=='28'
+        || this.reporteServicio.codigoReporteSeleccionado=='29') {
       msjConfirmacion = 'Se dispone a generar el reporte '+this.reporteServicio.nombreReporteSeleccionado+'. Tenga presente que para los valores de la certificación se tiene en cuenta la fecha de generación del reporte.';
     } else {
       msjConfirmacion = 'Se dispone a generar el reporte '+this.reporteServicio.nombreReporteSeleccionado+' con fechas desde el '+
@@ -271,11 +275,11 @@ export class ReportesComponent implements OnInit {
         console.log('descargarReporte');
         this.reporteServicio
           .generarReporte(
-            this.reporteServicio.reporteSeleccionado['NOMBRERUTA'],
+            this.reporteServicio.reporteSeleccionado['nombreruta'],
             this.usuarioServicio.secuenciaEmpleado,
             this.formulario.get('enviocorreo').value,
             this.correo,
-            this.reporteServicio.reporteSeleccionado['DESCRIPCION'],
+            this.reporteServicio.reporteSeleccionado['descripcion'],
             this.reporteServicio.codigoReporteSeleccionado,
             this.usuarioServicio.empresa,
             this.usuarioServicio.cadenaConexion
@@ -309,7 +313,7 @@ export class ReportesComponent implements OnInit {
               link.href = data;
               let f = new Date();
               link.download =
-                this.reporteServicio.reporteSeleccionado['NOMBRERUTA'] +
+                this.reporteServicio.reporteSeleccionado['nombreruta'] +
                 '_' +
                 this.usuarioServicio.usuario +
                 '_' +

@@ -22727,7 +22727,8 @@ code {
 .card.card-statistics {
   /*background: linear-gradient(85deg, #392c70, #6a005b);*/
   color: #ffffff;
-  background: linear-gradient(85deg, #007BFF, #6a005b);
+  /*background: linear-gradient(85deg, #007BFF, #6a005b);*/
+  background: linear-gradient(85deg, #007BFF, #002060);
 }
 
 .card.card-statistics .statistics-item {

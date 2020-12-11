@@ -23,15 +23,17 @@ import { FooterComponent } from './components/shared/footer/footer.component';
 import { CambioFotoComponent } from './components/pages/cambio-foto/cambio-foto.component';
 import { ContactoComponent } from './components/pages/contacto/contacto.component';
 import { PagesComponent } from './components/pages/pages.component';
-
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import {NgxPaginationModule} from 'ngx-pagination';
+
 
 import { LOCALE_ID } from '@angular/core';
 /*import { registerLocaleData } from '@angular/common';
 import localeCo from '@angular/common/locales/es-co';*/
 import localeEsCO from '@angular/common/locales/es-CO';
-registerLocaleData(localeEsCO);
+registerLocaleData(localeEsCO, 'es');
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FaqComponent } from './components/pages/faq/faq.component';
@@ -41,6 +43,7 @@ import { CrearSolicitudComponent } from './components/pages/vacaciones/crear-sol
 import { ProcesarSoliciComponent } from './components/pages/vacaciones/procesar-solici/procesar-solici.component';
 import { VerSoliciEmpleadosComponent } from './components/pages/vacaciones/ver-solici-empleados/ver-solici-empleados.component';
 import { SoliProcesadasComponent } from './components/pages/vacaciones/soli-procesadas/soli-procesadas.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -67,12 +70,15 @@ import { SoliProcesadasComponent } from './components/pages/vacaciones/soli-proc
     CrearSolicitudComponent,
     ProcesarSoliciComponent,
     VerSoliciEmpleadosComponent,
-    SoliProcesadasComponent
+    SoliProcesadasComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
+    NgxPaginationModule,
     APP_ROUTING/*,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })*/
   ],

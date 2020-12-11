@@ -1,106 +1,201 @@
 <div class="page-header">
-    <h3 class="page-title">
-        Crear solicitud
-    </h3>
+  <h3 class="page-title">
+    Crear solicitud
+  </h3>
 </div>
 
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Crear Solicitud</li>
-    </ol>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Crear Solicitud</li>
+  </ol>
 </nav>
-<div class="alert alert-warning" role="alert">
+<!-- <div class="alert alert-warning" role="alert">
   Esta página está en construcción
-</div>
+</div> -->
 <br>
 <div class="container">
+  <div class="row grid-margin">
+    <div class="col-12 col-sm-6 col-md-9 col-xs-6">
+      <div class="card card-statistics">
+        <div class="card-body">
+          <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+            <div class="statistics-item">
+              <p>
+                <i class="icon-sm fa fa-calendar mr-2"></i>
+                Dias acumulados
+              </p>
+              <h2>{{totalDiasVacacionesProv}}</h2>
+            </div>
+            <div class="statistics-item">
+              <p>
+                <i class="icon-sm fas fa-paper-plane mr-2"></i>
+                Dias solicitados
+              </p>
+              <h2>{{totalDiasVacacionesSolici}}</h2>
+            </div>
+            <div class="statistics-item">
+              <p>
+                <i class="icon-sm fas fa-child mr-2"></i>
+                Días liquidados
+              </p>
+              <h2>{{totalDiasVacacionesLiquidados}}</h2>
+            </div>
+            <div class="statistics-item">
+              <p>
+                <i class="icon-sm fas fa-thumbs-down mr-2"></i>
+                Días rechazados
+              </p>
+              <h2>{{totalDiasVacacionesRechazados}}</h2>
+            </div>
 
-  <div class="card border-success mb-3" style="max-width: 18rem;">
-    <div class="card-header">DÍAS PENDIENTES</div>
-    <div class="card-body text-success">
-      <h5 class="card-title">X</h5>
-      <p class="card-text">DÍAS ACUMULADOS</p>
+          </div>
+        </div>
+      </div>
     </div>
+   <div class="col-12 col-sm-6 col-md-3 col-xs-6">
+    <div class="card-body" style="padding-top: 0px;" id="cardTable">
+      <div class="d-flex flex-column flex-md-row align-items-center justify-content-between" id="contentTable">
+        <div class="statistics-item">
+                 
+  <table class="table table-responsive" id="tablaperiodosDias" style="overflow-y: scroll; height: 120px; background-color: white;">
+    <tr style="font-size: 13px;">
+      <th>Periodos disponibles</th>
+      <th>Días</th>
+    </tr>
+    <tr *ngIf="!periodosPendientes">  
+      <td colspan="2">No hay periodos disponibles</td>
+    </tr>    
+    <tr *ngFor="let va of periodosPendientes">  
+      <td>{{va.periodoCausado}}</td>
+      <td>{{va.diasPendientes}}</td>
+    </tr>                             
+  </table>
+
+        </div>
+
+      </div>
+    </div>
+   </div>
+
   </div>
 
-<hr>
+
+
+
+
+  <hr>
+
 
   <!-- <form> -->
-    <div class="form-group row">
-      <label for="inidisf" class="col-sm-3 col-form-label">Fecha inicial de disfrute:</label>
-      <div class="col-sm-9">
-        <input type="date" class="form-control" id="inidisf" placeholder="">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputPassword3" class="col-sm-3 col-form-label">Tipo de vacación:</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="inputPassword3" value="VACACIÓN" enabled="enabled" readonly>
-      </div>
-    </div>
 
-      <div class="form-group row">
-        <label for="inputPassword3" class="col-sm-3 col-form-label">Periodo:</label>
-        <div class="col-sm-9">
-          <select class="form-control">
-            <option value="0">Seleccione periodo</option>
-            <option value="secuencia">##/##/#### a ##/##/####  ---> X DÍAS DISPONIBLES</option>
-            <option value="secuencia">##/##/#### a ##/##/####  ---> X DÍAS DISPONIBLES</option>
-            </select>
+
+<div class="card">
+
+  <div class="col-12 grid-margin p-5">
+    <h4 class="card-title">
+      <i class="fas fa-umbrella"></i>
+      Solicitar vacaciones</h4>
+      <p class="card-description">
+        Por favor diligencie los campos fecha de inicio de vacaciones y cantidad de días para realizar su solicitud.
+      </p>
+    <form class="form-sample mt-5" [formGroup]="formulario" (ngSubmit)="enviar()">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Tipo Vacación:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control
+                      form-control-sm" formControlName="tipo" readonly="true" 
+                      title="Por este módulo sólo se pueden solicitar vacaciones en tiempo, para solicitar vacaciones en disfrute por favor consultelo con el área de nómina."
+                      />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Fecha inicio:</label>
+            <div class="col-sm-9">
+              <input type="date" class="form-control 
+                      form-control-sm" formControlName="fechainicio" />
+            </div>
+
+
+          </div>
         </div>
       </div>
 
-    <div class="form-group row">
-      <label for="inputPassword3" class="col-sm-3 col-form-label">Días a disfrutar:</label>
-      <div class="col-sm-9">
-      <select class="form-control">
-        <option value="0">Seleccione</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-        <option value="13">13</option>
-      </select>
-    </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="finVaca" class="col-sm-3 col-form-label">Fecha fin de disfrute:</label>
-      <div class="col-sm-9">
-        <input type="date" class="form-control" id="finVaca" placeholder="" readonly
-         title="Este campo se calcula automaticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina">
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="finRegreso" class="col-sm-3 col-form-label">Fecha fin de disfrute:</label>
-      <div class="col-sm-9">
-        <input type="date" class="form-control" id="finRegreso" placeholder="" readonly
-            title="Este campo se calcula automaticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina">
-      </div>
-    </div>
-
-    <div class="form-group row">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Periodo:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control
+                    form-control-sm" formControlName="periodo" [value]="ultimoPeriodo || 'Consultando...'" readonly="true"
+                    title="Periodo más antiguo." />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Días:</label>
+            <div class="col-sm-9">
+              <select class="form-control" formControlName="dias">
+                <option value="0" *ngIf="array.length<=0">Cargando...</option>
+                <option value="0" *ngIf="array.length>0">Seleccione una opción</option>
+                <option value="dia" *ngFor="let dia of array">{{dia}}</option>
+              </select>
+            </div>
 
 
-      <div class="col-sm-6" style="text-align: right;">
-        <button type="button" class="btn btn-outline-primary btn-lg">Enviar solicitud</button>
+          </div>
+        </div>
       </div>
 
-      <div class="col-sm-6">
-        <button type="button" class="btn btn-outline-danger btn-lg"routerLink="/home">Cancelar</button>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Fecha fin de disfrute:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control
+                  form-control-sm" formControlName="fechafin" value="xx/xx/xxxx" readonly="true" title="Este campo se calcula automaticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Fecha regreso a laborar:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control form-control-sm" formControlName="fecharegreso" readonly="true"
+               title="Este campo se calcula automaticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
+            </div>
+
+
+          </div>
+        </div>
       </div>
-    </div>
-<!--- </form> --->
+
+      <div class="form-group row">
+
+
+        <div class="col-sm-6" style="text-align: right;">
+          <button type="button" class="btn btn-outline-primary btn-lg">Enviar solicitud</button>
+        </div>
+
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-outline-danger btn-lg" >Cancelar</button>
+        </div>
+      </div>
+
+    </form>
+
+ <!--- </form> --->
+  </div>
+</div>
+
+
+
+ 
 
 
 </div>

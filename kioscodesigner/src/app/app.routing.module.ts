@@ -41,7 +41,7 @@ const APP_ROUTES: Routes = [
     {path: 'vacaciones/verSolicitudesPropias', component: VerSoliciEmpleadosComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones/procesarSolicitudes', component: ProcesarSoliciComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones/solicitudesProcesadas', component: SoliProcesadasComponent, canActivate: [AuthGuard]},
-    {path: '', redirectTo: '/login/GrupoEmpresarial1', pathMatch: 'full'}
+    {path: '', redirectTo: '/login/GrupoEmpresarial2', pathMatch: 'full'}
 ]},
 // Rutas principales
 {path: 'login/:grupo', component: LoginComponent },

@@ -9,6 +9,13 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class VerSoliciEmpleadosComponent implements OnInit {
 solicitudesEnviadas = null;
+public dataFilt: any = "";
+public p: number = 1;
+public p1: number = 1;
+public p2: number = 1;
+public p3: number = 1;
+public p4: number = 1;
+public p5: number = 1;
 solicitudesAprobadas = null;
 solicitudesRechazadas = null;
 solicitudesLiquidadas = null;
@@ -82,6 +89,7 @@ solicitudSeleccionada;
     this.vacacionesService.getSolicitudesXEstado(this.usuarioService.documento, this.usuarioService.empresa, 'ENVIADO')
     .subscribe(
       data => {
+        console.log("Datos iniciales");
         console.log(data);
         this.solicitudesEnviadas = data;
       }
@@ -89,7 +97,7 @@ solicitudSeleccionada;
   }
 
   getSoliciAprobadas() {
-    this.vacacionesService.getSolicitudesXEstado(this.usuarioService.documento, this.usuarioService.empresa, 'APROBADO')
+    this.vacacionesService.getSolicitudesXEstado(this.usuarioService.documento, this.usuarioService.empresa, 'AUTORIZADO')
     .subscribe(
       data => {
         console.log(data);

@@ -1,0 +1,20 @@
+
+@media(max-width: 759px) {
+    #tablaperiodosDias  {
+        height: 452px !important;
+    }
+
+}
+
+
+@media(max-width: 575px) {
+    #tablaperiodosDias  {
+        height: 150px !important;
+        margin-top: 20px;
+    }
+
+    #contentTable, #cardTable{
+        background-color: white !important;
+    }
+
+}

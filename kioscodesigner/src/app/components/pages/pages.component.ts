@@ -119,7 +119,7 @@ export class PagesComponent implements OnInit {
   }
 
   cambiarRuta(indexOpc: number) {
-    this.router.navigate(['/', this.opcionesKioskosServicio.opcionesKioskos[indexOpc]['NOMBRERUTA']]);
+    this.router.navigate(['/', this.opcionesKioskosServicio.opcionesKioskos[indexOpc]['nombreruta']]);
   }
 
   logout() {

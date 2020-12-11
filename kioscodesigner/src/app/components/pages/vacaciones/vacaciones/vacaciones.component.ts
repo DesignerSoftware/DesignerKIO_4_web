@@ -37,9 +37,16 @@ codigoReporteSeleccionado = null;
           console.log('opciones Consultadas', data);
           opkTempo = data;
           this.vacacionesService.opcionesKiosco = opkTempo.filter(
-            (opcKio) => opcKio['CODIGO'] === '30'
+            //(opcKio) => opcKio['opcionkioskopadre']['codigo'] === '30'
+            (opcKio) => {
+              if (opcKio.opcionkioskopadre && opcKio.opcionkioskopadre.codigo==='30'){
+                return true;
+              }
+            }
           );
+          //this.vacacionesService.opcionesKiosco = opkTempo;
           // console.log('filter 1', this.opcionesReportes[0]['SUBOPCION']);
+           console.log('filter 1', this.vacacionesService.opcionesKiosco);
         });
     } else {
       /*opkTempo = this.opcionesKioskosServicio.opcionesKioskos;
@@ -57,12 +64,26 @@ codigoReporteSeleccionado = null;
     //this.reporteSeleccionado = this.opcionesReportes[0]['SUBOPCION'][index];
     // this.router.navigateByUrl(`/reportes/${index}`);
     //this.codigoReporteSeleccionado = this.opcionesReportes[0]['SUBOPCION'][index]['CODIGO'];
-    this.router.navigateByUrl(`/vacaciones/${this.vacacionesService.opcionesKiosco[0]['SUBOPCION'][index]['NOMBRERUTA']}`)
-    console.log('opcionSeleccionada: ' +this.vacacionesService.opcionesKiosco[0]['SUBOPCION'][index]['NOMBRERUTA']);
+    this.router.navigateByUrl(`/vacaciones/${this.vacacionesService.opcionesKiosco[index]['nombreruta']}`)
+    console.log('opcionSeleccionada: ' +this.vacacionesService.opcionesKiosco[index]['nombreruta']);
   }
 
  redireccionarVacaciones(){
   this.router.navigateByUrl(`/vacaciones`)
+ }
+
+ imagenVacaciones(opcion: any){
+    if (opcion =="Crear Solicitud") {
+      return "assets/images/icono_vacaciones4.png";
+    } else if (opcion == "Ver solicitudes propias") {
+      return "assets/images/icono_vacaciones3.png";
+    } else if (opcion=="Procesar solicitudes") {
+      return "assets/images/icono_vacaciones1.png";
+    } else if (opcion=="Solicitudes procesadas"){
+      return "assets/images/icono_vacaciones2.png";
+    } else {
+      return "assets/images/reporte.png";
+    }
  }
 
 

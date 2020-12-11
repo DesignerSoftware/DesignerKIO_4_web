@@ -19,9 +19,9 @@
           </li>
 
           <li class="nav-item" *ngFor="let opc of opcionesKioskos" routerLinkActive="active">
-            <a class="nav-link" [routerLink]="['/', opc['NOMBRERUTA']]" (click)="clic()">
-              <i [class]="opc['ICONO']"></i>
-              <span class="menu-title">{{opc['DESCRIPCION']}}</span>
+            <a class="nav-link" [routerLink]="['/', opc.nombreruta]" (click)="clic()">
+              <i [class]="opc.icono"></i>
+              <span class="menu-title">{{opc.descripcion}}</span>
             </a>
           </li>
         </ul>

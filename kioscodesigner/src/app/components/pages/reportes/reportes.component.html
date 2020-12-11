@@ -8,7 +8,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [routerLink]="['/reportes']"
                 (click)="limpiarSeleccionado()">Reportes</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{reporteServicio.reporteSeleccionado && reporteServicio.reporteSeleccionado['DESCRIPCION'] || ''}}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{reporteServicio.reporteSeleccionado && reporteServicio.reporteSeleccionado['descripcion'] || ''}}</li>
     </ol>
 </nav>
 <div class="col-md-12 col-sm-12 grid-margin stretch-card" *ngIf="reporteServicio.opcionesReportes && reporteServicio.opcionesReportes.length==0">
@@ -23,14 +23,14 @@
 
 <p *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.opcionesReportes && reporteServicio.opcionesReportes.length!=0">Seleccione el reporte que desea generar</p>
 <div class="row" *ngIf="reporteServicio.opcionesReportes && reporteServicio.opcionesReportes.length>0 && !reporteServicio.reporteSeleccionado">
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of reporteServicio.opcionesReportes[0]['SUBOPCION']; index as i">
+    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of reporteServicio.opcionesReportes; index as i">
         <div class="card" id="divReportes">
             <div class="card-body">
                 <div class="d-flex flex-row">
                     <img src="assets/images/reporte.png"
                         class="img-lg rounded img-fluid" alt="profile image" />
                     <div class="ml-3 d-flex align-items-center">
-                        <h6>{{  op['DESCRIPCION'] || ''}}</h6>
+                        <h6>{{  op['descripcion'] || ''}}</h6>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                 <h5 style="font-family: Arial, Helvetica, sans-serif;
                     font-weight: lighter; font-size: 17px;">
                     <i class="fas fa-file-pdf"></i>
-                    Generar Reporte - {{reporteServicio.reporteSeleccionado['DESCRIPCION'] || ''}}
+                    Generar Reporte - {{reporteServicio.reporteSeleccionado['descripcion'] || ''}}
                 </h5>
 
                 <div class="row">
@@ -61,7 +61,7 @@
                         <div id="divm"></div>
                         
                         <h6 style="font-weight: bold;"><img id="img-rep" src="assets/images/reporte.png" height="30px"> Información del reporte</h6>
-                        <p class="text-justify">{{reporteServicio.reporteSeleccionado['AYUDA'] || ''}}</p>
+                        <p class="text-justify">{{reporteServicio.reporteSeleccionado['ayuda'] || ''}}</p>
 
                         <div class="col-12 grid-margin">
                             <form class="form-sample" [formGroup]="formulario" (ngSubmit)="enviar()">
@@ -71,7 +71,7 @@
                                         <label class="col-sm-3 col-form-label">Fecha desde:</label>
                                         <div class="col-sm-9">
                                             <input type="date"
-                                                [value]="fechaDesde | date: 'yyyy-MM-dd'"
+                                            [value]="fechaDesde | date: 'yyyy-MM-dd'"
                                                 class="form-control
                                                 form-control-sm" formControlName="fechadesde" />
                                                 <small class="text-danger" *ngIf="formulario.get('fechadesde').errors?.required

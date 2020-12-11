@@ -15,6 +15,7 @@ import swal from 'sweetalert2';
 export class SidebarComponent implements OnInit {
   @Input() urlFotoPerfil = 'assets/images/fotos_empleados/sinFoto.jpg'; // recibe valor de pages.component
   opcionesKioskos: any;
+  opcionesKioskosAntes: any;
   nombreUsuario;
   fotoPerfil;
   datos;
@@ -37,15 +38,21 @@ export class SidebarComponent implements OnInit {
   }
 
   cargarOpciones() {
+    let opkTempo: any = [];
     if (this.opcionesKioskosService.opcionesKioskos.length === 0 || this.opcionesKioskosService.opcionesKioskos == null
       || this.opcionesKioskosService.opcionesKioskos === []) {
       this.opcionesKioskosService.getOpcionesKiosco(this.usuarioServicio.empresa, this.usuarioServicio.usuario)
         .subscribe(
           data => {
-            this.opcionesKioskos = data;
+            this.opcionesKioskosAntes = data;
             this.opcionesKioskosService.opcionesKioskos = data;
             this.usuarioServicio.datos = data;
-            console.log('opcionesKioskos', this.opcionesKioskos);
+            opkTempo = data;
+            console.log('opcionesKioskosAntes::', JSON.stringify(opkTempo));
+            this.opcionesKioskos = opkTempo.filter(
+              (opcKio) => opcKio.clase === 'MENU'
+            );
+            console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
           });
     } else {
       this.opcionesKioskos = this.opcionesKioskosService.opcionesKioskos;

@@ -15,6 +15,16 @@
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#1976d2">
   <link rel="apple-touch-icon" href="assets/icons/icon-152x152.png">
+
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script>
+    $( function() {
+      $( "#datepicker" ).datepicker();
+      $( "#format" ).on( "change", function() {
+         $( "#datepicker" ).datepicker( "option", "dateFormat", $( this ).val() );
+      });
+    } );
+    </script>
   <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
 
 </head>

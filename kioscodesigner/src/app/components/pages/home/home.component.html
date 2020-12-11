@@ -5,7 +5,44 @@
     <hr class="my-4">
     <p>Desde aquí podrás acceder de manera fácil y rápida a tu información de nómina y personal.</p>
   </div>
-
+  <div class="row grid-margin">
+    <div class="col-12">
+      <div class="card card-statistics">
+        <div class="card-body">
+          <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+              <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales!=null">
+                <p>
+                  <i class="icon-sm fa fa-file mr-2"></i>
+                  CONTRATO
+                </p>
+                <h6>{{usuarioServicio.datosPersonales[0][18]}}</h6>
+              </div>
+              <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales!=null">
+                <p>
+                  <i class="icon-sm fas fa-check-circle mr-2"></i>
+                  SALARIO
+                </p>
+                <h6>{{usuarioServicio.datosPersonales[0][19] | currency: '$'}}</h6>
+              </div>
+              <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales!=null">
+                <p>
+                  <i class="icon-sm fas fa-sitemap mr-2"></i>
+                  CARGO
+                </p>
+                <h6>{{usuarioServicio.datosPersonales[0][20]}}</h6>
+              </div>
+              <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales!=null">
+                <p>
+                  <i class="icon-sm fas fa-plane mr-2"></i>
+                  VACACIONES PROVISIONADAS
+                </p>
+                <h6>{{totalDiasVacacionesProv}}</h6>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <footer class="footer">
     <div class="d-sm-flex justify-content-center text-center">
       <span class="text-muted text-center">Copyright © 2020. Todos los derechos reservados.</span>
