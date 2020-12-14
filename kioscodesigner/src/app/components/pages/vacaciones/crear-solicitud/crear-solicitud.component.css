@@ -17,4 +17,12 @@
         background-color: white !important;
     }
 
+    #btnEnviar, #btnCancelar {
+        text-align: center !important;
+    }
+
+    #btnCancelar {
+        margin-top: 5px;
+    }
+
 }

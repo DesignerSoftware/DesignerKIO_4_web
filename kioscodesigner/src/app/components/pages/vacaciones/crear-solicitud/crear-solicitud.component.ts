@@ -103,7 +103,8 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
   enviar(){
-
+    console.log('enviar formulario', this.formulario.value);
+    
   }
 
 }
