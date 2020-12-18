@@ -10,19 +10,22 @@
         <li class="breadcrumb-item active" aria-current="page">Histórico de solicitudes procesadas</li>
     </ol>
 </nav>
-
    <!-- partial -->
    <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
           <p class="card-description">Solicitudes procesadas</p>
+          <div class="input-group mb-3 ">
+            <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+              aria-label="Buscar..." aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2">Filtrar</span>
+          </div>
 
-
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
+          <div class="table-responsive">
+            <table class="table table-hover" style="text-align: center;">
+              <thead style="background: #00223C; color: white;">
+                <tr id="tblfamiliares">
                           <th>Ver</th>
                           <th>Código</th>
                           <th>Nombre</th>
@@ -35,7 +38,7 @@
                       </thead>
                       <tbody>
                         <tr *ngIf="!solicitudesProcesadas || solicitudesProcesadas==null || solicitudesProcesadas.length==0"><td colspan="5">No hay solicitudes procesadas.</td></tr>
-                        <tr *ngFor="let solic of solicitudesProcesadas; index as i" > 
+                        <tr *ngFor="let solic of solicitudesProcesadas | filterTable: dataFilt | paginate: { id: 'eightth', itemsPerPage: 10, currentPage: p8 }; index as i " > 
                         <td>
                             <a (click)="detalleSolicitud('ENVIADO', i)" *ngIf="solicitudesProcesadas">
                               <i class="far fa-eye text-info"></i>
@@ -51,6 +54,12 @@
                         </tr>
                       </tbody>
                     </table>
+                    <div class="row">
+                      <div class="col-md-12">
+                      <pagination-controls (pageChange)="p8 = $event" id="eightth" style="text-align: center;"
+                        previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+                      </div>
+                      </div>
                   </div>
                 
       </div>

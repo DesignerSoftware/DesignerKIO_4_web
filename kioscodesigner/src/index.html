@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <base href="">
   <meta charset="utf-8">
@@ -18,31 +19,53 @@
 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script>
-    $( function() {
-      $( "#datepicker" ).datepicker();
-      $( "#format" ).on( "change", function() {
-         $( "#datepicker" ).datepicker( "option", "dateFormat", $( this ).val() );
+    $(function () {
+      $("#datepicker").datepicker();
+      $("#format").on("change", function () {
+        $("#datepicker").datepicker("option", "dateFormat", $(this).val());
       });
-    } );
-    </script>
+    });
+  </script>
+  <script type="text/javascript">
+    function mostrarPassword() {
+      var cambio = document.getElementById("inputClave");
+      if (cambio.type == "password") {
+        cambio.type = "text";
+        $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+      } else {
+        cambio.type = "password";
+        $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+      }
+    }
+
+    $(document).ready(function () {
+      //CheckBox mostrar contraseña
+      $('#ShowPassword').click(function () {
+        $('#Password').attr('type', $(this).is(':checked') ? 'text' : 'password');
+      });
+    });
+  </script>
+ 
   <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
 
 </head>
-<body class="sidebar-fixed sidebar-dark">
+
+<body class="sidebar-fixed sidebar-dark" >
   <app-root></app-root>
 
-    <!-- plugins:js -->
-    <script src="assets/libs/vendors/js/vendor.bundle.base.js"></script>
-    <script src="assets/libs/vendors/js/vendor.bundle.addons.js"></script>
-    <!-- endinject -->
-    <!-- <script src="assets/libs/js/off-canvas.js" async="async"></script> -->
-    <script src="assets/libs/js/hoverable-collapse.js" async="async"></script>
-    <script src="assets/libs/js/misc.js" async="async"></script>
-    <script src="assets/libs/js/settings.js" async="async"></script>
-    <script src="assets/libs/js/todolist.js" async="async"></script>
-    <script src="assets/libs/js/dashboard.js" async="async"></script>
-    <!-- End custom js for this page-->
+  <!-- plugins:js -->
+  <script src="assets/libs/vendors/js/vendor.bundle.base.js"></script>
+  <script src="assets/libs/vendors/js/vendor.bundle.addons.js"></script>
+  <!-- endinject -->
+  <!-- <script src="assets/libs/js/off-canvas.js" async="async"></script> -->
+  <script src="assets/libs/js/hoverable-collapse.js" async="async"></script>
+  <script src="assets/libs/js/misc.js" async="async"></script>
+  <script src="assets/libs/js/settings.js" async="async"></script>
+  <script src="assets/libs/js/todolist.js" async="async"></script>
+  <script src="assets/libs/js/dashboard.js" async="async"></script>
+  <!-- End custom js for this page-->
 
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
+
 </html>

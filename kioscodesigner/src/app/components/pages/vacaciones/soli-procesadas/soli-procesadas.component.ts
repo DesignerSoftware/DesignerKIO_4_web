@@ -10,6 +10,8 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class SoliProcesadasComponent implements OnInit {
   solicitudesProcesadas = null;
   solicitudSeleccionada = null;
+  public p8: number = 1;
+  public dataFilt: any = "";
 
   constructor(private vacacionesService: VacacionesService, private usuarioService: UsuarioService) { 
     if (this.usuarioService.documento == null || this.usuarioService.documento.lenght === 0) {

@@ -21,6 +21,7 @@ export class UsuarioService {
   grupoEmpresarial=null;
   documento=null;
   cadenaConexion;
+  datosFamilia = null;
   datosPersonales = null;
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
   public url = 'https://www.designer.com.co:8178/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
@@ -69,6 +70,14 @@ export class UsuarioService {
     const obj: any = this.getUserLoggedIn;
     // const url = 'http://localhost:8080/wsjavanov5/jcmouse/restapi/restKiosco/getDatosEmpleadoNit/' + usuario + '/' + nit;
     const url = `${environment.urlKioskoDesigner}restKiosco/getDatosEmpleadoNit/` + usuario + '/' + nit;
+    console.log('url:' + url);
+    return this.http.get(url);
+  }
+
+  getDatosUsuarioFamilia(usuario: string, nit: string) {
+    const obj: any = this.getUserLoggedIn;
+    // const url = 'http://localhost:8080/wsjavanov5/jcmouse/restapi/restKiosco/getDatosFamiliaEmpleado/' + usuario + '/' + nit;
+    const url = `${environment.urlKioskoReportes}empleados/datosFamiliaEmpleado/` + usuario + '/' + nit;
     console.log('url:' + url);
     return this.http.get(url);
   }
@@ -226,5 +235,6 @@ export class UsuarioService {
     this.documento = null;
     this.cadenaConexion = null;
     this.datosPersonales = null;
+    this.datosFamilia = null;
   }
 }

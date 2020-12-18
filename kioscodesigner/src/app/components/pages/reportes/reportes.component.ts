@@ -346,6 +346,6 @@ export class ReportesComponent implements OnInit {
   allowOutsideClick: () => !swal.isLoading()
 });
   }
-
+   
 
 }

@@ -1,74 +1,96 @@
 <div class="page-header">
-    <h3 class="page-title">
-        Mis solicitudes
-    </h3>
+  <h3 class="page-title">
+    Mis solicitudes
+  </h3>
 </div>
 
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Mis solicitudes</li>
-    </ol>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Mis solicitudes</li>
+  </ol>
 </nav>
 
-      <!-- partial -->
-          <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-description">Solicitudes propias</p>
-                  <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item active  col-xs-3">
-                      <a class="nav-link active" id="enviadas-tab" data-toggle="tab" href="#s-enviadas" role="tab" aria-controls="s-enviadas" aria-selected="true">Enviadas</a>
-                    </li>
-                    <li class="nav-item  col-xs-3">
-                      <a class="nav-link" id="aprobadas-tab" data-toggle="tab" href="#s-aprobadas" role="tab" aria-controls="s-aprobadas" aria-selected="false">Aprobadas</a>
-                    </li>
-                    <li class="nav-item col-xs-3">
-                      <a class="nav-link" id="rechazadas-tab" data-toggle="tab" href="#s-rechazadas" role="tab" aria-controls="s-rechazadas" aria-selected="false">Rechazadas</a>
-                    </li>
-                    <li class="nav-item col-xs-3">
-                        <a class="nav-link" id="liquidadas-tab" data-toggle="tab" href="#s-liquidadas" role="tab" aria-controls="s-liquidadas" aria-selected="false">Liquidadas</a>
-                    </li>
-                    <li class="nav-item col-xs-3">
-                      <a class="nav-link" id="canceladas-tab" data-toggle="tab" href="#s-canceladas" role="tab" aria-controls="s-canceladas" aria-selected="false">Canceladas</a>
-                  </li>
-                  </ul>                  
-                  <div class="tab-content">
-                    <div class="tab-pane fade show active" id="s-enviadas" role="tabpanel" aria-labelledby="enviadas-tab" >  
-                      <div class="input-group mb-3 ">
-                        <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon2">
-                        <span class="input-group-text" id="basic-addon2">Filtrar</span>
-                      </div>
-                        
-                               <div class="table-responsive">  
-                    <table class="table table-hover" style="text-align: center;">
-                            <thead class="thead-dark">
-                                <tr>                                  
-                                  <th>Creación solicitud</th>
-                                  <th>Fecha inicio    </th>
-                                  <th>Días solicitados</th>
-                                  <th>Fecha procesada </th>
-                                  <th>Estado          </th>                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                              
-                              <tr *ngIf="!solicitudesEnviadas || solicitudesEnviadas==null || solicitudesEnviadas.length==0"><td colspan="5">No hay solicitudes enviadas.</td></tr>
-                              <tr *ngFor="let solic of solicitudesEnviadas | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ">                               
-                                <td>{{solic[0]}}</td>
-                                <td >{{solic[1]}}</td>
-                                <td >{{solic[2]}}</td>
-                                <td >{{solic[3]}}</td>
-                                <td >{{solic[4]}}</td>
-                              </tr>                              
-                            </tbody>                            
-                        </table>
-                        <pagination-controls (pageChange)="p1 = $event" id="second" style="text-align: center;" previousLabel="Anterior"
-                        nextLabel="Siguiente"></pagination-controls>
-                      </div> 
-                      </div>
-                          <!-- <div class="table-responsive">
+<!-- partial -->
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-description">Solicitudes propias</p>
+        <div class="col-sm-12">
+          <ul class="nav nav-tabs" role="tablist">
+
+            <li class="nav-item active col-md-2 col-sm-3">
+              <a class="nav-link active" id="enviadas-tab" data-toggle="tab" href="#s-enviadas" role="tab"
+                aria-controls="s-enviadas" aria-selected="true">Enviadas</a>
+            </li>
+            <li class="nav-item col-md-2 col-sm-3">
+              <a class="nav-link" id="aprobadas-tab" data-toggle="tab" href="#s-aprobadas" role="tab"
+                aria-controls="s-aprobadas" aria-selected="false">Aprobadas</a>
+            </li>
+            <li class="nav-item col-md-2 col-sm-3">
+              <a class="nav-link" id="rechazadas-tab" data-toggle="tab" href="#s-rechazadas" role="tab"
+                aria-controls="s-rechazadas" aria-selected="false">Rechazadas</a>
+            </li>
+            <li class="nav-item col-md-2 col-sm-3">
+              <a class="nav-link" id="liquidadas-tab" data-toggle="tab" href="#s-liquidadas" role="tab"
+                aria-controls="s-liquidadas" aria-selected="false">Liquidadas</a>
+            </li>
+            <li class="nav-item col-md-2 col-sm-3">
+              <a class="nav-link" id="canceladas-tab" data-toggle="tab" href="#s-canceladas" role="tab"
+                aria-controls="s-canceladas" aria-selected="false">Canceladas</a>
+            </li>
+
+          </ul>
+        </div>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="s-enviadas" role="tabpanel" aria-labelledby="enviadas-tab">
+            <div class="input-group mb-3 ">
+              <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+                aria-label="Buscar..." aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">Filtrar</span>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover" style="text-align: center;">
+                <thead style="background: #00223C; color: white;">
+                  <tr id="tblfamiliares">
+                    <th>Ver</th>
+                    <th>Creación solicitud</th>
+                    <th>Fecha inicio </th>
+                    <th>Días solicitados</th>
+                    <th>Fecha procesada </th>
+                    <th>Estado </th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr *ngIf="!solicitudesEnviadas || solicitudesEnviadas==null || solicitudesEnviadas.length==0">
+                    <td colspan="5">No hay solicitudes enviadas.</td>
+                  </tr>
+                  <tr
+                    *ngFor="let solic of solicitudesEnviadas | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
+                    <td>
+                      <a (click)="detalleSolicitud('ENVIADO', i)" *ngIf="solicitudesEnviadas">
+                        <i class="far fa-eye text-info"></i>
+                      </a>
+                    </td>
+                    <td>{{solic[0]}}</td>
+                    <td>{{solic[1]}}</td>
+                    <td>{{solic[2]}}</td>
+                    <td>{{solic[3]}}</td>
+                    <td>{{solic[4]}}</td>
+                  </tr>
+                </tbody>
+
+              </table>
+              <div class="col-md-12">
+                <pagination-controls (pageChange)="p1 = $event" id="second" style="text-align: center;"
+                  class="col-sm-12" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="table-responsive">
                             <table class="table">
                               <thead>
                                 <tr>
@@ -97,168 +119,207 @@
                               </tbody>
                             </table>
                           </div> -->
-                          
-                      
-                    
-                    <div class="tab-pane fade" id="s-aprobadas" role="tabpanel" aria-labelledby="aprobadas-tab">
-                      <div class="input-group mb-3 ">
-                        <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon2">
-                        <span class="input-group-text" id="basic-addon2">Filtrar</span>
-                      </div>
-                      <div class="table-responsive">                    
-                        <table class="table table-hover" style="text-align: center;">
-                              <thead>
-                                <tr>                                  
-                                  <th>Creación solicitud</th>
-                                  <th>Fecha inicio</th>
-                                  <th>Días solicitados</th>
-                                  <th>Fecha procesada</th>
-                                  <th>Estado</th>
-                                </tr>
-                              </thead>
-                              <tbody >
-                                <tr *ngIf="!solicitudesAprobadas || solicitudesAprobadas==null || solicitudesAprobadas.length==0"><td colspan="5">No hay solicitudes enviadas.</td></tr>
-                                  <tr *ngFor="let solic of solicitudesAprobadas | filterTable: dataFilt | paginate: { id: 'third', itemsPerPage: 5, currentPage: p2 } ">                                
-                                  <td *ngIf="solicitudesAprobadas">{{solic[0]}}</td>
-                                  <td *ngIf="solicitudesAprobadas">{{solic[1]}}</td>
-                                  <td *ngIf="solicitudesAprobadas">{{solic[2]}}</td>
-                                  <td *ngIf="solicitudesAprobadas">{{solic[3]}}</td>
-                                  <td *ngIf="solicitudesAprobadas">{{solic[4]}}</td>
-                                </tr>                                                            
-                              </tbody>
-                            </table>
-                            <pagination-controls (pageChange)="p2 = $event" id="third" style="text-align: center;" previousLabel="Anterior"
-                            nextLabel="Siguiente"></pagination-controls>
-                          </div>
-                       
-                    </div>
-                    <div class="tab-pane fade" id="s-rechazadas" role="tabpanel" aria-labelledby="rechazadas-tab">
-                      <div class="input-group mb-3 ">
-                        <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon2">
-                        <span class="input-group-text" id="basic-addon2">Filtrar</span>
-                      </div>
-                      <div class="table-responsive">                    
-                        <table class="table table-bordered" style="text-align: center;">
-                            <thead>
-                              <tr>                                
-                                <th>Creación solicitud</th>
-                                <th>Fecha inicio</th>
-                                <th>Días solicitados</th>
-                                <th>Fecha procesada</th>
-                                <th>Estado</th>
-                                <th>Empleado Ejecuta</th>
-                                <th>Motivo</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr *ngIf="!solicitudesRechazadas || solicitudesRechazadas==null || solicitudesRechazadas.length==0"><td colspan="5">No hay solicitudes rechazadas.</td></tr>
-                                <tr *ngFor="let solic of solicitudesRechazadas | filterTable: dataFilt | paginate: { id: 'fourth', itemsPerPage: 5, currentPage: p3 } ">                                                              
-                                <td *ngIf="solicitudesRechazadas">{{solic[0]}}</td>
-                                <td *ngIf="solicitudesRechazadas">{{solic[1]}}</td>
-                                <td *ngIf="solicitudesRechazadas">{{solic[2]}}</td>
-                                <td *ngIf="solicitudesRechazadas">{{solic[3]}}</td>
-                                <td *ngIf="solicitudesRechazadas">{{solic[4]}}</td>
-                                <td *ngIf="solicitudesRechazadas">{{solic[9]}}</td>
-                                <td *ngIf="solicitudesRechazadas">{{solic[8]}}</td>
-                              </tr>
-                              
-                            
-                            </tbody>
-                          </table>
-                          <pagination-controls (pageChange)="p3 = $event"  id="fourth" style="text-align: center;" previousLabel="Anterior"
-                          nextLabel="Siguiente"></pagination-controls>
-                        </div>
-                     
-                    </div>
 
-                    <div class="tab-pane fade" id="s-liquidadas" role="tabpanel" aria-labelledby="liquidadas-tab">
-                      <div class="input-group mb-3 ">
-                        <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon2">
-                        <span class="input-group-text" id="basic-addon2">Filtrar</span>
-                      </div>
-                      <div class="table-responsive">                    
-                        <table class="table table-striped" style="text-align: center;">
-                            <thead>
-                              <tr>
-                                <!-- <th>Ver</th> -->
-                                <th>Creación solicitud</th>
-                                <th>Fecha inicio</th>
-                                <th>Días solicitados</th>
-                                <th>Fecha procesada</th>
-                                <th>Estado</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr *ngIf="!solicitudesLiquidadas || solicitudesLiquidadas==null || solicitudesLiquidadas.length==0"><td colspan="5">No hay solicitudes liquidadas.</td></tr>
-                              <tr *ngFor="let solic of solicitudesLiquidadas | filterTable: dataFilt | paginate: { id: 'fiveth', itemsPerPage: 5, currentPage: p4 } ">                                
-                                <!-- <td>
+
+
+          <div class="tab-pane fade" id="s-aprobadas" role="tabpanel" aria-labelledby="aprobadas-tab">
+            <div class="input-group mb-3 ">
+              <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+                aria-label="Buscar..." aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">Filtrar</span>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover" style="text-align: center;">
+                <thead style="background: #00223C; color: white;">
+                  <tr id="tblfamiliares">
+                    <th>Ver</th>
+                    <th>Creación solicitud</th>
+                    <th>Fecha inicio</th>
+                    <th>Días solicitados</th>
+                    <th>Fecha procesada</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="!solicitudesAprobadas || solicitudesAprobadas==null || solicitudesAprobadas.length==0">
+                    <td colspan="5">No hay solicitudes enviadas.</td>
+                  </tr>
+                  <tr
+                    *ngFor="let solic of solicitudesAprobadas | filterTable: dataFilt | paginate: { id: 'third', itemsPerPage: 5, currentPage: p2 }; index as i ">
+                    <td>
+                      <a (click)="detalleSolicitud('APROBADO', i)" *ngIf="solicitudesAprobadas">
+                        <i class="far fa-eye text-info"></i>
+                      </a>
+                    </td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[0]}}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[1]}}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[2]}}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[3]}}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[4]}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="col-md-12">
+              <pagination-controls (pageChange)="p2 = $event" id="third" style="text-align: center;"
+                previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+              </div>
+            </div>
+
+          </div>
+          <div class="tab-pane fade" id="s-rechazadas" role="tabpanel" aria-labelledby="rechazadas-tab">
+            <div class="input-group mb-3 ">
+              <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+                aria-label="Buscar..." aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">Filtrar</span>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover" style="text-align: center;">
+                <thead style="background: #00223C; color: white;">
+                  <tr id="tblfamiliares">
+                    
+                    <th>Ver</th>
+                    <th>Creación solicitud</th>
+                    <th>Fecha inicio</th>
+                    <th>Días solicitados</th>
+                    <th>Fecha procesada</th>
+                    <th>Estado</th>
+                    <th>Empleado Ejecuta</th>
+                    <th>Motivo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="!solicitudesRechazadas || solicitudesRechazadas==null || solicitudesRechazadas.length==0">
+                    <td colspan="5">No hay solicitudes rechazadas.</td>
+                  </tr>
+                  <tr
+                    *ngFor="let solic of solicitudesRechazadas | filterTable: dataFilt | paginate: { id: 'fourth', itemsPerPage: 5, currentPage: p3 }; index as i ">
+                    <td>
+                      <a (click)="detalleSolicitud('RECHAZADO', i)" *ngIf="solicitudesRechazadas">
+                        <i class="far fa-eye text-info"></i>
+                      </a>
+                    </td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[0]}}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[1]}}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[2]}}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[3]}}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[4]}}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[9]}}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[8]}}</td>
+                  </tr>
+
+
+                </tbody>
+              </table>
+              <div class="row">
+              <div class="col-md-12">
+              <pagination-controls (pageChange)="p3 = $event" id="fourth" style="text-align: center;"
+                previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+              </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="tab-pane fade" id="s-liquidadas" role="tabpanel" aria-labelledby="liquidadas-tab">
+            <div class="input-group mb-3 ">
+              <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+                aria-label="Buscar..." aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">Filtrar</span>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover" style="text-align: center;">
+                <thead style="background: #00223C; color: white;">
+                  <tr id="tblfamiliares">
+                    <th>Ver</th>
+                    <th>Creación solicitud</th>
+                    <th>Fecha inicio</th>
+                    <th>Días solicitados</th>
+                    <th>Fecha procesada</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="!solicitudesLiquidadas || solicitudesLiquidadas==null || solicitudesLiquidadas.length==0">
+                    <td colspan="5">No hay solicitudes liquidadas.</td>
+                  </tr>
+                  <tr
+                    *ngFor="let solic of solicitudesLiquidadas | filterTable: dataFilt | paginate: { id: 'fiveth', itemsPerPage: 5, currentPage: p4 }; index as i ">
+                    <td>
                                   <a (click)="detalleSolicitud('LIQUIDADO', i)" *ngIf="solicitudesLiquidadas">
                                     <i class="far fa-eye text-info"></i>
                                   </a>
-                                </td> -->
-                                <td *ngIf="solicitudesLiquidadas">{{solic[0]}}</td>
-                                <td *ngIf="solicitudesLiquidadas">{{solic[1]}}</td>
-                                <td *ngIf="solicitudesLiquidadas">{{solic[2]}}</td>
-                                <td *ngIf="solicitudesLiquidadas">{{solic[3]}}</td>
-                                <td *ngIf="solicitudesLiquidadas">{{solic[4]}}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <pagination-controls (pageChange)="p4 = $event" id="fiveth" style="text-align: center;" previousLabel="Anterior"
-                          nextLabel="Siguiente"></pagination-controls>
-                        </div>
-                      
-                    </div>
-                    <div class="tab-pane fade" id="s-canceladas" role="tabpanel" aria-labelledby="canceladas-tab">
-                      <div class="input-group mb-3 ">
-                        <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon2">
-                        <span class="input-group-text" id="basic-addon2">Filtrar</span>
-                      </div>
-                      <div class="table-responsive">                    
-                        <table class="table table-hover" style="text-align: center;">
-                            <thead>
-                              <tr>
-                                <!-- <th>Ver</th> -->
-                                <th>Creación solicitud</th>
-                                <th>Fecha inicio</th>
-                                <th>Días solicitados</th>
-                                <th>Fecha procesada</th>
-                                <th>Estado</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr *ngIf="!solicitudesCanceladas || solicitudesCanceladas==null || solicitudesCanceladas.length==0"><td colspan="5">No hay solicitudes canceladas.</td></tr>
-                              <tr *ngFor="let solic of solicitudesCanceladas | filterTable: dataFilt | paginate: { id: 'sixth', itemsPerPage: 5, currentPage: p5 } ">                                
-                                <!-- <td>
+                                </td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[0]}}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[1]}}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[2]}}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[3]}}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[4]}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="col-md-12">
+              <pagination-controls (pageChange)="p4 = $event" id="fiveth" style="text-align: center;"
+                previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+            </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="s-canceladas" role="tabpanel" aria-labelledby="canceladas-tab">
+            <div class="input-group mb-3 ">
+              <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+                aria-label="Buscar..." aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">Filtrar</span>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover" style="text-align: center;">
+                <thead style="background: #00223C; color: white;">
+                  <tr id="tblfamiliares">
+                    <!-- <th>Ver</th> -->
+                    <th>Creación solicitud</th>
+                    <th>Fecha inicio</th>
+                    <th>Días solicitados</th>
+                    <th>Fecha procesada</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="!solicitudesCanceladas || solicitudesCanceladas==null || solicitudesCanceladas.length==0">
+                    <td colspan="5">No hay solicitudes canceladas.</td>
+                  </tr>
+                  <tr
+                    *ngFor="let solic of solicitudesCanceladas | filterTable: dataFilt | paginate: { id: 'sixth', itemsPerPage: 5, currentPage: p5 } ">
+                    <!-- <td>
                                   <a (click)="detalleSolicitud('CANCELADO', i)" *ngIf="solicitudesCanceladas">
                                     <i class="far fa-eye text-info"></i>
                                   </a>
                                 </td> -->
-                                <td *ngIf="solicitudesCanceladas">{{solic[0]}}</td>
-                                <td *ngIf="solicitudesCanceladas">{{solic[1]}}</td>
-                                <td *ngIf="solicitudesCanceladas">{{solic[2]}}</td>
-                                <td *ngIf="solicitudesCanceladas">{{solic[3]}}</td>
-                                <td *ngIf="solicitudesCanceladas">{{solic[4]}}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <pagination-controls (pageChange)="p5 = $event" id="sixth" style="text-align: center;" previousLabel="Anterior"
-                          nextLabel="Siguiente"></pagination-controls>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                    <td *ngIf="solicitudesCanceladas">{{solic[0]}}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[1]}}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[2]}}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[3]}}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[4]}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="col-md-12">
+              <pagination-controls (pageChange)="p5 = $event" id="sixth" style="text-align: center;"
+                previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
 
 
 
-            
-<div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+
+<div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel2" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -275,11 +336,11 @@
               <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]}}</td>
             </tr>
             <tr>
-              <td class="text-left">Fecha final de vacaciones:	</td>
+              <td class="text-left">Fecha final de vacaciones: </td>
               <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[5]}}</td>
             </tr>
             <tr>
-              <td class="text-left">Días solicitados:	</td>
+              <td class="text-left">Días solicitados: </td>
               <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[2]}}</td>
             </tr>
             <tr>
@@ -287,7 +348,7 @@
               <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[6]}}</td>
             </tr>
             <tr>
-              <td class="text-left">Periodo afectado:	</td>
+              <td class="text-left">Periodo afectado: </td>
               <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[7]}}</td>
             </tr>
           </tbody>
