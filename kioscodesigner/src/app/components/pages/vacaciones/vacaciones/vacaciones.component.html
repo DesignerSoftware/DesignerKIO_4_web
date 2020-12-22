@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="page-header animated fadeIn fast">
     <h3 class="page-title">
         Vacaciones
     </h3>
@@ -10,7 +10,7 @@
         <li class="breadcrumb-item active" aria-current="page">{{reporteSeleccionado && reporteSeleccionado['descripcion'] || ''}}</li>
     </ol>
 </nav>
-<div class="col-md-12 col-sm-12 grid-margin stretch-card" *ngIf="vacacionesService.opcionesKiosco.length==0">
+<div class="col-md-12 col-sm-12 grid-margin stretch-card animated fadeIn fast" *ngIf="vacacionesService.opcionesKiosco.length==0">
     <div class="loader-demo-box" style="border: 0px !important;">
       <div class="dot-opacity-loader">
         <span></span>
@@ -22,7 +22,7 @@
 
 <p *ngIf="!reporteSeleccionado && vacacionesService.opcionesKiosco && vacacionesService.opcionesKiosco.length!=0 && vacacionesService.opcionesKiosco">Seleccione la opción que desea realizar.</p>
 <p *ngIf="vacacionesService.opcionesKiosco && vacacionesService.opcionesKiosco && !vacacionesService.opcionesKiosco">No hay opciones habilitadas.</p>
-<div class="row" *ngIf="vacacionesService.opcionesKiosco && vacacionesService.opcionesKiosco.length>0 && !reporteSeleccionado">
+<div class="row animated fadeIn fast" *ngIf="vacacionesService.opcionesKiosco && vacacionesService.opcionesKiosco.length>0 && !reporteSeleccionado">
     <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of vacacionesService.opcionesKiosco; index as i">
         <div class="card" id="divReportes">
             <div class="card-body">

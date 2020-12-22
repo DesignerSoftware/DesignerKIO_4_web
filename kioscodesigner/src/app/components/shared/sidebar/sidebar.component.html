@@ -18,8 +18,8 @@
             </div>
           </li>
 
-          <li class="nav-item" *ngFor="let opc of opcionesKioskos" routerLinkActive="active">
-            <a class="nav-link" [routerLink]="['/', opc.nombreruta]" (click)="clic()">
+          <li class="nav-item" *ngFor="let opc of opcionesKioskos" routerLinkActive="active" >
+            <a class="nav-link" [routerLink]="['/', opc.nombreruta]" (click)="clic()" data-toggle="minimize" (click)="minbody2()">
               <i [class]="opc.icono"></i>
               <span class="menu-title">{{opc.descripcion}}</span>
             </a>

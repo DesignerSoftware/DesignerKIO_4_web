@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="page-header animated fadeIn fast">
     <h3 class="page-title">
         Reportes
     </h3>
@@ -22,7 +22,7 @@
 </div>
 
 <p *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.opcionesReportes && reporteServicio.opcionesReportes.length!=0">Seleccione el reporte que desea generar</p>
-<div class="row" *ngIf="reporteServicio.opcionesReportes && reporteServicio.opcionesReportes.length>0 && !reporteServicio.reporteSeleccionado">
+<div class="row animated fadeIn fast" *ngIf="reporteServicio.opcionesReportes && reporteServicio.opcionesReportes.length>0 && !reporteServicio.reporteSeleccionado">
     <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of reporteServicio.opcionesReportes; index as i">
         <div class="card" id="divReportes">
             <div class="card-body">

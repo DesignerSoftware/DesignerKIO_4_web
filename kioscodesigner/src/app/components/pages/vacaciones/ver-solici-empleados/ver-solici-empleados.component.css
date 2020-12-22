@@ -16,3 +16,11 @@
   padding-right: 0px !important;
   padding-left: 0px !important;
 }
+
+.nav-tabs .nav-link {
+  background: #f6f8fa;
+  color: #000000;
+  border-radius: 0;
+  border: 1px solid #e0e0ef;
+  padding: .75rem !important;
+}

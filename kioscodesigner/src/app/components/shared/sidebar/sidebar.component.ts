@@ -80,6 +80,10 @@ export class SidebarComponent implements OnInit {
     // this.router.navigate(['/login']);
     this.router.navigate(['/']);
   }
+  minbody2() {    
+    $('.sidebar-offcanvas').toggleClass('active');
+    console.log('presionado 2');
+  }
 
 
 }

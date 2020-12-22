@@ -1,0 +1,19 @@
+@media(max-width: 575px) {
+    #tablaperiodosDias  {
+        height: 150px !important;
+        margin-top: 20px;
+    }
+
+    #contentTable, #cardTable{
+        background-color: white !important;
+    }
+
+    #btnEnviar, #btnCancelar {
+        text-align: center !important;
+    }
+
+    #btnCancelar {
+        margin-top: 5px;
+    }
+
+}

@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class VacacionesService {
   opcionesKiosco: any = [];
+  SolicitudesJefe=null;
   constructor(private http: HttpClient) { }
 
   getSolicitudesXEstado(documento: string, nit: string, estado: string) {
@@ -47,6 +48,13 @@ export class VacacionesService {
     console.log('url:' + url);
     return this.http.get(url);
   }
+    // Consultar todas las solicitudes de los empleados relacionados al jefe
+  getSoliciSinProcesarJefe(nit: string, seudonimo: string, estado: string) {
+    const url = `${environment.urlKioskoReportes}empleados/soliciSinProcesarJefe/${nit}/${seudonimo}/${estado}`;
+    console.log('url:' + url);
+    return this.http.get(url);
+  }
+  
 
   // Consultar la suma del total de días solicitados filtrando por estados: ENVIADOS, AUTORIZADOS, RECHAZADOS, LIQUIDADOS O CANCELADOS
   getTotalDiasSolicitadosXUltimoEstado(seudonimo: string, nit: string, cadena: string, estado: string) {
@@ -57,6 +65,7 @@ export class VacacionesService {
 
   clear() {
     this.opcionesKiosco = [];
+    this.SolicitudesJefe =null;
   }
 
 

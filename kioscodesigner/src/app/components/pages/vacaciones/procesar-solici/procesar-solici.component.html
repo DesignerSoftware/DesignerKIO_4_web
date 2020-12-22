@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="page-header animated fadeIn slow">
     <h3 class="page-title">
         Procesar solicitudes pendientes <span class="badge badge-info" *ngIf="false">3</span>
     </h3>
@@ -10,45 +10,28 @@
         <li class="breadcrumb-item active" aria-current="page">Procesar solicitudes</li>
     </ol>
 </nav>
-<div class="alert alert-warning" role="alert">
-Página en construcción</div>
-<div class="container" *ngIf="false">
+
+<div class="container" >
     <br>
             <div class="card-deck" id="">
-              <div class="card card1" style="text-align: center;">
+              <div class="card card1" *ngFor="let op of vacacionesService.SolicitudesJefe; index as i" style="text-align: center;">
                 <div class="card-body card_hover">
-                  <img src="../../../assets/img/prueba.jpg" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
-                  <h6 class="card-title text-muted">THALIA VALENTINA MANRIQUE BELLO</h6>
-                    <h6 class="text-muted">COD. 111.111.111</h6>
+                  <img  [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+                  <h6 class="card-title text-muted">{{op[1]}}</h6>
+                    <h6 class="text-muted">{{op[0]}}</h6>
                   <hr>
-                  <p class="card-text">Fecha inicio Vacaciones: 01/01/2020</p>
-                  <p>Fecha fin vacaciones: 12/01/2020</p>
-                  <p>Fecha regreso a laborar: 13/01/2020</p>
-                  <p>Días: 11</p>
-                  <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">PROCESAR</button>
+                  <p class="card-text">Fecha inicio Vacaciones: {{op[4]}}</p>
+                  <p>Fecha fin vacaciones: {{op[12]}}</p>
+                  <p>Fecha regreso a laborar: {{op[13]}}</p>
+                  <p>Días: {{op[14]}}</p>
+                  <button  (click)="detalleSolicitud(i)" type="button" class="btn btn-outline-primary"
+                   data-toggle="modal" data-target="#exampleModalCenter" *ngIf="vacacionesService.SolicitudesJefe">PROCESAR</button>
     
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  <p class="card-text" style="margin-top: 5px;"><small class="text-muted">Ultima modificación {{op[5]}}</small></p>
                 </div>
               </div>
-              <div class="card card1" style="text-align: center;">
-                <div class="card-body card_hover">
-                  <img src="../../../assets/img/sinFoto.jpg" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
-                  <h5 class="card-title">THALIA VALENTINA MANRIQUE BELLO</h5>
-                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-    
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-              </div>
-              <div class="card card1" style="text-align: center;">
-                <div class="card-body card_hover">
-                  <img src="../../../assets/img/prueba.jpg" alt="..." style=" width: 80px; height: 80px; border-radius: 50%;">
-                  <h5 class="card-title">THALIA VALENTINA MANRIQUE BELLO</h5>
-                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-    
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-              </div>
-            </div>
+              
+               
     
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -60,28 +43,34 @@ Página en construcción</div>
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-                <div class="modal-body">
+                <div class="modal-body animated fadeIn slow">
                   <div class="card" style="text-align: center;">
                     <div class="card-body">
-                      <img src="../../../assets/img/prueba.jpg" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
-                      <h6 class="card-title text-muted">THALIA VALENTINA MANRIQUE BELLO</h6>
-                        <h6 class="text-muted">COD. 111.111.111</h6>
+                      <img [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+                      <h6 class="card-title text-muted " *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]}}</h6>
+                        <h6 class="text-muted" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0]}}</h6>
                       <hr>
-                      <p class="card-text">Fecha inicio Vacaciones: 01/01/2020</p>
-                      <p>Fecha fin vacaciones: 12/01/2020</p>
-                      <p>Fecha regreso a laborar: 13/01/2020</p>
-                      <p>Días: 11</p>
-                      <p>Periodo: 01/01/2019 a 31/12/2019</p>
-                      <p>Jefe inmediato: XXXXXXXXX</p>
-                      <p>Fecha pago: 30/01/2020</p>
-                      <p class="card-text"><small class="text-muted">Fecha solicitud: 01/01/02019</small></p>
+                      <p class="card-text" *ngIf="solicitudSeleccionada">Fecha inicio Vacaciones: {{solicitudSeleccionada[4]}}</p>
+                      <p *ngIf="solicitudSeleccionada">Fecha fin vacaciones: {{solicitudSeleccionada[12]}}</p>
+                      <p *ngIf="solicitudSeleccionada">Fecha regreso a laborar: {{solicitudSeleccionada[13]}}</p>
+                      <p *ngIf="solicitudSeleccionada">Días: {{solicitudSeleccionada[14]}}</p>
+                      <p *ngIf="solicitudSeleccionada">Periodo: {{solicitudSeleccionada[15]}}</p>
+                      <p *ngIf="solicitudSeleccionada ">Jefe inmediato: {{solicitudSeleccionada[16]}} </p>
+                      <p *ngIf="solicitudSeleccionada !=null">Fecha pago: {{solicitudSeleccionada[17]}}</p>
+                      <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">Fecha solicitud: {{solicitudSeleccionada[3]}}</small></p>
                       <hr>
                       <h6>ACCIONES PERMITIDAS</h6><br>
                       <p>Motivo:</p>
                         <textarea id="form7" class="md-textarea form-control" rows="3" cols="12" placeholder="Este campo es obligatorio para el caso de que rechace la solicitud."></textarea>
                         <br>
-                      <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">APROBAR</button>
-                      <button type="button" class="btn btn-outline-danger">RECHAZAR</button>
+                        <div class="row">
+                        <div class="col-sm-6 col-12" id="btnEnviar">
+                      <button type="button" class="btn btn-outline-primary" style="width: 122px;" data-toggle="modal" data-target="#exampleModalCenter">APROBAR</button>
+                    </div>
+                    <div class="col-sm-6 col-12" id="btnCancelar">
+                      <button type="button" style="width: 122px;" class="btn btn-outline-danger">RECHAZAR</button>
+                    </div>
+                  </div>
                     </div>
                   </div>
           </div>

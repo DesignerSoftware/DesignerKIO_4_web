@@ -153,10 +153,7 @@ export class PagesComponent implements OnInit {
     $('.sidebar-offcanvas').toggleClass('active');
   }
 
-  minbody() {
-    console.log('presionado 2');
-    $('.sidebar-offcanvas');
-  }
+ 
 
   funCambiar(e) {
     console.log(e);
