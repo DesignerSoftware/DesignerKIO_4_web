@@ -4,6 +4,7 @@ import { ValidadoresService } from '../../../services/validadores.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-cambio-clave',
@@ -15,7 +16,7 @@ export class CambioClaveComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder, private validadores: ValidadoresService,
-              private usuarioServicio: UsuarioService, private router: Router) {
+              private usuarioServicio: UsuarioService, private loginService: LoginService, private router: Router) {
     this.crearFormulario();
   }
 
@@ -73,15 +74,25 @@ export class CambioClaveComponent implements OnInit {
           .subscribe(
             data => {
               if (data === 1) {
-                swal.fire({
-                  icon: 'success',
-                  title: '¡Tu contraseña ha sido actualizada exitosamente!',
-                  showConfirmButton: true
-                }).then((result) => {
-                  if (result.value) {
-                    this.navegarHome();
+                this.usuarioServicio.inactivaTokensTipo('LOGIN', this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+                .subscribe(
+                  data=> {
+                    console.log('inactiva tokens', data['modificado']);
+                    if (data['modificado']) {
+                      swal.fire({
+                        icon: 'success',
+                        title: '¡Tu contraseña ha sido actualizada exitosamente!',
+                        text: 'Debes iniciar sesión nuevamente.',
+                        showConfirmButton: true
+                      }).then((result) => {
+                        if (result.value) { 
+                          //this.navegarHome();
+                          this.logout();
+                        }
+                      });                      
+                    }
                   }
-                });
+                )
               } else {
                 swal.fire({
                   icon: 'error',
@@ -112,6 +123,20 @@ export class CambioClaveComponent implements OnInit {
 
 navegarHome() { // Dirigir a página de inicio
   this.router.navigate(['/home']);
+}
+
+logout() {
+  console.log('cerrar sesion');
+  localStorage.removeItem('currentUser');
+  this.router.navigate(['/login']);
+  this.loginService.logOut(); // Limpiar datos
+  if (this.usuarioServicio.grupoEmpresarial != null) {
+    // this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
+    this.router.navigate(['/']);
+  } else {
+    // this.router.navigate(['/login']);
+    this.router.navigate(['/']);
+  }
 }
 
 }
