@@ -16,7 +16,9 @@
             <div class="card-deck" id="">
               <div class="card card1" *ngFor="let op of vacacionesService.SolicitudesJefe; index as i" style="text-align: center;">
                 <div class="card-body card_hover">
-                  <img  [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+                  <img id="fotoPerfilEmpl" [src]="cargaFoto(op[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+                  <br>
+                  <br>
                   <h6 class="card-title text-muted">{{op[1]}}</h6>
                     <h6 class="text-muted">{{op[0]}}</h6>
                   <hr>
@@ -46,7 +48,7 @@
                 <div class="modal-body animated fadeIn slow">
                   <div class="card" style="text-align: center;">
                     <div class="card-body">
-                      <img [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+                      <img  id="fotoPerfil2" [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
                       <h6 class="card-title text-muted " *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]}}</h6>
                         <h6 class="text-muted" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0]}}</h6>
                       <hr>

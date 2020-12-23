@@ -74,8 +74,7 @@ export class PagesComponent implements OnInit {
 
   cargaFoto() {
     console.log('getDocumento');
-    this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario
-      , this.usuarioServicio.empresa)
+    this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
     .subscribe(
       data => {
         console.log(data);
