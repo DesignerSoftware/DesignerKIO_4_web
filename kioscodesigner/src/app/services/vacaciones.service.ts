@@ -35,6 +35,13 @@ export class VacacionesService {
     return this.http.get(url);
   }
 
+  getDiasUltimoPeriodoVacacionesPendientes(seudonimo: string, nit: string, cadena: string) {
+    //const url = `http://pc006:8082/wsreporte/webresources/vacacionesPendientes/consultarPeriodoMasAntiguo?documento=52384153`;
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasPendientesPerMasAntiguo?seudonimo=${seudonimo}&nitempresa=${nit}`;
+    console.log('url:' + url);
+    return this.http.get(url);
+  }
+
   getDiasVacacionesProvisionadas(seudonimo: string, nit: string, cadena: string) {
     //const url = `http://pc006:8082/wsreporte/webresources/vacacionesPendientes/consultarPeriodoMasAntiguo?documento=52384153`;
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesProvisionados?seudonimo=${seudonimo}&nitempresa=${nit}`;
@@ -61,7 +68,13 @@ export class VacacionesService {
       const url = `${environment.urlKioskoReportes}vacacionesPendientes/getDiasSoliciVacacionesXUltimoEstado?seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}`;
       console.log('url:' + url);
       return this.http.get(url);
-    }
+  }
+
+  calculaFechaRegreso(seudonimo: string, nit: string, fechainicio: string, dias: number) {
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/calculaFechaRegreso?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&dias=${dias}`;
+    console.log('url:' + url);
+    return this.http.get(url);    
+  }
 
   clear() {
     this.opcionesKiosco = [];

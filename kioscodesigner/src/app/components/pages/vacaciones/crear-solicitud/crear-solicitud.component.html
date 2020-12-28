@@ -117,7 +117,7 @@
             <label class="col-sm-3 col-form-label">Fecha inicio:</label>
             <div class="col-sm-9">
               <input type="date" class="form-control 
-                      form-control-sm" formControlName="fechainicio" />
+                      form-control-sm" formControlName="fechainicio" (change)="actualizaCampos()" />
             </div>
 
 
@@ -140,10 +140,10 @@
           <div class="form-group row">
             <label class="col-sm-3 col-form-label">Días:</label>
             <div class="col-sm-9">
-              <select class="form-control" formControlName="dias">
+              <select class="form-control" formControlName="dias" (change)="actualizaCampos()">
                 <option value="" *ngIf="array.length<=0" selected="true">Cargando...</option>
                 <option value="" *ngIf="array.length>0" selected="true">Seleccione una opción</option>
-                <option value="dia" *ngFor="let dia of array">{{dia}}</option>
+                <option [value]="d" *ngFor="let d of array">{{d}}</option>
               </select>
               <small class="text-danger" *ngIf="formulario.get('dias').errors?.required
               && formulario.get('dias').touched">
