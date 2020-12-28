@@ -1,42 +1,42 @@
 <div class="jumbotron text-center animated fadeIn slow">
     <h1 class="display-4">Módulo de autoconsulta Kiosco</h1>
     <br>
-    <p class="lead"><img [src]="usuarioServicio.urlLogoEmpresaDarkXl" class="img-fluid" id="img-logo"></p>
+    <p class="lead"><img [src]="usuarioServicio.urlLogoEmpresaDarkXl || 'assets/images/fotos_empleados/logodesigner-dark-xl.png'" class="img-fluid" id="img-logo"></p>
     <hr class="my-4">
     <p>Desde aquí podrás acceder de manera fácil y rápida a tu información de nómina y personal.</p>
   </div>
-  <div class="row grid-margin">
+  <div class="row grid-margin" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null">
     <div class="col-12">
       <div class="card card-statistics">
         <div class="card-body">
           <div class="d-flex flex-column flex-md-row align-items-center justify-content-between animated fadeIn fast" style="text-align: center;">
-              <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales!=null">
+              <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null">
                 <p>
                   <i class="icon-sm fa fa-file mr-2"></i>
                   CONTRATO
                 </p>
-                <h6>{{usuarioServicio.datosPersonales[0][18]}}</h6>
+                <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][18] || '...'}}</h6>
               </div>
               <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales!=null">
                 <p>
                   <i class="icon-sm fas fa-check-circle mr-2"></i>
                   SALARIO
                 </p>
-                <h6>{{usuarioServicio.datosPersonales[0][19] | currency: '$'}}</h6>
+                <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][19] | currency: '$' || '...'}}</h6>
               </div>
               <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales!=null">
                 <p>
                   <i class="icon-sm fas fa-sitemap mr-2"></i>
                   CARGO
                 </p>
-                <h6>{{usuarioServicio.datosPersonales[0][20]}}</h6>
+                <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][20] || '...'}}</h6>
               </div>
               <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales!=null">
                 <p>
                   <i class="icon-sm fas fa-plane mr-2"></i>
                   VACACIONES PROVISIONADAS
                 </p>
-                <h6>{{totalDiasVacacionesProv}}</h6>
+                <h6 *ngIf="usuarioServicio.datosPersonales">{{totalDiasVacacionesProv || '...'}}</h6>
               </div>
           </div>
         </div>

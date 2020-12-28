@@ -69,7 +69,7 @@ export class UsuarioService {
   getDatosUsuario(usuario: string, nit: string) {
     const obj: any = this.getUserLoggedIn;
     // const url = 'http://localhost:8080/wsjavanov5/jcmouse/restapi/restKiosco/getDatosEmpleadoNit/' + usuario + '/' + nit;
-    const url = `${environment.urlKioskoDesigner}restKiosco/getDatosEmpleadoNit/` + usuario + '/' + nit;
+    const url = `${environment.urlKioskoReportes}restKiosco/getDatosEmpleadoNit/` + usuario + '/' + nit;
     console.log('url:' + url);
     return this.http.get(url);
   }

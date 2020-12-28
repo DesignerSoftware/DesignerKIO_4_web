@@ -37,12 +37,20 @@ export class CrearSolicitudComponent implements OnInit {
     .subscribe(
       data => {
         this.ultimoPeriodo = data[0]['periodoCausado'];
-        this.diasUltimoPeriodo = data[0]['diasPendientes'];
         console.log(" ultimoPeriodo ", this.ultimoPeriodo);
-        console.log(" diasUltimoPeriodo ", this.diasUltimoPeriodo);
         this.creaListaDias();
       }
     ); 
+
+    // Consultar dias disponibles para solicitar ultimo periodo
+     this.vacacionesService.getDiasUltimoPeriodoVacacionesPendientes(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
+     .subscribe(
+       data=> {
+         this.diasUltimoPeriodo = data;
+         console.log('dias ultimo periodo vacaciones: ', this.diasUltimoPeriodo);
+         this.creaListaDias();
+       }
+     );
 
     // consultar total dias provisionados
     this.vacacionesService.getDiasVacacionesProvisionadas(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion )
@@ -96,6 +104,7 @@ export class CrearSolicitudComponent implements OnInit {
   }
     
   public creaListaDias(){
+    this.array = [];
     for(let i=1; i <= this.diasUltimoPeriodo; i++) {
       this.array.push(i);
     }
@@ -104,7 +113,23 @@ export class CrearSolicitudComponent implements OnInit {
 
   enviar(){
     console.log('enviar formulario', this.formulario.value);
-    
   }
 
+  calcularFechaRegreso(){
+    console.log('calcula fecha regreso');
+    let diasASolicitar: number= this.formulario.get('dias').value;
+    console.log('dias a solicitar: ', diasASolicitar);
+    const fechaInicioVacaciones: Date = new Date(this.formulario.get('fechainicio').value);
+    this.vacacionesService.calculaFechaRegreso(this.usuarioService.usuario, this.usuarioService.empresa, this.formulario.get('fechainicio').value, diasASolicitar)
+    .subscribe(
+      data => {
+        console.log('fecha a regresar: '+data);
+        this.formulario.get('fecharegreso').setValue(data);
+      }
+    )
+  }
+
+  actualizaCampos() {
+    this.calcularFechaRegreso();
+  }
 }
