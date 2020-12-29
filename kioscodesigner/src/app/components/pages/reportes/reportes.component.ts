@@ -282,7 +282,8 @@ export class ReportesComponent implements OnInit {
             this.reporteServicio.reporteSeleccionado['descripcion'],
             this.reporteServicio.codigoReporteSeleccionado,
             this.usuarioServicio.empresa,
-            this.usuarioServicio.cadenaConexion
+            this.usuarioServicio.cadenaConexion,
+            this.usuarioServicio.usuario
           )
           .subscribe(
             (res) => {

@@ -27,6 +27,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { ChartsModule, ThemeService  } from 'ng2-charts';
 
 
 import { LOCALE_ID } from '@angular/core';
@@ -79,11 +80,15 @@ import { FilterPipe } from './pipes/filter.pipe';
     ReactiveFormsModule,
     FormsModule,
     NgxPaginationModule,
+    ChartsModule,
     APP_ROUTING/*,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })*/
   ],
   providers: [
-    DatePipe, {provide: LOCALE_ID, useValue: 'es-CO'}
+    DatePipe, {provide: LOCALE_ID, useValue: 'es-CO'},
+    ThemeService
+
+
   ],
   bootstrap: [AppComponent]
 })

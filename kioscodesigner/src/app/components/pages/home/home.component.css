@@ -3,3 +3,9 @@
     width: 200px;
   }
 }
+
+@media (max-width: 841px) {
+  #contentEstadisticas {
+    text-align: center;
+  }
+}

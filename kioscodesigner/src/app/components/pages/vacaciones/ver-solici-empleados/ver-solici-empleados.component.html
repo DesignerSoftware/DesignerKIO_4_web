@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="page-header animated fadeIn slow">
   <h3 class="page-title">
     Mis solicitudes
   </h3>
@@ -12,9 +12,9 @@
 </nav>
 
 <!-- partial -->
-<div class="row">
+<div class="row animated fadeIn slow">
   <div class="col-md-12 grid-margin stretch-card">
-    <div class="card">
+    <div class="card animated fadeIn fast">
       <div class="card-body">
         <p class="card-description">Solicitudes propias</p>
         <div class="col-sm-12">
@@ -40,11 +40,25 @@
               <a class="nav-link" id="canceladas-tab" data-toggle="tab" href="#s-canceladas" role="tab"
                 aria-controls="s-canceladas" aria-selected="false">Canceladas</a>
             </li>
+            <li class="nav-item col-md-2 col-sm-3">
+              <a class="nav-link" id="graficos-tab" data-toggle="tab" href="#s-graficos" role="tab"
+                aria-controls="s-graficos" aria-selected="false">Gráficos</a>
+            </li>
 
           </ul>
         </div>
         <div class="tab-content">
-          <div class="tab-pane fade show active" id="s-enviadas" role="tabpanel" aria-labelledby="enviadas-tab">
+          <div class="tab-pane fade show active" id="s-enviadas" role="tabpanel"
+            aria-labelledby="enviadas-tab">
+            <div class="page-header">
+              <h3 class="page-title">
+                Solicitudes Enviadas
+              </h3>
+              <br>
+            
+            </div>
+            <p>En este apartado se puede observar las solicitudes que se han enviado pero no han sido procesadas por el jefe. 
+            </p>
             <div class="input-group mb-3 ">
               <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
                 aria-label="Buscar..." aria-describedby="basic-addon2">
@@ -90,39 +104,16 @@
               </div>
             </div>
           </div>
-          <!-- <div class="table-responsive">
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Ver</th>
-                                  <th>Creación solicitud</th>
-                                  <th>Fecha inicio</th>
-                                  <th>Días solicitados</th>
-                                  <th>Fecha procesada</th>
-                                  <th>Estado</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr *ngIf="!solicitudesEnviadas || solicitudesEnviadas==null || solicitudesEnviadas.length==0"><td colspan="5">No hay solicitudes aprobadas.</td></tr>
-                                <tr *ngFor="let solic of solicitudesEnviadas; index as i" > 
-                                <td>
-                                    <a (click)="detalleSolicitud('ENVIADO', i)" *ngIf="solicitudesEnviadas">
-                                      <i class="far fa-eye text-info"></i>
-                                    </a>
-                                  </td>
-                                  <td *ngIf="solicitudesEnviadas">{{solic[0]}}</td>
-                                  <td *ngIf="solicitudesEnviadas">{{solic[1]}}</td>
-                                  <td *ngIf="solicitudesEnviadas">{{solic[2]}}</td>
-                                  <td *ngIf="solicitudesEnviadas">{{solic[3]}}</td>
-                                  <td *ngIf="solicitudesEnviadas">{{solic[4]}}</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div> -->
-
-
-
-          <div class="tab-pane fade" id="s-aprobadas" role="tabpanel" aria-labelledby="aprobadas-tab">
+          <div class="tab-pane fade animated fadeIn fast" id="s-aprobadas" role="tabpanel"
+            aria-labelledby="aprobadas-tab">
+            <div class="page-header">
+              <h3 class="page-title">
+                Solicitudes Aprobadas
+              </h3>
+              <br>
+            </div>
+            <p>En este apartado se puede observar las solicitudes que ya han sido aprobadas por el jefe.
+            </p>
             <div class="input-group mb-3 ">
               <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
                 aria-label="Buscar..." aria-describedby="basic-addon2">
@@ -138,6 +129,7 @@
                     <th>Días solicitados</th>
                     <th>Fecha procesada</th>
                     <th>Estado</th>
+                    <th>Empleado Ejecuta</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -156,17 +148,28 @@
                     <td *ngIf="solicitudesAprobadas">{{solic[2]}}</td>
                     <td *ngIf="solicitudesAprobadas">{{solic[3]}}</td>
                     <td *ngIf="solicitudesAprobadas">{{solic[4]}}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[9]}}</td>
                   </tr>
                 </tbody>
               </table>
               <div class="col-md-12">
-              <pagination-controls (pageChange)="p2 = $event" id="third" style="text-align: center;"
-                previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+                <pagination-controls (pageChange)="p2 = $event" id="third" style="text-align: center;"
+                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
               </div>
             </div>
 
           </div>
-          <div class="tab-pane fade" id="s-rechazadas" role="tabpanel" aria-labelledby="rechazadas-tab">
+          <div class="tab-pane fade animated fadeIn fast" id="s-rechazadas" role="tabpanel"
+            aria-labelledby="rechazadas-tab">
+            <div class="page-header">
+              <h3 class="page-title">
+                Solicitudes Rechazadas
+              </h3>
+              <br>
+
+            </div>
+            <p>En este apartado se puede observar las solicitudes en estado rechazado.
+            </p>
             <div class="input-group mb-3 ">
               <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
                 aria-label="Buscar..." aria-describedby="basic-addon2">
@@ -176,7 +179,7 @@
               <table class="table table-hover" style="text-align: center;">
                 <thead style="background: #00223C; color: white;">
                   <tr id="tblfamiliares">
-                    
+
                     <th>Ver</th>
                     <th>Creación solicitud</th>
                     <th>Fecha inicio</th>
@@ -211,16 +214,26 @@
                 </tbody>
               </table>
               <div class="row">
-              <div class="col-md-12">
-              <pagination-controls (pageChange)="p3 = $event" id="fourth" style="text-align: center;"
-                previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
-              </div>
+                <div class="col-md-12">
+                  <pagination-controls (pageChange)="p3 = $event" id="fourth" style="text-align: center;"
+                    previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+                </div>
               </div>
             </div>
 
           </div>
 
-          <div class="tab-pane fade" id="s-liquidadas" role="tabpanel" aria-labelledby="liquidadas-tab">
+          <div class="tab-pane fade animated fadeIn fast" id="s-liquidadas" role="tabpanel"
+            aria-labelledby="liquidadas-tab">
+            <div class="page-header">
+              <h3 class="page-title">
+                Solicitudes Liquidadas
+              </h3>
+              <br>
+
+            </div>
+            <p>En este apartado se puede observar las solicitudes en estado liquidado.
+            </p>
             <div class="input-group mb-3 ">
               <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
                 aria-label="Buscar..." aria-describedby="basic-addon2">
@@ -236,6 +249,7 @@
                     <th>Días solicitados</th>
                     <th>Fecha procesada</th>
                     <th>Estado</th>
+                    <th>Empleado Ejecuta</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -245,25 +259,36 @@
                   <tr
                     *ngFor="let solic of solicitudesLiquidadas | filterTable: dataFilt | paginate: { id: 'fiveth', itemsPerPage: 5, currentPage: p4 }; index as i ">
                     <td>
-                                  <a (click)="detalleSolicitud('LIQUIDADO', i)" *ngIf="solicitudesLiquidadas">
-                                    <i class="far fa-eye text-info"></i>
-                                  </a>
-                                </td>
+                      <a (click)="detalleSolicitud('LIQUIDADO', i)" *ngIf="solicitudesLiquidadas">
+                        <i class="far fa-eye text-info"></i>
+                      </a>
+                    </td>
                     <td *ngIf="solicitudesLiquidadas">{{solic[0]}}</td>
                     <td *ngIf="solicitudesLiquidadas">{{solic[1]}}</td>
                     <td *ngIf="solicitudesLiquidadas">{{solic[2]}}</td>
                     <td *ngIf="solicitudesLiquidadas">{{solic[3]}}</td>
                     <td *ngIf="solicitudesLiquidadas">{{solic[4]}}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[9]}}</td>
                   </tr>
                 </tbody>
               </table>
               <div class="col-md-12">
-              <pagination-controls (pageChange)="p4 = $event" id="fiveth" style="text-align: center;"
-                previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
-            </div>
+                <pagination-controls (pageChange)="p4 = $event" id="fiveth" style="text-align: center;"
+                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+              </div>
             </div>
           </div>
-          <div class="tab-pane fade" id="s-canceladas" role="tabpanel" aria-labelledby="canceladas-tab">
+          <div class="tab-pane fade animated fadeIn fast" id="s-canceladas" role="tabpanel"
+            aria-labelledby="canceladas-tab">
+            <div class="page-header">
+              <h3 class="page-title">
+                Solicitudes Canceladas
+              </h3>
+              <br>
+
+            </div>
+            <p>En este apartado se puede observar las solicitudes en estado cancelado.
+            </p>
             <div class="input-group mb-3 ">
               <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
                 aria-label="Buscar..." aria-describedby="basic-addon2">
@@ -279,6 +304,7 @@
                     <th>Días solicitados</th>
                     <th>Fecha procesada</th>
                     <th>Estado</th>
+                    <th>Empleado Ejecuta</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -297,12 +323,57 @@
                     <td *ngIf="solicitudesCanceladas">{{solic[2]}}</td>
                     <td *ngIf="solicitudesCanceladas">{{solic[3]}}</td>
                     <td *ngIf="solicitudesCanceladas">{{solic[4]}}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[9]}}</td>
                   </tr>
                 </tbody>
               </table>
               <div class="col-md-12">
-              <pagination-controls (pageChange)="p5 = $event" id="sixth" style="text-align: center;"
-                previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+                <pagination-controls (pageChange)="p5 = $event" id="sixth" style="text-align: center;"
+                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade animated fadeIn fast" id="s-graficos" role="tabpanel"
+            aria-labelledby="graficos-tab">
+
+            <div class="page-header">
+              <h3 class="page-title">
+                Gráficos Estadísticos
+              </h3>
+              <br>
+
+            </div>
+            <p>En este apartado se puede apreciar las solicitudes según el estado mediente gráficos estadísticos.
+            </p>
+            <div class="row">
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title" style="margin-bottom: 5px;">Gráficos Polar</h4>
+                    <div class="chart-container" style="text-align: center;">
+                      <canvas baseChart [data]="polarAreaChartData" [chartType]="polarAreaChartType"
+                        [labels]="polarAreaChartLabels" [legend]="polarAreaChartLegend"
+                        [options]="polarAreaChartOptions" [colors]="polarAreaChartColors">
+                      </canvas>
+
+                    </div>
+                    <div id="c3-bar-chart"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title" style="margin-bottom: 5px;">Gráficos Torta</h4>
+                    <div class="chart-container" style="text-align: center;">
+                      <canvas baseChart [data]="pieChartData" [chartType]="pieChartType" [labels]="pieChartLabels"
+                        [legend]="pieChartLegend" [options]="pieChartOptions" [plugins]="pieChartPlugins"
+                        [colors]="pieChartColors">
+                      </canvas>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -311,12 +382,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
 
 <div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdropLabel2" aria-hidden="true">
