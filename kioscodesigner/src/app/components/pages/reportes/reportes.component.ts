@@ -20,6 +20,7 @@ export class ReportesComponent implements OnInit {
   fechaHasta: Date = null;
   enviocorreo: boolean;
   correo: string = null;
+  dirigidoa: string = null;
   //codigoReporteSeleccionado;
 
   constructor(private opcionesKioskosServicio: OpcionesKioskosService, private router: Router, private fb: FormBuilder,
@@ -63,7 +64,8 @@ export class ReportesComponent implements OnInit {
     this.formulario = this.fb.group({
       fechadesde: [, Validators.required],
       fechahasta: [, Validators.required],
-      enviocorreo: [false]
+      enviocorreo: [false],
+      dirigidoa: []
     });
   }
 
@@ -77,9 +79,11 @@ export class ReportesComponent implements OnInit {
         this.fechaDesde = data[0][0];
         this.fechaHasta = data[0][1];
         this.enviocorreo = data[0][2];
+        this.dirigidoa = data[0][3] || '';
         this.formulario.get('fechadesde').setValue(this.fechaDesde);
         this.formulario.get('fechahasta').setValue(this.fechaHasta);
         this.formulario.get('enviocorreo').setValue(data[0][2] === 'S' ? true : false);
+        this.formulario.get('dirigidoa').setValue(this.dirigidoa);
       }
     );
   }
@@ -240,7 +244,8 @@ export class ReportesComponent implements OnInit {
         this.usuarioServicio.actualizaParametrosReportes(this.usuarioServicio.usuario, this.usuarioServicio.empresa,
             this.formulario.get('fechadesde').value,
             this.formulario.get('fechahasta').value,
-            this.formulario.get('enviocorreo').value )
+            this.formulario.get('enviocorreo').value,
+            this.formulario.get('dirigidoa').value )
             .subscribe(
               data => {
                 console.log(data);

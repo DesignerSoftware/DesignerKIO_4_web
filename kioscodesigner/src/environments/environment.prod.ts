@@ -3,7 +3,7 @@ export const environment = {
   // urlKioskoDesigner: 'http://www.nominadesigner.co:8082/wsjavanov5/wsKiosco/restapi/',
   urlKioskoDesigner: 'https://www.designer.com.co:8181/wsjavanov5/wsKiosco/restapi/',
   // urlKioskoReportes: 'http://www.nominadesigner.co:8080/wsreporte/webresources/',
-  urlKioskoReportes: 'https://designer.com.co:8178/wsreporte/webresources/',
+  urlKioskoReportes: 'https://www.designer.com.co:8178/wsreporte/webresources/',
   // urlKiosko: 'http://www.nominadesigner.co',
   urlKiosko: 'https://www.designer.com.co:8179'
   // urlMysql: 'com.mysql.jdbc.Driver',

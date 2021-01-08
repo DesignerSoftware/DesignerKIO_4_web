@@ -74,13 +74,13 @@ codigoReporteSeleccionado = null;
 
  imagenVacaciones(opcion: any){
     if (opcion =="Crear Solicitud") {
-      return "assets/images/icono_vacaciones4.png";
-    } else if (opcion == "Ver solicitudes propias") {
-      return "assets/images/icono_vacaciones3.png";
-    } else if (opcion=="Procesar solicitudes") {
       return "assets/images/icono_vacaciones1.png";
-    } else if (opcion=="Solicitudes procesadas"){
+    } else if (opcion == "Ver solicitudes propias") {
       return "assets/images/icono_vacaciones2.png";
+    } else if (opcion=="Procesar solicitudes") {
+      return "assets/images/icono_vacaciones3.png";
+    } else if (opcion=="Solicitudes procesadas"){
+      return "assets/images/icono_vacaciones4.png";
     } else {
       return "assets/images/reporte.png";
     }

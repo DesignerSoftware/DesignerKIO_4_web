@@ -105,9 +105,9 @@ export class UsuarioService {
     return this.http.get(url);
   }
 
-  actualizaParametrosReportes(codigoEmp: string, nitEmpresa: string, fechadesde: Date, fechahasta: Date, enviocorreo: boolean) {
+  actualizaParametrosReportes(codigoEmp: string, nitEmpresa: string, fechadesde: Date, fechahasta: Date, enviocorreo: boolean, dirigidoa: string) {
     const url = `${environment.urlKioskoReportes}conexioneskioskos/updateFechas` +
-    `?usuario=${codigoEmp}&nitEmpresa=${nitEmpresa}&fechadesde=${fechadesde}&fechahasta=${fechahasta}&enviocorreo=${enviocorreo}`;
+    `?usuario=${codigoEmp}&nitEmpresa=${nitEmpresa}&fechadesde=${fechadesde}&fechahasta=${fechahasta}&enviocorreo=${enviocorreo}&dirigidoa=${dirigidoa}`;
     console.log(url);
     return this.http.post(url, {});
   }
