@@ -48,16 +48,16 @@
           </ul>
         </div>
         <div class="tab-content">
-          <div class="tab-pane fade show active" id="s-enviadas" role="tabpanel"
-            aria-labelledby="enviadas-tab">
+          <div class="tab-pane fade show active" id="s-enviadas" role="tabpanel" aria-labelledby="enviadas-tab">
             <div class="page-header">
               <h3 class="page-title">
                 Solicitudes Enviadas
               </h3>
               <br>
-            
+
             </div>
-            <p>En este apartado se puede observar las solicitudes que se han enviado pero no han sido procesadas por el jefe. 
+            <p>En este apartado se puede observar las solicitudes que se han enviado pero no han sido procesadas por el
+              jefe.
             </p>
             <div class="input-group mb-3 ">
               <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
@@ -85,7 +85,7 @@
                   <tr
                     *ngFor="let solic of solicitudesEnviadas | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
                     <td>
-                      <a (click)="detalleSolicitud('ENVIADO', i)" *ngIf="solicitudesEnviadas">
+                      <a (click)="detalleSolicitud2('ENVIADO', i)" *ngIf="solicitudesEnviadas">
                         <i class="far fa-eye text-info"></i>
                       </a>
                     </td>
@@ -383,7 +383,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1"
+<div class="modal fade animated fadeIn slow" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdropLabel2" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -422,6 +422,59 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade animated fadeIn slow" id="staticBackdrop3" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel3">DETALLE DE LA SOLICITUD</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <table class="table table-bordered table-sm">
+          <tbody>
+            <tr>
+              <td class="text-left">Fecha inicio Vacaciones:</td>
+              <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]}}</td>
+            </tr>
+            <tr>
+              <td class="text-left">Fecha final de vacaciones: </td>
+              <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[5]}}</td>
+            </tr>
+            <tr>
+              <td class="text-left">Días solicitados: </td>
+              <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[2]}}</td>
+            </tr>
+            <tr>
+              <td class="text-left">Fecha de regreso a laborar:</td>
+              <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[6]}}</td>
+            </tr>
+            <tr>
+              <td class="text-left">Periodo afectado: </td>
+              <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[7]}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <h6>ACCIONES PERMITIDAS</h6><br>
+        <div class="col-12">
+          <div class="col-sm-12 col-12" id="btnCancelar">
+            <button type="button"  class="btn btn-outline-danger" (click)="cancelarEnvio()">CANCELAR SOLICITUD</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+
+      </div>
+
     </div>
   </div>
 </div>

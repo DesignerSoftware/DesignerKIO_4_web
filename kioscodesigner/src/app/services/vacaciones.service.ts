@@ -70,8 +70,14 @@ export class VacacionesService {
       return this.http.get(url);
   }
 
-  calculaFechaRegreso(seudonimo: string, nit: string, fechainicio: string, dias: number) {
+  calculaFechasSolicitud(seudonimo: string, nit: string, fechainicio: string, dias: number) {
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/calculaFechaRegreso?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&dias=${dias}`;
+    console.log('url:' + url);
+    return this.http.get(url);    
+  }
+
+  validaFechaInicio(seudonimo: string, nit: string, fechainicio: string) {
+    const url = `${environment.urlKioskoReportes}empleados/validaFechaInicioVacaciones?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}`;
     console.log('url:' + url);
     return this.http.get(url);    
   }
@@ -81,6 +87,11 @@ export class VacacionesService {
     this.SolicitudesJefe =null;
   }
 
+  setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, secuencia: string, motivo: string) {
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&cadena=${cadena}`;
+    console.log('url:' + url);
+    return this.http.post(url, []);
+}
 
 
 }

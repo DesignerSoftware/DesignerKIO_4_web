@@ -48,11 +48,11 @@ export class SidebarComponent implements OnInit {
             this.opcionesKioskosService.opcionesKioskos = data;
             this.usuarioServicio.datos = data;
             opkTempo = data;
-            console.log('opcionesKioskosAntes::', JSON.stringify(opkTempo));
+            //console.log('opcionesKioskosAntes::', JSON.stringify(opkTempo));
             this.opcionesKioskos = opkTempo.filter(
               (opcKio) => opcKio.clase === 'MENU'
             );
-            console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
+            //console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
           });
     } else {
       this.opcionesKioskos = this.opcionesKioskosService.opcionesKioskos;

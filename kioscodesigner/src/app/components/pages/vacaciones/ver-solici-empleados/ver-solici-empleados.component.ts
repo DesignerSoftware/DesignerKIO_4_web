@@ -6,7 +6,7 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { Label, Color, BaseChartDirective, SingleDataSet } from 'ng2-charts';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
+import swal from 'sweetalert2';
 
 
 
@@ -368,8 +368,69 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     this.pieChartOptions.legend.position = this.pieChartOptions.legend.position === 'left' ? 'top' : 'left';
   }
 
+  detalleSolicitud2(tipoSolicitud: string, index: string) {
+    this.tipoSolicitudSeleccionada = tipoSolicitud;
+    this.indexSolicitudSeleccionada = index;
+    console.log('tipoSolicitud: ' + tipoSolicitud);
+    console.log('index seleccionado: ' + index);
+    switch (tipoSolicitud) {
+      case 'ENVIADO': {
+        this.solicitudSeleccionada = this.solicitudesEnviadas[index];
+        break;
+      }
+    }
+    $('#staticBackdrop3').modal('show');
+  }
 
+  cancelarEnvio() {
+    let cancelado
+    swal.fire({
+      title: '¿Desea cancelar la solicitud?',
+      text: "Al cancelar la solicitud ocasionará que el estado de esta sea 'cancelado' ",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Cancelar',
+      cancelButtonText: 'Cerrar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.vacacionesService.setNuevoEstadoSolicio(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion,
+          'CANCELADO', this.solicitudSeleccionada[10], null)
+          .subscribe(
+            data => {
+              cancelado = data.toString();
+              console.log('diasRecha', data);
+              if (data) {
+                swal.fire({
+                  title: 'Cancelada!',
+                  text: "Su solicitud enviada ha sido cancelada. ",
+                  icon: 'success',                  
+                  confirmButtonColor: '#3085d6',                  
+                  confirmButtonText: 'Ok',
+                                   
+                }).then((result2) => {
+      if (result2.isConfirmed) {
+        this.reloadPage();
+      }})
+              } else {
+                swal.fire(
+                  'Ha habido un problema!',
+                  'Su solicitud enviada no ha podido ser cancelada.',
+                  'error'
+                )
+              }
+            }
+          );
+      }
 
+    })
+
+  }
+
+  reloadPage() {
+    this.ngOnInit();
+  }
 
 
 }

@@ -25,28 +25,31 @@
                 <i class="icon-sm fa fa-calendar mr-2"></i>
                 Días provisionados
               </p>
-              <h2>{{totalDiasVacacionesProv}}</h2>
+              <h2>{{totalDiasVacacionesProv || '...'}}</h2>
             </div>
             <div class="statistics-item">
               <p>
                 <i class="icon-sm fas fa-paper-plane mr-2"></i>
                 Días disfrutados
               </p>
-              <h2>{{totalDiasVacacionesSolici}}</h2>
+              <h2 *ngIf="false">{{totalDiasVacacionesSolici}}</h2>
+              <h2>{{totalDiasVacacionesLiquidados || '...'}}</h2>
             </div>
             <div class="statistics-item">
               <p>
                 <i class="icon-sm fas fa-child mr-2"></i>
                 Días en dinero
               </p>
-              <h2>{{totalDiasVacacionesLiquidados}}</h2>
+              <h2 *ngIf="false">{{totalDiasVacacionesLiquidados}}</h2>
+              <h2>...</h2>
             </div>
             <div class="statistics-item">
               <p>
                 <i class="icon-sm fas fa-thumbs-down mr-2"></i>
                 Total días
               </p>
-              <h2>{{totalDiasVacacionesRechazados}}</h2>
+              <h2 *ngIf="false">{{totalDiasVacacionesRechazados}}</h2>
+              <h2>...</h2>
             </div>
 
           </div>
@@ -67,8 +70,8 @@
       <td colspan="2">No hay periodos disponibles</td>
     </tr>    
     <tr *ngFor="let va of periodosPendientes">  
-      <td>{{va.periodoCausado}}</td>
-      <td>{{va.diasPendientes}}</td>
+      <td>{{va[5]}}</td>
+      <td>{{va[1]}}</td>
     </tr>                             
   </table>
 
@@ -99,7 +102,7 @@
       <p class="card-description">
         Por favor diligencie los campos fecha de inicio de vacaciones y cantidad de días para realizar su solicitud.
       </p>
-    <form class="form-sample mt-5" [formGroup]="formulario" (ngSubmit)="enviar()">
+    <form class="form-sample mt-5" [formGroup]="formulario" (ngSubmit)="enviarSolicitud()">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group row">
@@ -117,7 +120,15 @@
             <label class="col-sm-3 col-form-label">Fecha inicio:</label>
             <div class="col-sm-9">
               <input type="date" class="form-control 
-                      form-control-sm" formControlName="fechainicio" (change)="actualizaCampos()" />
+                      form-control-sm" formControlName="fechainicio" (change)="validaFecha()" />
+              <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.required
+                      && formulario.get('fechainicio').touched">
+                     Seleccione la fecha de inicio de vacaciones
+              </small>
+              <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.noValido
+                      && formulario.get('fechainicio').touched">
+                     {{mensajeValidacionFechaInicio}}
+              </small>
             </div>
 
 
@@ -140,7 +151,7 @@
           <div class="form-group row">
             <label class="col-sm-3 col-form-label">Días:</label>
             <div class="col-sm-9">
-              <select class="form-control" formControlName="dias" (change)="actualizaCampos()">
+              <select class="form-control" formControlName="dias" (change)="validaFecha()">
                 <option value="" *ngIf="array.length<=0" selected="true">Cargando...</option>
                 <option value="" *ngIf="array.length>0" selected="true">Seleccione una opción</option>
                 <option [value]="d" *ngFor="let d of array">{{d}}</option>
