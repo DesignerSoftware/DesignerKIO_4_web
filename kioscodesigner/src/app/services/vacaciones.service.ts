@@ -95,8 +95,8 @@ export class VacacionesService {
     return this.http.get(url);
   }
 
-  crearSolicitudVacaciones(seudonimo: string, nit: string, estado: string, fechainicio: string, fecharegreso: string, dias: string, vacacion: string, cadena: string, urlKiosco: string, grupoEmpr: string) {
-    const url = `${environment.urlKioskoReportes}vacacionesPendientes/crearSolicitudVacaciones?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&fecharegreso=${fecharegreso}&dias=${dias}&vacacion=${vacacion}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
+  crearSolicitudVacaciones(seudonimo: string, nit: string, estado: string, fechainicio: string, fecharegreso: string, dias: string, vacacion: string, cadena: string, urlKiosco: string, grupoEmpr: string, fechafin: string) {
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/crearSolicitudVacaciones?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&fecharegreso=${fecharegreso}&dias=${dias}&vacacion=${vacacion}&fechafin=${fechafin}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
     console.log('url:' + url);
     console.log('url recibida:'+urlKiosco)
     console.log('grupo recibid:'+grupoEmpr)

@@ -293,7 +293,8 @@ export class CrearSolicitudComponent implements OnInit {
                       this.vacacion,
                       this.usuarioService.cadenaConexion,
                       this.usuarioService.urlKioscoDomain,
-                      this.usuarioService.grupoEmpresarial
+                      this.usuarioService.grupoEmpresarial,
+                      this.formulario.get('fechafin').value
                     )
                     .subscribe(
                       (data) => {
