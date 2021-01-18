@@ -25,14 +25,14 @@
                 <i class="icon-sm fa fa-calendar mr-2"></i>
                 Días provisionados
               </p>
-              <h2>{{totalDiasVacacionesProv || '...'}}</h2>
+              <h2>{{totalDiasVacacionesProv || '0'}}</h2>
             </div>
             <div class="statistics-item">
               <p>
                 <i class="icon-sm fas fa-child mr-2"></i>
                 Días disfrutados
               </p>
-              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[1][2] || '...'}}</h2>            
+              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[1][2] || '0'}}</h2>            
               <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2>            
             </div>
             <div class="statistics-item">
@@ -40,7 +40,7 @@
                 <i class="fas fa-money-bill"></i>
                 Días en dinero
               </p>
-              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[0][2] || '...'}}</h2> 
+              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[0][2] || '0'}}</h2> 
               <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2> 
             </div>
             <div class="statistics-item">
@@ -48,7 +48,7 @@
                 <i class="far fa-calendar-plus"></i>
                 Total días
               </p>
-              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[2][2]+totalDiasVacacionesProv || '...'}}</h2> 
+              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[2][2]+totalDiasVacacionesProv || '0'}}</h2> 
               <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2> 
             </div>
 
