@@ -44,13 +44,13 @@
                               <i class="far fa-eye text-info"></i>
                             </a>
                           </td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[0]}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[1]}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[2]}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[3]}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[4]}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[13]}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[6]}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[0]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[1]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[2]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[3]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[4]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[13]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[6]||''}}</td>
                         </tr>
                       </tbody>
                     </table>

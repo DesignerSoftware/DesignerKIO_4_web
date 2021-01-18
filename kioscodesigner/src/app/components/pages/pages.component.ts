@@ -27,8 +27,8 @@ export class PagesComponent implements OnInit {
               private cadenasKioskos: CadenaskioskosappService) {
     this.getInfoUsuario();
     this.validarSesion();
-    this.cargaFoto(); // cargar la foto del usuario conectado
-    this.cargaLogo();
+    //this.cargaFoto(); // cargar la foto del usuario conectado
+    //this.cargaLogo();
   }
 
   ngOnInit() {
@@ -40,6 +40,7 @@ export class PagesComponent implements OnInit {
     this.usuarioServicio.setEmpresa(sesion['empresa']);
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
+    this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
     console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
     .subscribe(

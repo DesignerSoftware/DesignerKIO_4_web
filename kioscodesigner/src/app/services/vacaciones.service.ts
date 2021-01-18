@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class VacacionesService {
   opcionesKiosco: any = [];
   SolicitudesJefe=null;
+
   constructor(private http: HttpClient) { }
 
   getSolicitudesXEstado(documento: string, nit: string, estado: string) {
@@ -82,16 +83,30 @@ export class VacacionesService {
     return this.http.get(url);    
   }
 
+  setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, secuencia: string, motivo: string, urlKiosco: string, grupoEmpr: string) {
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
+    console.log('url:' + url);
+    return this.http.post(url, []);
+  }
+
+  getDiasNovedadesVaca(nit: string, empleado: string, cadena: string) {
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/getDiasNovedadesVaca?nit=${nit}&empleado=${empleado}&cadena=${cadena}`;
+    console.log('url:' + url);
+    return this.http.get(url);
+  }
+
+  crearSolicitudVacaciones(seudonimo: string, nit: string, estado: string, fechainicio: string, fecharegreso: string, dias: string, vacacion: string, cadena: string, urlKiosco: string, grupoEmpr: string) {
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/crearSolicitudVacaciones?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&fecharegreso=${fecharegreso}&dias=${dias}&vacacion=${vacacion}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
+    console.log('url:' + url);
+    console.log('url recibida:'+urlKiosco)
+    console.log('grupo recibid:'+grupoEmpr)
+    return this.http.post(url, []);
+  }
+
   clear() {
     this.opcionesKiosco = [];
     this.SolicitudesJefe =null;
   }
-
-  setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, secuencia: string, motivo: string) {
-    const url = `${environment.urlKioskoReportes}vacacionesPendientes/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&cadena=${cadena}`;
-    console.log('url:' + url);
-    return this.http.post(url, []);
-}
 
 
 }

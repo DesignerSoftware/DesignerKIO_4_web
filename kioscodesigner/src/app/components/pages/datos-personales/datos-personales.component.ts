@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-datos-personales',
@@ -7,15 +8,18 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./datos-personales.component.css']
 })
 export class DatosPersonalesComponent implements OnInit {
+  fotoPerfil;
+  url = 'assets/images/fotos_empleados/sinFoto.jpg';
   // datos = null;
 
   constructor(public usuarioServicio: UsuarioService) {
     this.cargarDatos();
     this.cargarDatosFamilias();
+    //this.cargaFoto();
   }
 
   ngOnInit() {
-
+    //this.cargaFoto();
   }
 
   cargarDatos() {
@@ -50,6 +54,20 @@ export class DatosPersonalesComponent implements OnInit {
       resultado = 'NEGATIVO';
     }
     return resultado;
+  }
+
+  cargaFoto() {
+    /*console.log('getDocumentoDatosPersonales');
+    this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.fotoPerfil = data['result'];
+          console.log('documento: ' + this.fotoPerfil);
+          document.getElementById('fotoPerfilEmpl1').setAttribute('src',
+            `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);
+        }
+      );*/
   }
 
 }

@@ -4,11 +4,14 @@
       <h4 class="card-title">
         <i class="fas fa-address-card"></i>
         Datos Personales</h4>
-      <p class="card-description">
+      <p class="card-description" style="margin: 0px;">
         Información personal
       </p>
 
-
+     <div style="text-align: center;">
+      <!--<img id="fotoPerfilEmpl1" [src]="cargaFoto() || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" alt="..." style=" width: 150px; height: 150px; border-radius: 50%;">-->
+      <h6 class="card-title text-muted" style="margin-top: 20px;" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales[0] && usuarioServicio.datosPersonales[0][1]">{{usuarioServicio.datosPersonales[0][1]||''}}</h6>
+    </div>
       <hr>
 
       <div class="col-md-12 col-sm-12 grid-margin stretch-card" *ngIf="usuarioServicio.datosPersonales == null">
@@ -20,32 +23,13 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null">
+      
+      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Primer Apellido</label>
+            <label class="col-sm-3 col-form-label col-form-label-sm">Dirección</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][2]"
-                disabled />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Segundo Apellido</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][3]"
-                disabled />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null">
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Nombres</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][1]"
+              <input type="text" class="form-control form-control-sm" [value]="usuarioServicio?.datosPersonales[0][23] || ''"
                 disabled />
             </div>
           </div>
@@ -60,7 +44,7 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null">
+      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label col-form-label-sm">Fecha de Nacimiento</label>
@@ -98,9 +82,9 @@
         </div>
         <div class="col-md-6">
           <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Dirección</label>
+            <label class="col-sm-3 col-form-label col-form-label-sm">Centro costo</label>
             <div class="col-sm-9">
-              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][23] || ''"
+              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][26] || ''"
                 disabled />
             </div>
           </div>
@@ -115,26 +99,27 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null">
+      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">       
         <div class="col-md-6">
           <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Grupo Sanguineo</label>
+            <label class="col-sm-3 col-form-label col-form-label-sm">Factor RH</label>
             <div class="col-sm-9">
-              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][7]" disabled />
+              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][7]+ ' ' +FactorRHp(usuarioServicio.datosPersonales[0][8])"
+                disabled />
             </div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Factor RH</label>
+            <label class="col-sm-3 col-form-label col-form-label-sm">Edad</label>
             <div class="col-sm-9">
-              <input class="form-control form-control-sm" [value]="FactorRHp(usuarioServicio.datosPersonales[0][8])"
+              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][27] || ''"
                 disabled />
             </div>
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null">
+      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label col-form-label-sm">Tipo Documento:</label>
@@ -154,7 +139,7 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null">
+      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label col-form-label-sm">Lugar de expedición</label>
@@ -183,14 +168,16 @@
                   <thead style="background: #00223C; color: white;">
                       <tr id="tblfamiliares">                                  
                         <th>Nombre</th>
-                        <th>Parentesco</th>                                                          
+                        <th>Parentesco</th>
+                        <th>Numero de contacto</th>                                                           
                       </tr>
                   </thead>
                   <tbody>  
                     <tr *ngIf="!usuarioServicio.datosFamilia || usuarioServicio.datosFamilia==null || usuarioServicio.datosFamilia.length==0"><td colspan="2">No hay familiares asociados...</td></tr>                  
                     <tr *ngFor="let fami of usuarioServicio.datosFamilia">                         
-                      <td>{{fami[0]}}</td>
-                      <td >{{fami[1]}}</td>                     
+                      <td *ngIf="fami">{{fami[0]||''}}</td>
+                      <td *ngIf="fami">{{fami[1]||''}}</td>
+                      <td *ngIf="fami">{{fami[2]||''}}</td>                     
                     </tr>                              
                   </tbody>                            
               </table>              
@@ -209,7 +196,7 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null">
+      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label col-form-label-sm">Nit:</label>

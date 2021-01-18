@@ -23,6 +23,7 @@ export class UsuarioService {
   cadenaConexion;
   datosFamilia = null;
   datosPersonales = null;
+  urlKioscoDomain = "https://www.designer.com.co:8179";
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
   public url = 'https://www.designer.com.co:8178/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
 
@@ -56,6 +57,10 @@ export class UsuarioService {
 
   setGrupo(grupo: string){
     this.grupoEmpresarial=grupo;
+  }
+
+  setUrlKiosco(url: string){
+    this.urlKioscoDomain=url;
   }
 
   // getDatosUsuario(usuario: string, nit: string) {
@@ -236,5 +241,6 @@ export class UsuarioService {
     this.cadenaConexion = null;
     this.datosPersonales = null;
     this.datosFamilia = null;
+    this.urlKioscoDomain= null;
   }
 }

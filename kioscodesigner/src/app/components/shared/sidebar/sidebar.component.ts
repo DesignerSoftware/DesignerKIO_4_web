@@ -26,7 +26,6 @@ export class SidebarComponent implements OnInit {
     this.cargarOpciones();
     this.cargaFoto();
     this.nombreUsuario = this.usuarioServicio.nombrePersona;
-    // this.cargarDatos();
   }
 
   ngOnInit() {
@@ -80,6 +79,7 @@ export class SidebarComponent implements OnInit {
     // this.router.navigate(['/login']);
     this.router.navigate(['/']);
   }
+  
   minbody2() {    
     $('.sidebar-offcanvas').toggleClass('active');
     console.log('presionado 2');

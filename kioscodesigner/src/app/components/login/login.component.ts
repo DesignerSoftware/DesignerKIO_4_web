@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   formulario: FormGroup;
   empresas;
   grupoEmpresarial = null;
+  urlKiosco="https://www.designer:8179/#/login/GrupoEmpresarial1";
   cadenaskioskos = [
    /*{
       id: 1,
@@ -49,7 +50,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.cadenasApp = null;
     console.log('usuario logueado', usuarioService.getUserLoggedIn());
-
+    
     if (!usuarioService.getUserLoggedIn()) {
       this.activatedRoute.params
       .subscribe(params => {
@@ -115,6 +116,7 @@ export class LoginComponent implements OnInit {
   }
 
   enviar() {
+    this.urlKiosco=document.location.href;
     console.log(this.formulario);
     Object.values( this.formulario.controls ).forEach( control => {
       control.markAsTouched();
@@ -173,7 +175,8 @@ export class LoginComponent implements OnInit {
                         empresa: this.formulario.get('empresa').value,
                         grupo: this.grupoEmpresarial,
                         // cadena: cadenaEmpresa['CADENA']
-                        cadena: cadenaEmpresa[4]
+                        cadena: cadenaEmpresa[4],
+                        urlKiosco: document.location.href
                       };
                       this.usuarioService.setUserLoggedIn(sesion);
                       this.usuarioService.getUserLoggedIn(); // Mostrar por consola los datos del usuario actual

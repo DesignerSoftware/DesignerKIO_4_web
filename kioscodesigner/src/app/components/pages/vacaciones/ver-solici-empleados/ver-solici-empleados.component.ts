@@ -11,12 +11,11 @@ import swal from 'sweetalert2';
 
 
 @Component({
-  selector: 'app-ver-solici-empleados',
-  templateUrl: './ver-solici-empleados.component.html',
-  styleUrls: ['./ver-solici-empleados.component.css']
+  selector: "app-ver-solici-empleados",
+  templateUrl: "./ver-solici-empleados.component.html",
+  styleUrls: ["./ver-solici-empleados.component.css"],
 })
 export class VerSoliciEmpleadosComponent implements OnInit {
-
   solicitudesEnviadas = null;
   public dataFilt: any = "";
   public p: number = 1;
@@ -37,150 +36,142 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   private eventsOnChartLimit = 20;
 
   public polarAreaChartOptions: ChartOptions = {
-
     responsive: true,
     maintainAspectRatio: true,
     aspectRatio: 1,
     devicePixelRatio: 7,
     legend: {
       fullWidth: false,
-      position: 'top',
-      align: 'start',
+      position: "top",
+      align: "start",
       labels: {
         padding: 7,
         fontSize: 10,
-        usePointStyle: true
-
-      }
+        usePointStyle: true,
+      },
     },
     // We use these empty structures as placeholders for dynamic theming.
-
   };
 
-  public polarAreaChartType: ChartType = 'polarArea';
+  public polarAreaChartType: ChartType = "polarArea";
 
   public polarAreaChartLegend = true;
   public polarAreaChartPlugins = [];
   public polarAreaChartColors = [
     {
-      backgroundColor: ['rgba(91, 179, 174,0.3)', 'rgba(8, 104, 179,0.3)', 'rgba(26, 71, 186,0.3)', 'rgba(118, 54, 38,0.3)'],
+      backgroundColor: [
+        "rgba(91, 179, 174,0.3)",
+        "rgba(8, 104, 179,0.3)",
+        "rgba(26, 71, 186,0.3)",
+        "rgba(118, 54, 38,0.3)",
+      ],
     },
   ];
-  public polarAreaChartLabels: Label[] = ['Días provisionados', 'Días Solicitados', 'Días aprobados', 'Días rechazados'];
+  public polarAreaChartLabels: Label[] = [
+    "Días provisionados",
+    "Días en Dinero",
+    "Días disfrutados",
+    "Total Días",
+  ];
   public polarAreaChartData: number[] = [];
   public polarAreaLegend = true;
 
-
-
   /////////////////////Pie////////////////
   public pieChartOptions: ChartOptions = {
-
-
     responsive: true,
     maintainAspectRatio: true,
     aspectRatio: 1,
     devicePixelRatio: 5,
     legend: {
       fullWidth: true,
-      position: 'top',
-      align: 'start',
+      position: "top",
+      align: "start",
       labels: {
         padding: 7,
         fontSize: 10,
-        usePointStyle: true
-
-      }
+        usePointStyle: true,
+      },
     },
-    plugins: {
-
-    },
-
+    plugins: {},
   };
 
-  public pieChartLabels: Label[] = [['Días provisionados'], ['Días Solicitados'], ['Días aprobados'], 'Días rechazados'];
+  public pieChartLabels: Label[] = [
+    ["Días provisionados"],
+    ["Días en Dinero"],
+    ["Días disfrutados"],
+    "Total Días",
+  ];
   public pieChartData: number[] = [];
 
-  public pieChartType: ChartType = 'pie';
+  public pieChartType: ChartType = "pie";
   public pieChartLegend = true;
 
-  public pieChartPlugins = [{
-
-  }
-  ];
+  public pieChartPlugins = [{}];
   public pieChartColors = [
     {
-      backgroundColor: ['rgba(91, 179, 174,0.3)', 'rgba(8, 104, 179,0.3)', 'rgba(26, 71, 186,0.3)', 'rgba(118, 54, 38,0.3)'],
+      backgroundColor: [
+        "rgba(91, 179, 174,0.3)",
+        "rgba(8, 104, 179,0.3)",
+        "rgba(26, 71, 186,0.3)",
+        "rgba(118, 54, 38,0.3)",
+      ],
     },
   ];
 
-
-  constructor(private vacacionesService: VacacionesService, private usuarioService: UsuarioService) {
-
+  constructor(
+    private vacacionesService: VacacionesService,
+    private usuarioService: UsuarioService
+  ) {
     // dias provisionados
     let diasProv: string = "";
-    this.vacacionesService.getDiasVacacionesProvisionadas(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
-      .subscribe(
-        data => {
-          diasProv = data.toString();
-          console.log('diasProv', data);
-          this.polarAreaChartData.push(parseInt(diasProv, 0));
-          this.pieChartData.push(parseInt(diasProv, 0));
-
-        }
-      );
+    this.vacacionesService
+      .getDiasVacacionesProvisionadas(
+        this.usuarioService.usuario,
+        this.usuarioService.empresa,
+        this.usuarioService.cadenaConexion
+      )
+      .subscribe((data) => {
+        diasProv = data.toString();
+        console.log("diasProv", data);
+        this.polarAreaChartData.push(parseInt(diasProv, 0));
+        this.pieChartData.push(parseInt(diasProv, 0));
+      });
 
     // dias Enviados
-    let diasEnv: string = "";
-    this.vacacionesService.getTotalDiasSolicitadosXUltimoEstado(this.usuarioService.usuario,
-      this.usuarioService.empresa, this.usuarioService.cadenaConexion, 'ENVIADO')
-      .subscribe(
-        data => {
-          diasEnv = data.toString();
-          console.log('DiasEnv', data);
-          this.polarAreaChartData.push(parseInt(diasEnv, 0));
-          this.pieChartData.push(parseInt(diasEnv, 0));
-        }
+    this.vacacionesService
+      .getDiasNovedadesVaca(
+        this.usuarioService.empresa,
+        this.usuarioService.usuario,
+        this.usuarioService.cadenaConexion
       )
-
-    // dias Aprobados  
-    let diasAprob: string = "";
-    this.vacacionesService.getTotalDiasSolicitadosXUltimoEstado(this.usuarioService.usuario,
-      this.usuarioService.empresa, this.usuarioService.cadenaConexion, 'AUTORIZADO')
-      .subscribe(
-        data => {
-          diasAprob = data.toString();
-          console.log('DiasAprob', data);
-          this.polarAreaChartData.push(parseInt(diasAprob, 0));
-          this.pieChartData.push(parseInt(diasAprob, 0));
-        }
-      )
-
-      // dias Rechazados  
-    let diasRecha: string = "";
-    this.vacacionesService.getTotalDiasSolicitadosXUltimoEstado(this.usuarioService.usuario,
-      this.usuarioService.empresa, this.usuarioService.cadenaConexion, 'RECHAZADO')
-      .subscribe(
-        data => {
-          diasRecha = data.toString();
-          console.log('diasRecha', data);
-          this.polarAreaChartData.push(parseInt(diasRecha, 0));
-          this.pieChartData.push(parseInt(diasRecha, 0));
-        }
-      )
-
+      .subscribe((data) => {
+        let diasEnv = data;
+        console.log("DiasEnv", data);
+        this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));
+        this.pieChartData.push(parseInt(diasEnv[0][2], 0));
+        this.polarAreaChartData.push(parseInt(diasEnv[1][2], 0));
+        this.pieChartData.push(parseInt(diasEnv[1][2], 0));
+        this.polarAreaChartData.push(parseInt(diasEnv[2][2], 0));
+        this.pieChartData.push(parseInt(diasEnv[2][2], 0));
+      });
   }
 
   ngOnInit() {
-    if (this.usuarioService.documento == null || this.usuarioService.documento.lenght === 0) {
-      this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa)
-        .subscribe(
-          data => {
-            console.log(data['result']);
-            this.usuarioService.documento = data['result'];
-            console.log('ng OnInit:', this.usuarioService.documento);
-            this.consultarSoliciXEstados();
-          }
-        );
+    if (
+      this.usuarioService.documento == null ||
+      this.usuarioService.documento.lenght === 0
+    ) {
+      this.usuarioService
+        .getDocumentoSeudonimo(
+          this.usuarioService.usuario,
+          this.usuarioService.empresa
+        )
+        .subscribe((data) => {
+          console.log(data["result"]);
+          this.usuarioService.documento = data["result"];
+          console.log("ng OnInit:", this.usuarioService.documento);
+          this.consultarSoliciXEstados();
+        });
     } else {
       this.consultarSoliciXEstados();
     }
@@ -196,8 +187,6 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     //   console.log('errorrrrr', error);
     // });
 
-
-
     //
 
     //   this.vacacionesService.getDiasVacacionesProvisionadas(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion )
@@ -208,7 +197,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     //       this.pushEventToChartData(data);
     //       console.log(" totalDiasVacacionesProv ", data);
     //     }
-    //   );   
+    //   );
   }
 
   // private pushEventToChartData(event): void {
@@ -242,26 +231,26 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   detalleSolicitud(tipoSolicitud: string, index: string) {
     this.tipoSolicitudSeleccionada = tipoSolicitud;
     this.indexSolicitudSeleccionada = index;
-    console.log('tipoSolicitud: ' + tipoSolicitud);
-    console.log('index seleccionado: ' + index);
+    console.log("tipoSolicitud: " + tipoSolicitud);
+    console.log("index seleccionado: " + index);
     switch (tipoSolicitud) {
-      case 'ENVIADO': {
+      case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
         break;
       }
-      case 'APROBADO': {
+      case "APROBADO": {
         this.solicitudSeleccionada = this.solicitudesAprobadas[index];
         break;
       }
-      case 'RECHAZADO': {
+      case "RECHAZADO": {
         this.solicitudSeleccionada = this.solicitudesRechazadas[index];
         break;
       }
-      case 'LIQUIDADO': {
+      case "LIQUIDADO": {
         this.solicitudSeleccionada = this.solicitudesLiquidadas[index];
         break;
       }
-      case 'CANCELADO': {
+      case "CANCELADO": {
         this.solicitudSeleccionada = this.solicitudesCanceladas[index];
         break;
       }
@@ -269,58 +258,73 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         //this.solicitudSeleccionada = null;
       }*/
     }
-    $('#staticBackdrop2').modal('show');
+    $("#staticBackdrop2").modal("show");
   }
 
   getSoliciEnviadas() {
-    this.vacacionesService.getSolicitudesXEstado(this.usuarioService.documento, this.usuarioService.empresa, 'ENVIADO')
-      .subscribe(
-        data => {
-          console.log("Datos iniciales");
-          console.log(data);
-          this.solicitudesEnviadas = data;
-        }
-      );
+    this.vacacionesService
+      .getSolicitudesXEstado(
+        this.usuarioService.documento,
+        this.usuarioService.empresa,
+        "ENVIADO"
+      )
+      .subscribe((data) => {
+        console.log("Datos iniciales");
+        console.log(data);
+        this.solicitudesEnviadas = data;
+      });
   }
 
   getSoliciAprobadas() {
-    this.vacacionesService.getSolicitudesXEstado(this.usuarioService.documento, this.usuarioService.empresa, 'AUTORIZADO')
-      .subscribe(
-        data => {
-          console.log(data);
-          this.solicitudesAprobadas = data;
-        }
-      );
+    this.vacacionesService
+      .getSolicitudesXEstado(
+        this.usuarioService.documento,
+        this.usuarioService.empresa,
+        "AUTORIZADO"
+      )
+      .subscribe((data) => {
+        console.log(data);
+        this.solicitudesAprobadas = data;
+      });
   }
 
   getSoliciRechazadas() {
-    this.vacacionesService.getSolicitudesXEstado(this.usuarioService.documento, this.usuarioService.empresa, 'RECHAZADO')
-      .subscribe(
-        data => {
-          console.log(data);
-          this.solicitudesRechazadas = data;
-        }
-      );
+    this.vacacionesService
+      .getSolicitudesXEstado(
+        this.usuarioService.documento,
+        this.usuarioService.empresa,
+        "RECHAZADO"
+      )
+      .subscribe((data) => {
+        console.log(data);
+        this.solicitudesRechazadas = data;
+      });
   }
 
   getSoliciLiquidadas() {
-    this.vacacionesService.getSolicitudesXEstado(this.usuarioService.documento, this.usuarioService.empresa, 'LIQUIDADO')
-      .subscribe(
-        data => {
-          console.log(data);
-          this.solicitudesLiquidadas = data;
-        }
-      );
+    this.vacacionesService
+      .getSolicitudesXEstado(
+        this.usuarioService.documento,
+        this.usuarioService.empresa,
+        "LIQUIDADO"
+      )
+      .subscribe((data) => {
+        console.log(data);
+        this.solicitudesLiquidadas = data;
+      });
   }
 
   getSoliciCanceladas() {
-    this.vacacionesService.getSolicitudesXEstado(this.usuarioService.documento, this.usuarioService.empresa, 'CANCELADO')
-      .subscribe(
-        data => {
-          console.log(data);
-          this.solicitudesCanceladas = data;
-        }
-      );
+    this.vacacionesService
+      .getSolicitudesXEstado(
+        this.usuarioService.documento,
+        this.usuarioService.empresa,
+        "CANCELADO"
+      )
+      .subscribe((data) => {
+        console.log(data);
+        this.solicitudesCanceladas = data;
+      });
   }
 
   // events char
@@ -338,25 +342,84 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   // }
 
   // events pie
-  public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+  public chartClicked({
+    event,
+    active,
+  }: {
+    event: MouseEvent;
+    active: {}[];
+  }): void {
     console.log(event, active);
   }
 
-  public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+  public chartHovered({
+    event,
+    active,
+  }: {
+    event: MouseEvent;
+    active: {}[];
+  }): void {
     console.log(event, active);
   }
 
   changeLabels(): void {
-    const words = ['hen', 'variable', 'embryo', 'instal', 'pleasant', 'physical', 'bomber', 'army', 'add', 'film',
-      'conductor', 'comfortable', 'flourish', 'establish', 'circumstance', 'chimney', 'crack', 'hall', 'energy',
-      'treat', 'window', 'shareholder', 'division', 'disk', 'temptation', 'chord', 'left', 'hospital', 'beef',
-      'patrol', 'satisfied', 'academy', 'acceptance', 'ivory', 'aquarium', 'building', 'store', 'replace', 'language',
-      'redeem', 'honest', 'intention', 'silk', 'opera', 'sleep', 'innocent', 'ignore', 'suite', 'applaud', 'funny'];
+    const words = [
+      "hen",
+      "variable",
+      "embryo",
+      "instal",
+      "pleasant",
+      "physical",
+      "bomber",
+      "army",
+      "add",
+      "film",
+      "conductor",
+      "comfortable",
+      "flourish",
+      "establish",
+      "circumstance",
+      "chimney",
+      "crack",
+      "hall",
+      "energy",
+      "treat",
+      "window",
+      "shareholder",
+      "division",
+      "disk",
+      "temptation",
+      "chord",
+      "left",
+      "hospital",
+      "beef",
+      "patrol",
+      "satisfied",
+      "academy",
+      "acceptance",
+      "ivory",
+      "aquarium",
+      "building",
+      "store",
+      "replace",
+      "language",
+      "redeem",
+      "honest",
+      "intention",
+      "silk",
+      "opera",
+      "sleep",
+      "innocent",
+      "ignore",
+      "suite",
+      "applaud",
+      "funny",
+    ];
     const randomWord = () => words[Math.trunc(Math.random() * words.length)];
-    this.pieChartLabels = Array.apply(null, { length: 4 }).map(_ => randomWord());
+    this.pieChartLabels = Array.apply(null, { length: 4 }).map((_) =>
+      randomWord()
+    );
   }
-
-
 
   removeSlice(): void {
     this.pieChartLabels.pop();
@@ -365,72 +428,147 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   }
 
   changeLegendPosition(): void {
-    this.pieChartOptions.legend.position = this.pieChartOptions.legend.position === 'left' ? 'top' : 'left';
+    this.pieChartOptions.legend.position =
+      this.pieChartOptions.legend.position === "left" ? "top" : "left";
   }
 
   detalleSolicitud2(tipoSolicitud: string, index: string) {
     this.tipoSolicitudSeleccionada = tipoSolicitud;
     this.indexSolicitudSeleccionada = index;
-    console.log('tipoSolicitud: ' + tipoSolicitud);
-    console.log('index seleccionado: ' + index);
+    console.log("tipoSolicitud: " + tipoSolicitud);
+    console.log("index seleccionado: " + index);
     switch (tipoSolicitud) {
-      case 'ENVIADO': {
+      case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
         break;
       }
     }
-    $('#staticBackdrop3').modal('show');
+    $("#staticBackdrop3").modal("show");
   }
 
   cancelarEnvio() {
-    let cancelado
-    swal.fire({
-      title: '¿Desea cancelar la solicitud?',
-      text: "Al cancelar la solicitud ocasionará que el estado de esta sea 'cancelado' ",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Cancelar',
-      cancelButtonText: 'Cerrar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.vacacionesService.setNuevoEstadoSolicio(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion,
-          'CANCELADO', this.solicitudSeleccionada[10], null)
-          .subscribe(
-            data => {
+    let cancelado;
+    swal
+      .fire({
+        title: "¿Desea cancelar la solicitud?",
+        text:
+          "Al cancelar la solicitud ocasionará que el estado de esta sea 'cancelado' ",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Cancelar",
+        cancelButtonText: "Cerrar",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          /*this.vacacionesService
+            .setNuevoEstadoSolicio(
+              this.usuarioService.usuario,
+              this.usuarioService.empresa,
+              this.usuarioService.cadenaConexion,
+              "CANCELADO",
+              this.solicitudSeleccionada[10],
+              null,
+              this.usuarioService.urlKioscoDomain,
+              this.usuarioService.grupoEmpresarial
+            )
+            .subscribe((data) => {
               cancelado = data.toString();
-              console.log('diasRecha', data);
+              console.log("diasRecha", data);
               if (data) {
-                swal.fire({
-                  title: 'Cancelada!',
-                  text: "Su solicitud enviada ha sido cancelada. ",
-                  icon: 'success',                  
-                  confirmButtonColor: '#3085d6',                  
-                  confirmButtonText: 'Ok',
-                                   
-                }).then((result2) => {
-      if (result2.isConfirmed) {
-        this.reloadPage();
-      }})
+                swal
+                  .fire({
+                    title: "Cancelada!",
+                    text: "Su solicitud enviada ha sido cancelada. ",
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok",
+                  })
+                  .then((result2) => {
+                    if (result2.isConfirmed) {
+                      this.reloadPage();
+                    }
+                  });
               } else {
                 swal.fire(
-                  'Ha habido un problema!',
-                  'Su solicitud enviada no ha podido ser cancelada.',
-                  'error'
-                )
+                  "Ha habido un problema!",
+                  "Su solicitud enviada no ha podido ser cancelada.",
+                  "error"
+                );
               }
-            }
-          );
-      }
+            });*/
 
-    })
 
+            swal.fire({
+              title: "Enviando la solicitud al sistema, por favor espere...",
+              onBeforeOpen: () => {
+                swal.showLoading();
+          this.vacacionesService
+            .setNuevoEstadoSolicio(
+              this.usuarioService.usuario,
+              this.usuarioService.empresa,
+              this.usuarioService.cadenaConexion,
+              "CANCELADO",
+              this.solicitudSeleccionada[10],
+              null,
+              this.usuarioService.urlKioscoDomain,
+              this.usuarioService.grupoEmpresarial
+            )
+            .subscribe(
+                    (data) => {
+                      console.log(data);
+                      if (data) {
+                        $('#staticBackdrop3').modal('hide');                        
+                        swal
+                          .fire({
+                            icon: "success",
+                            title:
+                              "Solicitud de vacaciones cancelada exitosamente",
+                            showConfirmButton: true,
+                          })
+                          .then((res) => {
+                            //this.router.navigate(["/vacaciones"]);
+                            this.reloadPage();
+                          });
+                      } else {
+                        swal
+                          .fire({
+                            icon: "error",
+                            title: 'Ha ocurrido un error al cancelar la solicitud.',
+                            text: 'Por favor inténtelo de nuevo más tarde. Si el problema persiste contáctese con el área de nómina y recursos humanos de su empresa.',
+                            showConfirmButton: true,
+                          })
+                          .then((res) => {
+                            //this.router.navigate(["/vacaciones"]);
+                            this.reloadPage();
+                          });
+                      }
+                    },
+                    (error) => {
+                      swal
+                        .fire({
+                          icon: 'error',
+                          title: 'Ha ocurrido un error al crear la solicitud',
+                          text:
+                            'Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.',
+                          showConfirmButton: true,
+                        })
+                        .then((res) => {
+                          //this.router.navigate(["/vacaciones"]);
+                          this.reloadPage();
+                        });
+                    }
+                  );
+              },
+              allowOutsideClick: () => !swal.isLoading(),
+            });
+
+        }
+      });
   }
 
   reloadPage() {
     this.ngOnInit();
   }
-
-
 }

@@ -20,6 +20,7 @@ codigoReporteSeleccionado = null;
   constructor(private opcionesKioskosServicio: OpcionesKioskosService, private usuarioServicio: UsuarioService, private router: Router, public vacacionesService: VacacionesService
     ) {
     //this.opcioneskioskoG = this.opcionesKioskosServicio.getOpcionesKiosco(this.empresa);
+    this.vacacionesService.SolicitudesJefe = null;
     console.log(this.opcioneskioskoG);
     this.filtrarOpcionesReportes();
   }
