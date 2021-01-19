@@ -22,7 +22,7 @@
                   <i class="icon-sm fas fa-check-circle mr-2"></i>
                   SALARIO
                 </p>
-                <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][19] | currency: '$' || '...'}}</h6>
+                <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][19] || '...'}}</h6>
               </div>
               <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales!=null">
                 <p>
@@ -36,7 +36,7 @@
                   <i class="icon-sm fas fa-plane mr-2"></i>
                   VACACIONES PROVISIONADAS
                 </p>
-                <h6 *ngIf="usuarioServicio.datosPersonales">{{totalDiasVacacionesProv || '...'}}</h6>
+                <h6 style="text-align: center;" *ngIf="usuarioServicio.datosPersonales">{{totalDiasVacacionesProv || '...'}}</h6>
               </div>
           </div>
         </div>

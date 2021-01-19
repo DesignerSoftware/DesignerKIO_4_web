@@ -71,7 +71,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     "Días provisionados",
     "Días en Dinero",
     "Días disfrutados",
-    "Total Días",
+    "Días utilizados",
   ];
   public polarAreaChartData: number[] = [];
   public polarAreaLegend = true;
@@ -99,7 +99,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     ["Días provisionados"],
     ["Días en Dinero"],
     ["Días disfrutados"],
-    "Total Días",
+    "Días utilizados",
   ];
   public pieChartData: number[] = [];
 

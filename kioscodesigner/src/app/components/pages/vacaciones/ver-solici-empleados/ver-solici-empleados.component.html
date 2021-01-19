@@ -298,7 +298,7 @@
               <table class="table table-hover" style="text-align: center;">
                 <thead style="background: #00223C; color: white;">
                   <tr id="tblfamiliares">
-                    <!-- <th>Ver</th> -->
+                    <th>Ver</th>
                     <th>Creación solicitud</th>
                     <th>Fecha inicio</th>
                     <th>Días solicitados</th>
@@ -312,12 +312,12 @@
                     <td colspan="5">No hay solicitudes canceladas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesCanceladas | filterTable: dataFilt | paginate: { id: 'sixth', itemsPerPage: 5, currentPage: p5 } ">
-                    <!-- <td>
+                    *ngFor="let solic of solicitudesCanceladas | filterTable: dataFilt | paginate: { id: 'sixth', itemsPerPage: 5, currentPage: p5 }; index as i  ">
+                    <td>
                                   <a (click)="detalleSolicitud('CANCELADO', i)" *ngIf="solicitudesCanceladas">
                                     <i class="far fa-eye text-info"></i>
                                   </a>
-                                </td> -->
+                                </td>
                     <td *ngIf="solicitudesCanceladas">{{solic[0]}}</td>
                     <td *ngIf="solicitudesCanceladas">{{solic[1]}}</td>
                     <td *ngIf="solicitudesCanceladas">{{solic[2]}}</td>
