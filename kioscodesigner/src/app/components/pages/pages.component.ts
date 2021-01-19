@@ -27,8 +27,8 @@ export class PagesComponent implements OnInit {
               private cadenasKioskos: CadenaskioskosappService) {
     this.getInfoUsuario();
     this.validarSesion();
-    //this.cargaFoto(); // cargar la foto del usuario conectado
-    //this.cargaLogo();
+    this.cargaFoto(); // cargar la foto del usuario conectado
+    this.cargaLogo();
   }
 
   ngOnInit() {

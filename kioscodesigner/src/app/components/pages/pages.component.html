@@ -19,7 +19,7 @@
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item" (click)="mostrarModalCambiarFoto()">
                 <i class="fas fa-upload text-primary"></i>
-                Cargar foto de perfil
+                Cargar foto de perfil{{usuarioServicio.urlLogoEmpresa}}
               </a>
               <a class="dropdown-item" [routerLink]="['/cambioClave']">
                 <i class="fas fa-cog text-primary"></i>
