@@ -224,6 +224,13 @@ export class UsuarioService {
     return this.http.post(url, {});
   }
 
+  enviaCorreoNovedadRRHH(seudonimo: string, nit: string, novedad: string, urlKiosco: string, grupo: string ) { 
+    // const url = `${environment.urlKioskoDesigner}restKiosco/logoEmpresa/${nit}`;
+    const url = `${environment.urlKioskoReportes}empleados/enviaReporteInfoRRHH?seudonimo=${seudonimo}&nitempresa=${nit}&observacion=${novedad}&grupo=${grupo}&urlKiosco=${urlKiosco}`;
+    console.log(url);
+    return this.http.get(url);
+  }  
+
   clear() {
     this.isUserLoggedIn = null;
     this.usserLogged = null;

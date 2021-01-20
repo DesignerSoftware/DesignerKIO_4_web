@@ -221,4 +221,41 @@
       </div>
     </div>
   </div>
+
+  <div class="row, text-center" id="div">
+    <p>Informar corrección de datos:
+      <button class="btn btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
+  </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Informar inconsistencias de información</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form [formGroup]="formulario" novalidate (ngSubmit)="enviarReporteNovedad()">
+      <div class="modal-body">
+          <div class="mb-3">
+            <p><b>Estimado usuario:</b></p>
+              <p>Por favor digite la observación sobre la información laboral o personal que considera que se debe corregir, ésta 
+              será enviado a Nómina y RRHH (máx. 100 carácteres):</p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="100" formControlName="mensaje"></textarea>
+          </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary">Enviar reporte</button>
+      </div>
+    </form>
+    </div>
+  </div>
 </div>
