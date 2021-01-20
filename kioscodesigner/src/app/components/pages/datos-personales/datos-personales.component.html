@@ -47,7 +47,7 @@
       <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Fecha de Nacimiento</label>
+            <label class="col-sm-3 col-form-label col-form-label-sm">Fecha de nacimiento</label>
             <div class="col-sm-9">
               <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][5]" disabled />
             </div>
@@ -55,7 +55,7 @@
         </div>
         <div class="col-md-6">
           <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Lugar de Nacimiento</label>
+            <label class="col-sm-3 col-form-label col-form-label-sm">Lugar de nacimiento</label>
             <div class="col-sm-9">
               <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][6] || ''"
                 disabled />
@@ -122,7 +122,7 @@
       <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Tipo Documento:</label>
+            <label class="col-sm-3 col-form-label col-form-label-sm">Tipo documento</label>
             <div class="col-sm-9">
               <input type="text" class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][9]"
                 disabled />
@@ -131,7 +131,7 @@
         </div>
         <div class="col-md-6">
           <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Número documento:</label>
+            <label class="col-sm-3 col-form-label col-form-label-sm">Número documento</label>
             <div class="col-sm-9">
               <input type="text" class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][10]"
                 disabled />
@@ -169,11 +169,14 @@
                       <tr id="tblfamiliares">                                  
                         <th>Nombre</th>
                         <th>Parentesco</th>
-                        <th>Numero de contacto</th>                                                           
+                        <th>Número de contacto</th>                                                           
                       </tr>
                   </thead>
-                  <tbody>  
-                    <tr *ngIf="!usuarioServicio.datosFamilia || usuarioServicio.datosFamilia==null || usuarioServicio.datosFamilia.length==0"><td colspan="2">No hay familiares asociados...</td></tr>                  
+                  <tbody> 
+                    <tr *ngIf="usuarioServicio.datosFamilia<=0 && usuarioServicio.datosFamilia==null"><td colspan="3">Cargando...</td></tr> 
+                      
+                  
+                    <tr *ngIf="!usuarioServicio.datosFamilia || usuarioServicio.datosFamilia==null || usuarioServicio.datosFamilia.length==0"><td colspan="3">No hay familiares asociados...</td></tr>                  
                     <tr *ngFor="let fami of usuarioServicio.datosFamilia">                         
                       <td *ngIf="fami">{{fami[0]||''}}</td>
                       <td *ngIf="fami">{{fami[1]||''}}</td>
@@ -184,7 +187,7 @@
         </div> 
 
       <p class="card-description">
-        Información Empresa
+       Empresa
       </p>
       <hr>
       <div class="col-md-12 col-sm-12 grid-margin stretch-card" *ngIf="usuarioServicio.datosPersonales == null">

@@ -16,6 +16,8 @@ private empresa: string;
 //opcionesKiosco: any = [];
 reporteSeleccionado = null;
 codigoReporteSeleccionado = null;
+public totalDiasVacacionesSubtipo = null;
+public totalDiasVacacionesProv = null
 
   constructor(private opcionesKioskosServicio: OpcionesKioskosService, private usuarioServicio: UsuarioService, private router: Router, public vacacionesService: VacacionesService
     ) {
@@ -27,6 +29,35 @@ codigoReporteSeleccionado = null;
 
   ngOnInit() {
     console.log('ngOnInit() vacaciones')
+
+
+    this.vacacionesService
+      .getDiasVacacionesProvisionadas(
+        this.usuarioServicio.usuario,
+        this.usuarioServicio.empresa,
+        this.usuarioServicio.cadenaConexion
+      )
+      .subscribe((data) => {
+        this.totalDiasVacacionesProv = data;
+        console.log(" totalDiasVacacionesProv ", data);
+      });
+
+
+    this.vacacionesService
+      .getDiasNovedadesVaca(
+        this.usuarioServicio.empresa,
+        this.usuarioServicio.usuario,
+        this.usuarioServicio.cadenaConexion
+      )
+      .subscribe(
+        (data) => {
+          this.totalDiasVacacionesSubtipo = data;
+          console.log(" totalDiasVacaciones en dinero", data);
+        },
+        (error) => {
+          console.log("se ha presentado un error: " + error);
+        }
+      );
   }
 
   filtrarOpcionesReportes() {

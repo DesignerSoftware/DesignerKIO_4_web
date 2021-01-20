@@ -38,6 +38,44 @@
                 <button type="button" class="btn btn-outline-primary"
                     (click)="seleccionarReporte(i)">Seleccionar</button>
             </div>
-        </div>
-    </div>
+        </div>        
+    </div>    
 </div>
+<div class="card card-statistics">
+    <div class="card-body">
+      <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+        <div class="statistics-item">
+          <p>
+            <i class="icon-sm fa fa-calendar mr-2"></i>
+            Días provisionados
+          </p>
+          <h2>{{totalDiasVacacionesProv || '0'}}</h2>
+        </div>
+        <div class="statistics-item">
+          <p>
+            <i class="icon-sm fas fa-child mr-2"></i>
+            Días disfrutados
+          </p>
+          <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[1][2] || '0'}}</h2>            
+          <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2>            
+        </div>
+        <div class="statistics-item">
+          <p>
+            <i class="fas fa-money-bill"></i>
+            Días en dinero
+          </p>
+          <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[0][2] || '0'}}</h2> 
+          <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2> 
+        </div>
+        <div class="statistics-item">
+          <p>
+            <i class="far fa-calendar-plus"></i>
+            Total días
+          </p>
+          <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[2][2]+totalDiasVacacionesProv || '0'}}</h2> 
+          <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2> 
+        </div>
+
+      </div>
+    </div>
+  </div>

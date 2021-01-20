@@ -80,7 +80,7 @@
                 <tbody>
 
                   <tr *ngIf="!solicitudesEnviadas || solicitudesEnviadas==null || solicitudesEnviadas.length==0">
-                    <td colspan="5">No hay solicitudes enviadas.</td>
+                    <td colspan="6">No hay solicitudes enviadas.</td>
                   </tr>
                   <tr
                     *ngFor="let solic of solicitudesEnviadas | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
@@ -134,7 +134,7 @@
                 </thead>
                 <tbody>
                   <tr *ngIf="!solicitudesAprobadas || solicitudesAprobadas==null || solicitudesAprobadas.length==0">
-                    <td colspan="5">No hay solicitudes enviadas.</td>
+                    <td colspan="7">No hay solicitudes enviadas.</td>
                   </tr>
                   <tr
                     *ngFor="let solic of solicitudesAprobadas | filterTable: dataFilt | paginate: { id: 'third', itemsPerPage: 5, currentPage: p2 }; index as i ">
@@ -192,7 +192,7 @@
                 </thead>
                 <tbody>
                   <tr *ngIf="!solicitudesRechazadas || solicitudesRechazadas==null || solicitudesRechazadas.length==0">
-                    <td colspan="5">No hay solicitudes rechazadas.</td>
+                    <td colspan="8">No hay solicitudes rechazadas.</td>
                   </tr>
                   <tr
                     *ngFor="let solic of solicitudesRechazadas | filterTable: dataFilt | paginate: { id: 'fourth', itemsPerPage: 5, currentPage: p3 }; index as i ">
@@ -254,7 +254,7 @@
                 </thead>
                 <tbody>
                   <tr *ngIf="!solicitudesLiquidadas || solicitudesLiquidadas==null || solicitudesLiquidadas.length==0">
-                    <td colspan="5">No hay solicitudes liquidadas.</td>
+                    <td colspan="7">No hay solicitudes liquidadas.</td>
                   </tr>
                   <tr
                     *ngFor="let solic of solicitudesLiquidadas | filterTable: dataFilt | paginate: { id: 'fiveth', itemsPerPage: 5, currentPage: p4 }; index as i ">
@@ -309,7 +309,7 @@
                 </thead>
                 <tbody>
                   <tr *ngIf="!solicitudesCanceladas || solicitudesCanceladas==null || solicitudesCanceladas.length==0">
-                    <td colspan="5">No hay solicitudes canceladas.</td>
+                    <td colspan="7">No hay solicitudes canceladas.</td>
                   </tr>
                   <tr
                     *ngFor="let solic of solicitudesCanceladas | filterTable: dataFilt | paginate: { id: 'sixth', itemsPerPage: 5, currentPage: p5 }; index as i  ">

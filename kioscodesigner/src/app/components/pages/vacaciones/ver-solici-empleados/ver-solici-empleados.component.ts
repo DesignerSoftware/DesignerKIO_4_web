@@ -69,9 +69,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   ];
   public polarAreaChartLabels: Label[] = [
     "Días provisionados",
-    "Días en Dinero",
+    "Días en dinero",
     "Días disfrutados",
-    "Días utilizados",
+    "Días liquidados",
   ];
   public polarAreaChartData: number[] = [];
   public polarAreaLegend = true;
@@ -97,9 +97,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
 
   public pieChartLabels: Label[] = [
     ["Días provisionados"],
-    ["Días en Dinero"],
+    ["Días en dinero"],
     ["Días disfrutados"],
-    "Días utilizados",
+    "Días liquidados",
   ];
   public pieChartData: number[] = [];
 
