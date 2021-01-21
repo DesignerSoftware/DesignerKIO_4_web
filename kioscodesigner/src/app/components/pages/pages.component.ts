@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { LoginService } from 'src/app/services/login.service';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import swal from 'sweetalert2';
+import { KiopersonalizacionesService } from 'src/app/services/kiopersonalizaciones.service';
 
 @Component({
   selector: 'app-pages',
@@ -24,11 +25,12 @@ export class PagesComponent implements OnInit {
 
   constructor(public opcionesKioskosServicio: OpcionesKioskosService, private router: Router,
               public usuarioServicio: UsuarioService, private loginService: LoginService, 
-              private cadenasKioskos: CadenaskioskosappService) {
+              private cadenasKioskos: CadenaskioskosappService, private kioPersonalizaciones: KiopersonalizacionesService) {
     this.getInfoUsuario();
     this.validarSesion();
     this.cargaFoto(); // cargar la foto del usuario conectado
     this.cargaLogo();
+    this.consultarDatosContacto();
   }
 
   ngOnInit() {
@@ -153,15 +155,13 @@ export class PagesComponent implements OnInit {
     $('.sidebar-offcanvas').toggleClass('active');
   }
 
- 
-
   funCambiar(e) {
     console.log(e);
     this.datoHijo = e;
     this.url = e;
   }
 
-  validarSesion(){
+  validarSesion() {
     this.usuarioServicio.validaToken(this.usuarioServicio.tokenJWT)
     .subscribe(
       data => {
@@ -173,7 +173,6 @@ export class PagesComponent implements OnInit {
             dat => {
               if (dat['result'] === 'true'){
                   // usuario activo a la empresa
-
                   this.loginService.validarSeudonimoYNitEmpresaRegistrado(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
                   .subscribe(
                     datos => {
@@ -221,5 +220,17 @@ export class PagesComponent implements OnInit {
       }
     );
   }
+
+  consultarDatosContacto() {
+    if (this.usuarioServicio.datosContacto==null){
+      this.kioPersonalizaciones.getDatosContacto(this.usuarioServicio.empresa)
+      .subscribe(
+        data => {
+          this.usuarioServicio.datosContacto = data;
+        }
+      );
+    }
+  }
+    
 
 }

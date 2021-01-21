@@ -173,7 +173,7 @@
                       </tr>
                   </thead>
                   <tbody> 
-                    <tr *ngIf="usuarioServicio.datosFamilia<=0 && usuarioServicio.datosFamilia==null"><td colspan="3">Cargando...</td></tr> 
+                    <tr *ngIf="usuarioServicio.datosFamilia && usuarioServicio.datosFamilia==null"><td colspan="3">Cargando...</td></tr> 
                       
                   
                     <tr *ngIf="!usuarioServicio.datosFamilia || usuarioServicio.datosFamilia==null || usuarioServicio.datosFamilia.length==0"><td colspan="3">No hay familiares asociados...</td></tr>                  
@@ -199,7 +199,7 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
+      <div class="row" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label col-form-label-sm">Nit:</label>
@@ -224,7 +224,7 @@
 
   <div class="row, text-center" id="div">
     <p>Informar corrección de datos:
-      <button class="btn btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
   </div>
 
 </div>
@@ -245,9 +245,9 @@
       <div class="modal-body">
           <div class="mb-3">
             <p><b>Estimado usuario:</b></p>
-              <p>Por favor digite la observación sobre la información laboral o personal que considera que se debe corregir, ésta 
-              será enviado a Nómina y RRHH (máx. 100 carácteres):</p>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="100" formControlName="mensaje"></textarea>
+              <p>Por favor digite la observación sobre la información laboral ó personal que considera que se debe corregir, ésta 
+              será enviada al contacto de nómina y RRHH {{usuarioServicio.datosContacto[0][0]}} - {{usuarioServicio.datosContacto[0][1]}} (máx. 1000 carácteres):</p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
           </div>
 
       </div>

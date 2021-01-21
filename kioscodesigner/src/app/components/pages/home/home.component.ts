@@ -25,6 +25,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.crearFormulario();
+    this.consultarDiasProvisionados();
+  }
+
+  crearFormulario() {
+    this.formulario = this.fb.group(
+      {
+        mensaje: ["", Validators.required]
+      }
+    );
+  }
+
+  consultarDiasProvisionados() {
     // consultar total dias provisionados
     this.vacacionesService
       .getDiasVacacionesProvisionadas(
@@ -36,14 +48,6 @@ export class HomeComponent implements OnInit {
         this.totalDiasVacacionesProv = data;
         console.log(" totalDiasVacacionesProv ", data);
       });
-  }
-
-  crearFormulario() {
-    this.formulario = this.fb.group(
-      {
-        mensaje: ["", Validators.required]
-      }
-    );
   }
 
   abrirModal() {

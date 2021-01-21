@@ -8,17 +8,22 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./contacto.component.css']
 })
 export class ContactoComponent implements OnInit {
-  datosContacto;
 
   constructor(private kioPersonalizaciones: KiopersonalizacionesService, private usuarioService: UsuarioService) { }
 
   ngOnInit() {
-    this.kioPersonalizaciones.getDatosContacto(this.usuarioService.empresa)
-    .subscribe(
-      data => {
-        this.datosContacto = data;
-      }
-    );
+    this.consultarDatosContacto();
+  }
+
+  consultarDatosContacto() {
+    if (this.usuarioService.datosContacto==null){
+      this.kioPersonalizaciones.getDatosContacto(this.usuarioService.empresa)
+      .subscribe(
+        data => {
+          this.usuarioService.datosContacto = data;
+        }
+      );
+    }
   }
 
 }

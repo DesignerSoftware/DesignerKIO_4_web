@@ -93,7 +93,7 @@
 
 <div class="row, text-center" id="div">
   <p>Informar corrección de datos:
-    <button class="btn btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
+    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
 </div>
 
 <footer class="footer">
@@ -117,9 +117,9 @@
       <div class="modal-body">
           <div class="mb-3">
             <p><b>Estimado usuario:</b></p>
-              <p>Por favor digite la observación sobre la información laboral o personal que considera que se debe corregir, ésta 
-              será enviado a Nómina y RRHH (máx. 100 carácteres):</p>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="100" formControlName="mensaje"></textarea>
+            <p>Por favor digite la observación sobre la información laboral ó personal que considera que se debe corregir, ésta 
+              será enviada al contacto de nómina y RRHH {{usuarioServicio.datosContacto[0][0]}} - {{usuarioServicio.datosContacto[0][1]}} (máx. 1000 carácteres):</p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
           </div>
 
       </div>

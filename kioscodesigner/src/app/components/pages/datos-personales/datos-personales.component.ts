@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { KiopersonalizacionesService } from 'src/app/services/kiopersonalizaciones.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
@@ -18,7 +19,7 @@ export class DatosPersonalesComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public usuarioServicio: UsuarioService) {
+    public usuarioServicio: UsuarioService, private kioPersonalizaciones: KiopersonalizacionesService) {
     this.cargarDatos();
     this.cargarDatosFamilias();
     this.crearFormulario();

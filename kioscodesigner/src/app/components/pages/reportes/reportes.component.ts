@@ -85,7 +85,7 @@ export class ReportesComponent implements OnInit {
         this.fechaDesde = data[0][0];
         this.fechaHasta = data[0][1];
         this.enviocorreo = data[0][2];
-        this.dirigidoa = data[0][3] || "";
+        this.dirigidoa = data[0][3] || '';
         this.formulario.get("fechadesde").setValue(this.fechaDesde);
         this.formulario.get("fechahasta").setValue(this.fechaHasta);
         this.formulario
@@ -244,6 +244,12 @@ export class ReportesComponent implements OnInit {
     let dia = fecha.substring(8, 11);
     let ensamble = dia + "-" + mes + "-" + anio;
     return ensamble;
+  }
+
+  cambioFechas() {
+    // console.log('cambia fechas');
+    this.fechaDesde = this.formulario.get("fechadesde").value;
+    this.fechaHasta = this.formulario.get("fechahasta").value;
   }
 
   actualizaParametros() {
