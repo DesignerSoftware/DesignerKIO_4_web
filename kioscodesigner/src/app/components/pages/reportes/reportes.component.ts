@@ -27,7 +27,7 @@ export class ReportesComponent implements OnInit {
     private opcionesKioskosServicio: OpcionesKioskosService,
     private router: Router,
     private fb: FormBuilder,
-    private usuarioServicio: UsuarioService,
+    public usuarioServicio: UsuarioService,
     public reporteServicio: ReportesService,
     public datepipe: DatePipe
   ) {
@@ -105,7 +105,8 @@ export class ReportesComponent implements OnInit {
       opkTempo = this.opcionesKioskosServicio
         .getOpcionesKiosco(
           this.usuarioServicio.empresa,
-          this.usuarioServicio.usuario
+          this.usuarioServicio.usuario,
+          this.usuarioServicio.cadenaConexion
         )
         .subscribe((data) => {
           console.log("opciones Consultadas", data);
@@ -297,7 +298,8 @@ export class ReportesComponent implements OnInit {
               this.formulario.get("fechadesde").value,
               this.formulario.get("fechahasta").value,
               this.formulario.get("enviocorreo").value,
-              this.formulario.get("dirigidoa").value
+              this.formulario.get("dirigidoa").value,
+              this.usuarioServicio.cadenaConexion
             )
             .subscribe(
               (data) => {

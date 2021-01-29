@@ -341,46 +341,28 @@
               <h3 class="page-title">
                 Gráficos Estadísticos
               </h3>
-              <br>
-
-            </div>
-            <p>En este apartado se puede apreciar las solicitudes según el estado mediante gráficos estadísticos.
-            </p>
-            <div class="row">
-              <div class="col-lg-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title" style="margin-bottom: 5px;">Gráficos Polar</h4>
-                    <div class="chart-container" style="text-align: center;">
-                      <canvas baseChart [data]="polarAreaChartData" [chartType]="polarAreaChartType"
-                        [labels]="polarAreaChartLabels" [legend]="polarAreaChartLegend"
-                        [options]="polarAreaChartOptions" [colors]="polarAreaChartColors">
-                      </canvas>
-
-                    </div>
-                    <div id="c3-bar-chart"></div>
+              <br>            
+          </div>
+          <p>En este apartado se puede apreciar las solicitudes según el estado mediante gráficos estadísticos.
+          </p>                       
+            <div class="col-lg-8 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title" style="margin-bottom: 5px;">Días vacaciones según subtipo</h4>
+                  <div class="chart-container" style="text-align: center;">
+                    <canvas baseChart [data]="pieChartData" [chartType]="pieChartType" [labels]="pieChartLabels"
+                      [legend]="pieChartLegend" [options]="pieChartOptions" [plugins]="pieChartPlugins"
+                      [colors]="pieChartColors">
+                    </canvas>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title" style="margin-bottom: 5px;">Gráficos Torta</h4>
-                    <div class="chart-container" style="text-align: center;">
-                      <canvas baseChart [data]="pieChartData" [chartType]="pieChartType" [labels]="pieChartLabels"
-                        [legend]="pieChartLegend" [options]="pieChartOptions" [plugins]="pieChartPlugins"
-                        [colors]="pieChartColors">
-                      </canvas>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              </div>              
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div class="modal fade animated fadeIn slow" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1"

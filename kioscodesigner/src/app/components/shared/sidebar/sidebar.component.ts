@@ -6,6 +6,7 @@ import { ReportesService } from 'src/app/services/reportes.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,11 +21,10 @@ export class SidebarComponent implements OnInit {
   fotoPerfil;
   datos;
 
-  constructor(private opcionesKioskosService: OpcionesKioskosService,
+  constructor(private opcionesKioskosService: OpcionesKioskosService, private cadenasKioskos: CadenaskioskosappService,
               public usuarioServicio: UsuarioService, private loginService: LoginService, private router: Router, private reporteService: ReportesService) {
     console.log(this.usuarioServicio.tokenJWT);
-    this.cargarOpciones();
-    this.cargaFoto();
+    this.getInfoUsuario();            
     this.nombreUsuario = this.usuarioServicio.nombrePersona;
   }
 
@@ -36,11 +36,44 @@ export class SidebarComponent implements OnInit {
     this.reporteService.reporteSeleccionado = null;
   }
 
+  getInfoUsuario() {
+    if (this.usuarioServicio.cadenaConexion) {
+      this.cargarOpciones();
+      this.cargaFoto();
+    } else {
+      // obtener la información del usuario del localStorage y guardarla en el service
+    const sesion = this.usuarioServicio.getUserLoggedIn();
+    this.usuarioServicio.setUsuario(sesion['usuario']);
+    this.usuarioServicio.setEmpresa(sesion['empresa']);
+    this.usuarioServicio.setTokenJWT(sesion['JWT']);
+    this.usuarioServicio.setGrupo(sesion['grupo']);
+    this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
+    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    .subscribe(
+      data => {
+        console.log('getInfoUsuario', data);
+        console.log(sesion['grupo']);
+        for (let i in data) {
+          if (data[i][3] === sesion['grupo']) { // GRUPO
+          const temp = data[i];
+          console.log('cadena: ', temp[4]) // CADENA
+          this.usuarioServicio.cadenaConexion=temp[4];
+          //this.cargarDatosIniciales();
+          }
+        }
+        this.cargarOpciones();
+        this.cargaFoto();
+      }
+    );
+    }
+  }
+
   cargarOpciones() {
     let opkTempo: any = [];
     if (this.opcionesKioskosService.opcionesKioskos.length === 0 || this.opcionesKioskosService.opcionesKioskos == null
       || this.opcionesKioskosService.opcionesKioskos === []) {
-      this.opcionesKioskosService.getOpcionesKiosco(this.usuarioServicio.empresa, this.usuarioServicio.usuario)
+      this.opcionesKioskosService.getOpcionesKiosco(this.usuarioServicio.empresa, this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion)
         .subscribe(
           data => {
             this.opcionesKioskosAntes = data;
@@ -61,7 +94,7 @@ export class SidebarComponent implements OnInit {
 
   cargaFoto() {
     console.log('getDocumentoSidebar');
-    this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+    this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
     .subscribe(
       data => {
         console.log(data);

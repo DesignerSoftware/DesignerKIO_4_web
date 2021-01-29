@@ -27,13 +27,16 @@ export class PagesComponent implements OnInit {
               public usuarioServicio: UsuarioService, private loginService: LoginService, 
               private cadenasKioskos: CadenaskioskosappService, private kioPersonalizaciones: KiopersonalizacionesService) {
     this.getInfoUsuario();
+  }
+
+  ngOnInit() {
+  }
+
+  cargarDatosIniciales() {
     this.validarSesion();
     this.cargaFoto(); // cargar la foto del usuario conectado
     this.cargaLogo();
     this.consultarDatosContacto();
-  }
-
-  ngOnInit() {
   }
 
   getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
@@ -54,6 +57,7 @@ export class PagesComponent implements OnInit {
           const temp = data[i];
           console.log('cadena: ', temp[4]) // CADENA
           this.usuarioServicio.cadenaConexion=temp[4];
+          this.cargarDatosIniciales();
           }
         }
         this.cargarDatosPersonales();
@@ -70,6 +74,7 @@ export class PagesComponent implements OnInit {
           console.log('datosPer', this.usuarioServicio.datosPersonales);
           const nombrePersona = data[0][1];
           this.usuarioServicio.nombrePersona = nombrePersona.trim().split(' ', 1);
+          this.usuarioServicio.correo = data[0][12];
         }
       );
     }
@@ -77,7 +82,7 @@ export class PagesComponent implements OnInit {
 
   cargaFoto() {
     console.log('getDocumento');
-    this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+    this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
     .subscribe(
       data => {
         console.log(data);
@@ -96,7 +101,7 @@ export class PagesComponent implements OnInit {
 
   cargaLogo() {
     console.log('cargaLogo()');
-    this.usuarioServicio.getLogoEmpresa(this.usuarioServicio.empresa)
+    this.usuarioServicio.getLogoEmpresa(this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
     .subscribe(
       data => {
         console.log('logo', data);
@@ -142,7 +147,7 @@ export class PagesComponent implements OnInit {
     console.log('presiono botón');
     /*$('#staticBackdrop').modal('show');
     $('#myModal').modal(options);*/
-    $('#staticBackdrop').modal('show');
+    $('#modalCambioFoto').modal('show');
   }
 
   min() {
@@ -223,7 +228,7 @@ export class PagesComponent implements OnInit {
 
   consultarDatosContacto() {
     if (this.usuarioServicio.datosContacto==null){
-      this.kioPersonalizaciones.getDatosContacto(this.usuarioServicio.empresa)
+      this.kioPersonalizaciones.getDatosContacto(this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
       .subscribe(
         data => {
           this.usuarioServicio.datosContacto = data;

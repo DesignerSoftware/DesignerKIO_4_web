@@ -39,7 +39,7 @@ export class CambioFotoComponent implements OnInit {
 
   cargarFotoActual() {
     // this.url='http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/1032508864.jpg';
-    this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa)
+    this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
     .subscribe(
       data => {
         console.log(data);
@@ -124,7 +124,7 @@ export class CambioFotoComponent implements OnInit {
                 showConfirmButton: true,
               })
               .then((result) => {
-                $('#staticBackdrop').modal('hide');
+                $('#modalCambioFoto').modal('hide');
                 this.router.navigated = false;
                 this.router.navigate([this.router.url]);
               });
@@ -138,7 +138,7 @@ export class CambioFotoComponent implements OnInit {
                 showConfirmButton: true,
               })
               .then((result) => {
-                $('#staticBackdrop').modal('hide');
+                $('#modalCambioFoto').modal('hide');
                 this.router.navigated = false;
                 this.router.navigateByUrl('/home');
               });

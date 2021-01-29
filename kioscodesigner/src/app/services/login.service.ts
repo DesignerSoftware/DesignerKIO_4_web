@@ -51,9 +51,9 @@ export class LoginService {
     return this.http.get(url);
   }
 
-  generarToken(usuario: string, clave: string, nitEmpresa: string) {
+  generarToken(usuario: string, clave: string, nitEmpresa: string, cadena: string) {
     //const url = `${environment.urlKioskoDesigner}restKiosco/jwt?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}`;
-    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwt?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}`;
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwt?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&cadena?${cadena}`;
     console.log(url);
     console.log(`parametros: usuario ${usuario}, nit ${nitEmpresa}, clave ${clave}`);
     return this.http.post(url, {});

@@ -15,7 +15,7 @@ export class SoliProcesadasComponent implements OnInit {
 
   constructor(private vacacionesService: VacacionesService, private usuarioService: UsuarioService) { 
     if (this.usuarioService.documento == null || this.usuarioService.documento.lenght === 0) {
-      this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa)
+      this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
       .subscribe(
         data => {
           console.log(data['result']);

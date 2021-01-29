@@ -65,7 +65,8 @@ export class LoginComponent implements OnInit {
             .subscribe((data) => {
               console.log('cadenasKioskos form Registro',data);
               this.cadenasApp = data;
-
+              this.usuarioService.cadenaConexion = data[0][4];
+              console.log('Cadena: ', this.usuarioService.cadenaConexion);
               if (this.cadenasApp.length === 1) {
                 this.formulario
                   .get('empresa')
@@ -116,206 +117,207 @@ export class LoginComponent implements OnInit {
   }
 
   enviar() {
-    this.urlKiosco=document.location.href;
+    this.urlKiosco = document.location.href;
     console.log(this.formulario);
-    Object.values( this.formulario.controls ).forEach( control => {
+    Object.values(this.formulario.controls).forEach(control => {
       control.markAsTouched();
     });
     if (this.formulario.valid) {
-      this.usuarioService.validarIngresoKioscoSeudonimo(this.formulario.get('usuario').value.toLowerCase(), 
-      this.formulario.get('clave').value,
-      this.formulario.get('empresa').value)
-      .subscribe(
-        data => {
-          console.log(data);
-          if (data['ingresoExitoso']) {
-            console.log('ingresoExitoso: ' + data['ingresoExitoso']);
-            this.loginService.generarToken(this.formulario.get('usuario').value.toLowerCase(),
-            this.formulario.get('clave').value, this.formulario.get('empresa').value)
-            .subscribe(
-              res => {
-                console.log('Respuesta token generado: ', res);
-                let jwt:any = JSON.parse(JSON.stringify(res));
-                console.log('JWT Generado: ' + jwt['JWT']);
-                if (!res) {
-                  swal.fire('Objeto Vacio!!!', ' :(', 'success');
-                } else {
-                  let timerInterval;
-                  swal.fire({
-                    title: 'Bienvenido...',
-                    html: 'Espere un momento mientras lo redireccionamos a la página de inicio',
-                    timer: 2000,
-                    timerProgressBar: true,
-                    onBeforeOpen: () => {
-                      swal.showLoading();
-                      timerInterval = setInterval(() => {
-                        /*swal.getContent().querySelector('b')
-                          .textContent = swal.getTimerLeft()*/
-                      }, 100);
-                    },
-                    onClose: () => {
-                      clearInterval(timerInterval);
-                    }
-                  }).then((result) => {
-                    if (
-                      /* Read more about handling dismissals below */
-                      result.dismiss === swal.DismissReason.timer
-                    ) {
-                      // al cerrarse la ventana modal:
-                      this.navigate();
-                      // sesion guardará el arreglo que se guardará en el localStorage
-                      const cadenaEmpresa = this.cadenasApp.filter( // consultar empresa seleccionada
-                        //(opcKio) => opcKio['NITEMPRESA'] === this.formulario.get('empresa').value
-                        (opcKio) => opcKio[2] === this.formulario.get('empresa').value
-                      );
-                      console.log('empresa seleccionada', cadenaEmpresa);
-                      const sesion: any = {
-                        usuario: this.formulario.get('usuario').value.toLowerCase(),
-                        JWT: jwt['JWT'],
-                        empresa: this.formulario.get('empresa').value,
-                        grupo: this.grupoEmpresarial,
-                        // cadena: cadenaEmpresa['CADENA']
-                        cadena: cadenaEmpresa[4],
-                        urlKiosco: document.location.href
-                      };
-                      this.usuarioService.setUserLoggedIn(sesion);
-                      this.usuarioService.getUserLoggedIn(); // Mostrar por consola los datos del usuario actual
+      this.usuarioService.validarIngresoKioscoSeudonimo(this.formulario.get('usuario').value.toLowerCase(),
+        this.formulario.get('clave').value,
+        this.formulario.get('empresa').value, this.usuarioService.cadenaConexion)
+        .subscribe(
+          data => {
+            console.log(data);
+            if (data['ingresoExitoso']) {
+              console.log('ingresoExitoso: ' + data['ingresoExitoso']);
+              this.loginService.generarToken(this.formulario.get('usuario').value.toLowerCase(),
+                this.formulario.get('clave').value, this.formulario.get('empresa').value, this.usuarioService.cadenaConexion)
+                .subscribe(
+                  res => {
+                    console.log('Respuesta token generado: ', res);
+                    let jwt: any = JSON.parse(JSON.stringify(res));
+                    console.log('JWT Generado: ' + jwt['JWT']);
+                    if (!res) {
+                      swal.fire('Objeto Vacio!!!', ' :(', 'success');
+                    } else {
+                      let timerInterval;
+                      swal.fire({
+                        title: 'Bienvenido...',
+                        html: 'Espere un momento mientras lo redireccionamos a la página de inicio',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onBeforeOpen: () => {
+                          swal.showLoading();
+                          timerInterval = setInterval(() => {
+                            /*swal.getContent().querySelector('b')
+                              .textContent = swal.getTimerLeft()*/
+                          }, 100);
+                        },
+                        onClose: () => {
+                          clearInterval(timerInterval);
+                        }
+                      }).then((result) => {
+                        if (
+                          /* Read more about handling dismissals below */
+                          result.dismiss === swal.DismissReason.timer
+                        ) {
+                          // al cerrarse la ventana modal:
+                          this.navigate();
+                          // sesion guardará el arreglo que se guardará en el localStorage
+                          const cadenaEmpresa = this.cadenasApp.filter( // consultar empresa seleccionada
+                            //(opcKio) => opcKio['NITEMPRESA'] === this.formulario.get('empresa').value
+                            (opcKio) => opcKio[2] === this.formulario.get('empresa').value
+                          );
+                          console.log('empresa seleccionada', cadenaEmpresa);
+                          const sesion: any = {
+                            usuario: this.formulario.get('usuario').value.toLowerCase(),
+                            JWT: jwt['JWT'],
+                            empresa: this.formulario.get('empresa').value,
+                            grupo: this.grupoEmpresarial,
+                            // cadena: cadenaEmpresa['CADENA']
+                            cadena: cadenaEmpresa[4],
+                            urlKiosco: document.location.href
+                          };
+                          console.log('cadena: ', cadenaEmpresa[4]);
+                          this.usuarioService.setUserLoggedIn(sesion);
+                          this.usuarioService.getUserLoggedIn(); // Mostrar por consola los datos del usuario actual
 
+                        }
+                      });
                     }
-                  });
-                }
-              },
-              error => {
-                        console.log('Error: ' + JSON.stringify(error.statusText));
-                        swal.fire({
-                          icon: 'error',
-                          title: '¡Se ha presentado un error!',
-                          text: 'Error de conexión. Por favor intentélo de nuevo más tarde. Error: cod ' +
-                                 error.status + ' :' + error.statusText
-                        });
-              },
-              () => this.navigate()
-            );
-          } else if (data['EstadoUsuario']=='P') {
-            swal.fire({
-              icon: 'error',
-              title: '¡Cuenta no validada!',
-              /*'¡Usuario o contraseña incorrectos!',*/
-              text: `${data['mensaje']}`,
-              showCancelButton: true,
-              cancelButtonText: 'Ok',
-              confirmButtonText: `Reenviar`
-            }).then((result) => {
+                  },
+                  error => {
+                    console.log('Error: ' + JSON.stringify(error.statusText));
+                    swal.fire({
+                      icon: 'error',
+                      title: '¡Se ha presentado un error!',
+                      text: 'Error de conexión. Por favor intentélo de nuevo más tarde. Error: cod ' +
+                        error.status + ' :' + error.statusText
+                    });
+                  },
+                  () => this.navigate()
+                );
+            } else if (data['EstadoUsuario'] == 'P') {
+              swal.fire({
+                icon: 'error',
+                title: '¡Cuenta no validada!',
+                /*'¡Usuario o contraseña incorrectos!',*/
+                text: `${data['mensaje']}`,
+                showCancelButton: true,
+                cancelButtonText: 'Ok',
+                confirmButtonText: `Reenviar`
+              }).then((result) => {
                 if (result.isConfirmed) {
-                   this.enviarCorreoConfirmaCuenta(this.usuarioService.usuario);
+                  this.enviarCorreoConfirmaCuenta(this.usuarioService.usuario);
                 }
               });
-          } else {
-            swal.fire({
-              icon: 'error',
-              // title: '¡Usuario o contraseña incorrectos!',
-              /*'¡Usuario o contraseña incorrectos!',*/
-              title: `${data['mensaje']}`
-              /*'error'*/
-            });
+            } else {
+              swal.fire({
+                icon: 'error',
+                // title: '¡Usuario o contraseña incorrectos!',
+                /*'¡Usuario o contraseña incorrectos!',*/
+                title: `${data['mensaje']}`
+                /*'error'*/
+              });
+            }
+
+          },
+          error => {
+            swal.fire(
+              '¡Se ha presentado un error de conexión!',
+              'Por favor inténtelo de nuevo más tarde.',
+              'error'
+            );
           }
-
-        },
-        error => {
-          swal.fire(
-            '¡Se ha presentado un error de conexión!',
-            'Por favor inténtelo de nuevo más tarde.',
-            'error'
-          );
-        }
-      );
-
-      }
-    }
-
-enviarCorreoConfirmaCuenta(seudonimo: string) {
-  console.log('enviarCorreoConfirmación');
-  swal.fire({
-    title: 'Espera un momento.. Estamos enviándote el correo de confirmación',
-    onBeforeOpen: () => {
-      swal.showLoading();
-      this.usuarioService.inactivaTokensTipo('VALIDACUENTA', this.usuarioService.usuario, this.usuarioService.empresa)
-      .subscribe(
-        data => {
-        console.log(data);
-        this.loginService.enviarCorreoConfirmaCuenta(
-        this.formulario.get('usuario').value,
-        this.formulario.get('clave').value,
-        //this.formulario.get('empresa').value, 'www.nominadesigner.co')
-        this.formulario.get('empresa').value, 'www.designer.com.co')
-      .subscribe(
-        data2 => {
-          if (data2['envioCorreo'] === true) {
-            console.log('Por favor verifica tu cuenta de correo');
-            swal.fire({
-              icon: 'success',
-              title: '¡Revisa tu correo!',
-              text: 'Se te ha enviado un nuevo correo '+
-              ' para que valides tu cuenta. Recuerda que tienes una hora para validarla, de lo contrario ' +
-              'deberas solicitar la generación de un nuevo correo.',
-              showConfirmButton: true
-            }).then((result) => {
-              if (result.value) {
-                // document.location.href = './login';
-                //this.router.navigate(['/login']);
-                this.router.navigate(['/']);
-              }
-            });
-          } else {
-            swal.fire({
-              icon: 'error',
-              title: 'Se ha presentado un error al enviarte el correo de confirmación.',
-              text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión '+
-              'y haz clic en la opción para enviarte nuevamente el correo.',
-              showConfirmButton: true
-            }).then((result) => {
-              if (result.value) {
-                // document.location.href = './login';
-                this.navigate();
-              }
-            });
-          }
-        },
-        (error) => {
-          swal.fire({
-            icon: 'error',
-            title: 'Se ha presentado un error al enviarte el correo de confirmación.',
-            text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión y haz clic en la opción ' +
-            'para enviarte nuevamente el correo.',
-            showConfirmButton: true
-          });
-        }
-      );
-        }
-      )
-    },
-    allowOutsideClick: () => !swal.isLoading()
-  });
-}
-
-
-    navigate() {
-      this.router.navigate(['/home']);
-    }
-
-    mostrarModalContacto() {
-      /*if (this.formulario.get('empresa').value) {
-        console.log('presiono botón');*/
-        $('#staticBackdrop').modal('show');
-      /*} else {
-        swal.fire({
-          icon: 'error',
-          title: 'Por favor seleccione una empresa',
-          text: 'Seleccione la empresa a la que pertenece para indicarle con quien puede contactarse.',
-          showConfirmButton: true
-        });
-      }*/
+        );
 
     }
+  }
+
+  enviarCorreoConfirmaCuenta(seudonimo: string) {
+    console.log('enviarCorreoConfirmación');
+    swal.fire({
+      title: 'Espera un momento.. Estamos enviándote el correo de confirmación',
+      onBeforeOpen: () => {
+        swal.showLoading();
+        this.usuarioService.inactivaTokensTipo('VALIDACUENTA', this.usuarioService.usuario, this.usuarioService.empresa)
+          .subscribe(
+            data => {
+              console.log(data);
+              this.loginService.enviarCorreoConfirmaCuenta(
+                this.formulario.get('usuario').value,
+                this.formulario.get('clave').value,
+                //this.formulario.get('empresa').value, 'www.nominadesigner.co')
+                this.formulario.get('empresa').value, 'www.designer.com.co')
+                .subscribe(
+                  data2 => {
+                    if (data2['envioCorreo'] === true) {
+                      console.log('Por favor verifica tu cuenta de correo');
+                      swal.fire({
+                        icon: 'success',
+                        title: '¡Revisa tu correo!',
+                        text: 'Se te ha enviado un nuevo correo ' +
+                          ' para que valides tu cuenta. Recuerda que tienes una hora para validarla, de lo contrario ' +
+                          'deberas solicitar la generación de un nuevo correo.',
+                        showConfirmButton: true
+                      }).then((result) => {
+                        if (result.value) {
+                          // document.location.href = './login';
+                          //this.router.navigate(['/login']);
+                          this.router.navigate(['/']);
+                        }
+                      });
+                    } else {
+                      swal.fire({
+                        icon: 'error',
+                        title: 'Se ha presentado un error al enviarte el correo de confirmación.',
+                        text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión ' +
+                          'y haz clic en la opción para enviarte nuevamente el correo.',
+                        showConfirmButton: true
+                      }).then((result) => {
+                        if (result.value) {
+                          // document.location.href = './login';
+                          this.navigate();
+                        }
+                      });
+                    }
+                  },
+                  (error) => {
+                    swal.fire({
+                      icon: 'error',
+                      title: 'Se ha presentado un error al enviarte el correo de confirmación.',
+                      text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión y haz clic en la opción ' +
+                        'para enviarte nuevamente el correo.',
+                      showConfirmButton: true
+                    });
+                  }
+                );
+            }
+          )
+      },
+      allowOutsideClick: () => !swal.isLoading()
+    });
+  }
+
+
+  navigate() {
+    this.router.navigate(['/home']);
+  }
+
+  mostrarModalContacto() {
+    /*if (this.formulario.get('empresa').value) {
+      console.log('presiono botón');*/
+    $('#staticBackdrop').modal('show');
+    /*} else {
+      swal.fire({
+        icon: 'error',
+        title: 'Por favor seleccione una empresa',
+        text: 'Seleccione la empresa a la que pertenece para indicarle con quien puede contactarse.',
+        showConfirmButton: true
+      });
+    }*/
+
+  }
 
   }

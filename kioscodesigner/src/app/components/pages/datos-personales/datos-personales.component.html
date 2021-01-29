@@ -61,43 +61,7 @@
                 disabled />
             </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Tipo de teléfono</label>
-            <div class="col-sm-9">
-              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][25] || ''"
-                disabled />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Número de contacto</label>
-            <div class="col-sm-9">
-              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][24] || ''"
-                disabled />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Centro costo</label>
-            <div class="col-sm-9">
-              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][26] || ''"
-                disabled />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label col-form-label-sm">Cargo</label>
-            <div class="col-sm-9">
-              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][20] || ''"
-                disabled />
-            </div>
-          </div>
-        </div>
+        </div>                
       </div>
       <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">       
         <div class="col-md-6">
@@ -158,7 +122,68 @@
             </div>
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-sm">Tipo de contrato</label>
+            <div class="col-sm-9">
+              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][18] || ''"
+                disabled />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-sm">Fecha ingreso</label>
+            <div class="col-sm-9">
+              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][33] || ''"
+                disabled />
+            </div>        
+        </div>
+        
       </div>
+      </div>
+      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-sm">Centro costo</label>
+            <div class="col-sm-9">
+              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][26] || ''"
+                disabled />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-sm">Cargo</label>
+            <div class="col-sm-9">
+              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][20] || ''"
+                disabled />
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="card-description">
+        Telefonos
+      </p>
+      <hr>
+        <div class="table-responsive" style="margin-bottom: 20px;">  
+          <table class="table table-hover" style="text-align: center;">
+                  <thead style="background: #00223C; color: white;">
+                      <tr id="tbltelefonos">                                                          
+                        <th>Tipo de telefono</th>
+                        <th>Número de contacto</th>                                                           
+                      </tr>
+                  </thead>
+                  <tbody> 
+                    <tr *ngIf="usuarioServicio.datosPersonales<=0 && usuarioServicio.datosPersonales==null"><td colspan="3">Cargando...</td></tr> 
+                    <tr *ngIf="!usuarioServicio.datosPersonales || usuarioServicio.datosPersonales==null || usuarioServicio.datosPersonales.length==0"><td colspan="3">No hay familiares asociados...</td></tr>                  
+                    <tr *ngFor="let fami of usuarioServicio.datosPersonales">                         
+                      <td *ngIf="fami">{{fami[25]||''}}</td>
+                      <td *ngIf="fami">{{fami[24]||''}}</td>                                      
+                    </tr>                              
+                  </tbody>                            
+              </table>              
+        </div> 
       <p class="card-description">
         Familiares
       </p>

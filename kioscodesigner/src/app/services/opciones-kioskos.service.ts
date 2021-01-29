@@ -11,9 +11,9 @@ export class OpcionesKioskosService {
 
   constructor(private http: HttpClient) { }
 
-  getOpcionesKiosco(empresa: string, seudonimo: string) {
+  getOpcionesKiosco(empresa: string, seudonimo: string, cadena: string) {
     // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
-    const url = `${environment.urlKioskoReportes}opcioneskioskosapp/prueba?seudonimo=${seudonimo}&nitempresa=${empresa}`;
+    const url = `${environment.urlKioskoReportes}opcioneskioskosapp/prueba?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
     console.log(url);
     return this.http.get(url);
   }

@@ -3,8 +3,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { OpcionesKioskosService } from 'src/app/services/opciones-kioskos.service';
 import { Router } from '@angular/router';
 import { VacacionesService } from 'src/app/services/vacaciones.service';
+import { Label } from 'ng2-charts';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
+import { ChartOptions, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-home',
@@ -17,16 +19,117 @@ import swal from 'sweetalert2';
 export class HomeComponent implements OnInit {
   @Input() urlLogoEmpresaDarkXl = 'assets/images/fotos_empleados/logodesigner-dark-xl.png'; // recibe valor de pages.component
   totalDiasVacacionesProv: any = "...";
+  public totalDiasVacacionesSubtipo = null;
   formulario: FormGroup;
 
+  public polarAreaChartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 1,
+    devicePixelRatio: 7,
+    legend: {
+      fullWidth: false,
+      position: "top",
+      align: "start",
+      labels: {
+        padding: 7,
+        fontSize: 10,
+        usePointStyle: true,
+      },
+    },
+    // We use these empty structures as placeholders for dynamic theming.
+  };
+
+  public polarAreaChartType: ChartType = "polarArea";
+
+  public polarAreaChartLegend = true;
+  public polarAreaChartPlugins = [];
+  public polarAreaChartColors = [
+    {
+      backgroundColor: [
+        "rgba(91, 179, 174,0.3)",
+        "rgba(8, 104, 179,0.3)",
+        "rgba(26, 71, 186,0.3)",
+        "rgba(118, 54, 38,0.3)",
+      ],
+    },
+  ];
+  public polarAreaChartLabels: Label[] = [
+    "Días provisionados",
+    "Días en dinero",
+    "Días disfrutados",
+    "Días liquidados",
+  ];
+  public polarAreaChartData: number[] = [];
+  public polarAreaLegend = true;
+  
   constructor(private fb: FormBuilder,    public usuarioServicio: UsuarioService, private router: Router,
               private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService, private usuarioService: UsuarioService) {
-              }
+              
 
-  ngOnInit() {
-    this.crearFormulario();
-    this.consultarDiasProvisionados();
-  }
+  // dias provisionados
+  let diasProv: string = "";
+  this.vacacionesService
+    .getDiasVacacionesProvisionadas(
+      this.usuarioServicio.usuario,
+      this.usuarioServicio.empresa,
+      this.usuarioServicio.cadenaConexion
+    )
+    .subscribe((data) => {
+      diasProv = data.toString();
+      console.log("diasProv", data);
+      this.polarAreaChartData.push(parseInt(diasProv, 0));                    
+    });
+
+  // dias Enviados
+  this.vacacionesService
+    .getDiasNovedadesVaca(
+      this.usuarioServicio.empresa,
+      this.usuarioServicio.usuario,
+      this.usuarioServicio.cadenaConexion
+    )
+    .subscribe((data) => {
+      let diasEnv = data;
+      console.log("DiasEnv", data);
+      this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));                    
+      this.polarAreaChartData.push(parseInt(diasEnv[1][2], 0));                   
+      this.polarAreaChartData.push(parseInt(diasEnv[2][2], 0));                    
+    });
+}
+
+
+ngOnInit() {   
+this.crearFormulario();
+this.consultarDiasProvisionados(); 
+//Datos de menu vacaciones
+this.vacacionesService
+.getDiasVacacionesProvisionadas(
+this.usuarioServicio.usuario,
+this.usuarioServicio.empresa,
+this.usuarioServicio.cadenaConexion
+)
+.subscribe((data) => {
+this.totalDiasVacacionesProv = data;
+console.log(" totalDiasVacacionesProv ", data);
+});
+
+
+this.vacacionesService
+.getDiasNovedadesVaca(
+this.usuarioServicio.empresa,
+this.usuarioServicio.usuario,
+this.usuarioServicio.cadenaConexion
+)
+.subscribe(
+(data) => {
+this.totalDiasVacacionesSubtipo = data;
+console.log(" totalDiasVacaciones en dinero", data);
+},
+(error) => {
+console.log("se ha presentado un error: " + error);
+}
+);
+}
 
   crearFormulario() {
     this.formulario = this.fb.group(

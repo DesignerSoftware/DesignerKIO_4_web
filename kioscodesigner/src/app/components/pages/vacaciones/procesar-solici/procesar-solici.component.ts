@@ -17,7 +17,6 @@ export class ProcesarSoliciComponent implements OnInit {
   url ='assets/images/fotos_empleados/sinFoto.jpg';
 
   constructor(public vacacionesService: VacacionesService, private usuarioService: UsuarioService, private fb: FormBuilder) {
-    this.cargarDatosSolicitudesProcesadas();
   }
 
   ngOnInit() {
@@ -63,7 +62,6 @@ export class ProcesarSoliciComponent implements OnInit {
     let aprobado;
     swal.fire({
       title: '¿Desea aprobar la solicitud?',
-      text: "Al aprobar la solicitud ocasionará que el estado de esta sea 'Aprobado' ",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -172,8 +170,7 @@ export class ProcesarSoliciComponent implements OnInit {
   rechazarEnvio() {
     let rechazado
     swal.fire({
-      title: '¿Desea cancelar la solicitud?',
-      text: "Al Rechazar la solicitud ocacionará que el estado de esta sea 'Rechazado' ",
+      title: '¿Desea rechazar la solicitud?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',

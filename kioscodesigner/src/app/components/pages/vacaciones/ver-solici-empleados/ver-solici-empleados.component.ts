@@ -164,7 +164,8 @@ export class VerSoliciEmpleadosComponent implements OnInit {
       this.usuarioService
         .getDocumentoSeudonimo(
           this.usuarioService.usuario,
-          this.usuarioService.empresa
+          this.usuarioService.empresa,
+          this.usuarioService.cadenaConexion
         )
         .subscribe((data) => {
           console.log(data["result"]);
@@ -450,9 +451,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     let cancelado;
     swal
       .fire({
-        title: "¿Desea cancelar la solicitud?",
-        text:
-          "Al cancelar la solicitud ocasionará que el estado de esta sea 'cancelado' ",
+        title: "¿Está seguro que desea cancelar la solicitud?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
