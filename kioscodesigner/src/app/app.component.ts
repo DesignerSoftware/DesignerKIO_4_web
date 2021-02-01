@@ -12,7 +12,7 @@ export class AppComponent {
 
   constructor(private usuarioServicio: UsuarioService, private cadenasKioskos: CadenaskioskosappService) {
     console.log('constructor');
-    this.getInfoUsuario();
+    //this.getInfoUsuario();
   }
 
   ngOnInit() {

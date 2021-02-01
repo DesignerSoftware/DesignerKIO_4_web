@@ -78,7 +78,7 @@ validaParametroGrupo = '';
         onBeforeOpen: () => {
           swal.showLoading();
           this.loginService.validarSeudonimoYNitEmpresaRegistrado(this.formulario.get('seudonimo').value,
-          this.formulario.get('nitempresa').value)
+          this.formulario.get('nitempresa').value, this.usuarioService.cadenaConexion)
           .subscribe(
             data => {
               if (data['result'] === 'true') {

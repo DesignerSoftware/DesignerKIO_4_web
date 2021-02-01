@@ -29,9 +29,9 @@ export class LoginService {
     }});
   }
 
-  validarUsuarioYEmpresa(codEmpleado: string, nitEmpresa: string) {
+  validarUsuarioYEmpresa(codEmpleado: string, nitEmpresa: string, cadena: string) {
     // const url = `${environment.urlKioskoDesigner}restKiosco/validarUsuarioyEmpresa/${codEmpleado}/${nitEmpresa}`;
-    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarUsuarioyEmpresa/${codEmpleado}/${nitEmpresa}`;
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarUsuarioyEmpresa/${codEmpleado}/${nitEmpresa}?cadena=${cadena}`;
     console.log(url);
     return this.http.get(url);
   }
@@ -43,25 +43,25 @@ export class LoginService {
     return this.http.get(url);
   }
 
-  enviarCorreoConfirmaCuenta(usuario: string, clave: string, nitEmpresa: string, urlKiosco: string) {
+  enviarCorreoConfirmaCuenta(usuario: string, clave: string, nitEmpresa: string, urlKiosco: string, cadena: string) {
     //const url = `${environment.urlKioskoDesigner}restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&urlKiosco=${urlKiosco}`;
     // const url = `${environment.urlKioskoDesigner}restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&urlKiosco=${environment.urlKiosko}`;
-    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&urlKiosco=${environment.urlKiosko}`;
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&cadena=${cadena}&urlKiosco=${environment.urlKiosko}`;
     console.log(url);
     return this.http.get(url);
   }
 
   generarToken(usuario: string, clave: string, nitEmpresa: string, cadena: string) {
     //const url = `${environment.urlKioskoDesigner}restKiosco/jwt?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}`;
-    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwt?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&cadena?${cadena}`;
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwt?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&cadena=${cadena}`;
     console.log(url);
     console.log(`parametros: usuario ${usuario}, nit ${nitEmpresa}, clave ${clave}`);
     return this.http.post(url, {});
   }
 
-  validarSeudonimoYNitEmpresaRegistrado(seudonimo: string, nitempresa: string) {
+  validarSeudonimoYNitEmpresaRegistrado(seudonimo: string, nitempresa: string, cadena: string) {
     // const url = `${environment.urlKioskoDesigner}restKiosco/validarSeudonimoyEmpresaRegistrado/${seudonimo}/${nitempresa}`;
-    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarSeudonimoyEmpresaRegistrado/${seudonimo}/${nitempresa}`;
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarSeudonimoyEmpresaRegistrado/${seudonimo}/${nitempresa}?cadena=${cadena}`;
     console.log(url);
     return this.http.get(url);
   }

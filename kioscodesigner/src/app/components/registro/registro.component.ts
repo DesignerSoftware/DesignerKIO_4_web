@@ -86,7 +86,7 @@ export class RegistroComponent implements OnInit {
       control.markAsTouched();
     });
     if (this.formulario.get('documento').valid && this.formulario.get('nitempresa').valid) {
-      this.loginService.validarUsuarioYEmpresa(this.formulario.get('documento').value, this.formulario.get('nitempresa').value)
+      this.loginService.validarUsuarioYEmpresa(this.formulario.get('documento').value, this.formulario.get('nitempresa').value, this.usuarioServicio.cadenaConexion)
       .subscribe(
         data => {
           if (data['result'] === 'true') {
@@ -230,7 +230,7 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
       this.loginService.enviarCorreoConfirmaCuenta(
         seudonimo,
         this.formulario.get('pass1').value,
-        this.formulario.get('nitempresa').value, 'www.nominadesigner.co')
+        this.formulario.get('nitempresa').value, 'www.nominadesigner.co', this.usuarioServicio.cadenaConexion)
       .subscribe(
         data => {
           if (data['envioCorreo'] === true) {

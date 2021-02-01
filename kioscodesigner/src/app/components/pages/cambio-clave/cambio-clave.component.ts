@@ -36,29 +36,29 @@ export class CambioClaveComponent implements OnInit {
   }
 
   enviar() {
-    Object.values( this.formulario.controls ).forEach( control => {
+    Object.values(this.formulario.controls).forEach(control => {
       control.markAsTouched();
     });
 
     console.log(this.formulario);
     if (this.formulario.valid) {
       this.usuarioServicio.validarSeudonimoClaveNit(
-        this.usuarioServicio.usuario, this.formulario.get('passActual').value, this.usuarioServicio.empresa
+        this.usuarioServicio.usuario, this.formulario.get('passActual').value, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion
       )
-      .subscribe(
-        data => {
-          console.log(data);
-          if (data['result'] === 'true') { // si la contraseña actual es correcta
+        .subscribe(
+          data => {
+            console.log(data);
+            if (data['result'] === 'true') { // si la contraseña actual es correcta
               this.actualizaClave();
-          } else {
-            swal.fire(
-              '¡Contraseña incorrecta!',
-              'La contraseña actual no coincide!',
-              'error'
-            );
+            } else {
+              swal.fire(
+                '¡Contraseña incorrecta!',
+                'La contraseña actual no coincide!',
+                'error'
+              );
+            }
           }
-        }
-      );
+        );
     }
   }
 
@@ -69,12 +69,12 @@ export class CambioClaveComponent implements OnInit {
         swal.showLoading();
         setTimeout(() => {
           this.usuarioServicio.actualizaClave(
-            this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.formulario.get('pass1').value
+            this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.formulario.get('pass1').value, this.usuarioServicio.cadenaConexion
           )
           .subscribe(
             data => {
               if (data === 1) {
-                this.usuarioServicio.inactivaTokensTipo('LOGIN', this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+                this.usuarioServicio.inactivaTokensTipo('LOGIN', this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
                 .subscribe(
                   data=> {
                     console.log('inactiva tokens', data['modificado']);

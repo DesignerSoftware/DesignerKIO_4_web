@@ -21,6 +21,8 @@ export class ContactoComponent implements OnInit {
       .subscribe(
         data => {
           this.usuarioService.datosContacto = data;
+          this.usuarioService.nombreContactoSoporte = data[0][0];
+          this.usuarioService.correoContactoSoporte = data[0][1];
         }
       );
     }

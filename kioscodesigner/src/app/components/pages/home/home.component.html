@@ -9,33 +9,33 @@
   Datos de interes
  </p>
  <hr>
-<div class="row grid-margin" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null">
+<div class="row grid-margin" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
   <div class="col-12">
     <div class="card card-statistics" id="x">
       <div class="card-body">
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-between animated fadeIn fast" id="contentEstadisticas"> 
-            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null">
+            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="icon-sm fa fa-file mr-2"></i>
                 CONTRATO
               </p>
               <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][18] || '...'}}</h6>
             </div>
-            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12" *ngIf="usuarioServicio.datosPersonales!=null">
+            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="icon-sm fas fa-check-circle mr-2"></i>
                 SALARIO
               </p>
               <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][19] || '...'}}</h6>
             </div>
-            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12" *ngIf="usuarioServicio.datosPersonales!=null">
+            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="icon-sm fas fa-sitemap mr-2"></i>
                 CARGO
               </p>
               <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][20] || '...'}}</h6>
             </div>
-            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null">
+            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="fas fa-user-shield"></i>
                 FONDOS DE PENSION
@@ -47,47 +47,52 @@
     </div>
   </div>
 </div>
-<div class="row grid-margin" >
+<div class="row grid-margin">
   <div class="col-12">
-<div class="card card-statistics" style="background:linear-gradient(85deg, #002060, #007BFF) !important;" >
-  <div class="card-body">
-    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
-      <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12" >
-        <p>
-          <i class="icon-sm fa fa-calendar mr-2"></i>
-          Días provisionados
-        </p>
-        <h3>{{totalDiasVacacionesProv || '0'}}</h3>
-      </div>
-      <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12">
-        <p>
-          <i class="icon-sm fas fa-child mr-2"></i>
-          Días disfrutados
-        </p>
-        <h3 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[1][2] || '0'}}</h3>            
-        <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>            
-      </div>
-      <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12">
-        <p>
-          <i class="fas fa-money-bill"></i>
-          Días en dinero
-        </p>
-        <h3 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[0][2] || '0'}}</h3> 
-        <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3> 
-      </div>
-      <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12">
-        <p>
-          <i class="far fa-calendar-plus"></i>
-          Total días
-        </p>
-        <h3 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[2][2]+totalDiasVacacionesProv || '0'}}</h3> 
-        <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3> 
-      </div>
+    <div class="card card-statistics" style="background:linear-gradient(85deg, #002060, #007BFF) !important;">
+      <div class="card-body">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
+            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
+            <p>
+              <i class="icon-sm fa fa-calendar mr-2"></i>
+              Días provisionados
+            </p>
+            <h3>{{totalDiasVacacionesProv || '0'}}</h3>
+          </div>
+          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
+            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
+            <p>
+              <i class="icon-sm fas fa-child mr-2"></i>
+              Días disfrutados
+            </p>
+            <h3 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[1][2] || '0'}}</h3>
+            <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
+          </div>
+          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
+            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
+            <p>
+              <i class="fas fa-money-bill"></i>
+              Días en dinero
+            </p>
+            <h3 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[0][2] || '0'}}</h3>
+            <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
+          </div>
+          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
+            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
+            <p>
+              <i class="far fa-calendar-plus"></i>
+              Total días
+            </p>
+            <h3 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[2][2]+totalDiasVacacionesProv || '0'}}
+            </h3>
+            <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
+          </div>
 
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 </div>
 
 <div class="row grid-margin" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null">
@@ -102,21 +107,21 @@
             </p>
             <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][28] || 'SIN AFILIACIÓN'}}</h6>
           </div>  
-          <div class="statistics-item " *ngIf="usuarioServicio.datosPersonales!=null">
+          <div class="statistics-item " *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="fas fa-file-medical"></i>
                 ENTIDAD DE SALUD
               </p>
               <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][29] || 'SIN AFILIACIÓN'}}</h6>
             </div>
-            <div class="statistics-item " *ngIf="usuarioServicio.datosPersonales!=null">
+            <div class="statistics-item " *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="fas fa-band-aid"></i>
                 RIESGOS PROFESIONALES
               </p>
               <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][30] || 'SIN AFILIACIÓN'}}</h6>
             </div>
-            <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales!=null">
+            <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="fas fa-piggy-bank"></i>
                 FONDO CESANTIAS
@@ -124,7 +129,7 @@
               <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][31] || 'SIN AFILIACIÓN'}}</h6>
             </div>
             <br>
-            <div class="statistics-item " *ngIf="usuarioServicio.datosPersonales!=null">
+            <div class="statistics-item " *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="fas fa-archive"></i>
                 CAJA DE COMPENSACIÓN
@@ -178,7 +183,7 @@
           <div class="mb-3">
             <p><b>Estimado usuario:</b></p>
               <p>Por favor digite la observación sobre la información laboral ó personal que considera que se debe corregir, ésta 
-              será enviada al contacto de nómina y RRHH {{usuarioServicio.datosContacto[0][0]}} - {{usuarioServicio.datosContacto[0][1]}} (máx. 1000 carácteres):</p>
+              será enviada al contacto de nómina y RRHH {{usuarioServicio.nombreContactoSoporte||''}} - {{usuarioServicio.correoContactoSoporte||''}} (máx. 1000 carácteres):</p>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
           </div>
 

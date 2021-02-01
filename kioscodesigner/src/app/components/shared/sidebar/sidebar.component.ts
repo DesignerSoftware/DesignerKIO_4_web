@@ -24,11 +24,11 @@ export class SidebarComponent implements OnInit {
   constructor(private opcionesKioskosService: OpcionesKioskosService, private cadenasKioskos: CadenaskioskosappService,
               public usuarioServicio: UsuarioService, private loginService: LoginService, private router: Router, private reporteService: ReportesService) {
     console.log(this.usuarioServicio.tokenJWT);
-    this.getInfoUsuario();            
-    this.nombreUsuario = this.usuarioServicio.nombrePersona;
+    this.getInfoUsuario(); 
   }
 
   ngOnInit() {
+    this.nombreUsuario = this.usuarioServicio.nombrePersona;
   }
 
   clic() {
@@ -37,11 +37,7 @@ export class SidebarComponent implements OnInit {
   }
 
   getInfoUsuario() {
-    if (this.usuarioServicio.cadenaConexion) {
-      this.cargarOpciones();
-      this.cargaFoto();
-    } else {
-      // obtener la información del usuario del localStorage y guardarla en el service
+    // obtener la información del usuario del localStorage y guardarla en el service
     const sesion = this.usuarioServicio.getUserLoggedIn();
     this.usuarioServicio.setUsuario(sesion['usuario']);
     this.usuarioServicio.setEmpresa(sesion['empresa']);
@@ -49,6 +45,10 @@ export class SidebarComponent implements OnInit {
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
     console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    if (this.usuarioServicio.cadenaConexion) {
+      this.cargarOpciones();
+      this.cargaFoto();
+    } else {
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
     .subscribe(
       data => {

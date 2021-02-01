@@ -241,7 +241,7 @@ export class LoginComponent implements OnInit {
       title: 'Espera un momento.. Estamos enviándote el correo de confirmación',
       onBeforeOpen: () => {
         swal.showLoading();
-        this.usuarioService.inactivaTokensTipo('VALIDACUENTA', this.usuarioService.usuario, this.usuarioService.empresa)
+        this.usuarioService.inactivaTokensTipo('VALIDACUENTA', this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
           .subscribe(
             data => {
               console.log(data);
@@ -249,7 +249,8 @@ export class LoginComponent implements OnInit {
                 this.formulario.get('usuario').value,
                 this.formulario.get('clave').value,
                 //this.formulario.get('empresa').value, 'www.nominadesigner.co')
-                this.formulario.get('empresa').value, 'www.designer.com.co')
+                this.formulario.get('empresa').value, 'www.designer.com.co', this.usuarioService.cadenaConexion
+                )
                 .subscribe(
                   data2 => {
                     if (data2['envioCorreo'] === true) {

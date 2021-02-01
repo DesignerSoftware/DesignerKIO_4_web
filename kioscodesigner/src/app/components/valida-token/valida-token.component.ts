@@ -29,7 +29,7 @@ export class ValidaTokenComponent implements OnInit {
 
   validarToken(token: string) {
         // verifica si el token es válido
-        this.usuarioService.validaToken(token)
+        this.usuarioService.validaToken(token, this.usuarioService.cadenaConexion)
         .subscribe(
           (data) => {
             console.log('data', data);
@@ -44,7 +44,7 @@ export class ValidaTokenComponent implements OnInit {
                   if (data['modificado'] === true) {
                     console.log('Se ha activado el usuario');
                      // inhabilita token
-                    this.usuarioService.inactivaToken(this.token).subscribe(
+                    this.usuarioService.inactivaToken(this.token, this.usuarioService.cadenaConexion).subscribe(
                       (data) => {
                         if (data['modificado'] === true) {
                           console.log('Se ha inhabilita el token');

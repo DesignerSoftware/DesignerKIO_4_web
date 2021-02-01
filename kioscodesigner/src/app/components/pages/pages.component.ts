@@ -37,6 +37,7 @@ export class PagesComponent implements OnInit {
     this.cargaFoto(); // cargar la foto del usuario conectado
     this.cargaLogo();
     this.consultarDatosContacto();
+    this.cargarDatosPersonales();
   }
 
   getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
@@ -60,7 +61,6 @@ export class PagesComponent implements OnInit {
           this.cargarDatosIniciales();
           }
         }
-        this.cargarDatosPersonales();
       }
     );
   }
@@ -167,18 +167,18 @@ export class PagesComponent implements OnInit {
   }
 
   validarSesion() {
-    this.usuarioServicio.validaToken(this.usuarioServicio.tokenJWT)
+    this.usuarioServicio.validaToken(this.usuarioServicio.tokenJWT, this.usuarioServicio.cadenaConexion)
     .subscribe(
       data => {
         console.log('validaToken', data);
         if (data['validoToken']) {
           console.log('El token es válido');
-          this.loginService.validarUsuarioYEmpresa(data['documento'], this.usuarioServicio.empresa)
+          this.loginService.validarUsuarioYEmpresa(data['documento'], this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
           .subscribe(
             dat => {
               if (dat['result'] === 'true'){
                   // usuario activo a la empresa
-                  this.loginService.validarSeudonimoYNitEmpresaRegistrado(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+                  this.loginService.validarSeudonimoYNitEmpresaRegistrado(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
                   .subscribe(
                     datos => {
                       if (datos['result'] !== 'true') {
@@ -232,6 +232,8 @@ export class PagesComponent implements OnInit {
       .subscribe(
         data => {
           this.usuarioServicio.datosContacto = data;
+          this.usuarioServicio.nombreContactoSoporte = data[0][0];
+          this.usuarioServicio.correoContactoSoporte = data[0][1];
         }
       );
     }
