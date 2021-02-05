@@ -9,10 +9,10 @@ export class KiopreguntasfrecuentesService {
 
   constructor(private http: HttpClient) { }
 
-  getKioPreguntasFrecuentes(nit: string) {
-    const url = `${environment.urlKioskoDesigner}restKiosco/kioPreguntasFrecuentes/${nit}`;
+  /*getKioPreguntasFrecuentes(nit: string) {
+    const url = `${environment.urlKioskoReportes}restKiosco/kioPreguntasFrecuentes/${nit}`;
     console.log(url);
     return this.http.get(url);
-  }
+  }*/
 
 }

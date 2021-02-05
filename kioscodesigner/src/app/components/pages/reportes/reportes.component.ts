@@ -6,6 +6,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { DatePipe } from '@angular/common';
 import swal from 'sweetalert2';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 
 @Component({
   selector: "app-reportes",
@@ -29,29 +30,56 @@ export class ReportesComponent implements OnInit {
     private fb: FormBuilder,
     public usuarioServicio: UsuarioService,
     public reporteServicio: ReportesService,
+    private cadenasKioskos: CadenaskioskosappService,
     public datepipe: DatePipe
   ) {
     console.log("constructor");
     this.crearFormulario();
-    this.reporteServicio.reporteSeleccionado = null;
+    this.reporteServicio.reporteSeleccionado = null
 
-    // let date: Date= new Date(datepipe.transform('2019-04-13T00:00:00', 'yyyy-MM-dd'));
-    // console.log('transformada', date);
-    // console.log(this.conviertefecha('2019-04-13'));
-    /*this.activatedRoute.params
-    .subscribe(params => {
-    console.log(params);
-  	console.log(params['id']);
-    });*/
-
-    this.filtrarOpcionesReportes();
-    this.consultarParametrosReportes();
-    this.getCorreoConexioneskioskos();
   }
 
   ngOnInit() {
-    console.log("ngOnInit");
+    console.log("ngOnInit reportes");
+    if (this.usuarioServicio.cadenaConexion) {
+      this.cargarDatosIniciales();
+    } else {
+      this.getInfoUsuario();
+    }
   }
+
+  getInfoUsuario(){
+    const sesion = this.usuarioServicio.getUserLoggedIn();
+    this.usuarioServicio.setUsuario(sesion['usuario']);
+    this.usuarioServicio.setEmpresa(sesion['empresa']);
+    this.usuarioServicio.setTokenJWT(sesion['JWT']);
+    this.usuarioServicio.setGrupo(sesion['grupo']);
+    this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
+    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    .subscribe(
+      data => {
+        console.log('getInfoUsuario', data);
+        console.log(sesion['grupo']);
+        for (let i in data) {
+          if (data[i][3] === sesion['grupo']) { // GRUPO
+          const temp = data[i];
+          console.log('cadena: ', temp[4]) // CADENA
+          this.usuarioServicio.cadenaConexion=temp[4];
+          console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+          this.cargarDatosIniciales();
+          }
+        }
+      }
+    );
+  }
+
+  cargarDatosIniciales(){
+   
+    this.filtrarOpcionesReportes();
+    this.consultarParametrosReportes();
+    this.getCorreoConexioneskioskos();
+  }  
 
   conviertefecha(fecharecibidatexto) {
     let fec = fecharecibidatexto;
@@ -77,9 +105,9 @@ export class ReportesComponent implements OnInit {
 
   consultarParametrosReportes() {
     this.usuarioServicio
-      .getParametros(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+      .getParametros(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
       .subscribe((data) => {
-        console.log("data", data);
+        console.log("data parametrosReportes", data);
         console.log("fecha desde: " + data[0][0]);
         //this.fechaDesde =  new Date(Date.UTC(2020,11,12,3,0,0,0));
         this.fechaDesde = data[0][0];
@@ -337,9 +365,10 @@ export class ReportesComponent implements OnInit {
         this.reporteServicio
           .generarReporte(
             this.reporteServicio.reporteSeleccionado["nombreruta"],
-            this.usuarioServicio.secuenciaEmpleado,
+            //this.usuarioServicio.secuenciaEmpleado,
             this.formulario.get("enviocorreo").value,
-            this.correo,
+            this.usuarioServicio.correo,
+            //this.correo,
             this.reporteServicio.reporteSeleccionado["descripcion"],
             this.reporteServicio.codigoReporteSeleccionado,
             this.usuarioServicio.empresa,

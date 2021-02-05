@@ -7,6 +7,7 @@ import { Label } from 'ng2-charts';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
 import { ChartOptions, ChartType } from 'chart.js';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 
 @Component({
   selector: 'app-home',
@@ -62,74 +63,85 @@ export class HomeComponent implements OnInit {
   ];
   public polarAreaChartData: number[] = [];
   public polarAreaLegend = true;
-  
-  constructor(private fb: FormBuilder,    public usuarioServicio: UsuarioService, private router: Router,
-              private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService, private usuarioService: UsuarioService) {
-              
 
-  // dias provisionados
-  let diasProv: string = "";
-  this.vacacionesService
-    .getDiasVacacionesProvisionadas(
-      this.usuarioServicio.usuario,
-      this.usuarioServicio.empresa,
-      this.usuarioServicio.cadenaConexion
-    )
-    .subscribe((data) => {
-      diasProv = data.toString();
-      console.log("diasProv", data);
-      this.polarAreaChartData.push(parseInt(diasProv, 0));                    
-    });
-
-  // dias Enviados
-  this.vacacionesService
-    .getDiasNovedadesVaca(
-      this.usuarioServicio.empresa,
-      this.usuarioServicio.usuario,
-      this.usuarioServicio.cadenaConexion
-    )
-    .subscribe((data) => {
-      let diasEnv = data;
-      console.log("DiasEnv", data);
-      this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));                    
-      this.polarAreaChartData.push(parseInt(diasEnv[1][2], 0));                   
-      this.polarAreaChartData.push(parseInt(diasEnv[2][2], 0));                    
-    });
-}
+  constructor(private fb: FormBuilder, public usuarioServicio: UsuarioService, private router: Router, private cadenasKioskos: CadenaskioskosappService,
+    private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService, private usuarioService: UsuarioService) {
+    console.log('constructor home');
+  }
 
 
-ngOnInit() {   
-this.crearFormulario();
-this.consultarDiasProvisionados(); 
-//Datos de menu vacaciones
-this.vacacionesService
-.getDiasVacacionesProvisionadas(
-this.usuarioServicio.usuario,
-this.usuarioServicio.empresa,
-this.usuarioServicio.cadenaConexion
-)
-.subscribe((data) => {
-this.totalDiasVacacionesProv = data;
-console.log(" totalDiasVacacionesProv ", data);
-});
+  ngOnInit() {
+    console.log('ngOnInit home');
+    if (this.usuarioServicio.cadenaConexion) {
+      this.cargarDatosIniciales();
+    } else {
+      this.getInfoUsuario();
+    }
+    this.crearFormulario();
+  }
 
+  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+    const sesion = this.usuarioServicio.getUserLoggedIn();
+    this.usuarioServicio.setUsuario(sesion['usuario']);
+    this.usuarioServicio.setEmpresa(sesion['empresa']);
+    this.usuarioServicio.setTokenJWT(sesion['JWT']);
+    this.usuarioServicio.setGrupo(sesion['grupo']);
+    this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
+    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    .subscribe(
+      data => {
+        console.log('getInfoUsuario', data);
+        console.log(sesion['grupo']);
+        for (let i in data) {
+          if (data[i][3] === sesion['grupo']) { // GRUPO
+          const temp = data[i];
+          console.log('cadena: ', temp[4]) // CADENA
+          this.usuarioServicio.cadenaConexion=temp[4];
+          console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+          this.cargarDatosIniciales();
+          }
+        }
+      }
+    );
+  }
 
-this.vacacionesService
-.getDiasNovedadesVaca(
-this.usuarioServicio.empresa,
-this.usuarioServicio.usuario,
-this.usuarioServicio.cadenaConexion
-)
-.subscribe(
-(data) => {
-this.totalDiasVacacionesSubtipo = data;
-console.log(" totalDiasVacaciones en dinero", data);
-},
-(error) => {
-console.log("se ha presentado un error: " + error);
-}
-);
-}
+  cargarDatosIniciales() {
+    this.consultarDiasProvisionados();
+    this.consultarDatosGraficas();
+  }
+
+  consultarDatosGraficas() {
+    // dias provisionados
+    let diasProv: string = "";
+    this.vacacionesService
+      .getDiasVacacionesProvisionadas(
+        this.usuarioServicio.usuario,
+        this.usuarioServicio.empresa,
+        this.usuarioServicio.cadenaConexion
+      )
+      .subscribe((data) => {
+        diasProv = data.toString();
+        console.log("diasProv", data);
+        this.polarAreaChartData.push(parseInt(diasProv, 0));
+      });
+
+    // obtener dias de novedades de vacaciones
+    this.vacacionesService
+      .getDiasNovedadesVaca(
+        this.usuarioServicio.empresa,
+        this.usuarioServicio.usuario,
+        this.usuarioServicio.cadenaConexion
+      )
+      .subscribe((data) => {
+        this.totalDiasVacacionesSubtipo = data;
+        let diasEnv = data;
+        console.log("DiasEnv", data);
+        this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));
+        this.polarAreaChartData.push(parseInt(diasEnv[1][2], 0));
+        this.polarAreaChartData.push(parseInt(diasEnv[2][2], 0));
+      });
+  }
 
   crearFormulario() {
     this.formulario = this.fb.group(

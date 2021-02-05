@@ -3,7 +3,7 @@
   <br>   
   <h5 class="card-title text-muted" style="margin: 0px;">Desde aquí podrás acceder de manera fácil y rápida a tu información de nómina y personal.</h5>
   <br>
-  <p class="lead"><img [src]="usuarioServicio.urlLogoEmpresaDarkXl || 'assets/images/fotos_empleados/logodesigner-dark-xl.png'" class="img-fluid" id="img-logo"></p>
+  <p class="lead animated fadeIn slow"><img [src]="usuarioServicio.urlLogoEmpresaDarkXl || 'assets/images/fotos_empleados/logodesigner-dark-xl.png'" class="img-fluid" id="img-logo"></p>
   <hr class="my-4">
 <p class="card-description text-muted">
   Datos de interes
@@ -42,53 +42,6 @@
               </p>
               <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][28] || 'SIN AFILIACIÓN'}}</h6>
             </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row grid-margin">
-  <div class="col-12">
-    <div class="card card-statistics" style="background:linear-gradient(85deg, #002060, #007BFF) !important;">
-      <div class="card-body">
-        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
-          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
-            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-            <p>
-              <i class="icon-sm fa fa-calendar mr-2"></i>
-              Días provisionados
-            </p>
-            <h3>{{totalDiasVacacionesProv || '0'}}</h3>
-          </div>
-          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
-            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-            <p>
-              <i class="icon-sm fas fa-child mr-2"></i>
-              Días disfrutados
-            </p>
-            <h3 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[1][2] || '0'}}</h3>
-            <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
-          </div>
-          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
-            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-            <p>
-              <i class="fas fa-money-bill"></i>
-              Días en dinero
-            </p>
-            <h3 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[0][2] || '0'}}</h3>
-            <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
-          </div>
-          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
-            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-            <p>
-              <i class="far fa-calendar-plus"></i>
-              Total días
-            </p>
-            <h3 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[2][2]+totalDiasVacacionesProv || '0'}}
-            </h3>
-            <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
-          </div>
-
         </div>
       </div>
     </div>
@@ -136,6 +89,54 @@
               </p>
               <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][32] || 'SIN AFILIACIÓN'}}</h6>
             </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row grid-margin">
+  <div class="col-12">
+    <div class="card card-statistics" style="background:linear-gradient(85deg, #002060, #007BFF) !important;">
+      <div class="card-body">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
+            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
+            <p>
+              <i class="icon-sm fa fa-calendar mr-2"></i>
+              Días provisionados
+            </p>
+            <h3>{{totalDiasVacacionesProv || '0'}}</h3>
+          </div>
+          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
+            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
+            <p>
+              <i class="icon-sm fas fa-child mr-2"></i>
+              Días disfrutados
+            </p>
+            <h3 *ngIf="totalDiasVacacionesSubtipo && totalDiasVacacionesSubtipo!=null && totalDiasVacacionesSubtipo.length!=0">{{totalDiasVacacionesSubtipo[1][2] || '0'}}</h3>
+            <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
+          </div>
+          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
+            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0 && totalDiasVacacionesSubtipo">
+            <p>
+              <i class="fas fa-money-bill"></i>
+              Días en dinero
+            </p>
+            <h3 *ngIf="totalDiasVacacionesSubtipo && totalDiasVacacionesSubtipo!=null && totalDiasVacacionesSubtipo.length!=0">{{totalDiasVacacionesSubtipo[0][2] || '0'}}</h3>
+            <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
+          </div>
+          <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
+            *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
+            <p>
+              <i class="far fa-calendar-plus"></i>
+              Total días
+            </p>
+            <h3 *ngIf="totalDiasVacacionesSubtipo && totalDiasVacacionesSubtipo!=null && totalDiasVacacionesSubtipo.length!=0">{{totalDiasVacacionesSubtipo[2][2]+totalDiasVacacionesProv || '0'}}
+            </h3>
+            <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
+          </div>
+
         </div>
       </div>
     </div>

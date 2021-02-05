@@ -19,9 +19,10 @@
             <div class="col-md-9 col-lg-8 mx-auto">
               <h3 class="login-heading mb-4 text-center">Módulo autoconsulta Kiosco</h3>
               <br />
-              <h5 id="msj" class="text-center text-danger">{{validaParametroGrupo}}</h5>
+              <h5 id="msj" class="text-center text-danger" *ngIf="this.usuarioService.isUserLoggedIn!=true">{{validaParametroGrupo}}</h5>
               <h6 class="text-center" *ngIf="grupoEmpresarial">Inicie sesión para consultar sus datos de personal.</h6>
               <br>
+              
               <form novalidate [formGroup]="formulario" (ngSubmit)="enviar()" *ngIf="grupoEmpresarial" class="needs-validation">
 
                 <!-- <div *ngIf="formulario.get('usuario').hasError('required') && formulario.get('usuario').touched
@@ -135,8 +136,13 @@
                   <a class="small" href="#" [routerLink]="['/olvidoClave', grupoEmpresarial]">¿Olvidó su clave?</a>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
+                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" *ngIf="cadenasApp!=null" 
                   type="submit">Ingresar</button>
+
+                  <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" *ngIf="cadenasApp==null" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Cargando...
+                  </button>                  
 
                 <div class="text-center">
                   <a class="small" href="#" [routerLink]="['/registro', grupoEmpresarial]">¿No tiene una cuenta?

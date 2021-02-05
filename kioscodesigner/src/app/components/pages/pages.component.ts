@@ -21,15 +21,16 @@ export class PagesComponent implements OnInit {
   urlLogoEmpresa = null;
   urlLogoEmpresaMin;
   urlLogoEmpresaDarkXl;
-  prue;
 
   constructor(public opcionesKioskosServicio: OpcionesKioskosService, private router: Router,
               public usuarioServicio: UsuarioService, private loginService: LoginService, 
               private cadenasKioskos: CadenaskioskosappService, private kioPersonalizaciones: KiopersonalizacionesService) {
     this.getInfoUsuario();
+    console.log('constructor pages');
   }
 
   ngOnInit() {
+    console.log('ngOnInit pages');
   }
 
   cargarDatosIniciales() {
@@ -58,6 +59,7 @@ export class PagesComponent implements OnInit {
           const temp = data[i];
           console.log('cadena: ', temp[4]) // CADENA
           this.usuarioServicio.cadenaConexion=temp[4];
+          console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
           this.cargarDatosIniciales();
           }
         }
@@ -88,7 +90,7 @@ export class PagesComponent implements OnInit {
         console.log(data);
         this.fotoPerfil = data['result'];
         console.log('documento: ' + this.fotoPerfil);
-        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`;
+        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}`;
          // this.usuarioServicio.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`;
          // document.getElementById('perfil').setAttribute('src', `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);
       },
@@ -106,9 +108,9 @@ export class PagesComponent implements OnInit {
       data => {
         console.log('logo', data);
         this.logoEmpresa = data['LOGO'];
-        this.urlLogoEmpresa = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-light-xl.png`;
-        this.urlLogoEmpresaMin = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-mini.png`;
-        this.urlLogoEmpresaDarkXl = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-dark-xl.png`;
+        this.urlLogoEmpresa = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-light-xl.png?cadena=${this.usuarioServicio.cadenaConexion}`;
+        this.urlLogoEmpresaMin = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-mini.png?cadena=${this.usuarioServicio.cadenaConexion}`;
+        this.urlLogoEmpresaDarkXl = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-dark-xl.png?cadena=${this.usuarioServicio.cadenaConexion}`;
         this.usuarioServicio.urlLogoEmpresa = this.urlLogoEmpresa;
         this.usuarioServicio.urlLogoEmpresaMin = this.urlLogoEmpresaMin;
         this.usuarioServicio.urlLogoEmpresaDarkXl = this.urlLogoEmpresaDarkXl;
@@ -116,8 +118,8 @@ export class PagesComponent implements OnInit {
       error => {
         console.log('Error: ' + error);
         this.urlLogoEmpresa = 'assets/images/fotos_empleados/logodesigner-light-xl.png';
-        this.urlLogoEmpresaMin = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-mini.png`;
-        this.urlLogoEmpresaDarkXl = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-dark-xl.png`;
+        this.urlLogoEmpresaMin = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-mini.png?cadena=${this.usuarioServicio.cadenaConexion}`;
+        this.urlLogoEmpresaDarkXl = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-dark-xl.png?cadena=${this.usuarioServicio.cadenaConexion}`;
         this.usuarioServicio.urlLogoEmpresa = this.urlLogoEmpresa;
         this.usuarioServicio.urlLogoEmpresaMin = this.urlLogoEmpresaMin;
         this.usuarioServicio.urlLogoEmpresaDarkXl = this.urlLogoEmpresaDarkXl;
@@ -132,15 +134,13 @@ export class PagesComponent implements OnInit {
   logout() {
     console.log('cerrar sesion');
     localStorage.removeItem('currentUser');
-    this.router.navigate(['/login']);
-    this.loginService.logOut(); // Limpiar datos
-    if (this.usuarioServicio.grupoEmpresarial != null) {
-      // this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
-      this.router.navigate(['/']);
+    if (this.usuarioServicio.grupoEmpresarial!=null) {
+       this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
+      //this.router.navigate(['/']);
     } else {
-      // this.router.navigate(['/login']);
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     }
+    this.loginService.logOut(); // Limpiar datos
   }
 
   mostrarModalCambiarFoto() {
@@ -186,7 +186,7 @@ export class PagesComponent implements OnInit {
                           icon: 'error',
                           // title: 'Sesión no válida',
                           title: 'Su sesión ha expirado',
-                          text: 'Inicie sesión nuevamente.',
+                          text: 'Por favor inicie sesión nuevamente.',
                           showConfirmButton: true
                         }).then((result) => {
                           this.logout();
@@ -201,7 +201,7 @@ export class PagesComponent implements OnInit {
                   // title: 'Sesión inválida',
                   title: 'Su sesión ha expirado',
                   // text: data['mensaje'],
-                  text: 'Inicie sesión nuevamente',
+                  text: 'Por favor inicie sesión nuevamente',
                   showConfirmButton: true
                 }).then((result) => {
                   this.logout();

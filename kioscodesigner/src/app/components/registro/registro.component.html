@@ -1,239 +1,251 @@
 <form [formGroup]="formulario" novalidate (ngSubmit)="crearUsuario()">
 
-    <div class="container-scroller">
-      <div class="container-fluid page-body-wrapper full-page-wrapper">
-        <div class="content-wrapper">
-  
-          <div class="card">
-            <h5 class="card-header bg-info" style="color: white">Registro - Kiosko Designer.KIO</h5>
-  
-            <div class="card-body">
-              <h4>Registro de usuario</h4>
-              <br>
-              <h6 class="text-danger">{{validaParametroGrupo}}</h6>
-              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
-                <div class="form-group row" style="margin-bottom: 0px">
-                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
-                    col-md-6
-                    col-sm-4">*Número de Documento:</label>
-                  <div class="col col-xl-5 col-md-7">
-                    <input type="text" class="form-control form-control-sm" id="documento"
-                      formControlName="documento" />
-                    <small *ngIf="formulario.get('documento').errors?.required &&
-                      formulario.get('documento').touched" class="text-danger">
-                      Digite su número de documento
-                    </small>
-                    <small *ngIf="formulario.get('documento').errors?.pattern" class="text-danger">
-                      Sólo se permiten números y no se permiten espacios.
-                    </small>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="form-group row" style="margin-bottom: 0px">
-                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
-                    col-md-6
-                    col-sm-4">*Nit Empresa:</label>
-                  <div class="col col-xl-5 col-md-7">
-                    <input type="text" class="form-control form-control-sm"
-                       />
-                    <small *ngIf="formulario.get('nitempresa').errors?.required &&
-                      formulario.get('nitempresa').touched" class="text-danger">
-                      Digite el nit de la empresa en la que trabaja sin digito de verificación, espacios ni simbolos.
-                    </small>
-                    <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
-                      Sólo se permiten números y no se permiten espacios
-                    </small>
-                  </div>
-                </div>
-              </div> -->
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper">
 
+        <div class="card">
+          <h5 class="card-header bg-info" style="color: white">Registro - Kiosko Designer.KIO</h5>
 
-              <!-- <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
-                <div class="form-group row" style="margin-bottom: 0px">
-                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
-                    col-md-6
-                    col-sm-4">*Empresa:</label>
-                  <div class="col col-xl-5 col-md-7">
-                   <select class="form-control" formControlName="nitempresa" id="empresa">
-                     <option value="">Seleccione una empresa</option>
-                     <option *ngFor="let e of empresas" [value]="e['NIT']">{{e['NOMBRE']}}</option>
-                   </select>
-                    <small *ngIf="formulario.get('nitempresa').errors?.required &&
-                      formulario.get('nitempresa').touched" class="text-danger">
-                      Seleccione una empresa
-                    </small>
-                    <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
-                      Sólo se permiten números y no se permiten espacios
-                    </small>
-                  </div>
-                </div>
-              </div> -->
-
-               <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
-                <div class="form-group row" style="margin-bottom: 0px">
-                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
-                    col-md-6
-                    col-sm-4">*Empresa:</label>
-                  <div class="col col-xl-5 col-md-7">
-                   <select class="form-control" formControlName="nitempresa" id="empresa">
-                     <option value="">Seleccione una empresa</option>
-                     <option *ngFor="let e of cadenasApp" [value]="e[2]">{{e[1]}}</option>
-                   </select>
-                    <small *ngIf="formulario.get('nitempresa').errors?.required &&
-                      formulario.get('nitempresa').touched" class="text-danger">
-                      Seleccione una empresa
-                    </small>
-                    <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
-                      Sólo se permiten números y no se permiten espacios
-                    </small>
-                  </div>
-                </div>
-              </div> 
-
-
-              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" style="display: none;" id="divCorreo">
-                <div class="form-group row" style="margin-bottom: 0px">
-                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
-                    col-md-6
-                    col-sm-4">Su correo es:</label>
-                  <div class="col col-xl-5 col-md-7">
-                    <input type="email" class="form-control form-control-sm"
-                      formControlName="correo" disabled />
-                      <small *ngIf="formulario.get('correo').errors?.prueba &&
-                      formulario.get('correo').touched" class="text-danger">
-                    Formato No válido
-                    </small>
-                    <small class="text-muted">El correo asociado es consultado en la información registrada por recursos humanos y/o nómina,
-                         si requiere alguna corrección por favor contactese con el área correspondiente de su empresa.
-                    </small>
-                  </div>
-                </div>
-              </div>
-
-                <div class="col-12 col-xl-3">
-                  <button type="button" *ngIf="!habilitaCamposClave && grupoEmpresarial" class="form-control btn btn-info mt-2" (click)="validarUsuario()">Continuar</button>
-                </div>
-
-            <div *ngIf="habilitaCamposClave" style="padding-bottom: 0px;">
-              <hr>
-              <div class="col-12 mb-4">La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula, 
-                un cáracter especial ( @#$%*.-_+~/;,()! ) y su longitud mínima debe ser de 8 carácteres.</div>
-              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <!-- <p>Su contraseña {{mensajeValidacionClave}}</p> -->
-                <div class="form-group row" style="margin-bottom: 0px">
-                  <label
-                    class="font-weight-bold col-form-label col-xl-2 col-lg-3
-                    col-md-4
-                    col-sm-5"
-                    style="margin: 0px">*Nueva contraseña:</label>
-                  <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                    <input type="password" class="form-control form-control-sm"
-                      [class.is-invalid]="formulario.get('pass1').invalid &&
-                      formulario.get('pass1').touched"
-                      [class.is-valid]="formulario.get('pass1').valid"
-                      maxlength="16" formControlName="pass1">
-                    <small *ngIf="formulario.get('pass1').errors?.required &&
-                      formulario.get('pass1').touched" class="text-danger">
-                      Digite su contraseña
-                    </small>
-                    <small *ngIf="formulario.get('pass1').errors?.pattern &&
-                      formulario.get('pass1').touched" class="text-danger">
-                      <!-- {{mensajeValidacionClave}} -->
-                      La contraseña no cumple con el formato solicitado.
-                    </small>
-                  </div>
-                </div>
-              </div>
-  
-              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="form-group row" style="margin-bottom: 0px">
-                  <label class="font-weight-bold col-form-label col-xl-2 col-lg-3
-                    col-md-4
-                    col-sm-5" style="margin: 0px">*Confirmar contraseña:</label>
-                  <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                    <input type="password" class="form-control form-control-sm
-                      is-valid"
-                      maxlength="16" formControlName="pass2"
-                      [class.is-invalid]="formulario.get('pass2').invalid &&
-                      formulario.get('pass2').touched"
-                      [class.is-valid]="formulario.get('pass2').valid &&
-                      formulario.get('pass2').touched &&
-                      formulario.get('pass1').valid">
-                    <small *ngIf="formulario.get('pass2').touched &&
-                      formulario.get('pass2').errors?.required"
-                      class="text-danger">
-                      Confirme su contraseña
-                    </small>
-                    <small *ngIf="formulario.get('pass2').errors?.noEsIgual &&
-                      formulario.get('pass2').touched" class="text-danger">
-                      Las contraseñas no coinciden
-                    </small>
-                  </div>
-                </div>
-              </div>
-  
-              <hr>
-              <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="col-md-12">
-                  <div class="form-group row">
-                    <div class="col-sm-12">
-                      *¿Con qué usuario desea iniciar sesión?
-                    </div>
-                    <br><br>
-                    <div class="col-sm-6 col-xl-3 col-lg-3">
-                      <input type="radio" name="seudonimo" formControlName="seudonimo"
-                        id="documento" value="documento" checked>
-                      Número de documento
-                    </div>
-                    <div class="col-sm-6 col-xl-3 col-lg-3">
-                        <input type="radio" name="seudonimo" formControlName="seudonimo"
-                          id="correo" value="correo">
-                        Correo electrónico
-                    </div>
-                    <small *ngIf="formulario.get('seudonimo').errors?.required &&
-                    formulario.get('seudonimo').touched" class="text-danger">
-                    Seleccione el nombre de usuario que desea utilizar para iniciar sesión, puede usar su número de documento o su correo asociado.
+          <div class="card-body">
+            <h4>Registro de usuario</h4>
+            <br>
+            <h6 class="text-danger">{{validaParametroGrupo}}</h6>
+            <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
+              <div class="form-group row" style="margin-bottom: 0px">
+                <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
+                  col-md-6
+                  col-sm-4">*Número de Documento:</label>
+                <div class="col col-xl-5 col-md-7">
+                  <input type="text" class="form-control form-control-sm" id="documento"
+                    formControlName="documento" />
+                  <small *ngIf="formulario.get('documento').errors?.required &&
+                    formulario.get('documento').touched" class="text-danger">
+                    Digite su número de documento
                   </small>
-                  </div>
+                  <small *ngIf="formulario.get('documento').errors?.pattern" class="text-danger">
+                    Sólo se permiten números y no se permiten espacios.
+                  </small>
                 </div>
-  
               </div>
-  
-              <div class="col-12 col-xl-3">
-                <button type="submit" class="form-control btn btn-info">Finalizar</button>
-              </div>
-              <pre *ngIf="false">
-                {{formulario.value | json}}
-              </pre>
-              <pre *ngIf="false">
-                Estado del formulario: {{formulario.valid}}
-              </pre>
-              <pre *ngIf="false">Status formulario: {{formulario.status}}</pre>
+            </div>
 
-                  <div id="loader" style="display: none">
-                    <div class="col-md-12 col-sm-12 grid-margin stretch-card">
-                      <div class="loader-demo-box" style="height: 50px">
-                        <div class="dot-opacity-loader">
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                        </div>
-                      </div>
-                    </div> 
-                    <div id="mensaje"></div>                  
+            <!-- <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group row" style="margin-bottom: 0px">
+                <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
+                  col-md-6
+                  col-sm-4">*Nit Empresa:</label>
+                <div class="col col-xl-5 col-md-7">
+                  <input type="text" class="form-control form-control-sm"
+                     />
+                  <small *ngIf="formulario.get('nitempresa').errors?.required &&
+                    formulario.get('nitempresa').touched" class="text-danger">
+                    Digite el nit de la empresa en la que trabaja sin digito de verificación, espacios ni simbolos.
+                  </small>
+                  <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
+                    Sólo se permiten números y no se permiten espacios
+                  </small>
+                </div>
+              </div>
+            </div> -->
+
+
+            <!-- <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
+              <div class="form-group row" style="margin-bottom: 0px">
+                <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
+                  col-md-6
+                  col-sm-4">*Empresa:</label>
+                <div class="col col-xl-5 col-md-7">
+                 <select class="form-control" formControlName="nitempresa" id="empresa">
+                   <option value="">Seleccione una empresa</option>
+                   <option *ngFor="let e of empresas" [value]="e['NIT']">{{e['NOMBRE']}}</option>
+                 </select>
+                  <small *ngIf="formulario.get('nitempresa').errors?.required &&
+                    formulario.get('nitempresa').touched" class="text-danger">
+                    Seleccione una empresa
+                  </small>
+                  <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
+                    Sólo se permiten números y no se permiten espacios
+                  </small>
+                </div>
+              </div>
+            </div> -->
+
+             <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="grupoEmpresarial">
+              <div class="form-group row" style="margin-bottom: 0px">
+                <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
+                  col-md-6
+                  col-sm-4">*Empresa:</label>
+                <div class="col col-xl-5 col-md-7">
+                 <select class="form-control" formControlName="nitempresa" id="empresa">
+                   <option value="">Seleccione una empresa</option>
+                   <option *ngFor="let e of cadenasApp" [value]="e[2]">{{e[1]}}</option>
+                 </select>
+                  <small *ngIf="formulario.get('nitempresa').errors?.required &&
+                    formulario.get('nitempresa').touched" class="text-danger">
+                    Seleccione una empresa
+                  </small>
+                  <small *ngIf="formulario.get('nitempresa').errors?.pattern" class="text-danger">
+                    Sólo se permiten números y no se permiten espacios
+                  </small>
+                </div>
+              </div>
+            </div> 
+
+
+            <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12" style="display: none;" id="divCorreo">
+              <div class="form-group row" style="margin-bottom: 0px">
+                <label class="font-weight-bold col-form-label col-xl-2 col-lg-2
+                  col-md-6
+                  col-sm-4">Su correo es:</label>
+                <div class="col col-xl-5 col-md-7">
+                  <input type="email" class="form-control form-control-sm"
+                    formControlName="correo" disabled />
+                    <small *ngIf="formulario.get('correo').errors?.prueba &&
+                    formulario.get('correo').touched" class="text-danger">
+                  Formato No válido
+                  </small>
+                  <small class="text-muted">El correo asociado es consultado en la información registrada por recursos humanos y/o nómina,
+                       si requiere alguna corrección por favor contactese con el área correspondiente de su empresa.
+                  </small>
+                </div>
+              </div>
+            </div>
+
+              <div class="col-12 col-xl-3">
+                <button type="button" *ngIf="!habilitaCamposClave && grupoEmpresarial" class="form-control btn btn-info mt-2" (click)="validarUsuario()">Continuar</button>
+              </div>
+
+          <div *ngIf="habilitaCamposClave" style="padding-bottom: 0px;">
+            <hr>
+            <div class="col-12 mb-4">La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula, 
+              un cáracter especial ( @#$%*.-_+~/;,()! ) y su longitud mínima debe ser de 8 carácteres.</div>
+            <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <!-- <p>Su contraseña {{mensajeValidacionClave}}</p> -->
+              <div class="form-group row" style="margin-bottom: 0px">
+                <label
+                  class="font-weight-bold col-form-label col-xl-2 col-lg-3
+                  col-md-4
+                  col-sm-5"
+                  style="margin: 0px">*Nueva contraseña:</label>
+                <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-5" style="margin: 0px ;padding-right: 0px !important">
+                  <input type="password" class="form-control form-control-sm"
+                    [class.is-invalid]="formulario.get('pass1').invalid &&
+                    formulario.get('pass1').touched"
+                    [class.is-valid]="formulario.get('pass1').valid"
+                    maxlength="16" formControlName="pass1" id="inputClave1">
+                  <small *ngIf="formulario.get('pass1').errors?.required &&
+                    formulario.get('pass1').touched" class="text-danger">
+                    Digite su contraseña
+                  </small>
+                  <small *ngIf="formulario.get('pass1').errors?.pattern &&
+                    formulario.get('pass1').touched" class="text-danger">
+                    <!-- {{mensajeValidacionClave}} -->
+                    La contraseña no cumple con el formato solicitado.
+                  </small>
+                </div>
+                <div class="input-group-append" style="width: 15% !important" style="text-align: left;">
+
+                    <button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword1()"
+                      style="border-radius: 0px 0px 0px 0px; height: 37.2px; width: 50px; text-align: left" > <span
+                        class="fa fa-eye icon" id="a" style="text-align: left;"></span></button>
                   </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group row" style="margin-bottom: 0px">
+                <label class="font-weight-bold col-form-label col-xl-2 col-lg-3
+                  col-md-4
+                  col-sm-5" style="margin: 0px">*Confirmar contraseña:</label>
+                <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-5" style="margin: 0px ;padding-right: 0px !important">
+                  <input type="password" class="form-control form-control-sm
+                    is-valid"
+                    maxlength="16" formControlName="pass2"
+                    [class.is-invalid]="formulario.get('pass2').invalid &&
+                    formulario.get('pass2').touched"
+                    [class.is-valid]="formulario.get('pass2').valid &&
+                    formulario.get('pass2').touched &&
+                    formulario.get('pass1').valid" id="inputClave2">
+                  <small *ngIf="formulario.get('pass2').touched &&
+                    formulario.get('pass2').errors?.required"
+                    class="text-danger">
+                    Confirme su contraseña
+                  </small>
+                  <small *ngIf="formulario.get('pass2').errors?.noEsIgual &&
+                    formulario.get('pass2').touched" class="text-danger">
+                    Las contraseñas no coinciden
+                  </small>
+                </div>
+                <div class="input-group-append" style="width: 15% !important" style="text-align: left;">
+
+                  <button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword2()"
+                    style="border-radius: 0px 0px 0px 0px; height: 37.2px; width: 50px; text-align: left" > <span
+                      class="fa fa-eye icon" id="a" style="text-align: left;"></span></button>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+            <div class="col-md-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <div class="col-sm-12">
+                    *¿Con qué usuario desea iniciar sesión?
+                  </div>
+                  <br><br>
+                  <div class="col-sm-6 col-xl-3 col-lg-3">
+                    <input type="radio" name="seudonimo" formControlName="seudonimo"
+                      id="documento" value="documento" checked>
+                    Número de documento
+                  </div>
+                  <div class="col-sm-6 col-xl-3 col-lg-3">
+                      <input type="radio" name="seudonimo" formControlName="seudonimo"
+                        id="correo" value="correo">
+                      Correo electrónico
+                  </div>
+                  <small *ngIf="formulario.get('seudonimo').errors?.required &&
+                  formulario.get('seudonimo').touched" class="text-danger">
+                  Seleccione el nombre de usuario que desea utilizar para iniciar sesión, puede usar su número de documento o su correo asociado.
+                </small>
+                </div>
+              </div>
+
             </div>
 
             <div class="col-12 col-xl-3">
-              <button type="button" class="form-control btn btn-secondary mt-2" (click)="redirigirInicio()">Cancelar</button>
+              <button type="submit" class="form-control btn btn-info">Finalizar</button>
             </div>
-  
-            </div>
+            <pre *ngIf="false">
+              {{formulario.value | json}}
+            </pre>
+            <pre *ngIf="false">
+              Estado del formulario: {{formulario.valid}}
+            </pre>
+            <pre *ngIf="false">Status formulario: {{formulario.status}}</pre>
+
+                <div id="loader" style="display: none">
+                  <div class="col-md-12 col-sm-12 grid-margin stretch-card">
+                    <div class="loader-demo-box" style="height: 50px">
+                      <div class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </div> 
+                  <div id="mensaje"></div>                  
+                </div>
+          </div>
+
+          <div class="col-12 col-xl-3">
+            <button type="button" class="form-control btn btn-secondary mt-2" (click)="redirigirInicio()">Cancelar</button>
+          </div>
+
           </div>
         </div>
       </div>
-  
     </div>
-  </form>
+
+  </div>
+</form>

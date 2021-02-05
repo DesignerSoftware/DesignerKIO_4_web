@@ -53,7 +53,7 @@ export class ProcesarSoliciComponent implements OnInit {
           console.log('documento: ' + this.fotoPerfil);
          /* document.getElementById('fotoPerfilEmpl').setAttribute('src',
             `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);*/
-            this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`;
+            this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}`;
             return this.url;
   }
 

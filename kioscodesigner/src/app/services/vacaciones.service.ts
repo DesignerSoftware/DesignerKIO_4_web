@@ -44,14 +44,15 @@ export class VacacionesService {
     return this.http.get(url, {
       params: {
         seudonimo: seudonimo,
-        nitempresa: nit
+        nitempresa: nit,
+        cadena: cadena
       }
     });
   }
 
   getUltimoPeriodoVacacionesPendientes(seudonimo: string, nit: string, cadena: string) {
     //const url = `http://pc006:8082/wsreporte/webresources/vacacionesPendientes/consultarPeriodoMasAntiguo?documento=52384153`;
-    const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarPeriodoMasAntiguo?seudonimo=${seudonimo}&nitempresa=${nit}`;
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarPeriodoMasAntiguo?seudonimo=${seudonimo}&nitempresa=${nit}&cadena=${cadena}`;
     console.log('url:' + url);
     return this.http.get(url);
   }
@@ -64,7 +65,8 @@ export class VacacionesService {
     return this.http.get(url, {
       params: {
         seudonimo: seudonimo,
-        nitempresa: nit
+        nitempresa: nit,
+        cadena: cadena
       }
     });
   }
@@ -91,7 +93,8 @@ export class VacacionesService {
     return this.http.get(url, {
       params: {
         seudonimo: seudonimo,
-        nitempresa: nit
+        nitempresa: nit,
+        cadena: cadena
       }
     });
   }
@@ -117,7 +120,7 @@ export class VacacionesService {
       });
   }
 
-  calculaFechasSolicitud(seudonimo: string, nit: string, fechainicio: string, dias: string) {
+  calculaFechasSolicitud(seudonimo: string, nit: string, fechainicio: string, dias: string, cadena: string) {
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/calculaFechaRegreso?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&dias=${dias}`;
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/calculaFechaRegreso`;
     console.log('url:' + url);
@@ -126,7 +129,8 @@ export class VacacionesService {
         seudonimo: seudonimo,
         nitempresa: nit,
         fechainicio: fechainicio,
-        dias: dias
+        dias: dias,
+        cadena: cadena
       }
     });    
   }

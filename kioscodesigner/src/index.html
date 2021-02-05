@@ -38,6 +38,37 @@
       }
     }
 
+    function mostrarPassword1() {
+      var cambio = document.getElementById("inputClave1");
+      if (cambio.type == "password") {
+        cambio.type = "text";
+        
+      } else {
+        cambio.type = "password";
+        
+      }
+    }
+    function mostrarPassword2() {
+      var cambio = document.getElementById("inputClave2");
+      if (cambio.type == "password") {
+        cambio.type = "text";
+        $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye').getElementById("e");
+      } else {
+        cambio.type = "password";
+        
+      }
+    }
+    function mostrarPassword3() {
+      var cambio = document.getElementById("inputClave3");
+      if (cambio.type == "password") {
+        cambio.type = "text";
+        $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye').getElementById("e");
+      } else {
+        cambio.type = "password";
+        
+      }
+    }
+
     $(document).ready(function () {
       //CheckBox mostrar contraseña
       $('#ShowPassword').click(function () {
@@ -63,6 +94,7 @@
   <script src="assets/libs/js/settings.js" async="async"></script>
   <script src="assets/libs/js/todolist.js" async="async"></script>
   <script src="assets/libs/js/dashboard.js" async="async"></script>
+  <script  src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v9.0" nonce="ypMqhqN9"></script>
   <!-- End custom js for this page-->
 
   <noscript>Please enable JavaScript to continue using this application.</noscript>

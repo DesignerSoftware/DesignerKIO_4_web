@@ -101,7 +101,7 @@ export class SidebarComponent implements OnInit {
         this.fotoPerfil = data['result'];
         console.log('documento: ' + this.fotoPerfil);
         document.getElementById('fotoPerfil').setAttribute('src',
-        `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);
+        `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}`);
       }
     );
   }
@@ -110,7 +110,12 @@ export class SidebarComponent implements OnInit {
     console.log('cerrar sesion');
     localStorage.removeItem('currentUser');
     // this.router.navigate(['/login']);
-    this.router.navigate(['/']);
+    //this.router.navigate(['/']);
+    if (this.usuarioServicio.grupoEmpresarial!=null) {
+      this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
+   } else {
+     this.router.navigate(['/login']);
+   }
   }
   
   minbody2() {    

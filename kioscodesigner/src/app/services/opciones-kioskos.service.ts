@@ -18,13 +18,6 @@ export class OpcionesKioskosService {
     return this.http.get(url);
   }
 
-  getPrueba(user: any): Observable<any> {
-    const url = `${environment.urlKioskoDesigner}restKiosco/validarIngresoUsuarioKiosco?` +
-    `usuario=8125176&clave=Prueba01*&nitEmpresa=830045567`;
-    console.log(url);
-    return this.http.get(`${environment.urlKioskoDesigner}restKiosco/validarIngresoUsuarioKiosco`, user);
-  }
-
   getPrueba2() {
     const url = `${environment.urlKioskoReportes}opcioneskioskos/prueba`;
     console.log(url);

@@ -128,15 +128,13 @@ navegarHome() { // Dirigir a página de inicio
 logout() {
   console.log('cerrar sesion');
   localStorage.removeItem('currentUser');
-  this.router.navigate(['/login']);
-  this.loginService.logOut(); // Limpiar datos
-  if (this.usuarioServicio.grupoEmpresarial != null) {
-    // this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
-    this.router.navigate(['/']);
+  if (this.usuarioServicio.grupoEmpresarial!=null) {
+     this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
+    //this.router.navigate(['/']);
   } else {
-    // this.router.navigate(['/login']);
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
+  this.loginService.logOut(); // Limpiar datos
 }
 
 }

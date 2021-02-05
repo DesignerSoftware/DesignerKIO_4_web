@@ -14,14 +14,14 @@ export class ReportesService {
   
   constructor(private http: HttpClient) { }
 
-  generarReporte(reporte: string, secuenciaEmpl: string, envioCorreo: boolean, correo: string, descripcionReporte: string, codigoReporte: string, nit: string, cadena: string, usuario: string) {
-    const url = `${environment.urlKioskoReportes}reportes/generaReporte/${reporte}/${secuenciaEmpl}/${envioCorreo}/${correo}?descripcionReporte=${descripcionReporte}&codigoReporte=${codigoReporte}&nit=${nit}&cadena=${cadena}&usuario=${usuario}`;
+  generarReporte(reporte: string, envioCorreo: boolean, correo: string, descripcionReporte: string, codigoReporte: string, nit: string, cadena: string, usuario: string) {
+    const url = `${environment.urlKioskoReportes}reportes/generaReporte/${reporte}/${envioCorreo}/${correo}?descripcionReporte=${descripcionReporte}&codigoReporte=${codigoReporte}&nit=${nit}&cadena=${cadena}&usuario=${usuario}`;
     console.log(url);
     return this.http.get(url, { responseType: 'blob' });
   }
 
   validaFechasCertingresos(fechaDesde: string, fechaHasta: string) {
-    const url = `${environment.urlKioskoDesigner}restKiosco/validarFechasCertingresos?fechadesde=${fechaDesde}&fechahasta=${fechaHasta}`;
+    const url = `${environment.urlKioskoReportes}restKiosco/validarFechasCertingresos?fechadesde=${fechaDesde}&fechahasta=${fechaHasta}`;
     console.log(url);
     return this.http.get(url);
   }

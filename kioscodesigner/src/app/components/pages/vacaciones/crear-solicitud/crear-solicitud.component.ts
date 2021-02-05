@@ -182,7 +182,8 @@ export class CrearSolicitudComponent implements OnInit {
         this.usuarioService.usuario,
         this.usuarioService.empresa,
         this.formulario.get("fechainicio").value,
-        diasASolicitar.toString()
+        diasASolicitar.toString(),
+        this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
         console.log("fecha a regresar: " + data);

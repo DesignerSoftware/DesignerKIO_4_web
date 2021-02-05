@@ -27,6 +27,7 @@ validaParametroGrupo = '';
       this.crearFormulario(); // crear formulario
       if (params['grupo']) {
         this.grupoEmpresarial = params['grupo'];
+        this.usuarioService.grupoEmpresarial = this.grupoEmpresarial;
         console.log(params);
 
         this.cadenasKioskos
@@ -34,7 +35,8 @@ validaParametroGrupo = '';
         .subscribe((data) => {
           console.log(data);
           this.cadenasApp = data;
-
+          console.log('cadenas: ', data)
+          this.usuarioService.cadenaConexion = data[0][4];
           if (this.cadenasApp.length === 1) {
             this.formulario
               .get('empresa')
@@ -59,12 +61,12 @@ validaParametroGrupo = '';
       seudonimo: [, Validators.required],
       nitempresa: ['', [Validators.required/*, Validators.pattern("^([0-9])*$")*/] ]
     });
-    this.usuarioService.getEmpresas()
+    /*this.usuarioService.getEmpresas()
     .subscribe(
       data => {
         this.empresas = data;
       }
-    )
+    )*/
   }
 
   enviar() {
@@ -115,7 +117,7 @@ validaParametroGrupo = '';
         swal.showLoading();
         setTimeout(() => {
           this.usuarioService.generaClaveAleatoria(
-            this.formulario.get('seudonimo').value, this.formulario.get('nitempresa').value
+            this.formulario.get('seudonimo').value, this.formulario.get('nitempresa').value, this.usuarioService.cadenaConexion
           )
           .subscribe(
             data => {

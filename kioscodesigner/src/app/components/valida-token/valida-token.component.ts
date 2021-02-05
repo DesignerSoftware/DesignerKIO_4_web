@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -13,10 +13,10 @@ export class ValidaTokenComponent implements OnInit {
   mensaje2 = 'Estamos validando tu cuenta, por favor espere un momento.';
   respuesta = false;
 
-  constructor(private activatedRoute: ActivatedRoute, private usuarioService: UsuarioService) {
+  constructor(private activatedRoute: ActivatedRoute, private usuarioService: UsuarioService, private router: Router) {
   this.activatedRoute.params
   .subscribe(params => {
-    // console.log(params);
+    console.log(params);
     this.token = params['token'];
     console.log('token recuperado', this.token);
     this.validarToken(params['token']);
@@ -36,10 +36,13 @@ export class ValidaTokenComponent implements OnInit {
             if (data['validoToken'] === true) {
               console.log('Token es válido');
               console.log(data["usuario"]);
+              console.log('cadena', data["cadena"]);
+              this.usuarioService.cadenaConexion=data["cadena"];
+              this.usuarioService.grupoEmpresarial=data["grupo"];
               this.mensaje1 = 'Activando usuario...';
               this.usuarioService
               // habilita cuenta kiosco
-                .cambiaEstadoUsuario(data['usuario'], data['empresa'], 'S')
+                .cambiaEstadoUsuario(data['usuario'], data['empresa'], 'S', data["cadena"])
                 .subscribe((data) => {
                   if (data['modificado'] === true) {
                     console.log('Se ha activado el usuario');
@@ -86,6 +89,16 @@ export class ValidaTokenComponent implements OnInit {
             this.mensaje2 = 'Ha ocurrido un error de conexión, por favor inténtalo de nuevo más tarde.';
           }
         );
+  }
+
+  dirigirLogin(){
+    console.log('enviar a Login grupo: ', this.usuarioService.grupoEmpresarial)
+    if (this.usuarioService.grupoEmpresarial != null) {
+      this.router.navigate(['/login', this.usuarioService.grupoEmpresarial]);
+      //this.router.navigate(['/']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
 }

@@ -29,6 +29,7 @@ export class RegistroComponent implements OnInit {
       .subscribe(params => {
         if (params['grupo']) {
         this.grupoEmpresarial = params['grupo'];
+        this.usuarioServicio.grupoEmpresarial = this.grupoEmpresarial;
       console.log(params);
 
     	/*console.log(params.id);
@@ -36,7 +37,8 @@ export class RegistroComponent implements OnInit {
       this.cadenasKioskos.getCadenasKioskosEmp(params['grupo'])
       .subscribe(
         data => {
-        console.log(data);
+        console.log('cadenasKioskos ',data);
+        this.usuarioServicio.cadenaConexion = data[0][4];
         this.cadenasApp = data;
 
     if (this.cadenasApp.length===1){
@@ -109,7 +111,8 @@ export class RegistroComponent implements OnInit {
   validarUsuarioRegistrado() {
      this.usuarioServicio.validaUsuarioYNitEmpresaRegistrado(
       this.formulario.get('documento').value,
-      this.formulario.get('nitempresa').value
+      this.formulario.get('nitempresa').value,
+      this.usuarioServicio.cadenaConexion
      )
      .subscribe(
        data => {
@@ -140,7 +143,7 @@ export class RegistroComponent implements OnInit {
   }
 
   consultarCorreo() {
-    this.loginService.getCorreoAsociadoPersonaEmpresa(this.formulario.get('documento').value, this.formulario.get('nitempresa').value)
+    this.loginService.getCorreoAsociadoPersonaEmpresa(this.formulario.get('documento').value, this.formulario.get('nitempresa').value, this.usuarioServicio.cadenaConexion)
     .subscribe(
       data => {
         if (data['result'] && (data['result'] != null || data['result'] !== '')) {
@@ -180,7 +183,7 @@ export class RegistroComponent implements OnInit {
       }
       this.loginService.registrarUsuario(seudonimoCuenta, this.formulario.get('documento').value,
         this.formulario.get('pass1').value, this.formulario.get('nitempresa').value,
-        this.formulario.get('correo').value)
+        this.formulario.get('correo').value, this.usuarioServicio.cadenaConexion)
       .subscribe(
       info => {
       console.log('crear usuario', info);
@@ -230,7 +233,7 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
       this.loginService.enviarCorreoConfirmaCuenta(
         seudonimo,
         this.formulario.get('pass1').value,
-        this.formulario.get('nitempresa').value, 'www.nominadesigner.co', this.usuarioServicio.cadenaConexion)
+        this.formulario.get('nitempresa').value, 'www.nominadesigner.co', this.usuarioServicio.cadenaConexion, this.usuarioServicio.grupoEmpresarial)
       .subscribe(
         data => {
           if (data['envioCorreo'] === true) {
@@ -246,7 +249,8 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
               if (result.value) {
                 // document.location.href = './login';
                 //this.router.navigate(['/login']);
-                this.router.navigate(['/']);
+                //this.router.navigate(['/']);
+                this.redirigirInicio();
               }
             });
           } else {
@@ -282,8 +286,8 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
 
 redirigirInicio() {
   if (this.grupoEmpresarial!=null) {
-     //this.router.navigate(['/', this.grupoEmpresarial]);
-  //} else {
+     this.router.navigate(['/login', this.grupoEmpresarial]);
+  } else {
     this.router.navigate(['/']);
   }
   

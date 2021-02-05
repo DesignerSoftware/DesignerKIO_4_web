@@ -14,30 +14,12 @@ import swal from 'sweetalert2';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  validaParametroGrupo = '';
+  validaParametroGrupo = null;
   cadenasApp: any;
   formulario: FormGroup;
   empresas;
   grupoEmpresarial = null;
-  urlKiosco="https://www.designer:8179/#/login/GrupoEmpresarial1";
-  cadenaskioskos = [
-   /*{
-      id: 1,
-      descripcion: 'TRONEX',
-      cadena: 'DEFAULT1',
-      nit: '811025446',
-      fondo: 'fondoMenu.jpg',
-      grupo: 'GrupoEmpresarial1',
-    },*/
-    {
-      id: 2,
-      descripcion: 'DESIGNER SOFTWARE LTDA',
-      cadena: 'DEFAULT1',
-      nit: '830045567',
-      fondo: 'fondoMenu.jpg',
-      grupo: 'GrupoEmpresarial2',
-    },
-  ];
+  urlKiosco = "https://www.designer:8179/#/login/GrupoEmpresarial1";
 
   constructor(
     private fb: FormBuilder,
@@ -48,41 +30,52 @@ export class LoginComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private cadenasKioskos: CadenaskioskosappService
   ) {
+    console.log('constructor login');
     this.cadenasApp = null;
     console.log('usuario logueado', usuarioService.getUserLoggedIn());
-    
-    if (!usuarioService.getUserLoggedIn()) {
+    this.infoInicio();
+  }
+
+  ngOnInit() {
+
+  }
+
+  infoInicio() {
+    if (!this.usuarioService.getUserLoggedIn()) {
       this.activatedRoute.params
-      .subscribe(params => {
-        if (params['grupo']) {
-          this.grupoEmpresarial = params['grupo'];
-          console.log(params);
+        .subscribe(params => {
+          if (params['grupo']) {
+            this.grupoEmpresarial = params['grupo'];
+            this.usuarioService.grupoEmpresarial = this.grupoEmpresarial;
+            console.log('this.usuarioService.grupo', this.usuarioService.grupoEmpresarial);
+            console.log(params);
+            this.validaParametroGrupo = '';
+            /*console.log(params.id);
+        console.log(params[‘id’]);*/
+            this.cadenasKioskos
+              .getCadenasKioskosEmp(this.usuarioService.grupoEmpresarial)
+              .subscribe((data) => {
+                console.log('cadenasKioskos form Registro', data);
+                this.cadenasApp = data;
+                console.log('cadenas: ', data)
+                this.usuarioService.cadenaConexion = data[0][4];
+                console.log('Cadena: ', this.usuarioService.cadenaConexion);
+                if (this.cadenasApp.length === 1) {
+                  this.formulario
+                    .get('empresa')
+                    // .setValue(this.cadenasApp[0].NITEMPRESA); // si solo hay una empresa se asigna el nit de ésta por defecto
+                    .setValue(this.cadenasApp[0][2]); // si solo hay una empresa se asigna el nit de ésta por defecto
+                } else {
+                  // this.formulario.get('empresa').setValue('');
+                }
+              });
+          } else {
+            console.log('no hay parámetro');
+            this.validaParametroGrupo = 'Importante: El link de acceso no es válido, por favor confirme con su empresa el enlace correcto.';
+            $('#staticBackdrop').modal('show');
+          }
 
-          /*console.log(params.id);
-    	console.log(params[‘id’]);*/
-          this.cadenasKioskos
-            .getCadenasKioskosEmp(params['grupo'])
-            .subscribe((data) => {
-              console.log('cadenasKioskos form Registro',data);
-              this.cadenasApp = data;
-              this.usuarioService.cadenaConexion = data[0][4];
-              console.log('Cadena: ', this.usuarioService.cadenaConexion);
-              if (this.cadenasApp.length === 1) {
-                this.formulario
-                  .get('empresa')
-                  // .setValue(this.cadenasApp[0].NITEMPRESA); // si solo hay una empresa se asigna el nit de ésta por defecto
-                  .setValue(this.cadenasApp[0][2]); // si solo hay una empresa se asigna el nit de ésta por defecto
-              } else {
-                // this.formulario.get('empresa').setValue('');
-              }
-            });
-        } else {
-          console.log('no hay parámetro');
-          this.validaParametroGrupo = 'Importante: El link de acceso no es válido, por favor confirme con su empresa el enlace correcto.';
-          $('#staticBackdrop').modal('show');
-        }
-
-    });
+        });
 
 
       this.crearFormulario();
@@ -96,15 +89,6 @@ export class LoginComponent implements OnInit {
     } else {
       this.navigate();
     }
-  }
-
-  ngOnInit() {
-   /* if (this.cadenaskioskos.length === 1) {
-      this.formulario.get('empresa').setValue(this.cadenaskioskos[0].nit); // si solo hay una empresa se asigna el nit de ésta por defecto
-    } else {
-      this.formulario.get('empresa').setValue('');
-    }*/
-
   }
 
   crearFormulario() {
@@ -132,7 +116,7 @@ export class LoginComponent implements OnInit {
             if (data['ingresoExitoso']) {
               console.log('ingresoExitoso: ' + data['ingresoExitoso']);
               this.loginService.generarToken(this.formulario.get('usuario').value.toLowerCase(),
-                this.formulario.get('clave').value, this.formulario.get('empresa').value, this.usuarioService.cadenaConexion)
+                this.formulario.get('clave').value, this.formulario.get('empresa').value, this.usuarioService.cadenaConexion, this.usuarioService.grupoEmpresarial)
                 .subscribe(
                   res => {
                     console.log('Respuesta token generado: ', res);
@@ -145,6 +129,7 @@ export class LoginComponent implements OnInit {
                       swal.fire({
                         title: 'Bienvenido...',
                         html: 'Espere un momento mientras lo redireccionamos a la página de inicio',
+                        backdrop: 'RGB(3,58,100)',
                         timer: 2000,
                         timerProgressBar: true,
                         onBeforeOpen: () => {
@@ -249,8 +234,8 @@ export class LoginComponent implements OnInit {
                 this.formulario.get('usuario').value,
                 this.formulario.get('clave').value,
                 //this.formulario.get('empresa').value, 'www.nominadesigner.co')
-                this.formulario.get('empresa').value, 'www.designer.com.co', this.usuarioService.cadenaConexion
-                )
+                this.formulario.get('empresa').value, 'www.designer.com.co', this.usuarioService.cadenaConexion, this.usuarioService.grupoEmpresarial
+              )
                 .subscribe(
                   data2 => {
                     if (data2['envioCorreo'] === true) {
@@ -321,4 +306,4 @@ export class LoginComponent implements OnInit {
 
   }
 
-  }
+}
