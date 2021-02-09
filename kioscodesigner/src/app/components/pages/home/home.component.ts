@@ -169,6 +169,11 @@ export class HomeComponent implements OnInit {
     $("#staticBackdrop").modal("show");
   }
 
+  sumaDias(num1: string, num2: string){
+    const numero1: number = parseFloat(num1);
+    return Math.ceil(parseFloat(num1+num2));
+    }
+
   enviarReporteNovedad() {
     console.log('enviar', this.formulario.controls);
     if (this.formulario.valid) {
@@ -177,7 +182,7 @@ export class HomeComponent implements OnInit {
         onBeforeOpen: () => {
           swal.showLoading();
           this.usuarioService.enviaCorreoNovedadRRHH(this.usuarioService.usuario, this.usuarioService.empresa, this.formulario.get('mensaje').value,
-            this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial)
+            this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
             .subscribe(
               (data) => {
                 console.log(data);

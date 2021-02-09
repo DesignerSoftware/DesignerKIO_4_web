@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private loginService: LoginService,
-    private usuarioService: UsuarioService,
+    public usuarioService: UsuarioService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private cadenasKioskos: CadenaskioskosappService

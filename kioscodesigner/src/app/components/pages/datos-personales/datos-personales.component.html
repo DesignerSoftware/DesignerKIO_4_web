@@ -271,7 +271,7 @@
           <div class="mb-3">
             <p><b>Estimado usuario:</b></p>
               <p>Por favor digite la observación sobre la información laboral ó personal que considera que se debe corregir, ésta 
-              será enviada al contacto de nómina y RRHH {{usuarioServicio.datosContacto[0][0]}} - {{usuarioServicio.datosContacto[0][1]}} (máx. 1000 carácteres):</p>
+                será enviada al contacto de nómina y RRHH {{usuarioServicio.nombreContactoSoporte||''}} - {{usuarioServicio.correoContactoSoporte||''}} (máx. 1000 carácteres)</p>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
           </div>
 

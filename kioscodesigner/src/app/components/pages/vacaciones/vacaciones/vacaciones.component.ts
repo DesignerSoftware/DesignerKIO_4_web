@@ -3,6 +3,7 @@ import { OpcionesKioskosService } from 'src/app/services/opciones-kioskos.servic
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { VacacionesService } from 'src/app/services/vacaciones.service';
 import { Router } from '@angular/router';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 
 @Component({
   selector: 'app-vacaciones',
@@ -17,17 +18,48 @@ private empresa: string;
 reporteSeleccionado = null;
 codigoReporteSeleccionado = null;
 
-  constructor(private opcionesKioskosServicio: OpcionesKioskosService, private usuarioServicio: UsuarioService, private router: Router, public vacacionesService: VacacionesService
+  constructor(private opcionesKioskosServicio: OpcionesKioskosService, private usuarioServicio: UsuarioService, 
+    private router: Router, public vacacionesService: VacacionesService, private cadenasKioskos: CadenaskioskosappService
     ) {
     //this.opcioneskioskoG = this.opcionesKioskosServicio.getOpcionesKiosco(this.empresa);
     this.vacacionesService.SolicitudesJefe = null;
     console.log(this.opcioneskioskoG);
-    this.filtrarOpcionesReportes();
   }
 
   ngOnInit() {
-    console.log('ngOnInit() vacaciones')   
+    console.log('ngOnInit() vacaciones');
+    if (this.usuarioServicio.cadenaConexion) {
+      this.filtrarOpcionesReportes();
+    } else {
+      this.getInfoUsuario();
+    }   
   }
+
+  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+    const sesion = this.usuarioServicio.getUserLoggedIn();
+    this.usuarioServicio.setUsuario(sesion['usuario']);
+    this.usuarioServicio.setEmpresa(sesion['empresa']);
+    this.usuarioServicio.setTokenJWT(sesion['JWT']);
+    this.usuarioServicio.setGrupo(sesion['grupo']);
+    this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
+    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    .subscribe(
+      data => {
+        console.log('getInfoUsuario', data);
+        console.log(sesion['grupo']);
+        for (let i in data) {
+          if (data[i][3] === sesion['grupo']) { // GRUPO
+          const temp = data[i];
+          console.log('cadena: ', temp[4]) // CADENA
+          this.usuarioServicio.cadenaConexion=temp[4];
+          console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+          this.filtrarOpcionesReportes();
+          }
+        }
+      }
+    );
+  }  
 
   filtrarOpcionesReportes() {
     let opkTempo: any = [];

@@ -7,6 +7,7 @@ import { Label, Color, BaseChartDirective, SingleDataSet } from 'ng2-charts';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 
 
 
@@ -120,62 +121,18 @@ export class VerSoliciEmpleadosComponent implements OnInit {
 
   constructor(
     private vacacionesService: VacacionesService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private cadenasKioskos: CadenaskioskosappService
   ) {
-    // dias provisionados
-    let diasProv: string = "";
-    this.vacacionesService
-      .getDiasVacacionesProvisionadas(
-        this.usuarioService.usuario,
-        this.usuarioService.empresa,
-        this.usuarioService.cadenaConexion
-      )
-      .subscribe((data) => {
-        diasProv = data.toString();
-        console.log("diasProv", data);
-        this.polarAreaChartData.push(parseInt(diasProv, 0));
-        this.pieChartData.push(parseInt(diasProv, 0));
-      });
 
-    // dias Enviados
-    this.vacacionesService
-      .getDiasNovedadesVaca(
-        this.usuarioService.empresa,
-        this.usuarioService.usuario,
-        this.usuarioService.cadenaConexion
-      )
-      .subscribe((data) => {
-        let diasEnv = data;
-        console.log("DiasEnv", data);
-        this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));
-        this.pieChartData.push(parseInt(diasEnv[0][2], 0));
-        this.polarAreaChartData.push(parseInt(diasEnv[1][2], 0));
-        this.pieChartData.push(parseInt(diasEnv[1][2], 0));
-        this.polarAreaChartData.push(parseInt(diasEnv[2][2], 0));
-        this.pieChartData.push(parseInt(diasEnv[2][2], 0));
-      });
   }
 
   ngOnInit() {
-    if (
-      this.usuarioService.documento == null ||
-      this.usuarioService.documento.lenght === 0
-    ) {
-      this.usuarioService
-        .getDocumentoSeudonimo(
-          this.usuarioService.usuario,
-          this.usuarioService.empresa,
-          this.usuarioService.cadenaConexion
-        )
-        .subscribe((data) => {
-          console.log(data["result"]);
-          this.usuarioService.documento = data["result"];
-          console.log("ng OnInit:", this.usuarioService.documento);
-          this.consultarSoliciXEstados();
-        });
+    if (this.usuarioService.cadenaConexion) {
+      this.cargarDatosIniciales();
     } else {
-      this.consultarSoliciXEstados();
-    }
+      this.getInfoUsuario();
+    }    
     //
     // this.countEventsSubscription$ = this.vacacionesService
     // .getServerSentEvent(`${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesProvisionados?seudonimo=${this.usuarioService.usuario}&nitempresa=${this.usuarioService.empresa}`)
@@ -221,6 +178,87 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   //   return chartData[0].data.length >= limit;
   // }
 
+  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+    const sesion = this.usuarioService.getUserLoggedIn();
+    this.usuarioService.setUsuario(sesion['usuario']);
+    this.usuarioService.setEmpresa(sesion['empresa']);
+    this.usuarioService.setTokenJWT(sesion['JWT']);
+    this.usuarioService.setGrupo(sesion['grupo']);
+    this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
+    console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    .subscribe(
+      data => {
+        console.log('getInfoUsuario', data);
+        console.log(sesion['grupo']);
+        for (let i in data) {
+          if (data[i][3] === sesion['grupo']) { // GRUPO
+          const temp = data[i];
+          console.log('cadena: ', temp[4]) // CADENA
+          this.usuarioService.cadenaConexion=temp[4];
+          console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
+          this.cargarDatosIniciales();
+          }
+        }
+      }
+    );
+  }   
+
+  cargarDatosIniciales() {
+    // dias provisionados
+    let diasProv: string = "";
+    this.vacacionesService
+      .getDiasVacacionesProvisionadas(
+        this.usuarioService.usuario,
+        this.usuarioService.empresa,
+        this.usuarioService.cadenaConexion
+      )
+      .subscribe((data) => {
+        diasProv = data.toString();
+        console.log("diasProv", data);
+        this.polarAreaChartData.push(parseInt(diasProv, 0));
+        this.pieChartData.push(parseInt(diasProv, 0));
+      });
+
+    // dias Enviados
+    this.vacacionesService
+      .getDiasNovedadesVaca(
+        this.usuarioService.empresa,
+        this.usuarioService.usuario,
+        this.usuarioService.cadenaConexion
+      )
+      .subscribe((data) => {
+        let diasEnv = data;
+        console.log("DiasEnv", data);
+        this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));
+        this.pieChartData.push(parseInt(diasEnv[0][2], 0));
+        this.polarAreaChartData.push(parseInt(diasEnv[1][2], 0));
+        this.pieChartData.push(parseInt(diasEnv[1][2], 0));
+        this.polarAreaChartData.push(parseInt(diasEnv[2][2], 0));
+        this.pieChartData.push(parseInt(diasEnv[2][2], 0));
+      });    
+
+      if (
+        this.usuarioService.documento == null ||
+        this.usuarioService.documento.lenght === 0
+      ) {
+        this.usuarioService
+          .getDocumentoSeudonimo(
+            this.usuarioService.usuario,
+            this.usuarioService.empresa,
+            this.usuarioService.cadenaConexion
+          )
+          .subscribe((data) => {
+            console.log(data["result"]);
+            this.usuarioService.documento = data["result"];
+            console.log("ng OnInit:", this.usuarioService.documento);
+            this.consultarSoliciXEstados();
+          });
+      } else {
+        this.consultarSoliciXEstados();
+      }      
+  }
+
   consultarSoliciXEstados() {
     this.getSoliciEnviadas();
     this.getSoliciAprobadas();
@@ -265,9 +303,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   getSoliciEnviadas() {
     this.vacacionesService
       .getSolicitudesXEstado(
-        this.usuarioService.documento,
+        this.usuarioService.usuario,
         this.usuarioService.empresa,
-        "ENVIADO"
+        "ENVIADO", this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
         console.log("Datos iniciales");
@@ -279,9 +317,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   getSoliciAprobadas() {
     this.vacacionesService
       .getSolicitudesXEstado(
-        this.usuarioService.documento,
+        this.usuarioService.usuario,
         this.usuarioService.empresa,
-        "AUTORIZADO"
+        'AUTORIZADO', this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
         console.log(data);
@@ -292,9 +330,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   getSoliciRechazadas() {
     this.vacacionesService
       .getSolicitudesXEstado(
-        this.usuarioService.documento,
+        this.usuarioService.usuario,
         this.usuarioService.empresa,
-        "RECHAZADO"
+        'RECHAZADO', this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
         console.log(data);
@@ -305,9 +343,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   getSoliciLiquidadas() {
     this.vacacionesService
       .getSolicitudesXEstado(
-        this.usuarioService.documento,
+        this.usuarioService.usuario,
         this.usuarioService.empresa,
-        "LIQUIDADO"
+        'LIQUIDADO', this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
         console.log(data);
@@ -318,9 +356,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   getSoliciCanceladas() {
     this.vacacionesService
       .getSolicitudesXEstado(
-        this.usuarioService.documento,
+        this.usuarioService.usuario,
         this.usuarioService.empresa,
-        "CANCELADO"
+        'CANCELADO', this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
         console.log(data);

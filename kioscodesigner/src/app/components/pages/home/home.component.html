@@ -132,7 +132,7 @@
               <i class="far fa-calendar-plus"></i>
               Total días
             </p>
-            <h3 *ngIf="totalDiasVacacionesSubtipo && totalDiasVacacionesSubtipo!=null && totalDiasVacacionesSubtipo.length!=0">{{totalDiasVacacionesSubtipo[2][2]+totalDiasVacacionesProv || '0'}}
+            <h3 *ngIf="totalDiasVacacionesSubtipo && totalDiasVacacionesSubtipo!=null && totalDiasVacacionesSubtipo.length!=0">{{sumaDias(totalDiasVacacionesSubtipo[2][2],totalDiasVacacionesProv) || '0'}}
             </h3>
             <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
           </div>

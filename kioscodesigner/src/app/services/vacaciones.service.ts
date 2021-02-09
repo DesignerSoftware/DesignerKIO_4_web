@@ -11,16 +11,17 @@ export class VacacionesService {
 
   constructor(private http: HttpClient) { }
 
-  getSolicitudesXEstado(documento: string, nit: string, estado: string) {
-    //const url = `${environment.urlKioskoReportes}conexioneskioskos/solicitudXEstado?documento=${documento}&empresa=${nit}&estado=${estado}`;
-    const url = `${environment.urlKioskoReportes}conexioneskioskos/solicitudXEstado`;
+  getSolicitudesXEstado(documento: string, nit: string, estado: string, cadena: string) {
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/solicitudXEstado?documento=${documento}&empresa=${nit}&estado=${estado}&cadena=${cadena}`;
+    //const url = `${environment.urlKioskoReportes}conexioneskioskos/solicitudXEstado`;
     console.log('url:' + url);
     return this.http.get(url, {
-      params: {
+     /* params: {
         documento: documento,
         empresa: nit,
-        estado: estado
-      }
+        estado: estado,
+        cadena: cadena
+      }*/
     });
   }
 
@@ -99,8 +100,8 @@ export class VacacionesService {
     });
   }
     // Consultar todas las solicitudes de los empleados relacionados al jefe
-  getSoliciSinProcesarJefe(nit: string, seudonimo: string, estado: string) {
-    const url = `${environment.urlKioskoReportes}empleados/soliciSinProcesarJefe/${nit}/${seudonimo}/${estado}`;
+  getSoliciSinProcesarJefe(nit: string, seudonimo: string, estado: string, cadena: string) {
+    const url = `${environment.urlKioskoReportes}empleados/soliciSinProcesarJefe/${nit}/${seudonimo}/${estado}?cadena=${cadena}`;
     console.log('url:' + url);
     return this.http.get(url);
   }
@@ -115,7 +116,8 @@ export class VacacionesService {
         params: {
           seudonimo: seudonimo,
           nitempresa: nit,
-          estado: estado
+          estado: estado,
+          cadena: cadena
         }
       });
   }
@@ -135,8 +137,8 @@ export class VacacionesService {
     });    
   }
 
-  validaFechaInicio(seudonimo: string, nit: string, fechainicio: string) {
-    const url = `${environment.urlKioskoReportes}empleados/validaFechaInicioVacaciones?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}`;
+  validaFechaInicio(seudonimo: string, nit: string, fechainicio: string, cadena: string) {
+    const url = `${environment.urlKioskoReportes}empleados/validaFechaInicioVacaciones?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&cadena=${cadena}`;
     console.log('url:' + url);
     return this.http.get(url);    
   }

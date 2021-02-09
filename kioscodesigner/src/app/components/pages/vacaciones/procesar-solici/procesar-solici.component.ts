@@ -32,7 +32,7 @@ export class ProcesarSoliciComponent implements OnInit {
 
   cargarDatosSolicitudesProcesadas() {
     if (this.vacacionesService.SolicitudesJefe == null) {
-      this.vacacionesService.getSoliciSinProcesarJefe(this.usuarioService.empresa, this.usuarioService.usuario, 'ENVIADO')
+      this.vacacionesService.getSoliciSinProcesarJefe(this.usuarioService.empresa, this.usuarioService.usuario, 'ENVIADO', this.usuarioService.cadenaConexion)
         .subscribe(
           data => {
             this.vacacionesService.SolicitudesJefe = data;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { KiopersonalizacionesService } from 'src/app/services/kiopersonalizaciones.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
@@ -19,15 +20,45 @@ export class DatosPersonalesComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public usuarioServicio: UsuarioService, private kioPersonalizaciones: KiopersonalizacionesService) {
-    this.cargarDatos();
-    this.cargarDatosFamilias();
+    public usuarioServicio: UsuarioService, private kioPersonalizaciones: KiopersonalizacionesService, private cadenasKioskos: CadenaskioskosappService) {
     this.crearFormulario();
-    //this.cargaFoto();
   }
 
   ngOnInit() {
     //this.cargaFoto();
+    this.getInfoUsuario();
+  }
+
+  cargarDatosIniciales(){
+    this.cargarDatos();
+    this.cargarDatosFamilias();  
+    //this.cargaFoto();
+  }
+
+  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+    const sesion = this.usuarioServicio.getUserLoggedIn();
+    this.usuarioServicio.setUsuario(sesion['usuario']);
+    this.usuarioServicio.setEmpresa(sesion['empresa']);
+    this.usuarioServicio.setTokenJWT(sesion['JWT']);
+    this.usuarioServicio.setGrupo(sesion['grupo']);
+    this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
+    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    .subscribe(
+      data => {
+        console.log('getInfoUsuario', data);
+        console.log(sesion['grupo']);
+        for (let i in data) {
+          if (data[i][3] === sesion['grupo']) { // GRUPO
+          const temp = data[i];
+          console.log('cadena: ', temp[4]) // CADENA
+          this.usuarioServicio.cadenaConexion=temp[4];
+          console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+          this.cargarDatosIniciales();
+          }
+        }
+      }
+    );
   }
 
   crearFormulario() {
@@ -40,7 +71,7 @@ export class DatosPersonalesComponent implements OnInit {
 
   cargarDatos() {
     if (this.usuarioServicio.datosPersonales == null) {
-      this.usuarioServicio.getDatosUsuario(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+      this.usuarioServicio.getDatosUsuario(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
         .subscribe(
           data => {
             this.usuarioServicio.datosPersonales = data;
@@ -52,7 +83,7 @@ export class DatosPersonalesComponent implements OnInit {
 
   cargarDatosFamilias() {
     if (this.usuarioServicio.datosFamilia == null) {
-      this.usuarioServicio.getDatosUsuarioFamilia(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
+      this.usuarioServicio.getDatosUsuarioFamilia(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
         .subscribe(
           data => {
             this.usuarioServicio.datosFamilia = data;
@@ -98,7 +129,7 @@ export class DatosPersonalesComponent implements OnInit {
         onBeforeOpen: () => {
           swal.showLoading();
           this.usuarioServicio.enviaCorreoNovedadRRHH(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.formulario.get('mensaje').value,
-            this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial)
+            this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
             .subscribe(
               (data) => {
                 console.log(data);

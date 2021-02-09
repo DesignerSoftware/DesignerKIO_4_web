@@ -15,14 +15,11 @@ import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.ser
 })
 export class ReportesComponent implements OnInit {
   formulario: FormGroup;
-  //opcionesReportes: any = [];
-  //reporteSeleccionado = null;
   fechaDesde: Date = null;
   fechaHasta: Date = null;
   enviocorreo: boolean;
   correo: string = null;
   dirigidoa: string = null;
-  //codigoReporteSeleccionado;
 
   constructor(
     private opcionesKioskosServicio: OpcionesKioskosService,
@@ -161,7 +158,7 @@ export class ReportesComponent implements OnInit {
     this.usuarioServicio
       .consultarCorreoConexioneskioskos(
         this.usuarioServicio.usuario,
-        this.usuarioServicio.empresa
+        this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion
       )
       .subscribe((data) => {
         this.correo = data["result"];
@@ -236,7 +233,8 @@ export class ReportesComponent implements OnInit {
               console.log(data);
               if (data["result"] === "true") {
                 console.log("fechas correctas");
-                this.obtenerSecuenciaEmpleado();
+                //this.obtenerSecuenciaEmpleado();
+                this.actualizaParametros();
               } else {
                 swal.fire(
                   "¡Validar Fechas!",
@@ -248,13 +246,14 @@ export class ReportesComponent implements OnInit {
               }
             });
         } else {
-          this.obtenerSecuenciaEmpleado();
+          //this.obtenerSecuenciaEmpleado();
+          this.actualizaParametros();
         }
       }
     }
   }
 
-  obtenerSecuenciaEmpleado() {
+  /*obtenerSecuenciaEmpleado() {
     if (this.usuarioServicio.secuenciaEmpleado == null) {
       this.usuarioServicio
         .getSecuenciaEmpl(this.usuarioServicio.usuario)
@@ -265,7 +264,7 @@ export class ReportesComponent implements OnInit {
     } else {
       this.actualizaParametros();
     }
-  }
+  }*/
 
   formatoddmmyyyy(fecha) {
     let anio = fecha.substring(0, 4);
@@ -373,7 +372,9 @@ export class ReportesComponent implements OnInit {
             this.reporteServicio.codigoReporteSeleccionado,
             this.usuarioServicio.empresa,
             this.usuarioServicio.cadenaConexion,
-            this.usuarioServicio.usuario
+            this.usuarioServicio.usuario,
+            this.usuarioServicio.grupoEmpresarial,
+            this.usuarioServicio.urlKioscoDomain
           )
           .subscribe(
             (res) => {
