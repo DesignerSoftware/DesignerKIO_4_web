@@ -20,8 +20,8 @@ export class ReportesService {
     return this.http.get(url, { responseType: 'blob' });
   }
 
-  validaFechasCertingresos(fechaDesde: string, fechaHasta: string) {
-    const url = `${environment.urlKioskoReportes}restKiosco/validarFechasCertingresos?fechadesde=${fechaDesde}&fechahasta=${fechaHasta}`;
+  validaFechasCertingresos(fechaDesde: string, fechaHasta: string, cadena: string) {
+    const url = `${environment.urlKioskoReportes}reportes/validarFechasCertingresos?fechadesde=${fechaDesde}&fechahasta=${fechaHasta}&cadena=${cadena}`;
     console.log(url);
     return this.http.get(url);
   }

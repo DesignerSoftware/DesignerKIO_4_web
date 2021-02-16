@@ -32,7 +32,7 @@
         <div class="card" id="divReportes">
             <div class="card-body">
                 <div class="d-flex flex-row">
-                    <img src="assets/images/reporte.png" class="img-lg rounded img-fluid" alt="profile image" />
+                    <img [src]="imagenReporte(op['nombreruta']) || 'assets/images/reporte.png'" class="img-lg rounded img-fluid" alt="profile image" />
                     <div class="ml-3 d-flex align-items-center">
                         <h6>{{ op['descripcion'] || ''}}</h6>
                     </div>

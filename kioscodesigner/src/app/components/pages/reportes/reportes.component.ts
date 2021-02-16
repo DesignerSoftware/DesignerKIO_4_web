@@ -227,11 +227,12 @@ export class ReportesComponent implements OnInit {
           this.reporteServicio
             .validaFechasCertingresos(
               this.formulario.get("fechadesde").value,
-              this.formulario.get("fechahasta").value
+              this.formulario.get("fechahasta").value,
+              this.usuarioServicio.cadenaConexion
             )
             .subscribe((data) => {
               console.log(data);
-              if (data["result"] === "true") {
+              if (data) {
                 console.log("fechas correctas");
                 //this.obtenerSecuenciaEmpleado();
                 this.actualizaParametros();
@@ -442,4 +443,21 @@ export class ReportesComponent implements OnInit {
       allowOutsideClick: () => !swal.isLoading(),
     });
   }
+
+
+  imagenReporte(opcion: any){
+    if (opcion.indexOf("kioVacaPendiente")> -1) {
+      return "assets/images/kioVacapendiente.png";
+    } else if (opcion.indexOf("kio_certingresos")> -1) {
+      return "assets/images/kio_certingresos.png";
+    } else if (opcion.indexOf("kioSaldoCesantias")> -1) {
+      return "assets/images/kioSaldoCesantias.png";
+    } else if (opcion.indexOf("kio_DesprendibleCO")> -1) {
+      return "assets/images/kio_DesprendibleCO.png";
+    } else {
+      return "assets/images/reporte.png";
+    }
+ }
+
+
 }

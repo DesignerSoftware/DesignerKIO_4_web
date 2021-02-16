@@ -38,9 +38,9 @@
             <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="fas fa-user-shield"></i>
-                FONDOS DE PENSION
+                EMPRESA
               </p>
-              <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][28] || 'SIN AFILIACIÓN'}}</h6>
+              <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][17] || 'SIN AFILIACIÓN'}}</h6>
             </div>
         </div>
       </div>
