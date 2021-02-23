@@ -20,6 +20,7 @@ import { CrearSolicitudComponent } from './components/pages/vacaciones/crear-sol
 import { VerSoliciEmpleadosComponent } from './components/pages/vacaciones/ver-solici-empleados/ver-solici-empleados.component';
 import { ProcesarSoliciComponent } from './components/pages/vacaciones/procesar-solici/procesar-solici.component';
 import { SoliProcesadasComponent } from './components/pages/vacaciones/soli-procesadas/soli-procesadas.component';
+import { InfoEstudiosComponent } from './components/pages/info-estudios/info-estudios.component';
 
 const APP_ROUTES: Routes = [
     {
@@ -41,6 +42,7 @@ const APP_ROUTES: Routes = [
     {path: 'vacaciones/verSolicitudesPropias', component: VerSoliciEmpleadosComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones/procesarSolicitudes', component: ProcesarSoliciComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones/solicitudesProcesadas', component: SoliProcesadasComponent, canActivate: [AuthGuard]},
+    {path: 'infoEstudios', component: InfoEstudiosComponent, canActivate: [AuthGuard]},
     {path: '', redirectTo: '/login/GrupoEmpresarial2', pathMatch: 'full'}
 ]},
 // Rutas principales

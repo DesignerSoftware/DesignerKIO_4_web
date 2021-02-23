@@ -45,6 +45,7 @@ import { ProcesarSoliciComponent } from './components/pages/vacaciones/procesar-
 import { VerSoliciEmpleadosComponent } from './components/pages/vacaciones/ver-solici-empleados/ver-solici-empleados.component';
 import { SoliProcesadasComponent } from './components/pages/vacaciones/soli-procesadas/soli-procesadas.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { InfoEstudiosComponent } from './components/pages/info-estudios/info-estudios.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { FilterPipe } from './pipes/filter.pipe';
     ProcesarSoliciComponent,
     VerSoliciEmpleadosComponent,
     SoliProcesadasComponent,
-    FilterPipe
+    FilterPipe,
+    InfoEstudiosComponent
   ],
   imports: [
     BrowserModule,
