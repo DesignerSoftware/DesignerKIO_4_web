@@ -28,6 +28,8 @@ export class UsuarioService {
   correo = null;
   nombreContactoSoporte = '';
   correoContactoSoporte = '';
+  datosEstudios = null;
+  datosEstudiosNF = null;
   urlKioscoDomain = "https://www.designer.com.co:8179";
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
   public url = `https://www.designer.com.co:8178/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg?cadena=${this.cadenaConexion}`;
@@ -284,6 +286,18 @@ export class UsuarioService {
     });
   }  
 
+  getEducacionesNoFormales(usuario: string, cadena: string, nitEmpresa: string) {
+    const url = `${environment.urlKioskoReportes}empleados/educacionesNoFormales?usuario=${usuario}&cadena=${cadena}&empresa=${nitEmpresa}`;
+    console.log('url:' + url);
+    return this.http.get(url);
+  }
+
+  getEducacionesFormales(usuario: string, cadena: string, nitEmpresa: string) {
+    const url = `${environment.urlKioskoReportes}empleados/educacionesFormales?usuario=${usuario}&cadena=${cadena}&empresa=${nitEmpresa}`;
+    console.log('url:' + url);
+    return this.http.get(url);
+  }  
+
   clear() {
     this.isUserLoggedIn = null;
     this.usserLogged = null;
@@ -306,5 +320,7 @@ export class UsuarioService {
     this.correo = null;
     this.nombreContactoSoporte='';
     this.correoContactoSoporte='';
+    this.datosEstudios = null;
+    this.datosEstudiosNF = null;
   }
 }
