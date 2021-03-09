@@ -12,8 +12,7 @@
       <div class="row align-items-center d-flex flex-row">
         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2"
           id="div-img-rep">
-          <img src="assets/images/cambioClave.png"
-            class="img-fluid" style="padding-left: 15px;">
+          <img src="assets/images/cambioClave.png" id="imgCandado" class="img-fluid" alt="Imagen candado" style="padding-left: 15px;">
         </div>
         <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
 
@@ -41,7 +40,7 @@
                 </small>
               </div>
               <div class="input-group-append" style="width: 15% !important" style="text-align: left;">
-                <button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword1()"
+                <button id="show_password1" class="btn btn-primary" type="button" onclick="mostrarPassword1()"
                   style="border-radius: 0px 0px 0px 0px; height: 37.2px; width: 50px; text-align: left" > <span
                     class="fa fa-eye icon" id="e" style="text-align: left;"></span></button>
               </div>
@@ -76,7 +75,7 @@
               </div>
               <div class="input-group-append" style="width: 15% !important" style="text-align: left;">
 
-                <button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword2()"
+                <button id="show_password2" class="btn btn-primary" type="button" onclick="mostrarPassword2()"
                   style="border-radius: 0px 0px 0px 0px; height: 37.2px; width: 50px; text-align: left" > <span
                     class="fa fa-eye icon" id="e" style="text-align: left;"></span></button>
               </div>
@@ -111,7 +110,7 @@
               </div>
               <div class="input-group-append" style="width: 15% !important" style="text-align: left;">
 
-                <button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword3()"
+                <button id="show_password3" class="btn btn-primary" type="button" onclick="mostrarPassword3()"
                   style="border-radius: 0px 0px 0px 0px; height: 37.2px; width: 50px; text-align: left" > <span
                     class="fa fa-eye icon" id="a" style="text-align: left;"></span></button>
               </div>
@@ -124,10 +123,10 @@
 
       <div class="row">
         <div class="col-12 col-xl-3">
-          <button type="submit" class="form-control btn btn-info">Cambiar contraseña</button>
+          <button type="submit" class="form-control btn btn-info" id="btnCambiarClave">Cambiar contraseña</button>
         </div>
         <div class="col-12 col-xl-3">
-          <button type="submit" class="form-control btn btn-secondary" (click)="navegarHome()">Cancelar</button>
+          <button type="submit" class="form-control btn btn-secondary" (click)="navegarHome()" id="btnCancelCambioClave">Cancelar</button>
         </div>
       </div>
 

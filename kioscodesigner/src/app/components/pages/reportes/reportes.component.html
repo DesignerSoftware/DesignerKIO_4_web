@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-                <button type="button" class="btn btn-outline-primary"
+                <button type="button" id="btnSeleccionarReporte" class="btn btn-outline-primary"
                     (click)="seleccionarReporte(i)">Seleccionar</button>
             </div>
         </div>
@@ -59,12 +59,12 @@
 
                 <div class="row">
                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2" id="div-img-rep">
-                        <img src="assets/images/reporte.png" class="img-fluid">
+                        <img src="assets/images/reporte.png" id="imgReporte" class="img-fluid" alt="Imagen descriptiva reporte">
                     </div>
                     <div class="col-12 col-xl-10 col-lg-10 col-sm-10 col-md-10">
                         <div id="divm"></div>
 
-                        <h6 style="font-weight: bold;"><img id="img-rep" src="assets/images/reporte.png" height="30px">
+                        <h6 style="font-weight: bold;"><img id="img-rep" src="assets/images/reporte.png" height="30px" alt="Imagen reporte seleccionado">
                             Información del reporte</h6>
                         <p class="text-justify">{{reporteServicio.reporteSeleccionado['ayuda'] || ''}}</p>
 
@@ -126,8 +126,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-6">
-                                        <button type="submit" class="btn btn-primary
-                                        btn-icon-text">
+                                        <button type="submit" id="btnDescargarReporte" class="btn btn-primary btn-icon-text">
                                             <i class="fa fa-download
                                             btn-icon-prepend"></i>
                                             Descargar Reporte

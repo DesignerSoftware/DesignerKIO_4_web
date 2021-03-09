@@ -27,7 +27,7 @@
                 <p>Fecha fin vacaciones: {{op[12]}}</p>
                 <p>Fecha regreso a laborar: {{op[13]}}</p>
                 <p>Días: {{op[14]}}</p>
-                <button  (click)="detalleSolicitud(i)" type="button" class="btn btn-outline-primary"
+                <button  (click)="detalleSolicitud(i)" id="btnDetalleSolici" type="button" class="btn btn-outline-primary"
                  data-toggle="modal" data-target="#exampleModalCenter" *ngIf="vacacionesService.SolicitudesJefe">PROCESAR</button>
   
                 <p class="card-text" style="margin-top: 5px;"><small class="text-muted">Ultima modificación {{op[5]}}</small></p>
@@ -42,7 +42,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Procesar solicitud</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" id="btnProcesarSolici" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -70,11 +70,11 @@
                       <br>
                       <div class="row">
                         <div class="col-sm-6 col-12" id="btnEnviar">
-                          <button type="button" class="btn btn-outline-primary" (click)="aprobarEnvio()" style="width: 122px;"
+                          <button type="button" id="btnAprobarSolici" class="btn btn-outline-primary" (click)="aprobarEnvio()" style="width: 122px;"
                             data-toggle="modal" data-target="#exampleModalCenter">APROBAR</button>
                         </div>
                         <div class="col-sm-6 col-12" id="btnCancelar">
-                          <button type="button" style="width: 122px;" (click)="rechazarEnvio()"
+                          <button type="button" id="btnRechazarSolici" style="width: 122px;" (click)="rechazarEnvio()"
                             class="btn btn-outline-danger">RECHAZAR</button>
                         </div>
                       </div>
@@ -85,7 +85,7 @@
         </div>
         <div class="modal-footer">
   
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="btnCerrarPS" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
   
         </div>
       </div>

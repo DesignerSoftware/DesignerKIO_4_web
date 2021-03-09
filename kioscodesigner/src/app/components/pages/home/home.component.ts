@@ -56,10 +56,10 @@ export class HomeComponent implements OnInit {
     },
   ];
   public polarAreaChartLabels: Label[] = [
-    "Días provisionados",
     "Días en dinero",
     "Días disfrutados",
     "Días liquidados",
+    "Días provisionados",
   ];
   public polarAreaChartData: number[] = [];
   public polarAreaLegend = true;

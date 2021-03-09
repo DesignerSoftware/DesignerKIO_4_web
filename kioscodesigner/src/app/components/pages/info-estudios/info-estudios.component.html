@@ -1,356 +1,366 @@
 <div class="page-header animated fadeIn fast">
-    <h3 class="page-title">
-        Estudios
-    </h3>
-  </div>
-  <div class="col-12 grid-margin animated fadeIn fast">
-    <div class="card" >
-      <div class="card-body">
-        <h1 class="card-title ">
-          Detalles academicos</h1>
-          <p class="card-description ">
-            En este apartado encontrará detalles e información ligada a su vida profesional. 
-          </p>
-          <hr>
-          <div class="row text-center align-items-center d-flex">
-            <div class="grey-bg container-fluid"  *ngFor="let op of usuarioServicio.datosEstudios">
-                <section id="minimal-statistics">
-                  <div class="row"> 
-                    <div class="col-12 mt-3 mb-1">
-                      
-                      <h4 class="text-uppercase">Educaciones formales</h4>
-                      
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xl-3 col-sm-6 col-12"> 
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body">
-                            <div class="media d-flex">
-                              <div class="align-self-center">
-                                <span style="font-size: 3rem; color: Dodgerblue;">
-                                <i class="fas fa-user-graduate primary font-large-2 float-left"></i>
-                                </span>
-                              </div>
-                              <div class="media-body text-right">
-                                <h3 class="page-title">Educación</h3>
-                                <p>{{op[0]}}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 col-12">
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body">
-                            <div class="media d-flex">
-                              <div class="align-self-center">
-                                <span style="font-size: 3rem; color: Dodgerblue;">
-                                  <i class="fas fa-user-tie primary font-large-2 float-left"></i>
-                                  </span>
-                              </div>
-                              <div class="media-body text-right">
-                                <h4 class="page-title">Titulo</h4>
-                                <p>{{op[1]}}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 col-12">
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body">
-                            <div class="media d-flex">
-                              <div class="align-self-center">
-                                <span style="font-size: 3rem; color: Dodgerblue;">
-                                  <i class="fas fa-university primary font-large-2 float-left"></i>
-                                  </span>
-                              </div>
-                              <div class="media-body text-right">
-                                <h4 class="page-title">Institución</h4>
-                                <p>{{op[2]}}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 col-12">
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body">
-                            <div class="media d-flex">
-                              <div class="align-self-center">
-                                <span style="font-size: 3rem; color: Dodgerblue;">
-                                  <i class="fas fa-calendar-alt primary font-large-2 float-left"></i>
-                                  </span>
-                              </div>
-                              <div class="media-body text-right">
-                                <h4 class="page-title">Fecha expedición</h4>
-                                <p>{{op[8]}}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                
-                  <div class="row">
-                    <div class="col-xl-3 col-sm-6 col-12">
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body">
-                            <div class="media d-flex">
-                              <div class="media-body text-left">
-                                <h4 class="page-title">Fecha vencimiento</h4>
-                                <p>{{op[4]}}</p>
-                              </div>
-                              <div class="align-self-center">
-                                <span style="font-size: 3rem; color: Dodgerblue;">
-                                  <i class="fas fa-calendar-times primary font-large-2 float-left"></i>
-                                  </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 col-12">
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body">
-                            <div class="media d-flex">
-                              <div class="media-body text-left">
-                                <h4 class="page-title">Adiestrar </h4>
-                                <p>{{op[5]}}</p>
-                              </div>
-                              <div class="align-self-center">
-                                <span style="font-size: 3rem; color: Dodgerblue;">
-                                  <i class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i>
-                                  </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                
-                    <div class="col-xl-3 col-sm-6 col-12">
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body">
-                            <div class="media d-flex">
-                              <div class="media-body text-left">
-                                <h4 class="page-title">No. tarjeta prof.</h4>
-                                <p>{{op[6]}}</p>
-                              </div>
-                              <div class="align-self-center">
-                                <span style="font-size: 3rem; color: Dodgerblue;">
-                                  <i class="fas fa-address-card primary font-large-2 float-left"></i>
-                                  </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 col-12">
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body">
-                            <div class="media d-flex">
-                              <div class="media-body text-left">
-                                <h4 class="page-title">Observación</h4>
-                                <p>{{op[7]}}</p>
-                              </div>
-                              <div class="align-self-center">
-                                <span style="font-size: 3rem; color: Dodgerblue;">
-                                  <i class="fas fa-clipboard-list primary font-large-2 float-left"></i>
-                                  </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                                  
-                </section>
+  <h3 class="page-title">
+    Estudios
+  </h3>
+</div>
+<div class="col-12 grid-margin animated fadeIn fast" style="margin-bottom: 50px;">
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title ">
+        Detalles academicos</h1>
+      <p class="card-description ">
+        En este apartado encontrará detalles e información ligada a su vida profesional.
+      </p>
+      <hr>
+      <div class="row text-center align-items-center d-flex">
+        <div class="grey-bg container-fluid" *ngFor="let op of usuarioServicio.datosEstudios  index as i;">
+          <section id="minimal-statistics">
+            <div class="row">
+              <div class="col-12 mt-3 mb-1">
+
+                <h4 class="text-uppercase">Educaciones formales</h4>
+
+              </div>
             </div>
-          </div>
+            <div class="row">
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-user-graduate primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                        <div class="media-body text-right">
+                          <h6>Educación</h6>
+                          <h5 class="card-title">{{op[0]}}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card" style="margin-bottom: 3%;">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-user-tie primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                        <div class="media-body text-right">
+                          <h6>Titulo</h6>
+                          <h5 class="card-title">{{op[1]}}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-university primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                        <div class="media-body text-right">
+                          <h6>Institución</h6>
+                          <h5 class="card-title">{{op[2]}}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-calendar-alt primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                        <div class="media-body text-right">
+                          <h6>Fecha expedición</h6>
+                          <h5 class="card-title">{{op[3]}}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="media-body text-left">
+                          <h6>Fecha vencimiento</h6>
+                          <h5 class="card-title">{{op[4]}}</h5>
+                        </div>
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-calendar-times primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="media-body text-left">
+                          <h6>Adiestrar </h6>
+                          <h5 class="card-title">{{op[5]}}</h5>
+                        </div>
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="media-body text-left">
+                          <h6>No. tarjeta prof.</h6>
+                          <h5 class="card-title">{{op[6]}}</h5>
+                        </div>
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-address-card primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="media-body text-left">
+                          <h6>Observación</h6>
+                          <h5 class="card-title">{{op[7]}}</h5>
+                        </div>
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-clipboard-list primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </section>
+          <br>
+          <br>
+          <br>
+        </div>
       </div>
     </div>
   </div>
-                <div class="page-header animated fadeIn fast">
-                 <br>
-                 <br>
-                </div>
-                
+</div>
+<div class="page-header animated fadeIn fast">
+  <br>
+  <br>
+</div>
 
-                <div class="col-12 grid-margin animated fadeIn fast">
-                  <div class="card"  *ngFor="let dt of usuarioServicio.datosEstudiosNF">
+
+<div class="col-12 grid-margin animated fadeIn fast">
+  <div class="card" *ngFor="let dt of usuarioServicio.datosEstudiosNF  index as i;">
+    <div class="card-body">
+
+
+
+      <div class="row text-center align-items-center d-flex">
+        <div class="grey-bg container-fluid">
+          <section id="stats-subtitle">
+            <div class="row">
+              <div class="col-12 mt-3 mb-1">
+                <h4 class="text-uppercase">Educaciones no formales</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card" style="margin-bottom: 3%;">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-pencil-alt primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                        <div class="media-body text-right">
+                          <h6>Educación</h6>
+                          <h5 class="card-title">{{dt[0]}}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-award primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                        <div class="media-body text-right">
+                          <h6>Cursos</h6>
+                          <h5 class="card-title">{{dt[1]}}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-building primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                        <div class="media-body text-right">
+                          <h6>Institución</h6>
+                          <h5 class="card-title">{{dt[2]}}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content" style="height: 148px;">
                     <div class="card-body">
-                      
-                        
-                       
-                        <div class="row text-center align-items-center d-flex">
-                          <div class="grey-bg container-fluid">
-                <section id="stats-subtitle">
-                <div class="row">
-                  <div class="col-12 mt-3 mb-1">
-                    <h4 class="text-uppercase">Educaciones informales</h4>                    
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xl-3 col-sm-6 col-12"> 
-                    <div class="card">
-                      <div class="card-content">
-                        <div class="card-body">
-                          <div class="media d-flex">
-                            <div class="align-self-center">
-                              <span style="font-size: 3rem; color: Dodgerblue;">
-                              <i class="fas fa-user-graduate primary font-large-2 float-left"></i>
-                              </span>
-                            </div>
-                            <div class="media-body text-right">
-                              <h3 class="page-title">Educación</h3>
-                              <span>{{dt[0]}}</span>
-                            </div>
-                          </div>
+                      <div class="media d-flex">
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-calendar-alt primary font-large-2 float-left"></i>
+                          </span>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-3 col-sm-6 col-12">
-                    <div class="card">
-                      <div class="card-content">
-                        <div class="card-body">
-                          <div class="media d-flex">
-                            <div class="align-self-center">
-                              <span style="font-size: 3rem; color: Dodgerblue;">
-                                <i class="fas fa-user-tie primary font-large-2 float-left"></i>
-                                </span>
-                            </div>
-                            <div class="media-body text-right">
-                              <h4 class="page-title">Cursos</h4>
-                              <span>{{dt[1]}}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-3 col-sm-6 col-12">
-                    <div class="card">
-                      <div class="card-content">
-                        <div class="card-body">
-                          <div class="media d-flex">
-                            <div class="align-self-center">
-                              <span style="font-size: 3rem; color: Dodgerblue;">
-                                <i class="fas fa-university primary font-large-2 float-left"></i>
-                                </span>
-                            </div>
-                            <div class="media-body text-right">
-                              <h4 class="page-title">Institución</h4>
-                              <span>{{dt[2]}}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-3 col-sm-6 col-12">
-                    <div class="card">
-                      <div class="card-content">
-                        <div class="card-body">
-                          <div class="media d-flex">
-                            <div class="align-self-center">
-                              <span style="font-size: 3rem; color: Dodgerblue;">
-                                <i class="fas fa-calendar-alt primary font-large-2 float-left"></i>
-                                </span>
-                            </div>
-                            <div class="media-body text-right">
-                              <h4 class="page-title">Fecha expedición</h4>
-                              <span>{{dt[3]}}</span>
-                            </div>
-                          </div>
+                        <div class="media-body text-right">
+                          <h6>Fecha expedición</h6>
+                          <h5 class="card-title">{{dt[3]}}</h5>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              
-                <div class="row">
-                  <div class="col-xl-3 col-sm-6 col-12">
-                    <div class="card">
-                      <div class="card-content">
-                        <div class="card-body">
-                          <div class="media d-flex">
-                            <div class="media-body text-left">
-                              <h4 class="page-title">Fecha vencimiento</h4>
-                              <span>{{dt[4]}}</span>
-                            </div>
-                            <div class="align-self-center">
-                              <span style="font-size: 3rem; color: Dodgerblue;">
-                                <i class="fas fa-calendar-times primary font-large-2 float-left"></i>
-                                </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-3 col-sm-6 col-12">
-                    <div class="card">
-                      <div class="card-content">
-                        <div class="card-body">
-                          <div class="media d-flex">
-                            <div class="media-body text-left">
-                              <h4 class="page-title">Adiestrar </h4>
-                              <span>{{dt[5]}}</span>
-                            </div>
-                            <div class="align-self-center">
-                              <span style="font-size: 3rem; color: Dodgerblue;">
-                                <i class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i>
-                                </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              
-                 
-                  <div class="col-xl-3 col-sm-6 col-12">
-                    <div class="card">
-                      <div class="card-content">
-                        <div class="card-body">
-                          <div class="media d-flex">
-                            <div class="media-body text-left">
-                              <h4 class="page-title">Observación</h4>
-                              <span>{{dt[6]}}</span>
-                            </div>
-                            <div class="align-self-center">
-                              <span style="font-size: 3rem; color: Dodgerblue;">
-                                <i class="fas fa-clipboard-list primary font-large-2 float-left"></i>
-                                </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-              </div> 
-          </div>
-      </div>
-      </div>
+              </div>
+            </div>
 
-    
+            <div class="row">
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="media-body text-left">
+                          <h6>Fecha vencimiento</h6>
+                          <h5 class="card-title">{{dt[4]}}</h5>
+                        </div>
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-calendar-times primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="media-body text-left">
+                          <h6>Adiestrar </h6>
+                          <h5 class="card-title">{{dt[5]}}</h5>
+                        </div>
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="card-body" style="height: 148px;">
+                      <div class="media d-flex">
+                        <div class="media-body text-left">
+                          <h6>Observación</h6>
+                          <h5 class="card-title">{{dt[6]}}</h5>
+                        </div>
+                        <div class="align-self-center">
+                          <span style="font-size: 3rem; color: Dodgerblue;">
+                            <i class="fas fa-clipboard-list primary font-large-2 float-left"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>  
+  </div>
+
+  
+  
+  
+

@@ -249,7 +249,7 @@
 
   <div class="row, text-center" id="div" style="margin-top: 20px;">
     <p>Informar corrección de datos:
-      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
+      <button class="btn btn-primary btn-sm" id="btnCorreccionDatos" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
   </div>
 
 </div>
@@ -261,7 +261,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Informar inconsistencias de información</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" id="btnCloseDP" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -278,7 +278,7 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-primary">Enviar reporte</button>
+        <button id="btnEnviarReporte" class="btn btn-primary">Enviar reporte</button>
       </div>
     </form>
     </div>

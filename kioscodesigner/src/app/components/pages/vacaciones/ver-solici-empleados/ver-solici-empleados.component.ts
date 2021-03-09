@@ -35,48 +35,6 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   public totalDiasVacacionesProv;
   private countEventsSubscription$: Subscription;
   private eventsOnChartLimit = 20;
-
-  public polarAreaChartOptions: ChartOptions = {
-    responsive: true,
-    maintainAspectRatio: true,
-    aspectRatio: 1,
-    devicePixelRatio: 7,
-    legend: {
-      fullWidth: false,
-      position: "top",
-      align: "start",
-      labels: {
-        padding: 7,
-        fontSize: 10,
-        usePointStyle: true,
-      },
-    },
-    // We use these empty structures as placeholders for dynamic theming.
-  };
-
-  public polarAreaChartType: ChartType = "polarArea";
-
-  public polarAreaChartLegend = true;
-  public polarAreaChartPlugins = [];
-  public polarAreaChartColors = [
-    {
-      backgroundColor: [
-        "rgba(91, 179, 174,0.3)",
-        "rgba(8, 104, 179,0.3)",
-        "rgba(26, 71, 186,0.3)",
-        "rgba(118, 54, 38,0.3)",
-      ],
-    },
-  ];
-  public polarAreaChartLabels: Label[] = [
-    "Días provisionados",
-    "Días en dinero",
-    "Días disfrutados",
-    "Días liquidados",
-  ];
-  public polarAreaChartData: number[] = [];
-  public polarAreaLegend = true;
-
   /////////////////////Pie////////////////
   public pieChartOptions: ChartOptions = {
     responsive: true,
@@ -216,7 +174,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
       .subscribe((data) => {
         diasProv = data.toString();
         console.log("diasProv", data);
-        this.polarAreaChartData.push(parseInt(diasProv, 0));
+       
         this.pieChartData.push(parseInt(diasProv, 0));
       });
 
@@ -229,12 +187,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
       )
       .subscribe((data) => {
         let diasEnv = data;
-        console.log("DiasEnv", data);
-        this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));
-        this.pieChartData.push(parseInt(diasEnv[0][2], 0));
-        this.polarAreaChartData.push(parseInt(diasEnv[1][2], 0));
-        this.pieChartData.push(parseInt(diasEnv[1][2], 0));
-        this.polarAreaChartData.push(parseInt(diasEnv[2][2], 0));
+        console.log("DiasEnv", data);        
+        this.pieChartData.push(parseInt(diasEnv[0][2], 0));        
+        this.pieChartData.push(parseInt(diasEnv[1][2], 0));        
         this.pieChartData.push(parseInt(diasEnv[2][2], 0));
       });    
 

@@ -7,8 +7,7 @@
         <div class="container">
           <div class="row" id="row-img-logo">
             <div class="col-md-12 text-center">
-              <img src="assets/images/fotos_empleados/logodesigner-dark-xl.png" id="img-logo" class="img-fluid"
-                width="40%" />
+              <img src="assets/images/fotos_empleados/logodesigner-dark-xl.png" id="img-logo" class="img-fluid" alt="logo empresa" width="40%" />
             </div>
           </div>
           <br />
@@ -136,10 +135,10 @@
                   <a class="small" href="#" [routerLink]="['/olvidoClave', grupoEmpresarial]">¿Olvidó su clave?</a>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" *ngIf="cadenasApp!=null" 
+                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" id="btnIngresar" *ngIf="cadenasApp!=null" 
                   type="submit">Ingresar</button>
 
-                  <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" *ngIf="cadenasApp==null" disabled>
+                  <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" id="btnCargando" type="button" *ngIf="cadenasApp==null" disabled>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Cargando...
                   </button>                  
@@ -204,7 +203,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Contacto Soporte</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -229,7 +228,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnAceptar">Aceptar</button>
       </div>
     </div>
   </div>

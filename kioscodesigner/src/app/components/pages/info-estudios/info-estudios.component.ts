@@ -8,6 +8,9 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./info-estudios.component.css']
 })
 export class InfoEstudiosComponent implements OnInit {
+ 
+  estudioSeleccionado = null;
+  
 
   constructor(public usuarioServicio: UsuarioService, private cadenasKioskos: CadenaskioskosappService) { }
 
@@ -76,5 +79,7 @@ export class InfoEstudiosComponent implements OnInit {
         );
     }
   }
+  
+  
 
 }
