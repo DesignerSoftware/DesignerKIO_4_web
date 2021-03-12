@@ -48,7 +48,7 @@
                 <i class="far fa-calendar-plus"></i>
                 Total días
               </p>
-              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[2][2]+totalDiasVacacionesProv || '0'}}</h2> 
+              <h2 *ngIf="totalDiasVacacionesSubtipo">{{sumaDias(totalDiasVacacionesSubtipo[2][2], totalDiasVacacionesProv)}}</h2> 
               <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2> 
             </div>
 
@@ -197,11 +197,11 @@
 
 
         <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
-          <button type="submit" id="btnEnviarSolicitud" class="btn btn-outline-primary btn-lg" style="width: 200px">Enviar solicitud</button>
+          <button type="submit" class="btn btn-outline-primary btn-lg" style="width: 200px">Enviar solicitud</button>
         </div>
 
         <div class="col-sm-6 col-12" id="btnCancelar">
-          <button type="button" id="btnCancel" class="btn btn-outline-danger btn-lg" style="width: 200px;" [routerLink]="['/vacaciones']">Cancelar</button>
+          <button type="button" class="btn btn-outline-danger btn-lg" style="width: 200px;" [routerLink]="['/vacaciones']">Cancelar</button>
         </div>
       </div>
 

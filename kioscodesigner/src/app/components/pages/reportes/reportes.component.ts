@@ -204,7 +204,7 @@ export class ReportesComponent implements OnInit {
           "<div class='alert alert-danger alert-dismissible fade show' role='alert'>" +
           '<i class="fa fa-exclamation-circle"></i>' +
           "Error: La fecha hasta debe ser mayor a la fecha desde." +
-          "<button type='button' id='btnAlertClose' class='close' data-dismiss='alert' aria-label='Close'>" +
+          "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>" +
           "<span aria-hidden='true'>&times;</span>" +
           "</button>" +
           "</div>";

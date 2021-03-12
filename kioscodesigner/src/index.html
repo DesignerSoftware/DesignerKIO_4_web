@@ -5,20 +5,19 @@
   <base href="">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="Kiosco Designer" content="Aplicación web para gestionar información laboral">
   <title>KioscoDesigner</title>
-  <link rel="stylesheet" href="assets/libs/vendors/iconfonts/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="assets/libs/vendors/css/vendor.bundle.base.css">
-  <link rel="stylesheet" href="assets/libs/vendors/css/vendor.bundle.addons.css">
+  <link defer rel="stylesheet" href="assets/libs/vendors/iconfonts/font-awesome/css/all.min.css">
+  <link defer rel="stylesheet" href="assets/libs/vendors/css/vendor.bundle.base.css">
+  <link defer rel="stylesheet" href="assets/libs/vendors/css/vendor.bundle.addons.css">
 
-  <link rel="stylesheet" href="assets/libs/css/style.css" rel="preload">
+  <link defer rel="stylesheet" href="assets/libs/css/style.css" rel="preload">
 
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#1976d2">
   <link rel="apple-touch-icon" href="assets/icons/icon-152x152.png">
 
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script async src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script>
     $(function () {
       $("#datepicker").datepicker();
@@ -78,7 +77,7 @@
     });
   </script>
  
-  <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
+ <!--<meta http-equiv="Cache-Control" content="no-cache, mustrevalidate" >-->
 
 </head>
 
@@ -86,8 +85,8 @@
   <app-root></app-root>
 
   <!-- plugins:js -->
-  <script src="assets/libs/vendors/js/vendor.bundle.base.js"></script>
-  <script src="assets/libs/vendors/js/vendor.bundle.addons.js"></script>
+  <script src="assets/libs/vendors/js/vendor.bundle.base.js" async="async"></script>
+  <script src="assets/libs/vendors/js/vendor.bundle.addons.js" async="async"></script>
   <!-- endinject -->
   <!-- <script src="assets/libs/js/off-canvas.js" async="async"></script> -->
   <script src="assets/libs/js/hoverable-collapse.js" async="async"></script>
@@ -95,7 +94,7 @@
   <script src="assets/libs/js/settings.js" async="async"></script>
   <script src="assets/libs/js/todolist.js" async="async"></script>
   <script src="assets/libs/js/dashboard.js" async="async"></script>
-  <script  src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v9.0" nonce="ypMqhqN9"></script>
+  <script defer src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v9.0" nonce="ypMqhqN9"></script>
   <!-- End custom js for this page-->
 
   <noscript>Please enable JavaScript to continue using this application.</noscript>

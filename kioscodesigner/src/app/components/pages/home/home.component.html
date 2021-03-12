@@ -3,7 +3,7 @@
   <br>   
   <h5 class="card-title text-muted" style="margin: 0px;">Desde aquí podrás acceder de manera fácil y rápida a tu información de nómina y personal.</h5>
   <br>
-  <p class="lead animated fadeIn slow"><img [src]="usuarioServicio.urlLogoEmpresaDarkXl || 'assets/images/fotos_empleados/logodesigner-dark-xl.png'" class="img-fluid" id="img-logo"></p>
+  <p class="lead animated fadeIn slow"><img  loading="lazy" [src]="usuarioServicio.urlLogoEmpresaDarkXl || 'assets/images/fotos_empleados/logodesigner-dark-xl.png'" class="img-fluid" id="img-logo"></p>
   <hr class="my-4">
 <p class="card-description text-muted">
   Datos de interes
@@ -58,28 +58,28 @@
               <i class="fas fa-user-shield"></i>
               FONDOS DE PENSIÓN
             </p>
-            <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][28] || 'SIN AFILIACIÓN'}}</h6>
+            <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][26] || 'SIN AFILIACIÓN'}}</h6>
           </div>  
           <div class="statistics-item " *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="fas fa-file-medical"></i>
                 ENTIDAD DE SALUD
               </p>
-              <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][29] || 'SIN AFILIACIÓN'}}</h6>
+              <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][27] || 'SIN AFILIACIÓN'}}</h6>
             </div>
             <div class="statistics-item " *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="fas fa-band-aid"></i>
                 RIESGOS PROFESIONALES
               </p>
-              <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][30] || 'SIN AFILIACIÓN'}}</h6>
+              <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][28] || 'SIN AFILIACIÓN'}}</h6>
             </div>
             <div class="statistics-item" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
               <p>
                 <i class="fas fa-piggy-bank"></i>
                 FONDO CESANTIAS
               </p>
-              <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][31] || 'SIN AFILIACIÓN'}}</h6>
+              <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][29] || 'SIN AFILIACIÓN'}}</h6>
             </div>
             <br>
             <div class="statistics-item " *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
@@ -87,7 +87,7 @@
                 <i class="fas fa-archive"></i>
                 CAJA DE COMPENSACIÓN
               </p>
-              <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][32] || 'SIN AFILIACIÓN'}}</h6>
+              <h6 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">{{usuarioServicio.datosPersonales[0][30] || 'SIN AFILIACIÓN'}}</h6>
             </div>
         </div>
       </div>
@@ -159,7 +159,7 @@
 </div>
 <div class="row, text-center" id="div" style="margin-top: 25px;">
   <p>Informar corrección de datos:
-    <button id="btnCorreccionDatosH" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
+    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
 </div>
 </div>
 <footer class="footer">
@@ -174,7 +174,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Informar inconsistencias de información</h5>
-        <button id="btnCloseCorregirInfoH" type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -191,7 +191,7 @@
       </div>
 
       <div class="modal-footer">
-        <button id="btnEnviarReporteH" class="btn btn-primary">Enviar reporte</button>
+        <button class="btn btn-primary">Enviar reporte</button>
       </div>
     </form>
     </div>

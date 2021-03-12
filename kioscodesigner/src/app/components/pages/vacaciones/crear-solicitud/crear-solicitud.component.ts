@@ -198,6 +198,13 @@ export class CrearSolicitudComponent implements OnInit {
       );    
   }
 
+  sumaDias(num1: string, num2: string){
+    const numero1: number = parseFloat(num1);
+    const numero2: number = parseFloat(num2);
+    //return Math.ceil(numero1+numero2);
+    return Math.round(numero1+numero2);
+  }
+
   public creaListaDias() {
     this.array = [];
     for (let i = 1; i <= this.diasUltimoPeriodo; i++) {

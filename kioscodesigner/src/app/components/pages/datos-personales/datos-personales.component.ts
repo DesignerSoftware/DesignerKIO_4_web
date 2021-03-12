@@ -32,6 +32,7 @@ export class DatosPersonalesComponent implements OnInit {
   cargarDatosIniciales(){
     this.cargarDatos();
     this.cargarDatosFamilias();  
+    this.cargarTelefonosEmpleado();
     //this.cargaFoto();
   }
 
@@ -92,6 +93,18 @@ export class DatosPersonalesComponent implements OnInit {
         );
     }
   }
+
+  cargarTelefonosEmpleado() {
+    if (this.usuarioServicio.telefonosEmpleado == null) {
+      this.usuarioServicio.getTelefonosEmpleado(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
+        .subscribe(
+          data => {
+            this.usuarioServicio.telefonosEmpleado = data;
+            console.log('telefonos', this.usuarioServicio.telefonosEmpleado);
+          }
+        );
+    }
+  } 
 
   FactorRHp(n) {
     let resultado;

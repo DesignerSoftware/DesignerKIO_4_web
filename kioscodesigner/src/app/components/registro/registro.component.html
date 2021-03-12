@@ -113,7 +113,7 @@
             </div>
 
               <div class="col-12 col-xl-3">
-                <button type="button" id="btnContinuar" *ngIf="!habilitaCamposClave && grupoEmpresarial" class="form-control btn btn-info mt-2" (click)="validarUsuario()">Continuar</button>
+                <button type="button" *ngIf="!habilitaCamposClave && grupoEmpresarial" class="form-control btn btn-info mt-2" (click)="validarUsuario()">Continuar</button>
               </div>
 
           <div *ngIf="habilitaCamposClave" style="padding-bottom: 0px;">
@@ -146,7 +146,7 @@
                 </div>
                 <div class="input-group-append" style="width: 15% !important" style="text-align: left;">
 
-                    <button id="show_password" id="showPass" class="btn btn-primary" type="button" onclick="mostrarPassword1()"
+                    <button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword1()"
                       style="border-radius: 0px 0px 0px 0px; height: 37.2px; width: 50px; text-align: left" > <span
                         class="fa fa-eye icon" id="a" style="text-align: left;"></span></button>
                   </div>
@@ -214,7 +214,7 @@
             </div>
 
             <div class="col-12 col-xl-3">
-              <button type="submit" id="btnFinalizar" class="form-control btn btn-info">Finalizar</button>
+              <button type="submit" class="form-control btn btn-info">Finalizar</button>
             </div>
             <pre *ngIf="false">
               {{formulario.value | json}}
@@ -239,7 +239,7 @@
           </div>
 
           <div class="col-12 col-xl-3">
-            <button type="button" id="btnCancelRegistro" class="form-control btn btn-secondary mt-2" (click)="redirigirInicio()">Cancelar</button>
+            <button type="button" class="form-control btn btn-secondary mt-2" (click)="redirigirInicio()">Cancelar</button>
           </div>
 
           </div>

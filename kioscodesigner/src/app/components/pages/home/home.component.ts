@@ -171,8 +171,10 @@ export class HomeComponent implements OnInit {
 
   sumaDias(num1: string, num2: string){
     const numero1: number = parseFloat(num1);
-    return Math.ceil(parseFloat(num1+num2));
-    }
+    const numero2: number = parseFloat(num2);
+    //return Math.ceil(numero1+numero2);
+    return Math.round(numero1+numero2);
+  }
 
   enviarReporteNovedad() {
     console.log('enviar', this.formulario.controls);

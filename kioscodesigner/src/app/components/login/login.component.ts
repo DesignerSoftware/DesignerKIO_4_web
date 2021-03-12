@@ -31,13 +31,13 @@ export class LoginComponent implements OnInit {
     private cadenasKioskos: CadenaskioskosappService
   ) {
     console.log('constructor login');
-
+    this.cadenasApp = null;
+    console.log('usuario logueado', usuarioService.getUserLoggedIn());
+    this.infoInicio();
   }
 
   ngOnInit() {
-    this.cadenasApp = null;
-    console.log('usuario logueado', this.usuarioService.getUserLoggedIn());
-    this.infoInicio();
+
   }
 
   infoInicio() {

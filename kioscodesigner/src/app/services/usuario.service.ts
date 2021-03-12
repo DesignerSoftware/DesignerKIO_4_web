@@ -24,6 +24,7 @@ export class UsuarioService {
   cadenaConexion=null;
   datosFamilia = null;
   datosPersonales = null;
+  telefonosEmpleado = null;
   datosContacto = null;
   correo = null;
   nombreContactoSoporte = '';
@@ -93,6 +94,12 @@ export class UsuarioService {
     console.log('url:' + url);
     return this.http.get(url);
   }
+
+  getTelefonosEmpleado(usuario: string, nit: string, cadena: string){
+    const url = `${environment.urlKioskoReportes}empleados/telefonosEmpleadoNit?usuario=${usuario}&nit=${nit}&cadena=${cadena}`;
+    console.log('url:' + url);
+    return this.http.get(url);    
+  }  
 
   isAutenticado() {
     if (this.getUserLoggedIn () != null) {
@@ -315,6 +322,7 @@ export class UsuarioService {
     //this.cadenaConexion = 'wsreportePU';
     this.datosPersonales = null;
     this.datosFamilia = null;
+    this.telefonosEmpleado = null;
     this.urlKioscoDomain= null;
     this.datosContacto = null;
     this.correo = null;
