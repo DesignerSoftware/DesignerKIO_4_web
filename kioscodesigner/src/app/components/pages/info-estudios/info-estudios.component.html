@@ -12,8 +12,171 @@
         En este apartado encontrará detalles e información ligada a su vida profesional.
       </p>
       <hr>
-      <div class="row text-center align-items-center d-flex">
-        <div class="grey-bg container-fluid" *ngFor="let op of usuarioServicio.datosEstudios  index as i;">
+      <div class="container" *ngFor="let op of usuarioServicio.datosEstudios  index as i;">
+        <div class="row">
+          <div class="col-12 mt-3 mb-1">
+
+            <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">Educaciones formales</h4>
+
+          </div>
+        </div>
+        <!-- <div class="row text-center align-items-center d-flex"> -->
+
+        <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Educación<i class="fas fa-user-graduate primary font-large-1 float-left"></i></label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" value="{{op[0]}}" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Profesión <i class="fas fa-user-tie primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" value="{{op[1]}}" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Institución<i class="fas fa-university primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input class="form-control form-control-sm" value="{{op[2]}}" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha expedición<i class="fas fa-calendar-alt primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input class="form-control form-control-sm" value="{{op[3]}}" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha vencimiento<i class="fas fa-calendar-times primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input class="form-control form-control-sm" value="{{op[4]}}" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Adiestramiento<i class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input class="form-control form-control-sm" value="{{op[5]}}" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">No. tarjeta profesional<i class="fas fa-address-card primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" value="{{op[6]}}" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Observación<i class="fas fa-clipboard-list primary font-large-2 float-left" style="padding-left: 10px;"></i></label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" value="{{op[7]}}" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <!-- Educaciones no formales -->
+      <div class="container" *ngFor="let dt of usuarioServicio.datosEstudiosNF  index as i;">
+        <div class="row">
+          <div class="col-12 mt-3 mb-1">
+
+            <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">Educaciones no formales</h4>
+
+          </div>
+        </div>
+
+
+        <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Educación<i class="fas fa-pencil-alt primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" value="{{dt[0]}}" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Cursos<i class="fas fa-award primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" value="{{dt[1]}}" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Institución<i class="fas fa-building primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input class="form-control form-control-sm" value="{{dt[2]}}" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha expedición<i class="fas fa-calendar-alt primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input class="form-control form-control-sm" value="{{dt[3]}}" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha vencimiento<i class="fas fa-calendar-times primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input class="form-control form-control-sm" value="{{dt[4]}}" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Adiestramiento<i class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input class="form-control form-control-sm" value="{{dt[5]}}" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Observación <i class="fas fa-clipboard-list primary font-large-2 float-left"></i></label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" value="{{dt[6]}}" disabled />
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- <div class="grey-bg container-fluid" *ngFor="let op of usuarioServicio.datosEstudios  index as i;">
           <section id="minimal-statistics">
             <div class="row">
               <div class="col-12 mt-3 mb-1">
@@ -127,7 +290,7 @@
                     <div class="card-body" style="height: 148px;">
                       <div class="media d-flex">
                         <div class="media-body text-left">
-                          <h6>Adiestrar </h6>
+                          <h6>Adiestramiento </h6>
                           <h5 class="card-title">{{op[5]}}</h5>
                         </div>
                         <div class="align-self-center">
@@ -147,7 +310,7 @@
                     <div class="card-body" style="height: 148px;">
                       <div class="media d-flex">
                         <div class="media-body text-left">
-                          <h6>No. tarjeta prof.</h6>
+                          <h6>No. tarjeta profesional</h6>
                           <h5 class="card-title">{{op[6]}}</h5>
                         </div>
                         <div class="align-self-center">
@@ -185,19 +348,19 @@
           <br>
           <br>
           <br>
-        </div>
-      </div>
-    </div>
+        </div> -->
+      <!-- </div> -->
+    <!-- </div>
   </div>
-</div>
-<div class="page-header animated fadeIn fast">
+</div> -->
+<!-- <div class="page-header animated fadeIn fast">
   <br>
   <br>
-</div>
+</div> -->
 
 
-<div class="col-12 grid-margin animated fadeIn fast">
-  <div class="card" *ngFor="let dt of usuarioServicio.datosEstudiosNF  index as i;">
+<!-- <div class="col-12 grid-margin animated fadeIn fast"> -->
+<!-- <div class="card" *ngFor="let dt of usuarioServicio.datosEstudiosNF  index as i;">
     <div class="card-body">
 
 
@@ -357,10 +520,5 @@
         </div>
       </div>
     </div>
-  </div>  
-  </div>
-
-  
-  
-  
-
+  </div>   -->
+<!-- </div> -->
