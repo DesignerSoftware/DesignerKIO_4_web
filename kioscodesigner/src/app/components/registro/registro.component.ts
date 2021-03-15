@@ -135,7 +135,13 @@ export class RegistroComponent implements OnInit {
           }).then((result) => {
             console.log('redireccionando a login');
             //this.router.navigate(['/login']);
-            this.router.navigate(['/']);
+            //this.router.navigate(['/']);
+            if (this.usuarioServicio.grupoEmpresarial!=null) {
+              this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
+             //this.router.navigate(['/']);
+           } else {
+             this.router.navigate(['/login']);
+           }
           });
          }
        }
