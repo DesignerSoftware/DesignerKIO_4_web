@@ -234,7 +234,7 @@ export class LoginComponent implements OnInit {
                 this.formulario.get('usuario').value,
                 this.formulario.get('clave').value,
                 //this.formulario.get('empresa').value, 'www.nominadesigner.co')
-                this.formulario.get('empresa').value, 'www.designer.com.co', this.usuarioService.cadenaConexion, this.usuarioService.grupoEmpresarial
+                this.formulario.get('empresa').value, this.usuarioService.cadenaConexion, this.usuarioService.grupoEmpresarial, this.urlKiosco
               )
                 .subscribe(
                   data2 => {
@@ -251,7 +251,13 @@ export class LoginComponent implements OnInit {
                         if (result.value) {
                           // document.location.href = './login';
                           //this.router.navigate(['/login']);
-                          this.router.navigate(['/']);
+                          //this.router.navigate(['/']);
+                          if (this.usuarioService.grupoEmpresarial != null) {
+                            this.router.navigate(['/login', this.usuarioService.grupoEmpresarial]);
+                            //this.router.navigate(['/']);
+                          } else {
+                            this.router.navigate(['/login']);
+                          }
                         }
                       });
                     } else {
@@ -264,7 +270,13 @@ export class LoginComponent implements OnInit {
                       }).then((result) => {
                         if (result.value) {
                           // document.location.href = './login';
-                          this.navigate();
+                          //this.navigate(); 210603
+                          if (this.usuarioService.grupoEmpresarial != null) {
+                            this.router.navigate(['/login', this.usuarioService.grupoEmpresarial]);
+                            //this.router.navigate(['/']);
+                          } else {
+                            this.router.navigate(['/login']);
+                          }
                         }
                       });
                     }

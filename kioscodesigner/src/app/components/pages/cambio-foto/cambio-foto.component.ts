@@ -46,7 +46,7 @@ export class CambioFotoComponent implements OnInit {
         this.fotoPerfil = data['result'];
         console.log('documento: ' + this.fotoPerfil);
         this.usuarioService.documento=this.fotoPerfil;
-        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}`;
+        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&empresa=${this.usuarioService.empresa}`;
         /* document.getElementById("imgPrevia").setAttribute("src", 
         `http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`); */
       }

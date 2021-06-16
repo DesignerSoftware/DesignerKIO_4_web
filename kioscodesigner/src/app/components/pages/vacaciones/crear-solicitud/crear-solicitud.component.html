@@ -102,7 +102,14 @@
       <p class="card-description">
         Por favor diligencie los campos fecha de inicio de vacaciones y cantidad de días para realizar su solicitud.
       </p>
-    <form class="form-sample mt-5" [formGroup]="formulario" (ngSubmit)="enviarSolicitud()">
+    <form class="form-sample mt-2" [formGroup]="formulario" (ngSubmit)="enviarSolicitud()">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="container mb-4" style="margin-left: auto;">
+            <label class="col-sm-12 col-form-label" style="text-align: center;">La persona a cargo de autorizar sus vacaciones es: <b style="color: #00223C;">{{autorizadorVacaciones}}</b></label> 
+          </div>
+        </div>
+      </div>      
       <div class="row">
         <div class="col-md-6">
           <div class="form-group row">
@@ -210,10 +217,40 @@
  <!--- </form> --->
   </div>
 </div>
+<div class="row, text-center" id="div" style="margin-top: 20px;">
+  <p>Informar corrección de autorizador de vacaciones:
+    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
+</div>
+
+</div>
 
 
+<!-- Modal -->
+<div class="modal fade" id="staticBackdropEJ" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Informar inconsistencias de información</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
- 
+      <form [formGroup]="formularioReporteNov" novalidate (ngSubmit)="enviarReporteNovedad()">
+      <div class="modal-body">
+          <div class="mb-3">
+            <p><b>Estimado usuario:</b></p>
+              <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta 
+                será enviada al contacto de nómina y RRHH {{usuarioService.nombreContactoSoporte||''}} - {{usuarioService.correoContactoSoporte||''}} (máx. 1000 carácteres)</p>
+            <textarea class="form-control" id="exampleFormControlTextareaEJ" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
+          </div>
 
+      </div>
 
+      <div class="modal-footer">
+        <button class="btn btn-primary">Enviar reporte</button>
+      </div>
+    </form>
+    </div>
+  </div>
 </div>

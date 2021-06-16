@@ -7,7 +7,7 @@
   <div class="card">
     <div class="card-body">
       <h1 class="card-title ">
-        Detalles academicos</h1>
+        Detalles académicos</h1>
       <p class="card-description ">
         En este apartado encontrará detalles e información ligada a su vida profesional.
       </p>
@@ -175,7 +175,47 @@
       </div>
     </div>
   </div>
+
+  <div class="row, text-center" id="divFa" style="margin-top: 20px;">
+    <p>Informar corrección de información acádemica:
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
+  </div>
+
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdropFa" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Informar inconsistencias de información</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form [formGroup]="formularioReporteNov" novalidate (ngSubmit)="enviarReporteNovedad()">
+      <div class="modal-body">
+          <div class="mb-3">
+            <p><b>Estimado usuario:</b></p>
+              <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta 
+                será enviada al contacto de nómina y RRHH {{usuarioServicio.nombreContactoSoporte||''}} - {{usuarioServicio.correoContactoSoporte||''}} (máx. 1000 carácteres)</p>
+            <textarea class="form-control" id="exampleFormControlTextareaFa" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
+          </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary">Enviar reporte</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+
       <!-- <div class="grey-bg container-fluid" *ngFor="let op of usuarioServicio.datosEstudios  index as i;">
           <section id="minimal-statistics">
             <div class="row">

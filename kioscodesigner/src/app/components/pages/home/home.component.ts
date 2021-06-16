@@ -66,6 +66,9 @@ export class HomeComponent implements OnInit {
 
   constructor(private fb: FormBuilder, public usuarioServicio: UsuarioService, private router: Router, private cadenasKioskos: CadenaskioskosappService,
     private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService, private usuarioService: UsuarioService) {
+      if (this.usuarioServicio.empresa==''){
+
+      }
     console.log('constructor home');
   }
 
@@ -184,7 +187,7 @@ export class HomeComponent implements OnInit {
         onBeforeOpen: () => {
           swal.showLoading();
           this.usuarioService.enviaCorreoNovedadRRHH(this.usuarioService.usuario, this.usuarioService.empresa, this.formulario.get('mensaje').value,
-            this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
+            'Solicitud para Corrección de información', this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
             .subscribe(
               (data) => {
                 console.log(data);

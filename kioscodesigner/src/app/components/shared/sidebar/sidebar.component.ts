@@ -69,7 +69,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  cargarOpciones() {
+  /*cargarOpciones() {
     let opkTempo: any = [];
     if (this.opcionesKioskosService.opcionesKioskos.length === 0 || this.opcionesKioskosService.opcionesKioskos == null
       || this.opcionesKioskosService.opcionesKioskos === []) {
@@ -90,6 +90,26 @@ export class SidebarComponent implements OnInit {
       this.opcionesKioskos = this.opcionesKioskosService.opcionesKioskos;
       console.log('opcionesKioskos', this.opcionesKioskos);
     }
+  }*/
+
+  cargarOpciones() {
+    let opkTempo: any = [];
+    if (this.opcionesKioskosService.opcionesKioskos.length === 0 || this.opcionesKioskosService.opcionesKioskos == null
+      || this.opcionesKioskosService.opcionesKioskos === []) {
+      this.opcionesKioskosService.getMenuOpcionesKiosco(this.usuarioServicio.empresa, this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion)
+        .subscribe(
+          data => {
+            this.opcionesKioskosAntes = data;
+            this.usuarioServicio.datos = data;
+            opkTempo = data;
+            //console.log('opcionesKioskosAntes::', JSON.stringify(opkTempo));
+            this.opcionesKioskos = opkTempo
+            //console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
+          });
+    } else {
+      this.opcionesKioskos = this.opcionesKioskosService.opcionesKioskos;
+      console.log('opcionesKioskos', this.opcionesKioskos);
+    }
   }
 
   cargaFoto() {
@@ -101,7 +121,7 @@ export class SidebarComponent implements OnInit {
         this.fotoPerfil = data['result'];
         console.log('documento: ' + this.fotoPerfil);
         document.getElementById('fotoPerfil').setAttribute('src',
-        `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}`);
+        `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`);
       }
     );
   }

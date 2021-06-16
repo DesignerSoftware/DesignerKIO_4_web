@@ -1,0 +1,43 @@
+<div class="page-header animated fadeIn fast">
+    <h3 class="page-title">
+        Ausentismos
+    </h3>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/ausentismos']">Ausentismos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{reporteSeleccionado && reporteSeleccionado['descripcion'] || ''}}</li>
+    </ol>
+</nav>
+<div class="col-md-12 col-sm-12 grid-margin stretch-card animated fadeIn fast" *ngIf="ausentismosService.opcionesKiosco.length==0">
+    <div class="loader-demo-box" style="border: 0px !important;">
+      <div class="dot-opacity-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+</div>
+
+<p *ngIf="!reporteSeleccionado && ausentismosService.opcionesKiosco && ausentismosService.opcionesKiosco.length!=0 && ausentismosService.opcionesKiosco">Seleccione la opción que desea realizar.</p>
+<p *ngIf="ausentismosService.opcionesKiosco && ausentismosService.opcionesKiosco && !ausentismosService.opcionesKiosco">No hay opciones habilitadas.</p>
+<div class="row animated fadeIn fast" *ngIf="ausentismosService.opcionesKiosco && ausentismosService.opcionesKiosco.length>0 && !reporteSeleccionado">
+    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of ausentismosService.opcionesKiosco; index as i">
+        <div class="card" id="divReportes">
+            <div class="card-body">
+                <div class="d-flex flex-row">
+                    <img [src]="imagenVacaciones(op['descripcion'])"
+                        class="img-lg rounded img-fluid" alt="profile image" />
+                    <div class="ml-3 d-flex align-items-center">
+                        <h6>{{  op['descripcion'] || ''}}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="button" class="btn btn-outline-primary"
+                    (click)="seleccionarReporte(i)">Seleccionar</button>
+            </div>
+        </div>        
+    </div>    
+</div>

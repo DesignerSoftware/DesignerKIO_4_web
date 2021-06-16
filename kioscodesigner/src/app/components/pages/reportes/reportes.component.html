@@ -9,7 +9,7 @@
         <li class="breadcrumb-item"><a [routerLink]="['/reportes']" (click)="limpiarSeleccionado()">Reportes</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{reporteServicio.reporteSeleccionado &&
             reporteServicio.reporteSeleccionado['descripcion'] || ''}}</li>
-    </ol>
+</ol>
 </nav>
 <div class="col-md-12 col-sm-12 grid-margin stretch-card"
     *ngIf="reporteServicio.opcionesReportes && reporteServicio.opcionesReportes.length==0">

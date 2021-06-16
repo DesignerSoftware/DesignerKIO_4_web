@@ -1,0 +1,29 @@
+@media (max-width: 500px) {
+    #img-logo {
+      width: 200px;
+    }
+  }
+  
+  @media (max-width: 841px) {
+    #contentEstadisticas {
+      text-align: center;
+    }
+  }
+  @media (min-width: 768px) {
+    .card.card-statistics .statistics-item:before {
+      position: initial !important;
+      content: "";
+      right: 25%;
+      top: 15px;
+      height: calc(100% - 30px);
+      background: rgba(255, 255, 255, 0.2);
+      width: 1px;
+    }
+    .rtl .card.card-statistics .statistics-item:before {
+      right: auto;
+      left: 25%;
+    }
+    .card.card-statistics .statistics-item:last-child:before {
+      display: none;
+    }
+  }

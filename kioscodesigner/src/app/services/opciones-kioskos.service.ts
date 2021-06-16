@@ -18,6 +18,13 @@ export class OpcionesKioskosService {
     return this.http.get(url);
   }
 
+  getMenuOpcionesKiosco(empresa: string, seudonimo: string, cadena: string) {
+    // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
+    const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opcionesMenu?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
+    console.log(url);
+    return this.http.get(url);
+  }  
+
   getPrueba2() {
     const url = `${environment.urlKioskoReportes}opcioneskioskos/prueba`;
     console.log(url);

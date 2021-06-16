@@ -86,6 +86,20 @@ export class VacacionesService {
     });
   }
 
+  /*Retorna dias disponibles de periodos cumplidos*/
+  getDiasVacacionesPeriodosCumplidos(seudonimo: string, nit: string, cadena: string) {
+    //const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesPeriodosCumplidos?seudonimo=${seudonimo}&nitempresa=${nit}`;
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesPeriodosCumplidos`;
+    console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        usuario: seudonimo,
+        nitempresa: nit,
+        cadena: cadena
+      }
+    });
+  }
+
   // Consultar la suma del total de días solicitados contando ENVIADOS, AUTORIZADOS, RECHAZADOS, LIQUIDADOS y CANCELADOS
   getTotalDiasSolicitados(seudonimo: string, nit: string, cadena: string) {
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/getDiasSoliciVacacionesXUltimoEstado?seudonimo=${seudonimo}&nitempresa=${nit}`;
@@ -162,6 +176,19 @@ export class VacacionesService {
     console.log('grupo recibid:'+grupoEmpr)
     return this.http.post(url, []);
   }
+
+  getAutorizadorVacaciones(seudonimo: string, nit: string, cadena: string) {
+    //const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarPeriodosPendientesEmpleado?seudonimo=${seudonimo}&nitempresa=${nit}`;
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultaNombreAutorizaVacaciones`;
+    console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        usuario: seudonimo,
+        nitempresa: nit,
+        cadena: cadena
+      }
+    });
+  } 
 
   clear() {
     this.opcionesKiosco = [];

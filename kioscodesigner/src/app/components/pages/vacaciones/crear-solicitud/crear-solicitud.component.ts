@@ -1,10 +1,11 @@
+import swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { VacacionesService } from 'src/app/services/vacaciones.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import swal from 'sweetalert2';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
+import { data } from 'jquery';
 
 @Component({
   selector: "app-crear-solicitud",
@@ -13,22 +14,24 @@ import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.ser
 })
 export class CrearSolicitudComponent implements OnInit {
   formulario: FormGroup;
+  formularioReporteNov: FormGroup;
   public ultimoPeriodo = null;
   public periodosPendientes = null;
   public diasUltimoPeriodo = null;
   public totalDiasVacacionesProv = null; // días provisionados
-  public totalDiasVacacionesSolici = null; // días provisionados
-  public totalDiasVacacionesLiquidados = null; // días provisionados
-  public totalDiasVacacionesRechazados = null; // días provisionados
-  public totalDiasVacacionesSubtipo = null; // días provisionados
+  public totalDiasVacacionesSolici = null; 
+  public totalDiasVacacionesLiquidados = null; 
+  public totalDiasVacacionesRechazados = null; 
+  public totalDiasVacacionesSubtipo = null; 
   public array = [];
   public campoFechaInicioValido = false;
   public mensajeValidacionFechaInicio = "";
   public vacacion = null;
+  public autorizadorVacaciones = '...';
 
   constructor(
     private vacacionesService: VacacionesService,
-    private usuarioService: UsuarioService,
+    public usuarioService: UsuarioService,
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
@@ -54,6 +57,12 @@ export class CrearSolicitudComponent implements OnInit {
       tipo: ["TIEMPO", Validators.required],
       periodo: [],
     });
+
+    this.formularioReporteNov = this.fb.group(
+      {
+        mensaje: ["", Validators.required]
+      }
+    );
   }
 
   getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
@@ -196,6 +205,23 @@ export class CrearSolicitudComponent implements OnInit {
           console.log("se ha presentado un error: " + error);
         }
       );    
+
+      // Consultar autorizador de vacaciones
+      this.vacacionesService
+      .getAutorizadorVacaciones(
+        this.usuarioService.usuario,
+        this.usuarioService.empresa,
+        this.usuarioService.cadenaConexion
+      )
+      .subscribe(
+        (data) => {
+          console.log('Autorizador vacaciones: ', data['resultado']);
+          this.autorizadorVacaciones = data['resultado'];
+        },
+        (error) => {
+          console.log("se ha presentado un error al consultar autorizador vacaciones: " + JSON.stringify(error.statusText));
+        }
+      );   
   }
 
   sumaDias(num1: string, num2: string){
@@ -404,4 +430,78 @@ export class CrearSolicitudComponent implements OnInit {
     let ensamble = dia + "/" + mes + "/" + anio;
     return ensamble;
   }
+  
+  abrirModal() {
+    $("#staticBackdropEJ").modal("show");
+  }  
+
+  /*Método que envia el correo de notificación de corrección de información*/
+  enviarReporteNovedad() {
+    console.log('enviar', this.formularioReporteNov.controls);
+    if (this.formularioReporteNov.valid) {
+      swal.fire({
+        title: "Enviando mensaje al área de nómina y RRHH, por favor espere...",
+        onBeforeOpen: () => {
+          swal.showLoading();
+          this.usuarioService.enviaCorreoNovedadRRHH(this.usuarioService.usuario, this.usuarioService.empresa, this.formularioReporteNov.get('mensaje').value,
+            'Solicitud de Corrección Jefe Inmediato', this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial, this.usuarioService.cadenaConexion)
+            .subscribe(
+              (data) => {
+                console.log(data);
+                if (data) {
+                  swal
+                    .fire({
+                      icon: "success",
+                      title:
+                        "Mensaje enviado exitosamente al área de nómina y RRHH para su validación.",
+                      showConfirmButton: true,
+                    })
+                    .then((res) => {
+                      $("#staticBackdropEJ").modal("hide");
+                      this.formularioReporteNov.get('mensaje').setValue('');
+                    });
+                } else {
+                  swal
+                    .fire({
+                      icon: "error",
+                      title: "No fue posible enviar el correo",
+                      text: 'Por favor inténtelo de nuevo más tarde.',
+                      showConfirmButton: true,
+                    })
+                    .then((res) => {
+                      $("#staticBackdropEJ").modal("hide");
+                      this.formularioReporteNov.get('mensaje').setValue('');
+                    });
+                }
+              },
+              (error) => {
+                swal
+                  .fire({
+                    icon: "error",
+                    title: "Hubo un error al enviar la petición",
+                    text:
+                      "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                    showConfirmButton: true,
+                  })
+                  .then((res) => {
+                    $("#staticBackdropEJ").modal("hide");
+                    this.formularioReporteNov.get('mensaje').setValue('');
+                  });
+              }
+            );
+        },
+        allowOutsideClick: () => !swal.isLoading(),
+      });
+
+    } else {
+      swal.fire({
+        icon: "error",
+        title: "No ha digitado la observación",
+        text:
+          "Por favor digite una observación sobre la información que se debe corregir en el sistema.",
+        showConfirmButton: true
+      })
+    }
+  }  
+
 }

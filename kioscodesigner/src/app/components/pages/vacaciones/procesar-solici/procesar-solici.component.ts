@@ -44,7 +44,6 @@ export class ProcesarSoliciComponent implements OnInit {
 
   detalleSolicitud(index: string) {
     this.solicitudSeleccionada = this.vacacionesService.SolicitudesJefe[index];
-
     $('#staticBackdrop3').modal('show');
   }
 
@@ -53,7 +52,7 @@ export class ProcesarSoliciComponent implements OnInit {
           console.log('documento: ' + this.fotoPerfil);
          /* document.getElementById('fotoPerfilEmpl').setAttribute('src',
             `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);*/
-            this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}`;
+            this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&empresa=${this.usuarioService.empresa}`;
             return this.url;
   }
 

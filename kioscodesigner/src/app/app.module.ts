@@ -1,6 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { DatePipe, registerLocaleData } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule} from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ChartsModule, ThemeService  } from 'ng2-charts';
 
 // Rutas
 import {APP_ROUTING} from './app.routing.module';
@@ -23,20 +28,14 @@ import { FooterComponent } from './components/shared/footer/footer.component';
 import { CambioFotoComponent } from './components/pages/cambio-foto/cambio-foto.component';
 import { ContactoComponent } from './components/pages/contacto/contacto.component';
 import { PagesComponent } from './components/pages/pages.component';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule} from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import {NgxPaginationModule} from 'ngx-pagination';
-import { ChartsModule, ThemeService  } from 'ng2-charts';
-
 
 import { LOCALE_ID } from '@angular/core';
 /*import { registerLocaleData } from '@angular/common';
 import localeCo from '@angular/common/locales/es-co';*/
 import localeEsCO from '@angular/common/locales/es-CO';
 registerLocaleData(localeEsCO, 'es');
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+// import { ServiceWorkerModule } from '@angular/service-worker';
+// import { environment } from '../environments/environment';
 import { FaqComponent } from './components/pages/faq/faq.component';
 import { FAQGENERALESComponent } from './components/faqgenerales/faqgenerales.component';
 import { VacacionesComponent } from './components/pages/vacaciones/vacaciones/vacaciones.component';
@@ -46,6 +45,13 @@ import { VerSoliciEmpleadosComponent } from './components/pages/vacaciones/ver-s
 import { SoliProcesadasComponent } from './components/pages/vacaciones/soli-procesadas/soli-procesadas.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { InfoEstudiosComponent } from './components/pages/info-estudios/info-estudios.component';
+import { AusentismosComponent } from './components/pages/ausentismos/ausentismos.component';
+import { ReportarAusentismoComponent } from './components/pages/ausentismos/reportar-ausentismo/reportar-ausentismo.component';
+import { VerAusentismosReportadosComponent } from './components/pages/ausentismos/ver-ausentismos-reportados/ver-ausentismos-reportados.component';
+import { ProcesarAusentismosComponent } from './components/pages/ausentismos/procesar-ausentismos/procesar-ausentismos.component';
+import { AusentismosProcesadosComponent } from './components/pages/ausentismos/ausentismos-procesados/ausentismos-procesados.component';
+import { Home2Component } from './components/pages/home2/home2.component';
+import { InfoExperienciaComponent } from './components/pages/info-experiencia/info-experiencia.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +80,14 @@ import { InfoEstudiosComponent } from './components/pages/info-estudios/info-est
     VerSoliciEmpleadosComponent,
     SoliProcesadasComponent,
     FilterPipe,
-    InfoEstudiosComponent
+    InfoEstudiosComponent,
+    AusentismosComponent,
+    ReportarAusentismoComponent,
+    VerAusentismosReportadosComponent,
+    ProcesarAusentismosComponent,
+    AusentismosProcesadosComponent,
+    Home2Component,
+    InfoExperienciaComponent
   ],
   imports: [
     BrowserModule,
@@ -89,8 +102,6 @@ import { InfoEstudiosComponent } from './components/pages/info-estudios/info-est
   providers: [
     DatePipe, {provide: LOCALE_ID, useValue: 'es-CO'},
     ThemeService
-
-
   ],
   bootstrap: [AppComponent]
 })

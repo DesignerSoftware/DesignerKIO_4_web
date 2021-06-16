@@ -84,25 +84,25 @@ export class RegistroComponent implements OnInit {
 
   validarUsuario() { // validar si existe
     console.log(this.formulario);
-    Object.values( this.formulario.controls ).forEach( control => {
+    Object.values(this.formulario.controls).forEach(control => {
       control.markAsTouched();
     });
     if (this.formulario.get('documento').valid && this.formulario.get('nitempresa').valid) {
       this.loginService.validarUsuarioYEmpresa(this.formulario.get('documento').value, this.formulario.get('nitempresa').value, this.usuarioServicio.cadenaConexion)
-      .subscribe(
-        data => {
-          if (data['result'] === 'true') {
-            console.log('usuario valido');
-            this.validarUsuarioRegistrado();
-          } else {
-            swal.fire({
-              icon: 'error',
-              title: 'El documento no es correcto o no pertenece a la empresa seleccionada',
-              showConfirmButton: true
-            });
+        .subscribe(
+          data => {
+            if (data['result'] === 'true') {
+              console.log('usuario valido');
+              this.validarUsuarioRegistrado();
+            } else {
+              swal.fire({
+                icon: 'error',
+                title: 'El documento no es correcto o no pertenece a la empresa seleccionada',
+                showConfirmButton: true
+              });
+            }
           }
-        }
-      );
+        );
     } else {
       return false;
     }
@@ -136,12 +136,12 @@ export class RegistroComponent implements OnInit {
             console.log('redireccionando a login');
             //this.router.navigate(['/login']);
             //this.router.navigate(['/']);
-            if (this.usuarioServicio.grupoEmpresarial!=null) {
+            if (this.usuarioServicio.grupoEmpresarial != null) {
               this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
-             //this.router.navigate(['/']);
-           } else {
-             this.router.navigate(['/login']);
-           }
+              //this.router.navigate(['/']);
+            } else {
+              this.router.navigate(['/login']);
+            }
           });
          }
        }
@@ -165,7 +165,13 @@ export class RegistroComponent implements OnInit {
             showConfirmButton: true
           }).then((result) => {
             //this.router.navigate(['/login']);
-            this.router.navigate(['/']);
+            //this.router.navigate(['/']);
+            if (this.usuarioServicio.grupoEmpresarial != null) {
+              this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
+              //this.router.navigate(['/']);
+            } else {
+              this.router.navigate(['/login']);
+            }
           });
         }
       }
@@ -190,39 +196,45 @@ export class RegistroComponent implements OnInit {
       this.loginService.registrarUsuario(seudonimoCuenta, this.formulario.get('documento').value,
         this.formulario.get('pass1').value, this.formulario.get('nitempresa').value,
         this.formulario.get('correo').value, this.usuarioServicio.cadenaConexion)
-      .subscribe(
-      info => {
-      console.log('crear usuario', info);
-      if (info['created'] === true) {
-        swal.fire({
-          icon: 'success',
-          title: '¡Felicitaciones!',
-          text: 'Los datos de tu cuenta han sido guardados exitosamente',
-          showConfirmButton: true
-        }).then((result) => {
-          if (result.value) {
-            this.enviarCorreoConfirmaCuenta(seudonimoCuenta);
+        .subscribe(
+          info => {
+            console.log('crear usuario', info);
+            if (info['created'] === true) {
+              swal.fire({
+                icon: 'success',
+                title: '¡Felicitaciones!',
+                text: 'Los datos de tu cuenta han sido guardados exitosamente',
+                showConfirmButton: true
+              }).then((result) => {
+                if (result.value) {
+                  this.enviarCorreoConfirmaCuenta(seudonimoCuenta);
+                }
+              });
+            } else {
+              swal.fire({
+                icon: 'error',
+                title: '¡No fue posible crear su usuario!',
+                text: info['Mensaje'],
+                showConfirmButton: true
+              }).then((result) => {
+                if (result.value) {
+                  // document.location.href = './login';
+                  //this.router.navigate(['/login']);
+                  //this.router.navigate(['/']);
+                  if (this.usuarioServicio.grupoEmpresarial != null) {
+                    this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
+                    //this.router.navigate(['/']);
+                  } else {
+                    this.router.navigate(['/login']);
+                  }
+                }
+              });
+            }
+          },
+          error => {
+            console.log('error', error);
           }
-        });
-      } else {
-        swal.fire({
-          icon: 'error',
-          title: '¡No fue posible crear su usuario!',
-          text: info['Mensaje'],
-          showConfirmButton: true
-        }).then((result) => {
-          if (result.value) {
-            // document.location.href = './login';
-            //this.router.navigate(['/login']);
-            this.router.navigate(['/']);
-          }
-        });
-      }
-      },
-      error => {
-      console.log('error', error);
-      }
-      );
+        );
     } else {
       return false;
     }
@@ -281,7 +293,13 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
             text: '¡No fue posible enviarte el correo para confirmar tu cuenta, por favor intenta iniciar sesión y haz clic en la opción ' +
             'para enviarte nuevamente el correo.',
             showConfirmButton: true
-          });
+          }).then(
+            (result) => {
+              if (result.value) {
+                // document.location.href = './login';
+                this.redirigirInicio();
+              }
+            });
         }
       );
     },
@@ -294,7 +312,7 @@ redirigirInicio() {
   if (this.grupoEmpresarial!=null) {
      this.router.navigate(['/login', this.grupoEmpresarial]);
   } else {
-    this.router.navigate(['/']);
+     this.router.navigate(['/']);
   }
   
 }

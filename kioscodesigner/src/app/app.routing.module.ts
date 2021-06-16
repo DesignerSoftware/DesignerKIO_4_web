@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import { PagesComponent } from './components/pages/pages.component';
 import { HomeComponent } from './components/pages/home/home.component';
+import { Home2Component } from './components/pages/home2/home2.component';  // Messer - Remeo
 import { DatosPersonalesComponent } from './components/pages/datos-personales/datos-personales.component';
 import { CambioClaveComponent } from './components/pages/cambio-clave/cambio-clave.component';
 import { ReportesComponent } from './components/pages/reportes/reportes.component';
@@ -21,6 +22,13 @@ import { VerSoliciEmpleadosComponent } from './components/pages/vacaciones/ver-s
 import { ProcesarSoliciComponent } from './components/pages/vacaciones/procesar-solici/procesar-solici.component';
 import { SoliProcesadasComponent } from './components/pages/vacaciones/soli-procesadas/soli-procesadas.component';
 import { InfoEstudiosComponent } from './components/pages/info-estudios/info-estudios.component';
+import { AusentismosComponent } from './components/pages/ausentismos/ausentismos.component';
+import { ReportarAusentismoComponent } from './components/pages/ausentismos/reportar-ausentismo/reportar-ausentismo.component';
+import { VerAusentismosReportadosComponent } from './components/pages/ausentismos/ver-ausentismos-reportados/ver-ausentismos-reportados.component';
+import { ProcesarAusentismosComponent } from './components/pages/ausentismos/procesar-ausentismos/procesar-ausentismos.component';
+import { AusentismosProcesadosComponent } from './components/pages/ausentismos/ausentismos-procesados/ausentismos-procesados.component';
+import { InfoExperienciaComponent } from './components/pages/info-experiencia/info-experiencia.component';
+
 
 const APP_ROUTES: Routes = [
     {
@@ -29,6 +37,7 @@ const APP_ROUTES: Routes = [
      children: [
     // Rutas secundarias
     {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+    {path: 'home2', component: Home2Component, canActivate: [AuthGuard]},    
     {path: 'kioDatoPersonal', component: DatosPersonalesComponent, canActivate: [AuthGuard]},
     {path: 'cambioClave', component: CambioClaveComponent, canActivate: [AuthGuard]},
     {path: 'cambioFoto', component: CambioFotoComponent, canActivate: [AuthGuard]},
@@ -43,6 +52,12 @@ const APP_ROUTES: Routes = [
     {path: 'vacaciones/procesarSolicitudes', component: ProcesarSoliciComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones/solicitudesProcesadas', component: SoliProcesadasComponent, canActivate: [AuthGuard]},
     {path: 'infoEstudios', component: InfoEstudiosComponent, canActivate: [AuthGuard]},
+    {path: 'infoExperienciaLab', component: InfoExperienciaComponent, canActivate: [AuthGuard]},
+    {path: 'ausentismos', component: AusentismosComponent, canActivate: [AuthGuard]},
+    {path: 'ausentismos/reportarAusentismo', component: ReportarAusentismoComponent, canActivate: [AuthGuard]},
+    {path: 'ausentismos/verAusentismosReportados', component: VerAusentismosReportadosComponent, canActivate: [AuthGuard]},
+    {path: 'ausentismos/procesarAusentismos', component: ProcesarAusentismosComponent, canActivate: [AuthGuard]},
+    {path: 'ausentismos/ausentismosProcesados', component: AusentismosProcesadosComponent, canActivate: [AuthGuard]},
     {path: '', redirectTo: '/login/GrupoEmpresarial2', pathMatch: 'full'}
 ]},
 // Rutas principales

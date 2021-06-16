@@ -142,7 +142,7 @@ export class DatosPersonalesComponent implements OnInit {
         onBeforeOpen: () => {
           swal.showLoading();
           this.usuarioServicio.enviaCorreoNovedadRRHH(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.formulario.get('mensaje').value,
-            this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
+            'Solicitud para Corrección de Datos Personales', this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
             .subscribe(
               (data) => {
                 console.log(data);

@@ -1,0 +1,161 @@
+<div class="page-header animated fadeIn fast">
+  <h3 class="page-title">
+    Reportar ausentismo
+  </h3>
+</div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/ausentismos']">Ausentismos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Reportar Ausentismo</li>
+  </ol>
+</nav>
+<!-- <div class="alert alert-warning" role="alert">
+    Esta página está en construcción
+  </div> -->
+<br>
+<div class="container animated fadeIn fast">
+
+  <hr>
+  <!-- <form> -->
+
+
+  <div class="card">
+
+    <div class="col-12 grid-margin p-5">
+      <h4 class="card-title">
+        <i class="fas fa-umbrella"></i>
+        Reportar Ausentismo
+      </h4>
+
+      <p class="card-description">
+        Por favor diligencie los campos causa, fecha de inicio y dias de ausentismo para reportar la novedad.
+      </p>
+
+      <form class="form-sample mt-5" [formGroup]="formulario" (ngSubmit)="enviarNovedad()">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Causa:</label>
+              <div class="col-sm-9">
+                <select class="form-control form-control-sm" formControlName="causa"
+                  title="Seleccione la causa del ausentismo">
+                  <option>MATERNIDAD-PATERNIDAD</option>
+                  <option>MATERNIDAD-GENERAL</option>
+                  <option>MATERNIDAD-PROFESIONAL</option>
+                  <option>ACCIDENTE DE TRABAJO</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Tipo:</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" formControlName="tipo" title="Tipo de ausentismo" readonly="true" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Clase:</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" formControlName="clase" title="Clase de ausentismo" readonly="true" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label class="col-sm-5 col-form-label">Cód. diagnóstico:</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control
+                              form-control-sm" formControlName="codigo" title="Digite el código de diagnóstico de enfermedad proporcionado por la entidad médica." />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group row">
+              <label class="col-sm-5 col-form-label">Días:</label>
+              <div class="col-sm-7">
+                <input type="number" class="form-control
+                              form-control-sm" formControlName="dias" title="Digite el número de días de la novedad de ausentismo." />
+              </div>
+            </div>
+          </div>         
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Fecha inicio ausentismo:</label>
+              <div class="col-sm-9">
+                <input type="date" class="form-control form-control-sm" formControlName="fechainicio"
+                  title="Seleccione el día que inicia el ausentismo" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Fecha fin ausentismo:</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" formControlName="fechafin" readonly="true"
+                  title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      <div class="row"> 
+        <div class="col-md-12">
+          <div class="form-group row">
+            <div>
+              <label for="formFileLg" class="form-label">Large file input example</label>
+              <input class="form-control form-control-lg" id="formFileLg" type="file">
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <div class="row">
+        <div class="col-md-2">
+          <label class="form-label form-control-sm">Documento anexo:</label>
+        </div>
+        <div class="col-md-10">
+          <input class="form-control form-control-lg" id="formFileLg" type="file">
+        </div>
+      </div>
+
+        <div class="row">
+          <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="customCheckProrroga"
+                  formControlName="enviocorreo">
+              <label class="custom-control-label" for="customCheckProrroga">Es prorroga de otra incapacidad</label>
+          </div>
+      </div>
+
+        <div class="row">
+          <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
+            <button type="submit" class="btn btn-outline-primary btn-lg" style="width: 200px">Enviar Novedad</button>
+          </div>
+
+          <div class="col-sm-6 col-12" id="btnCancelar">
+            <button type="button" class="btn btn-outline-danger btn-lg" style="width: 200px;" [routerLink]="['/ausentismos']">Cancelar</button>
+          </div>
+        </div>
+
+      </form>
+
+      <!--- </form> --->
+    </div>
+  </div>
+
+
+
+
+
+
+</div>

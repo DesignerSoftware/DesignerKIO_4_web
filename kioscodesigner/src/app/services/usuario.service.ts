@@ -31,6 +31,7 @@ export class UsuarioService {
   correoContactoSoporte = '';
   datosEstudios = null;
   datosEstudiosNF = null;
+  datosExperienciaLab = null;
   urlKioscoDomain = "https://www.designer.com.co:8179";
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
   public url = `https://www.designer.com.co:8178/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg?cadena=${this.cadenaConexion}`;
@@ -86,6 +87,13 @@ export class UsuarioService {
     console.log('url:' + url);
     return this.http.get(url);
   }
+
+  getDatosExpLabEmpleado(usuario: string, nit: string, cadena: string) {
+    const obj: any = this.getUserLoggedIn;
+    const url = `${environment.urlKioskoReportes}empleados/datosExperienciaLab/?empleado=${usuario}&nit=${nit}&cadena=${cadena}`;
+    console.log('url:' + url);
+    return this.http.get(url);
+  }  
 
   getDatosUsuarioCadena(usuario: string, nit: string, cadena: string) {
     const obj: any = this.getUserLoggedIn;
@@ -276,7 +284,7 @@ export class UsuarioService {
     return this.http.post(url, {});
   }
 
-  enviaCorreoNovedadRRHH(seudonimo: string, nit: string, novedad: string, urlKiosco: string, grupo: string, cadena: string ) { 
+  enviaCorreoNovedadRRHH(seudonimo: string, nit: string, novedad: string, asunto: string, urlKiosco: string, grupo: string, cadena: string ) { 
     // const url = `${environment.urlKioskoDesigner}restKiosco/logoEmpresa/${nit}`;
     //const url = `${environment.urlKioskoReportes}empleados/enviaReporteInfoRRHH?seudonimo=${seudonimo}&nitempresa=${nit}&observacion=${novedad}&grupo=${grupo}&urlKiosco=${urlKiosco}`;
     const url = `${environment.urlKioskoReportes}empleados/enviaReporteInfoRRHH`;
@@ -286,6 +294,7 @@ export class UsuarioService {
         seudonimo: seudonimo,
         nitempresa: nit,
         observacion: novedad,
+        asunto,
         grupo: grupo,
         urlKiosco: urlKiosco,
         cadena: cadena
@@ -330,5 +339,6 @@ export class UsuarioService {
     this.correoContactoSoporte='';
     this.datosEstudios = null;
     this.datosEstudiosNF = null;
+    this.datosExperienciaLab = null;
   }
 }

@@ -90,7 +90,7 @@ export class PagesComponent implements OnInit {
         console.log(data);
         this.fotoPerfil = data['result'];
         console.log('documento: ' + this.fotoPerfil);
-        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}`;
+        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`;
          // this.usuarioServicio.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`;
          // document.getElementById('perfil').setAttribute('src', `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);
       },
