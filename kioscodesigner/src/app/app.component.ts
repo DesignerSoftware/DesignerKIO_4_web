@@ -11,12 +11,12 @@ export class AppComponent {
   title = 'kioscodesigner';
 
   constructor(private usuarioServicio: UsuarioService, private cadenasKioskos: CadenaskioskosappService) {
-    console.log('constructor');
+    //console.log('constructor');
     //this.getInfoUsuario();
   }
 
   ngOnInit() {
-    console.log('appcomponent');
+    //console.log('appcomponent');
   }
 
   getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
@@ -26,16 +26,16 @@ export class AppComponent {
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
     .subscribe(
       data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo']);
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];
-          console.log('cadena: ', temp[4]) // CADENA
+          // //console.log('cadena: ', temp[4]) // CADENA
           this.usuarioServicio.cadenaConexion=temp[4];
           }
         }

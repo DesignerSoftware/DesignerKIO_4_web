@@ -1,27 +1,33 @@
 import swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { VacacionesService } from 'src/app/services/vacaciones.service';
 import { environment } from 'src/environments/environment';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 
 @Component({
-  selector: 'app-procesar-solici',
-  templateUrl: './procesar-solici.component.html',
-  styleUrls: ['./procesar-solici.component.css']
+  selector: 'app-ver-solici-sin-proc-persona',
+  templateUrl: './ver-solici-sin-proc-persona.component.html',
+  styleUrls: ['./ver-solici-sin-proc-persona.component.css']
 })
-export class ProcesarSoliciComponent implements OnInit {
+export class VerSoliciSinProcPersonaComponent implements OnInit {
   formulario: FormGroup;
   solicitudSeleccionada = null;
   fotoPerfil;
   url ='assets/images/fotos_empleados/sinFoto.jpg';
 
-  constructor(public vacacionesService: VacacionesService, private usuarioService: UsuarioService, private fb: FormBuilder) {
+  constructor(public vacacionesService: VacacionesService, private usuarioService: UsuarioService, private cadenasKioskos: CadenaskioskosappService,
+     private fb: FormBuilder) {
+      this.crearFormulario();
   }
 
   ngOnInit() {
-    this.crearFormulario();
-    this.cargarDatosSolicitudesProcesadas();
+    if (this.usuarioService.cadenaConexion) {
+      this.cargarDatosIniciales();
+    } else {
+      this.getInfoUsuario();
+    }    
   }
 
   crearFormulario() {
@@ -30,9 +36,39 @@ export class ProcesarSoliciComponent implements OnInit {
     })
   }
 
+  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+    const sesion = this.usuarioService.getUserLoggedIn();
+    this.usuarioService.setUsuario(sesion['usuario']);
+    this.usuarioService.setEmpresa(sesion['empresa']);
+    this.usuarioService.setTokenJWT(sesion['JWT']);
+    this.usuarioService.setGrupo(sesion['grupo']);
+    this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
+    console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    .subscribe(
+      data => {
+        console.log('getInfoUsuario', data);
+        console.log(sesion['grupo']);
+        for (let i in data) {
+          if (data[i][3] === sesion['grupo']) { // GRUPO
+          const temp = data[i];
+          console.log('cadena: ', temp[4]) // CADENA
+          this.usuarioService.cadenaConexion=temp[4];
+          console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
+          this.cargarDatosIniciales();
+          }
+        }
+      }
+    );
+  }    
+
+  cargarDatosIniciales(){
+    this.cargarDatosSolicitudesProcesadas();
+  }  
+
   cargarDatosSolicitudesProcesadas() {
     if (this.vacacionesService.SolicitudesJefe == null) {
-      this.vacacionesService.getSoliciSinProcesarJefe(this.usuarioService.empresa, this.usuarioService.usuario, 'ENVIADO', this.usuarioService.cadenaConexion)
+      this.vacacionesService.getSoliciSinProcesarAutorizador(this.usuarioService.empresa, this.usuarioService.usuario, this.usuarioService.cadenaConexion)
         .subscribe(
           data => {
             this.vacacionesService.SolicitudesJefe = data;
@@ -69,6 +105,7 @@ export class ProcesarSoliciComponent implements OnInit {
       cancelButtonText: 'Cerrar'
     }).then((result) => {
       if (result.isConfirmed) {
+        console.log('Sec: '+ this.solicitudSeleccionada[18]);
         /*this.vacacionesService.setNuevoEstadoSolicio(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion,
           'AUTORIZADO', this.solicitudSeleccionada[18], null, this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial)
           .subscribe(
@@ -252,7 +289,7 @@ export class ProcesarSoliciComponent implements OnInit {
                         showConfirmButton: true,
                       })
                       .then((res) => {
-                        //$("#exampleModalCenter").modal("hide");
+                        $("#exampleModalCenter").modal("hide");
                         this.reloadPage();
                       });
                   } else {
@@ -263,7 +300,7 @@ export class ProcesarSoliciComponent implements OnInit {
                         showConfirmButton: true,
                       })
                       .then((res) => {
-                        //$("#exampleModalCenter").modal("hide");
+                        $("#exampleModalCenter").modal("hide");
                         this.reloadPage();                        
                       });
                   }
@@ -298,7 +335,4 @@ export class ProcesarSoliciComponent implements OnInit {
   procesarSolicitud() {
     console.log('procesar solicitud');
   }
-
-
-
 }

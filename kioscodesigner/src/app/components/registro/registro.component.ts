@@ -19,6 +19,7 @@ export class RegistroComponent implements OnInit {
   formulario: FormGroup;
   habilitaCamposClave = false;
   empresas;
+  urlKiosco;
 
   constructor(private fb: FormBuilder, private router: Router, private loginService: LoginService,
               private usuarioServicio: UsuarioService, private validadores: ValidadoresService,
@@ -243,6 +244,7 @@ export class RegistroComponent implements OnInit {
 
 
 enviarCorreoConfirmaCuenta(seudonimo: string) {
+  this.urlKiosco = document.location.href;
   console.log('enviarCorreoConfirmación');
   swal.fire({
     title: 'Espera un momento.. Estamos enviándote el correo de confirmación',
@@ -251,7 +253,7 @@ enviarCorreoConfirmaCuenta(seudonimo: string) {
       this.loginService.enviarCorreoConfirmaCuenta(
         seudonimo,
         this.formulario.get('pass1').value,
-        this.formulario.get('nitempresa').value, 'www.nominadesigner.co', this.usuarioServicio.cadenaConexion, this.usuarioServicio.grupoEmpresarial)
+        this.formulario.get('nitempresa').value, this.usuarioServicio.cadenaConexion, this.usuarioServicio.grupoEmpresarial, this.urlKiosco)
       .subscribe(
         data => {
           if (data['envioCorreo'] === true) {

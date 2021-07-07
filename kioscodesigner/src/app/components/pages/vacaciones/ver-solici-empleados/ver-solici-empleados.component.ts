@@ -97,10 +97,10 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     // .subscribe(event => {
     //   //let data = JSON.parse(event.);
     //   this.pushEventToChartData(event);
-    //   console.log(" Sirveeeee ",event)
+    //   //console.log(" Sirveeeee ",event)
     // },
     // error=>{
-    //   console.log('errorrrrr', error);
+    //   //console.log('errorrrrr', error);
     // });
 
     //
@@ -111,7 +111,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
 
     //       this.totalDiasVacacionesProv = event.data;
     //       this.pushEventToChartData(data);
-    //       console.log(" totalDiasVacacionesProv ", data);
+    //       //console.log(" totalDiasVacacionesProv ", data);
     //     }
     //   );
   }
@@ -143,18 +143,18 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     this.usuarioService.setTokenJWT(sesion['JWT']);
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
+    //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
     .subscribe(
       data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo']);
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];
-          console.log('cadena: ', temp[4]) // CADENA
+          //console.log('cadena: ', temp[4]) // CADENA
           this.usuarioService.cadenaConexion=temp[4];
-          console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
+          //console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
           this.cargarDatosIniciales();
           }
         }
@@ -173,8 +173,8 @@ export class VerSoliciEmpleadosComponent implements OnInit {
       )
       .subscribe((data) => {
         diasProv = data.toString();
-        console.log("diasProv", data);
-       
+        //console.log("diasProv", data);
+
         this.pieChartData.push(parseInt(diasProv, 0));
       });
 
@@ -187,31 +187,31 @@ export class VerSoliciEmpleadosComponent implements OnInit {
       )
       .subscribe((data) => {
         let diasEnv = data;
-        console.log("DiasEnv", data);        
-        this.pieChartData.push(parseInt(diasEnv[0][2], 0));        
-        this.pieChartData.push(parseInt(diasEnv[1][2], 0));        
+        //console.log("DiasEnv", data);        
+        this.pieChartData.push(parseInt(diasEnv[0][2], 0));
+        this.pieChartData.push(parseInt(diasEnv[1][2], 0));
         this.pieChartData.push(parseInt(diasEnv[2][2], 0));
-      });    
+      });
 
-      if (
-        this.usuarioService.documento == null ||
-        this.usuarioService.documento.lenght === 0
-      ) {
-        this.usuarioService
-          .getDocumentoSeudonimo(
-            this.usuarioService.usuario,
-            this.usuarioService.empresa,
-            this.usuarioService.cadenaConexion
-          )
-          .subscribe((data) => {
-            console.log(data["result"]);
-            this.usuarioService.documento = data["result"];
-            console.log("ng OnInit:", this.usuarioService.documento);
-            this.consultarSoliciXEstados();
-          });
-      } else {
-        this.consultarSoliciXEstados();
-      }      
+    if (
+      this.usuarioService.documento == null ||
+      this.usuarioService.documento.lenght === 0
+    ) {
+      this.usuarioService
+        .getDocumentoSeudonimo(
+          this.usuarioService.usuario,
+          this.usuarioService.empresa,
+          this.usuarioService.cadenaConexion
+        )
+        .subscribe((data) => {
+          //console.log(data["result"]);
+          this.usuarioService.documento = data["result"];
+          //console.log("ng OnInit:", this.usuarioService.documento);
+          this.consultarSoliciXEstados();
+        });
+    } else {
+      this.consultarSoliciXEstados();
+    }
   }
 
   consultarSoliciXEstados() {
@@ -225,8 +225,8 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   detalleSolicitud(tipoSolicitud: string, index: string) {
     this.tipoSolicitudSeleccionada = tipoSolicitud;
     this.indexSolicitudSeleccionada = index;
-    console.log("tipoSolicitud: " + tipoSolicitud);
-    console.log("index seleccionado: " + index);
+    //console.log("tipoSolicitud: " + tipoSolicitud);
+    //console.log("index seleccionado: " + index);
     switch (tipoSolicitud) {
       case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
@@ -253,6 +253,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
       }*/
     }
     $("#staticBackdrop2").modal("show");
+    document.getElementById('staticBackdrop2').style.display = 'block';
   }
 
   getSoliciEnviadas() {
@@ -263,8 +264,8 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         "ENVIADO", this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
-        console.log("Datos iniciales");
-        console.log(data);
+        //console.log("Datos iniciales");
+        //console.log(data);
         this.solicitudesEnviadas = data;
       });
   }
@@ -277,7 +278,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         'AUTORIZADO', this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
-        console.log(data);
+        //console.log(data);
         this.solicitudesAprobadas = data;
       });
   }
@@ -290,7 +291,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         'RECHAZADO', this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
-        console.log(data);
+        //console.log(data);
         this.solicitudesRechazadas = data;
       });
   }
@@ -303,7 +304,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         'LIQUIDADO', this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
-        console.log(data);
+        //console.log(data);
         this.solicitudesLiquidadas = data;
       });
   }
@@ -316,7 +317,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         'CANCELADO', this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
-        console.log(data);
+        //console.log(data);
         this.solicitudesCanceladas = data;
       });
   }
@@ -343,7 +344,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     event: MouseEvent;
     active: {}[];
   }): void {
-    console.log(event, active);
+    //console.log(event, active);
   }
 
   public chartHovered({
@@ -353,7 +354,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     event: MouseEvent;
     active: {}[];
   }): void {
-    console.log(event, active);
+    //console.log(event, active);
   }
 
   changeLabels(): void {
@@ -429,8 +430,8 @@ export class VerSoliciEmpleadosComponent implements OnInit {
   detalleSolicitud2(tipoSolicitud: string, index: string) {
     this.tipoSolicitudSeleccionada = tipoSolicitud;
     this.indexSolicitudSeleccionada = index;
-    console.log("tipoSolicitud: " + tipoSolicitud);
-    console.log("index seleccionado: " + index);
+    //console.log("tipoSolicitud: " + tipoSolicitud);
+    //console.log("index seleccionado: " + index);
     switch (tipoSolicitud) {
       case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
@@ -467,7 +468,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
             )
             .subscribe((data) => {
               cancelado = data.toString();
-              console.log("diasRecha", data);
+              //console.log("diasRecha", data);
               if (data) {
                 swal
                   .fire({
@@ -509,7 +510,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
             )
             .subscribe(
                     (data) => {
-                      console.log(data);
+                      //console.log(data);
                       if (data) {
                         $('#staticBackdrop3').modal('hide');                        
                         swal

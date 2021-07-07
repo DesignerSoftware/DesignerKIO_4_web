@@ -26,11 +26,11 @@ export class PagesComponent implements OnInit {
               public usuarioServicio: UsuarioService, private loginService: LoginService, 
               private cadenasKioskos: CadenaskioskosappService, private kioPersonalizaciones: KiopersonalizacionesService) {
     this.getInfoUsuario();
-    console.log('constructor pages');
+    //console.log('constructor pages');
   }
 
   ngOnInit() {
-    console.log('ngOnInit pages');
+    //console.log('ngOnInit pages');
   }
 
   cargarDatosIniciales() {
@@ -48,18 +48,18 @@ export class PagesComponent implements OnInit {
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
     .subscribe(
       data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo']);
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];
-          console.log('cadena: ', temp[4]) // CADENA
+          ////console.log('cadena: ', temp[4]) // CADENA
           this.usuarioServicio.cadenaConexion=temp[4];
-          console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+          ////console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
           this.cargarDatosIniciales();
           }
         }
@@ -73,7 +73,7 @@ export class PagesComponent implements OnInit {
       .subscribe(
         data => {
           this.usuarioServicio.datosPersonales = data;
-          console.log('datosPer', this.usuarioServicio.datosPersonales);
+          //console.log('datosPer', this.usuarioServicio.datosPersonales);
           const nombrePersona = data[0][1];
           this.usuarioServicio.nombrePersona = nombrePersona.trim().split(' ', 1);
           this.usuarioServicio.correo = data[0][12];
@@ -83,43 +83,43 @@ export class PagesComponent implements OnInit {
   }
 
   cargaFoto() {
-    console.log('getDocumento');
+    //console.log('getDocumento');
     this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
     .subscribe(
       data => {
-        console.log(data);
+        //console.log(data);
         this.fotoPerfil = data['result'];
-        console.log('documento: ' + this.fotoPerfil);
+        //console.log('documento: ' + this.fotoPerfil);
         this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`;
          // this.usuarioServicio.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`;
          // document.getElementById('perfil').setAttribute('src', `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);
       },
       error => {
-        console.log("Se ha presentado un error: "+error);
+        //console.log("Se ha presentado un error: "+error);
         this.url = 'assets/images/fotos_empleados/sinfoto.jpg';
       }
     );
   }
 
   cargaLogo() {
-    console.log('cargaLogo()');
+    //console.log('cargaLogo()');
     this.usuarioServicio.getLogoEmpresa(this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
     .subscribe(
       data => {
-        console.log('logo', data);
+        //console.log('logo', data);
         this.logoEmpresa = data['LOGO'];
-        this.urlLogoEmpresa = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-light-xl.png?cadena=${this.usuarioServicio.cadenaConexion}`;
-        this.urlLogoEmpresaMin = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-mini.png?cadena=${this.usuarioServicio.cadenaConexion}`;
-        this.urlLogoEmpresaDarkXl = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-dark-xl.png?cadena=${this.usuarioServicio.cadenaConexion}`;
+        this.urlLogoEmpresa = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-light-xl.png?nit=${this.usuarioServicio.empresa}&cadena=${this.usuarioServicio.cadenaConexion}`;
+        this.urlLogoEmpresaMin = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-mini.png?nit=${this.usuarioServicio.empresa}&cadena=${this.usuarioServicio.cadenaConexion}`;
+        this.urlLogoEmpresaDarkXl = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-dark-xl.png?nit=${this.usuarioServicio.empresa}&cadena=${this.usuarioServicio.cadenaConexion}`;
         this.usuarioServicio.urlLogoEmpresa = this.urlLogoEmpresa;
         this.usuarioServicio.urlLogoEmpresaMin = this.urlLogoEmpresaMin;
         this.usuarioServicio.urlLogoEmpresaDarkXl = this.urlLogoEmpresaDarkXl;
       },
       error => {
-        console.log('Error: ' + error);
+        //console.log('Error: ' + error);
         this.urlLogoEmpresa = 'assets/images/fotos_empleados/logodesigner-light-xl.png';
-        this.urlLogoEmpresaMin = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-mini.png?cadena=${this.usuarioServicio.cadenaConexion}`;
-        this.urlLogoEmpresaDarkXl = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-dark-xl.png?cadena=${this.usuarioServicio.cadenaConexion}`;
+        this.urlLogoEmpresaMin = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-mini.png?nit=${this.usuarioServicio.empresa}&cadena=${this.usuarioServicio.cadenaConexion}`;
+        this.urlLogoEmpresaDarkXl = `${environment.urlKioskoReportes}conexioneskioskos/obtenerLogo/${this.logoEmpresa}-dark-xl.png?nit=${this.usuarioServicio.empresa}&cadena=${this.usuarioServicio.cadenaConexion}`;
         this.usuarioServicio.urlLogoEmpresa = this.urlLogoEmpresa;
         this.usuarioServicio.urlLogoEmpresaMin = this.urlLogoEmpresaMin;
         this.usuarioServicio.urlLogoEmpresaDarkXl = this.urlLogoEmpresaDarkXl;
@@ -132,7 +132,7 @@ export class PagesComponent implements OnInit {
   }
 
   logout() {
-    console.log('cerrar sesion');
+    //console.log('cerrar sesion');
     localStorage.removeItem('currentUser');
     if (this.usuarioServicio.grupoEmpresarial!=null) {
        this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
@@ -144,24 +144,24 @@ export class PagesComponent implements OnInit {
   }
 
   mostrarModalCambiarFoto() {
-    console.log('presiono botón');
+    //console.log('presiono botón');
     /*$('#staticBackdrop').modal('show');
     $('#myModal').modal(options);*/
     $('#modalCambioFoto').modal('show');
   }
 
   min() {
-    console.log('presionado');
+    //console.log('presionado');
     $('.sidebar-offcanvas').toggleClass('active');
   }
 
   min1() {
-    console.log('presionado 1');
+    //console.log('presionado 1');
     $('.sidebar-offcanvas').toggleClass('active');
   }
 
   funCambiar(e) {
-    console.log(e);
+    //console.log(e);
     this.datoHijo = e;
     this.url = e;
   }
@@ -170,9 +170,9 @@ export class PagesComponent implements OnInit {
     this.usuarioServicio.validaToken(this.usuarioServicio.tokenJWT, this.usuarioServicio.cadenaConexion)
     .subscribe(
       data => {
-        console.log('validaToken', data);
+        //console.log('validaToken', data);
         if (data['validoToken']) {
-          console.log('El token es válido');
+          //console.log('El token es válido');
           this.loginService.validarUsuarioYEmpresa(data['documento'], this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
           .subscribe(
             dat => {

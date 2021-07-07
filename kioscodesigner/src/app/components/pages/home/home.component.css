@@ -27,3 +27,9 @@
     display: none;
   }
 }
+.azul1 {
+  background:linear-gradient(85deg,#002060, #007bff, #002060) !important;
+}
+.azul2 {
+  background:linear-gradient(85deg,#007bff, #002060, #007bff) !important;
+}

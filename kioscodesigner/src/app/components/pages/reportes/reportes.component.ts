@@ -72,7 +72,6 @@ export class ReportesComponent implements OnInit {
   }
 
   cargarDatosIniciales(){
-   
     this.filtrarOpcionesReportes();
     this.consultarParametrosReportes();
     this.getCorreoConexioneskioskos();

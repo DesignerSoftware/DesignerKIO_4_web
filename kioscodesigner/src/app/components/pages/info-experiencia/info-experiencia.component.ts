@@ -98,6 +98,7 @@ export class InfoExperienciaComponent implements OnInit {
   }
 
   abrirModal() {
+    document.getElementById('staticBackdropELab').style.display = 'block';
     $("#staticBackdropELab").modal("show");
   }
   
@@ -113,7 +114,7 @@ export class InfoExperienciaComponent implements OnInit {
             this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
             .subscribe(
               (data) => {
-                console.log(data);
+               // console.log(data);
                 if (data) {
                   swal
                     .fire({

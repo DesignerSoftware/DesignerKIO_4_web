@@ -125,7 +125,7 @@ export class HomeComponent implements OnInit {
       )
       .subscribe((data) => {
         diasProv = data.toString();
-        console.log("diasProv", data);
+        //console.log("diasProv", data);
         this.polarAreaChartData.push(parseInt(diasProv, 0));
       });
 
@@ -139,7 +139,7 @@ export class HomeComponent implements OnInit {
       .subscribe((data) => {
         this.totalDiasVacacionesSubtipo = data;
         let diasEnv = data;
-        console.log("DiasEnv", data);
+        //console.log("DiasEnv", data);
         this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));
         this.polarAreaChartData.push(parseInt(diasEnv[1][2], 0));
         this.polarAreaChartData.push(parseInt(diasEnv[2][2], 0));
@@ -164,7 +164,7 @@ export class HomeComponent implements OnInit {
       )
       .subscribe((data) => {
         this.totalDiasVacacionesProv = data;
-        console.log(" totalDiasVacacionesProv ", data);
+        //console.log(" totalDiasVacacionesProv ", data);
       });
   }
 
@@ -180,7 +180,7 @@ export class HomeComponent implements OnInit {
   }
 
   enviarReporteNovedad() {
-    console.log('enviar', this.formulario.controls);
+    //console.log('enviar', this.formulario.controls);
     if (this.formulario.valid) {
       swal.fire({
         title: "Enviando mensaje al área de nómina y RRHH, por favor espere...",
@@ -190,7 +190,7 @@ export class HomeComponent implements OnInit {
             'Solicitud para Corrección de información', this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
             .subscribe(
               (data) => {
-                console.log(data);
+                //console.log(data);
                 if (data) {
                   swal
                     .fire({

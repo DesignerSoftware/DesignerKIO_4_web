@@ -28,6 +28,8 @@ import { VerAusentismosReportadosComponent } from './components/pages/ausentismo
 import { ProcesarAusentismosComponent } from './components/pages/ausentismos/procesar-ausentismos/procesar-ausentismos.component';
 import { AusentismosProcesadosComponent } from './components/pages/ausentismos/ausentismos-procesados/ausentismos-procesados.component';
 import { InfoExperienciaComponent } from './components/pages/info-experiencia/info-experiencia.component';
+import { VerSoliciSinProcPersonaComponent } from './components/pages/vacaciones/ver-solici-sin-proc-persona/ver-solici-sin-proc-persona.component';
+import { VerSoliciProcPersonaComponent } from './components/pages/vacaciones/ver-solici-proc-persona/ver-solici-proc-persona.component';
 
 
 const APP_ROUTES: Routes = [
@@ -51,6 +53,8 @@ const APP_ROUTES: Routes = [
     {path: 'vacaciones/verSolicitudesPropias', component: VerSoliciEmpleadosComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones/procesarSolicitudes', component: ProcesarSoliciComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones/solicitudesProcesadas', component: SoliProcesadasComponent, canActivate: [AuthGuard]},
+    {path: 'vacaciones/procesarSolicitudesAutorizador', component: VerSoliciSinProcPersonaComponent, canActivate: [AuthGuard]},    
+    {path: 'vacaciones/solicitudesProcesadasAutorizador', component: VerSoliciProcPersonaComponent, canActivate: [AuthGuard]},
     {path: 'infoEstudios', component: InfoEstudiosComponent, canActivate: [AuthGuard]},
     {path: 'infoExperienciaLab', component: InfoExperienciaComponent, canActivate: [AuthGuard]},
     {path: 'ausentismos', component: AusentismosComponent, canActivate: [AuthGuard]},

@@ -77,7 +77,7 @@ export class CambioClaveComponent implements OnInit {
                 this.usuarioServicio.inactivaTokensTipo('LOGIN', this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
                 .subscribe(
                   data=> {
-                    console.log('inactiva tokens', data['modificado']);
+                    //console.log('inactiva tokens', data['modificado']);
                     if (data['modificado']) {
                       swal.fire({
                         icon: 'success',

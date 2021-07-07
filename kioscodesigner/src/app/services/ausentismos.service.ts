@@ -28,8 +28,8 @@ export class AusentismosService {
 
   getSolicitudesXEmpleadoJefe(documento: string, nit: string, cadena: string) {
     //const url = `${environment.urlKioskoReportes}conexioneskioskos/solicitudesXEmpleadoJefe?documentoJefe=${documento}&empresa=${nit}&cadena=${cadena}`;
-    const url = `${environment.urlKioskoReportes}conexioneskioskos/solicitudesXEmpleadoJefe?documentoJefe=${documento}&empresa=${nit}&cadena=${cadena}`;
-    console.log('url:' + url);
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/solicitudesXEmpleadoJefe`;
+    //console.log('url:' + url);
     return this.http.get(url, {
       params: {
         documentoJefe: documento,
@@ -42,7 +42,7 @@ export class AusentismosService {
   getPeriodosvacacionesPendientes(seudonimo: string, nit: string, cadena: string) {
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarPeriodosPendientesEmpleado?seudonimo=${seudonimo}&nitempresa=${nit}`;
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarPeriodosPendientesEmpleado`;
-    console.log('url:' + url);
+    //console.log('url:' + url);
     return this.http.get(url, {
       params: {
         seudonimo: seudonimo,
@@ -54,16 +54,23 @@ export class AusentismosService {
 
   getUltimoPeriodoVacacionesPendientes(seudonimo: string, nit: string, cadena: string) {
     //const url = `http://pc006:8082/wsreporte/webresources/vacacionesPendientes/consultarPeriodoMasAntiguo?documento=52384153`;
-    const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarPeriodoMasAntiguo?seudonimo=${seudonimo}&nitempresa=${nit}&cadena=${cadena}`;
-    console.log('url:' + url);
-    return this.http.get(url);
+    // const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarPeriodoMasAntiguo?seudonimo=${seudonimo}&nitempresa=${nit}&cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarPeriodoMasAntiguo`;
+    //console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        seudonimo: seudonimo,
+        nitempresa: nit,
+        cadena: cadena
+      }
+    });
   }
 
   getDiasUltimoPeriodoVacacionesPendientes(seudonimo: string, nit: string, cadena: string) {
     //const url = `http://pc006:8082/wsreporte/webresources/vacacionesPendientes/consultarPeriodoMasAntiguo?documento=52384153`;
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasPendientesPerMasAntiguo?seudonimo=${seudonimo}&nitempresa=${nit}`;
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasPendientesPerMasAntiguo`;
-    console.log('url:' + url);
+    //console.log('url:' + url);
     return this.http.get(url, {
       params: {
         seudonimo: seudonimo,
@@ -77,7 +84,7 @@ export class AusentismosService {
     //const url = `http://pc006:8082/wsreporte/webresources/vacacionesPendientes/consultarPeriodoMasAntiguo?documento=52384153`;
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesProvisionados?seudonimo=${seudonimo}&nitempresa=${nit}`;
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesProvisionados`;
-    console.log('url:' + url);
+    //console.log('url:' + url);
     return this.http.get(url, {
       params: {
         seudonimo: seudonimo,
@@ -91,7 +98,7 @@ export class AusentismosService {
   getTotalDiasSolicitados(seudonimo: string, nit: string, cadena: string) {
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/getDiasSoliciVacacionesXUltimoEstado?seudonimo=${seudonimo}&nitempresa=${nit}`;
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/getDiasSoliciVacacionesXUltimoEstado`;
-    console.log('url:' + url);
+    //console.log('url:' + url);
     return this.http.get(url, {
       params: {
         seudonimo: seudonimo,
@@ -103,8 +110,12 @@ export class AusentismosService {
     // Consultar todas las solicitudes de los empleados relacionados al jefe
   getSoliciSinProcesarJefe(nit: string, seudonimo: string, estado: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}empleados/soliciSinProcesarJefe/${nit}/${seudonimo}/${estado}?cadena=${cadena}`;
-    console.log('url:' + url);
-    return this.http.get(url);
+    //console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        cadena: cadena
+      }
+    });
   }
   
 
@@ -112,7 +123,7 @@ export class AusentismosService {
   getTotalDiasSolicitadosXUltimoEstado(seudonimo: string, nit: string, cadena: string, estado: string) {
       //const url = `${environment.urlKioskoReportes}vacacionesPendientes/getDiasSoliciVacacionesXUltimoEstado?seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}`;
       const url = `${environment.urlKioskoReportes}vacacionesPendientes/getDiasSoliciVacacionesXUltimoEstado`;
-      console.log('url:' + url);
+      //console.log('url:' + url);
       return this.http.get(url, {
         params: {
           seudonimo: seudonimo,
@@ -126,7 +137,7 @@ export class AusentismosService {
   calculaFechasSolicitud(seudonimo: string, nit: string, fechainicio: string, dias: string, cadena: string) {
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/calculaFechaRegreso?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&dias=${dias}`;
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/calculaFechaRegreso`;
-    console.log('url:' + url);
+    //console.log('url:' + url);
     return this.http.get(url, {
       params: {
         seudonimo: seudonimo,
@@ -140,27 +151,27 @@ export class AusentismosService {
 
   validaFechaInicio(seudonimo: string, nit: string, fechainicio: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}empleados/validaFechaInicioVacaciones?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&cadena=${cadena}`;
-    console.log('url:' + url);
+    //console.log('url:' + url);
     return this.http.get(url);    
   }
 
   setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, secuencia: string, motivo: string, urlKiosco: string, grupoEmpr: string) {
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
-    console.log('url:' + url);
+    //console.log('url:' + url);
     return this.http.post(url, []);
   }
 
   getDiasNovedadesVaca(nit: string, empleado: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/getDiasNovedadesVaca?nit=${nit}&empleado=${empleado}&cadena=${cadena}`;
-    console.log('url:' + url);
+    //console.log('url:' + url);
     return this.http.get(url);
   }
 
   crearSolicitudVacaciones(seudonimo: string, nit: string, estado: string, fechainicio: string, fecharegreso: string, dias: string, vacacion: string, cadena: string, urlKiosco: string, grupoEmpr: string, fechafin: string) {
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/crearSolicitudVacaciones?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&fecharegreso=${fecharegreso}&dias=${dias}&vacacion=${vacacion}&fechafin=${fechafin}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
-    console.log('url:' + url);
-    console.log('url recibida:'+urlKiosco)
-    console.log('grupo recibid:'+grupoEmpr)
+    //console.log('url:' + url);
+    //console.log('url recibida:'+urlKiosco)
+    //console.log('grupo recibid:'+grupoEmpr)
     return this.http.post(url, []);
   }
 

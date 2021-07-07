@@ -12,14 +12,17 @@
         En este apartado encontrará detalles e información ligada a su vida profesional.
       </p>
       <hr>
-      <div class="container" *ngFor="let op of usuarioServicio.datosEstudios  index as i;">
-        <div class="row">
+      <div class="row">
           <div class="col-12 mt-3 mb-1">
 
-            <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">Educaciones formales</h4>
+            <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">Educación formal</h4>
 
           </div>
         </div>
+        <p *ngIf="usuarioServicio.datosEstudios && usuarioServicio.datosEstudios.length<=0" class="text-center">
+          No hay información asociada.</p>        
+      <div class="container" *ngFor="let op of usuarioServicio.datosEstudios  index as i;">
+        
         <!-- <div class="row text-center align-items-center d-flex"> -->
 
         <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
@@ -94,17 +97,21 @@
             </div>
           </div>
         </div>
+        <hr>
       </div>
       <hr>
       <!-- Educaciones no formales -->
-      <div class="container" *ngFor="let dt of usuarioServicio.datosEstudiosNF  index as i;">
-        <div class="row">
+      <div class="row">
           <div class="col-12 mt-3 mb-1">
 
-            <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">Educaciones no formales</h4>
+            <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">Educación no formal</h4>
 
           </div>
-        </div>
+      </div>
+      <p *ngIf="usuarioServicio.datosEstudiosNF && usuarioServicio.datosEstudiosNF.length<=0" class="text-center">
+        No hay información asociada.</p>  
+      <div class="container" *ngFor="let dt of usuarioServicio.datosEstudiosNF  index as i;">
+        
 
 
         <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
@@ -172,15 +179,18 @@
           </div>
           
         </div>
+        <hr>
       </div>
+      <hr>
     </div>
+    
   </div>
 
   <div class="row, text-center" id="divFa" style="margin-top: 20px;">
     <p>Informar corrección de información acádemica:
       <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
   </div>
-
+  
 </div>
 
 

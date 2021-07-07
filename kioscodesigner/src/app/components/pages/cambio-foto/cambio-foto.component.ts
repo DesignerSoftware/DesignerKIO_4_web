@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 
 @Component({
   selector: 'app-cambio-foto',
@@ -26,15 +27,46 @@ export class CambioFotoComponent implements OnInit {
   @Input() urlFotoPerfil: string; // recibe valor de pages.component
   @Output() cambio = new EventEmitter(); // emite a pages.component
 
-  constructor(private usuarioService: UsuarioService, private fb: FormBuilder, private fileUploadService: ManejoArchivosService,
+  constructor(private usuarioService: UsuarioService, private cadenasKioskos: CadenaskioskosappService, private fb: FormBuilder, private fileUploadService: ManejoArchivosService,
               private http: HttpClient, private router: Router) {
-      this.cargarFotoActual();
+      //this.cargarFotoActual();
+      this.formulario = this.fb.group({
+        profile: ['']
+      });
   }
 
   ngOnInit() {
-    this.formulario = this.fb.group({
-      profile: ['']
-    });
+    this.getInfoUsuario();
+  }
+
+  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+    const sesion = this.usuarioService.getUserLoggedIn();
+    this.usuarioService.setUsuario(sesion['usuario']);
+    this.usuarioService.setEmpresa(sesion['empresa']);
+    this.usuarioService.setTokenJWT(sesion['JWT']);
+    this.usuarioService.setGrupo(sesion['grupo']);
+    this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
+    console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    .subscribe(
+      data => {
+        console.log('getInfoUsuario', data);
+        console.log(sesion['grupo']);
+        for (let i in data) {
+          if (data[i][3] === sesion['grupo']) { // GRUPO
+          const temp = data[i];
+          console.log('cadena: ', temp[4]) // CADENA
+          this.usuarioService.cadenaConexion=temp[4];
+          console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
+          this.cargarDatosIniciales();
+          }
+        }
+      }
+    );
+  } 
+
+  cargarDatosIniciales(){
+    this.cargarFotoActual();
   }
 
   cargarFotoActual() {
@@ -108,7 +140,7 @@ export class CambioFotoComponent implements OnInit {
 
     this.http
       .post<any>(
-        `${environment.urlKioskoReportes}conexioneskioskos/cargarFoto?cadena=${this.usuarioService.cadenaConexion}`, formData
+        `${environment.urlKioskoReportes}conexioneskioskos/cargarFoto?nit=${this.usuarioService.empresa}&cadena=${this.usuarioService.cadenaConexion}`, formData
       )
       .subscribe(
         (data) => {

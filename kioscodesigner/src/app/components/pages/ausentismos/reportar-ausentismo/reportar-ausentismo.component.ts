@@ -27,7 +27,7 @@ export class ReportarAusentismoComponent implements OnInit {
     }
 
     crearFormulario() {
-      console.log("crearFormulario()");
+      //console.log("crearFormulario()");
       this.formulario = this.fb.group({
         fechainicio: [, Validators.required],
         dias: [, Validators.required],
@@ -47,18 +47,18 @@ export class ReportarAusentismoComponent implements OnInit {
       this.usuarioService.setTokenJWT(sesion['JWT']);
       this.usuarioService.setGrupo(sesion['grupo']);
       this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
-      console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
+      //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
       this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
       .subscribe(
         data => {
-          console.log('getInfoUsuario', data);
-          console.log(sesion['grupo']);
+          //console.log('getInfoUsuario', data);
+          //console.log(sesion['grupo']);
           for (let i in data) {
             if (data[i][3] === sesion['grupo']) { // GRUPO
             const temp = data[i];
-            console.log('cadena: ', temp[4]) // CADENA
+            //console.log('cadena: ', temp[4]) // CADENA
             this.usuarioService.cadenaConexion=temp[4];
-            console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
+            //console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
             this.cargarDatosIniciales();
             }
           }

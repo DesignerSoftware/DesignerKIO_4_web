@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit {
 
   constructor(private opcionesKioskosService: OpcionesKioskosService, private cadenasKioskos: CadenaskioskosappService,
               public usuarioServicio: UsuarioService, private loginService: LoginService, private router: Router, private reporteService: ReportesService) {
-    console.log(this.usuarioServicio.tokenJWT);
+    //console.log(this.usuarioServicio.tokenJWT);
     this.getInfoUsuario(); 
   }
 
@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit {
   }
 
   clic() {
-    console.log('hiciste clic');
+    //console.log('hiciste clic');
     this.reporteService.reporteSeleccionado = null;
   }
 
@@ -44,29 +44,32 @@ export class SidebarComponent implements OnInit {
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     if (this.usuarioServicio.cadenaConexion) {
-      this.cargarOpciones();
-      this.cargaFoto();
+      this.cargarDatosIniciales();
     } else {
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
     .subscribe(
       data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo']);
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];
-          console.log('cadena: ', temp[4]) // CADENA
+          //console.log('cadena: ', temp[4]) // CADENA
           this.usuarioServicio.cadenaConexion=temp[4];
           //this.cargarDatosIniciales();
           }
         }
-        this.cargarOpciones();
-        this.cargaFoto();
+        this.cargarDatosIniciales();
       }
     );
     }
+  }
+
+  cargarDatosIniciales() {
+    this.cargarOpciones();
+    this.cargaFoto();
   }
 
   /*cargarOpciones() {
@@ -80,15 +83,15 @@ export class SidebarComponent implements OnInit {
             this.opcionesKioskosService.opcionesKioskos = data;
             this.usuarioServicio.datos = data;
             opkTempo = data;
-            //console.log('opcionesKioskosAntes::', JSON.stringify(opkTempo));
+            ////console.log('opcionesKioskosAntes::', JSON.stringify(opkTempo));
             this.opcionesKioskos = opkTempo.filter(
               (opcKio) => opcKio.clase === 'MENU'
             );
-            //console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
+            ////console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
           });
     } else {
       this.opcionesKioskos = this.opcionesKioskosService.opcionesKioskos;
-      console.log('opcionesKioskos', this.opcionesKioskos);
+      //console.log('opcionesKioskos', this.opcionesKioskos);
     }
   }*/
 
@@ -102,24 +105,24 @@ export class SidebarComponent implements OnInit {
             this.opcionesKioskosAntes = data;
             this.usuarioServicio.datos = data;
             opkTempo = data;
-            //console.log('opcionesKioskosAntes::', JSON.stringify(opkTempo));
+            ////console.log('opcionesKioskosAntes::', JSON.stringify(opkTempo));
             this.opcionesKioskos = opkTempo
-            //console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
+            ////console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
           });
     } else {
       this.opcionesKioskos = this.opcionesKioskosService.opcionesKioskos;
-      console.log('opcionesKioskos', this.opcionesKioskos);
+      //console.log('opcionesKioskos', this.opcionesKioskos);
     }
   }
 
   cargaFoto() {
-    console.log('getDocumentoSidebar');
+    //console.log('getDocumentoSidebar');
     this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
     .subscribe(
       data => {
-        console.log(data);
+        //console.log(data);
         this.fotoPerfil = data['result'];
-        console.log('documento: ' + this.fotoPerfil);
+        //console.log('documento: ' + this.fotoPerfil);
         document.getElementById('fotoPerfil').setAttribute('src',
         `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`);
       }
@@ -127,7 +130,7 @@ export class SidebarComponent implements OnInit {
   }
 
   logout() {
-    console.log('cerrar sesion');
+    //console.log('cerrar sesion');
     localStorage.removeItem('currentUser');
     // this.router.navigate(['/login']);
     //this.router.navigate(['/']);
@@ -140,7 +143,7 @@ export class SidebarComponent implements OnInit {
   
   minbody2() {    
     $('.sidebar-offcanvas').toggleClass('active');
-    console.log('presionado 2');
+    //console.log('presionado 2');
   }
 
 

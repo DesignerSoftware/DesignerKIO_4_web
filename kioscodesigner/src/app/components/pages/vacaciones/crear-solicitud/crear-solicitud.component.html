@@ -19,15 +19,15 @@
     <div class="col-12 col-sm-6 col-md-9 col-xs-6">
       <div class="card card-statistics">
         <div class="card-body">
-          <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
-            <div class="statistics-item">
+          <div class="d-flex flex-column flex-md-row ">
+            <div class="statistics-item organizarXs">
               <p>
                 <i class="icon-sm fa fa-calendar mr-2"></i>
                 Días provisionados
               </p>
               <h2>{{totalDiasVacacionesProv || '0'}}</h2>
             </div>
-            <div class="statistics-item">
+            <div class="statistics-item organizarXs">
               <p>
                 <i class="icon-sm fas fa-child mr-2"></i>
                 Días disfrutados
@@ -35,7 +35,7 @@
               <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[1][2] || '0'}}</h2>            
               <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2>            
             </div>
-            <div class="statistics-item">
+            <div class="statistics-item organizarXs">
               <p>
                 <i class="fas fa-money-bill"></i>
                 Días en dinero
@@ -43,7 +43,7 @@
               <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[0][2] || '0'}}</h2> 
               <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2> 
             </div>
-            <div class="statistics-item">
+            <div class="statistics-item organizarXs">
               <p>
                 <i class="far fa-calendar-plus"></i>
                 Total días
@@ -56,30 +56,31 @@
         </div>
       </div>
     </div>
-   <div class="col-12 col-sm-6 col-md-3 col-xs-6">
+  <div class="col-12 col-sm-6 col-md-3 col-xs-6">
     <div class="card-body" style="padding-top: 0px;" id="cardTable">
       <div class="d-flex flex-column flex-md-row align-items-center justify-content-between" id="contentTable">
         <div class="statistics-item">
-                 
-  <table class="table table-responsive" id="tablaperiodosDias" style="overflow-y: scroll; height: 120px; background-color: white;">
-    <tr style="font-size: 13px;">
-      <th>Periodos disponibles</th>
-      <th>Días</th>
-    </tr>
-    <tr *ngIf="!periodosPendientes">  
-      <td colspan="2">No hay periodos disponibles</td>
-    </tr>    
-    <tr *ngFor="let va of periodosPendientes">  
-      <td>{{va[5]}}</td>
-      <td>{{va[1]}}</td>
-    </tr>                             
-  </table>
-
+  
+          <table class="table table-responsive" id="tablaperiodosDias"
+            style="overflow-y: scroll; height: 120px; background-color: white;">
+            <tr style="font-size: 13px;">
+              <th>Periodos disponibles</th>
+              <th>Días</th>
+            </tr>
+            <tr *ngIf="!periodosPendientes">
+              <td colspan="2">No hay periodos disponibles</td>
+            </tr>
+            <tr *ngFor="let va of periodosPendientes">
+              <td>{{va[5]}}</td>
+              <td>{{va[1]}}</td>
+            </tr>
+          </table>
+  
         </div>
-
+  
       </div>
     </div>
-   </div>
+  </div>
 
   </div>
 

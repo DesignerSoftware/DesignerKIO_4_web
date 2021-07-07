@@ -28,14 +28,14 @@ validaParametroGrupo = '';
       if (params['grupo']) {
         this.grupoEmpresarial = params['grupo'];
         this.usuarioService.grupoEmpresarial = this.grupoEmpresarial;
-        console.log(params);
+        //console.log(params);
 
         this.cadenasKioskos
         .getCadenasKioskosEmp(params['grupo'])
         .subscribe((data) => {
-          console.log(data);
+          //console.log(data);
           this.cadenasApp = data;
-          console.log('cadenas: ', data)
+          //console.log('cadenas: ', data)
           this.usuarioService.cadenaConexion = data[0][4];
           if (this.cadenasApp.length === 1) {
             this.formulario
@@ -47,7 +47,7 @@ validaParametroGrupo = '';
         });
       } else {
         // si no existe el parámetro
-        console.log('no hay parámetro');
+        //console.log('no hay parámetro');
         this.validaParametroGrupo = 'Importante: El link de acceso no es válido, por favor confirme con su empresa el enlace correcto.';
       }
     });
@@ -84,8 +84,8 @@ validaParametroGrupo = '';
           .subscribe(
             data => {
               if (data['result'] === 'true') {
-                console.log(data);
-                console.log('El usuario si existe');
+                //console.log(data);
+                //console.log('El usuario si existe');
                 this.enviaClave();
               } else {
                 swal.fire(
@@ -96,7 +96,7 @@ validaParametroGrupo = '';
               }
             },
             (error) => {
-              console.log(error);
+              //console.log(error);
               swal.fire(
                 '¡Error!',
                 'Se presentó un error al validar la información. Por favor intentalo de nuevo más tarde.',

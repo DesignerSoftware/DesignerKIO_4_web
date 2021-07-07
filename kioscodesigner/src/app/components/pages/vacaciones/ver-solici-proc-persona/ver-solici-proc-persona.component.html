@@ -1,0 +1,123 @@
+<div class="page-header animated fadeIn fast">
+    <h3 class="page-title">
+        Histórico de solicitudes procesadas
+    </h3>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Histórico de solicitudes procesadas</li>
+    </ol>
+</nav>
+   <!-- partial -->
+   <div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-description">Solicitudes procesadas</p>
+          <div class="input-group mb-3 ">
+            <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+              aria-label="Buscar..." aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2">Filtrar</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover" style="text-align: center;">
+              <thead style="background: #00223C; color: white;">
+                <tr id="tblfamiliares">
+                          <th>Ver</th>
+                          <th>Código</th>
+                          <th>Nombre</th>
+                          <th>Solicitud</th>
+                          <th>Fecha inicio</th>
+                          <th>Fecha última modificación</th>
+                          <th>Estado solicitud</th>
+                          <th>Motivo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngIf="!solicitudesProcesadas || solicitudesProcesadas==null || solicitudesProcesadas.length==0"><td colspan="5">No hay solicitudes procesadas.</td></tr>
+                        <tr *ngFor="let solic of solicitudesProcesadas | filterTable: dataFilt | paginate: { id: 'eightth', itemsPerPage: 10, currentPage: p8 }; index as i " > 
+                        <td>
+                            <a (click)="detalleSolicitud(i)" *ngIf="solicitudesProcesadas">
+                              <i class="far fa-eye text-info"></i>
+                            </a>
+                          </td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[0]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[2]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[3]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[4]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[5]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[13]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[7]||''}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="row">
+                      <div class="col-md-12">
+                      <pagination-controls (pageChange)="p8 = $event" id="eightth" style="text-align: center;"
+                        previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+                      </div>
+                      </div>
+                  </div>
+                
+      </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="staticBackdrop3" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel3">DETALLE DE LA SOLICITUD</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center">
+              <table class="table table-bordered table-sm">
+                <tbody>
+                  <tr>
+                    <td class="text-left">Código empleado:</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]}}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left">Nombre Completo:</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[2]}}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left">Fecha inicio Vacaciones:</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[4]}}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left">Fecha fin vacaciones:	</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[8]}}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left">Fecha regreso a laborar:	</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[9]}}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left">Días solicitados:	</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[10]}}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left">Periodo:</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[14]}}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left">Jefe inmediato:	</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[11]}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>

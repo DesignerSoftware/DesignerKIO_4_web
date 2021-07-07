@@ -12,7 +12,7 @@ export class KiopersonalizacionesService {
   getDatosContacto(nit: string, cadena: string) {
     //const url = `${environment.urlKioskoDesigner}restKiosco/datosContactoKiosco/${nit}`;
     const url = `${environment.urlKioskoReportes}conexioneskioskos/datosContactoKiosco/${nit}?cadena=${cadena}`;
-    console.log(url);
+    //console.log(url);
     return this.http.get(url);
   }
 

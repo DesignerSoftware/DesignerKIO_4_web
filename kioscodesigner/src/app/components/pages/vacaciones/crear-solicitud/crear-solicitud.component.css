@@ -3,9 +3,13 @@
     #tablaperiodosDias  {
         height: 452px !important;
     }
-
 }
 
+@media(max-width: 767px) {
+    .organizarXs{
+        text-align: center !important;
+    }
+}
 
 @media(max-width: 575px) {
     #tablaperiodosDias  {
@@ -24,5 +28,6 @@
     #btnCancelar {
         margin-top: 5px;
     }
+   
 
 }

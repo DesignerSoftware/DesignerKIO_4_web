@@ -43,18 +43,18 @@ export class DatosPersonalesComponent implements OnInit {
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
     .subscribe(
       data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo']);
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];
-          console.log('cadena: ', temp[4]) // CADENA
+          //console.log('cadena: ', temp[4]) // CADENA
           this.usuarioServicio.cadenaConexion=temp[4];
-          console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+          //console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
           this.cargarDatosIniciales();
           }
         }
@@ -76,7 +76,7 @@ export class DatosPersonalesComponent implements OnInit {
         .subscribe(
           data => {
             this.usuarioServicio.datosPersonales = data;
-            console.log('datos', this.usuarioServicio.datosPersonales);
+            //console.log('datos', this.usuarioServicio.datosPersonales);
           }
         );
     }
@@ -88,7 +88,7 @@ export class DatosPersonalesComponent implements OnInit {
         .subscribe(
           data => {
             this.usuarioServicio.datosFamilia = data;
-            console.log('datosFam', this.usuarioServicio.datosFamilia);
+            //console.log('datosFam', this.usuarioServicio.datosFamilia);
           }
         );
     }
@@ -100,7 +100,7 @@ export class DatosPersonalesComponent implements OnInit {
         .subscribe(
           data => {
             this.usuarioServicio.telefonosEmpleado = data;
-            console.log('telefonos', this.usuarioServicio.telefonosEmpleado);
+            //console.log('telefonos', this.usuarioServicio.telefonosEmpleado);
           }
         );
     }
@@ -117,13 +117,13 @@ export class DatosPersonalesComponent implements OnInit {
   }
 
   cargaFoto() {
-    /*console.log('getDocumentoDatosPersonales');
+    /*//console.log('getDocumentoDatosPersonales');
     this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa)
       .subscribe(
         data => {
-          console.log(data);
+          //console.log(data);
           this.fotoPerfil = data['result'];
-          console.log('documento: ' + this.fotoPerfil);
+          //console.log('documento: ' + this.fotoPerfil);
           document.getElementById('fotoPerfilEmpl1').setAttribute('src',
             `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);
         }
@@ -135,7 +135,7 @@ export class DatosPersonalesComponent implements OnInit {
   }
 
   enviarReporteNovedad() {
-    console.log('enviar', this.formulario.controls);
+    //console.log('enviar', this.formulario.controls);
     if (this.formulario.valid) {
       swal.fire({
         title: "Enviando mensaje al área de nómina y RRHH, por favor espere...",
@@ -145,7 +145,7 @@ export class DatosPersonalesComponent implements OnInit {
             'Solicitud para Corrección de Datos Personales', this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
             .subscribe(
               (data) => {
-                console.log(data);
+                //console.log(data);
                 if (data) {
                   swal
                     .fire({

@@ -21,9 +21,16 @@ export class ReportesService {
   }
 
   validaFechasCertingresos(fechaDesde: string, fechaHasta: string, cadena: string) {
-    const url = `${environment.urlKioskoReportes}reportes/validarFechasCertingresos?fechadesde=${fechaDesde}&fechahasta=${fechaHasta}&cadena=${cadena}`;
+    //onst url = `${environment.urlKioskoReportes}reportes/validarFechasCertingresos?fechadesde=${fechaDesde}&fechahasta=${fechaHasta}&cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}reportes/validarFechasCertingresos`;
     console.log(url);
-    return this.http.get(url);
+    return this.http.get(url, {
+      params: {
+        fechadesde: fechaDesde,
+        fechahasta: fechaHasta,
+        cadena
+      }
+    });
   }
 
   clear() {

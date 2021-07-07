@@ -13,22 +13,30 @@ export class OpcionesKioskosService {
 
   getOpcionesKiosco(empresa: string, seudonimo: string, cadena: string) {
     // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
-    const url = `${environment.urlKioskoReportes}opcioneskioskosapp/prueba?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
-    console.log(url);
-    return this.http.get(url);
+    //const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opciones?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opciones`;
+    //console.log(url);
+    return this.http.get(url, {
+      params: {
+        seudonimo,
+        nitempresa: empresa,
+        cadena: cadena
+      }
+    });
   }
 
   getMenuOpcionesKiosco(empresa: string, seudonimo: string, cadena: string) {
     // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
-    const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opcionesMenu?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
-    console.log(url);
-    return this.http.get(url);
-  }  
-
-  getPrueba2() {
-    const url = `${environment.urlKioskoReportes}opcioneskioskos/prueba`;
-    console.log(url);
-    return this.http.get(url);
+    //const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opcionesMenu?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opcionesMenu`;
+    ////console.log(url);
+    return this.http.get(url, {
+      params: {
+        seudonimo,
+        nitempresa: empresa,
+        cadena
+      }
+    });
   }
 
   clear() {

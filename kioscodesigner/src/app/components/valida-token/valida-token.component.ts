@@ -33,12 +33,14 @@ export class ValidaTokenComponent implements OnInit {
         .subscribe(
           (data) => {
             console.log('data', data);
+            this.usuarioService.cadenaConexion=data["cadena"];
+            this.usuarioService.grupoEmpresarial=data["grupo"];
+            this.usuarioService.empresa = data['empresa'];            
             if (data['validoToken'] === true) {
               console.log('Token es válido');
               console.log(data["usuario"]);
               console.log('cadena', data["cadena"]);
-              this.usuarioService.cadenaConexion=data["cadena"];
-              this.usuarioService.grupoEmpresarial=data["grupo"];
+              console.log('grupo recibido: '+this.usuarioService.grupoEmpresarial);
               this.mensaje1 = 'Activando usuario...';
               this.usuarioService
               // habilita cuenta kiosco
@@ -47,7 +49,7 @@ export class ValidaTokenComponent implements OnInit {
                   if (data['modificado'] === true) {
                     console.log('Se ha activado el usuario');
                      // inhabilita token
-                    this.usuarioService.inactivaToken(this.token, this.usuarioService.cadenaConexion).subscribe(
+                    this.usuarioService.inactivaToken(this.token, this.usuarioService.empresa, this.usuarioService.cadenaConexion).subscribe(
                       (data) => {
                         if (data['modificado'] === true) {
                           console.log('Se ha inhabilita el token');

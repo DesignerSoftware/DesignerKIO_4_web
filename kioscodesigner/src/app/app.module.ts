@@ -52,6 +52,8 @@ import { ProcesarAusentismosComponent } from './components/pages/ausentismos/pro
 import { AusentismosProcesadosComponent } from './components/pages/ausentismos/ausentismos-procesados/ausentismos-procesados.component';
 import { Home2Component } from './components/pages/home2/home2.component';
 import { InfoExperienciaComponent } from './components/pages/info-experiencia/info-experiencia.component';
+import { VerSoliciSinProcPersonaComponent } from './components/pages/vacaciones/ver-solici-sin-proc-persona/ver-solici-sin-proc-persona.component';
+import { VerSoliciProcPersonaComponent } from './components/pages/vacaciones/ver-solici-proc-persona/ver-solici-proc-persona.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,9 @@ import { InfoExperienciaComponent } from './components/pages/info-experiencia/in
     ProcesarAusentismosComponent,
     AusentismosProcesadosComponent,
     Home2Component,
-    InfoExperienciaComponent
+    InfoExperienciaComponent,
+    VerSoliciSinProcPersonaComponent,
+    VerSoliciProcPersonaComponent
   ],
   imports: [
     BrowserModule,

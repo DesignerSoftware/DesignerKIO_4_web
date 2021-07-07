@@ -3,11 +3,11 @@ import { VacacionesService } from 'src/app/services/vacaciones.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
-  selector: 'app-soli-procesadas',
-  templateUrl: './soli-procesadas.component.html',
-  styleUrls: ['./soli-procesadas.component.css']
+  selector: 'app-ver-solici-proc-persona',
+  templateUrl: './ver-solici-proc-persona.component.html',
+  styleUrls: ['./ver-solici-proc-persona.component.css']
 })
-export class SoliProcesadasComponent implements OnInit {
+export class VerSoliciProcPersonaComponent implements OnInit {
   solicitudesProcesadas = null;
   solicitudSeleccionada = null;
   public p8: number = 1;
@@ -18,9 +18,9 @@ export class SoliProcesadasComponent implements OnInit {
       this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
       .subscribe(
         data => {
-          //console.log(data['result']);
+          console.log(data['result']);
           this.usuarioService.documento = data['result'];
-          //console.log('ng OnInit:', this.usuarioService.documento);
+          console.log('ng OnInit:', this.usuarioService.documento);
           this.obtenerSolicitudes();
         }
       );
@@ -33,22 +33,22 @@ export class SoliProcesadasComponent implements OnInit {
   }
 
   obtenerSolicitudes(){
-    this.vacacionesService.getSolicitudesXEmpleadoJefe(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
+    this.vacacionesService.getSolicitudesProcesadasXAutorizador(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
     .subscribe(
       data => {
         this.solicitudesProcesadas = data;
-        //console.log(this.solicitudesProcesadas);
+        console.log(this.solicitudesProcesadas);
       }
     );
 
   }
 
-  detalleSolicitud(tipoSolicitud: string, index: string) {
+  detalleSolicitud(index: string) {
     this.solicitudSeleccionada = this.solicitudesProcesadas[index];
     /*this.tipoSolicitudSeleccionada = tipoSolicitud;
     this.indexSolicitudSeleccionada = index;
-    //console.log('tipoSolicitud: ' + tipoSolicitud);
-    //console.log('index seleccionado: ' + index);
+    console.log('tipoSolicitud: ' + tipoSolicitud);
+    console.log('index seleccionado: ' + index);
     switch(tipoSolicitud) {
       case 'ENVIADO': {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];

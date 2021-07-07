@@ -40,19 +40,19 @@ export class InfoEstudiosComponent implements OnInit {
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
     .subscribe(
       data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo']);
         
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];
-          console.log('cadena: ', temp[4]) // CADENA
+          //console.log('cadena: ', temp[4]) // CADENA
           this.usuarioServicio.cadenaConexion=temp[4];
-          console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+          //console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
           this.cargarDatosIniciales();
           }
         }
@@ -71,7 +71,7 @@ export class InfoEstudiosComponent implements OnInit {
         .subscribe(
           data => {
             this.usuarioServicio.datosEstudios = data;
-            console.log('datosEstudios', this.usuarioServicio.datosEstudios);
+            //console.log('datosEstudios', this.usuarioServicio.datosEstudios);
           }
         );
     }
@@ -83,7 +83,7 @@ export class InfoEstudiosComponent implements OnInit {
         .subscribe(
           data => {
             this.usuarioServicio.datosEstudiosNF = data;
-            console.log('datosEstudiosNoFormales', this.usuarioServicio.datosEstudiosNF);
+            ////console.log('datosEstudiosNoFormales', this.usuarioServicio.datosEstudiosNF);
           }
         );
     }
@@ -101,7 +101,7 @@ export class InfoEstudiosComponent implements OnInit {
 
   /*Método que envia el correo de notificación de corrección de información*/
   enviarReporteNovedad() {
-    console.log('enviar', this.formularioReporteNov.controls);
+    ////console.log('enviar', this.formularioReporteNov.controls);
     if (this.formularioReporteNov.valid) {
       swal.fire({
         title: "Enviando mensaje al área de nómina y RRHH, por favor espere...",
@@ -111,7 +111,7 @@ export class InfoEstudiosComponent implements OnInit {
             'Solicitud para Corrección de Formación Académica', this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
             .subscribe(
               (data) => {
-                console.log(data);
+                //console.log(data);
                 if (data) {
                   swal
                     .fire({

@@ -55,11 +55,11 @@ export class LoginComponent implements OnInit {
             this.cadenasKioskos
               .getCadenasKioskosEmp(this.usuarioService.grupoEmpresarial)
               .subscribe((data) => {
-                console.log('cadenasKioskos form Registro', data);
+                //console.log('cadenasKioskos form Registro', data);
                 this.cadenasApp = data;
-                console.log('cadenas: ', data)
+                //console.log('cadenas: ', data)
                 this.usuarioService.cadenaConexion = data[0][4];
-                console.log('Cadena: ', this.usuarioService.cadenaConexion);
+                //console.log('Cadena: ', this.usuarioService.cadenaConexion);
                 if (this.cadenasApp.length === 1) {
                   this.formulario
                     .get('empresa')
@@ -102,7 +102,7 @@ export class LoginComponent implements OnInit {
 
   enviar() {
     this.urlKiosco = document.location.href;
-    console.log(this.formulario);
+    // console.log(this.formulario);
     Object.values(this.formulario.controls).forEach(control => {
       control.markAsTouched();
     });
@@ -121,7 +121,7 @@ export class LoginComponent implements OnInit {
                   res => {
                     console.log('Respuesta token generado: ', res);
                     let jwt: any = JSON.parse(JSON.stringify(res));
-                    console.log('JWT Generado: ' + jwt['JWT']);
+                    //console.log('JWT Generado: ' + jwt['JWT']);
                     if (!res) {
                       swal.fire('Objeto Vacio!!!', ' :(', 'success');
                     } else {
@@ -164,7 +164,7 @@ export class LoginComponent implements OnInit {
                             cadena: cadenaEmpresa[4],
                             urlKiosco: document.location.href
                           };
-                          console.log('cadena: ', cadenaEmpresa[4]);
+                          //console.log('cadena: ', cadenaEmpresa[4]);
                           this.usuarioService.setUserLoggedIn(sesion);
                           this.usuarioService.getUserLoggedIn(); // Mostrar por consola los datos del usuario actual
 
@@ -226,10 +226,10 @@ export class LoginComponent implements OnInit {
       title: 'Espera un momento.. Estamos enviándote el correo de confirmación',
       onBeforeOpen: () => {
         swal.showLoading();
-        this.usuarioService.inactivaTokensTipo('VALIDACUENTA', this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
+        this.usuarioService.inactivaTokensTipo('VALIDACUENTA', this.formulario.get('usuario').value, this.formulario.get('empresa').value, this.usuarioService.cadenaConexion)
           .subscribe(
             data => {
-              console.log(data);
+              // console.log(data);
               this.loginService.enviarCorreoConfirmaCuenta(
                 this.formulario.get('usuario').value,
                 this.formulario.get('clave').value,
