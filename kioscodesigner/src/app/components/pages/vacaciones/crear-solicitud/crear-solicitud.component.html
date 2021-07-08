@@ -19,15 +19,15 @@
     <div class="col-12 col-sm-6 col-md-9 col-xs-6">
       <div class="card card-statistics">
         <div class="card-body">
-          <div class="d-flex flex-column flex-md-row ">
-            <div class="statistics-item organizarXs">
+          <div class="d-flex flex-column flex-md-row align-items-center justify-content-between animated fadeIn fast contentEstadisticas">
+            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12">
               <p>
                 <i class="icon-sm fa fa-calendar mr-2"></i>
                 Días provisionados
               </p>
               <h2>{{totalDiasVacacionesProv || '0'}}</h2>
             </div>
-            <div class="statistics-item organizarXs">
+            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12">
               <p>
                 <i class="icon-sm fas fa-child mr-2"></i>
                 Días disfrutados
@@ -35,17 +35,17 @@
               <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[1][2] || '0'}}</h2>            
               <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2>            
             </div>
-            <div class="statistics-item organizarXs">
+            <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12">
               <p>
-                <i class="fas fa-money-bill"></i>
+                <i class="icon-sm fas fa-money-bill"></i>
                 Días en dinero
               </p>
               <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[0][2] || '0'}}</h2> 
               <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2> 
             </div>
-            <div class="statistics-item organizarXs">
+            <div class="col-lg-3 col-sm-12 col-md-3 col-12">
               <p>
-                <i class="far fa-calendar-plus"></i>
+                <i class="icon-sm far fa-calendar-plus"></i>
                 Total días
               </p>
               <h2 *ngIf="totalDiasVacacionesSubtipo">{{sumaDias(totalDiasVacacionesSubtipo[2][2], totalDiasVacacionesProv)}}</h2> 

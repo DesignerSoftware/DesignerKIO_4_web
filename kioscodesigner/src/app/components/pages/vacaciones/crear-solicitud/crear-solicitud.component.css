@@ -4,11 +4,36 @@
         height: 452px !important;
     }
 }
-
+.contentEstadisticas {
+    text-align: center;
+}
+.card.card-statistics .statistics-item:before {
+    right: 0px !important ;
+}
 @media(max-width: 767px) {
     .organizarXs{
         text-align: center !important;
     }
+    .card.card-statistics .statistics-item:before {
+        position: initial !important;
+        content: "";
+        right: 0% !important;
+        top: 15px;
+        height: calc(100% - 30px);
+        background: rgba(255, 255, 255, 0.2);
+        width: 1px;
+      }
+      .rtl .card.card-statistics .statistics-item:before {
+        right: auto;
+        left: 25% !important;
+      }
+      .card.card-statistics .statistics-item:last-child:before {
+        display: none;
+      }
+      .contentEstadisticas {
+        text-align: center;
+      }
+      
 }
 
 @media(max-width: 575px) {
