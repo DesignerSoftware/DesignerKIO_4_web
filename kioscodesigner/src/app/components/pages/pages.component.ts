@@ -227,13 +227,26 @@ export class PagesComponent implements OnInit {
   }
 
   consultarDatosContacto() {
+    let contactoSoporte = '';
     if (this.usuarioServicio.datosContacto==null){
       this.kioPersonalizaciones.getDatosContacto(this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
       .subscribe(
         data => {
           this.usuarioServicio.datosContacto = data;
-          this.usuarioServicio.nombreContactoSoporte = data[0][0];
-          this.usuarioServicio.correoContactoSoporte = data[0][1];
+          //this.usuarioServicio.nombreContactoSoporte = data[0][0];
+          for (let index = 0; index <  this.usuarioServicio.datosContacto.length; index++) {
+            contactoSoporte+= data[index][0]+' ('+ data[index][1]+')';
+            if (index==this.usuarioServicio.datosContacto.length-2) {
+              contactoSoporte+=' y ';
+            } else if(index==this.usuarioServicio.datosContacto.length-1){
+              contactoSoporte+='. ';
+            } else {
+              contactoSoporte+=', ';
+            }
+          }
+          
+          //this.usuarioServicio.correoContactoSoporte = data[0][1];
+          this.usuarioServicio.nombreContactoSoporte = contactoSoporte;
         }
       );
     }
