@@ -14,15 +14,14 @@ export class AusentismosComponent implements OnInit {
   opcioneskioskoG: any = [];
   private usuario: string;
   private empresa: string;
-  //opcionesKiosco: any = [];
+  //opciones: any = [];
   reporteSeleccionado = null;
   codigoReporteSeleccionado = null;
 
   constructor(private opcionesKioskosServicio: OpcionesKioskosService, private usuarioServicio: UsuarioService,
     private router: Router, public ausentismosService: AusentismosService, private cadenasKioskos: CadenaskioskosappService
   ) {
-    //this.opcioneskioskoG = this.opcionesKioskosServicio.getOpcionesKiosco(this.empresa);
-    this.ausentismosService.SolicitudesJefe = null;
+    //this.opcioneskioskoG = this.opcionesKioskosServicio.getopciones(this.empresa);
     //console.log(this.opcioneskioskoG);
   }
 
@@ -63,13 +62,13 @@ export class AusentismosComponent implements OnInit {
 
   filtrarOpcionesReportes() {
     let opkTempo: any = [];
-    if (this.ausentismosService.opcionesKiosco == null || this.ausentismosService.opcionesKiosco.length === 0 || this.ausentismosService.opcionesKiosco === []) {
+    if (this.ausentismosService.opciones == null || this.ausentismosService.opciones.length === 0 || this.ausentismosService.opciones === []) {
       opkTempo = this.opcionesKioskosServicio
         .getOpcionesKiosco(this.usuarioServicio.empresa, this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion)
         .subscribe((data) => {
           //console.log('opciones Consultadas', data);
           opkTempo = data;
-          this.ausentismosService.opcionesKiosco = opkTempo.filter(
+          this.ausentismosService.opciones = opkTempo.filter(
             //(opcKio) => opcKio['opcionkioskopadre']['codigo'] === '30'
             (opcKio) => {
               if (opcKio.opcionkioskopadre && opcKio.opcionkioskopadre.codigo==='40'){
@@ -77,9 +76,9 @@ export class AusentismosComponent implements OnInit {
               }
             }
           );
-          //this.vacacionesService.opcionesKiosco = opkTempo;
+          //this.vacacionesService.opciones = opkTempo;
           // //console.log('filter 1', this.opcionesReportes[0]['SUBOPCION']);
-           //console.log('filter 1', this.ausentismosService.opcionesKiosco);
+           //console.log('filter 1', this.ausentismosService.opciones);
         });
     } else {
       /*opkTempo = this.opcionesKioskosServicio.opcionesKioskos;
@@ -92,13 +91,13 @@ export class AusentismosComponent implements OnInit {
 
   seleccionarReporte(index: number) {
     //console.log('seleccionarReporte');
-    //console.log('opcionesActuales', this.ausentismosService.opcionesKiosco);
+    //console.log('opcionesActuales', this.ausentismosService.opciones);
     //console.log(index);
     //this.reporteSeleccionado = this.opcionesReportes[0]['SUBOPCION'][index];
     // this.router.navigateByUrl(`/reportes/${index}`);
     //this.codigoReporteSeleccionado = this.opcionesReportes[0]['SUBOPCION'][index]['CODIGO'];
-    this.router.navigateByUrl(`/ausentismos/${this.ausentismosService.opcionesKiosco[index]['nombreruta']}`)
-    //console.log('opcionSeleccionada: ' +this.ausentismosService.opcionesKiosco[index]['nombreruta']);
+    this.router.navigateByUrl(`/ausentismos/${this.ausentismosService.opciones[index]['nombreruta']}`)
+    //console.log('opcionSeleccionada: ' +this.ausentismosService.opciones[index]['nombreruta']);
   }
 
  redireccionarVacaciones(){

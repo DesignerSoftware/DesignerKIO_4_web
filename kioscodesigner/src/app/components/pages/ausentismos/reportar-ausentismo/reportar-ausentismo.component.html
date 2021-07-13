@@ -38,12 +38,9 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Causa:</label>
               <div class="col-sm-9">
-                <select class="form-control form-control-sm" formControlName="causa"
+                <select class="form-control form-control-sm" formControlName="causa" id="causa" (change)="cambioSeleccion()"
                   title="Seleccione la causa del ausentismo">
-                  <option>MATERNIDAD-PATERNIDAD</option>
-                  <option>MATERNIDAD-GENERAL</option>
-                  <option>MATERNIDAD-PROFESIONAL</option>
-                  <option>ACCIDENTE DE TRABAJO</option>
+                  <option [value]="i" *ngFor="let c of causasAusentismos; index as i">{{c.causa.descripcion}}</option>
                 </select>
               </div>
             </div>
@@ -52,7 +49,7 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Tipo:</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control form-control-sm" formControlName="tipo" title="Tipo de ausentismo" readonly="true" />
+                <input type="text" class="form-control form-control-sm" formControlName="tipo" [value]="tipoSelec" title="Tipo de ausentismo" readonly="true" />
               </div>
             </div>
           </div>
@@ -64,7 +61,7 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Clase:</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control form-control-sm" formControlName="clase" title="Clase de ausentismo" readonly="true" />
+                <input type="text" class="form-control form-control-sm" formControlName="clase" [value]="claseSelec"  title="Clase de ausentismo" readonly="true" />
               </div>
             </div>
           </div>

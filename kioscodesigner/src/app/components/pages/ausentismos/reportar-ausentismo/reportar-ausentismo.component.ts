@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AusentismosService } from 'src/app/services/ausentismos.service';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -14,8 +15,12 @@ export class ReportarAusentismoComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute, private usuarioService: UsuarioService, private cadenasKioskos: CadenaskioskosappService) { }
+    private route: ActivatedRoute, private usuarioService: UsuarioService, private ausentismosService: AusentismosService, private cadenasKioskos: CadenaskioskosappService) { }
     formulario: FormGroup;
+    causasAusentismos = null;
+    causaSelec =null;
+    claseSelec = null;
+    tipoSelec = null;
 
     ngOnInit() {
       this.crearFormulario();
@@ -67,7 +72,29 @@ export class ReportarAusentismoComponent implements OnInit {
     } 
   
     cargarDatosIniciales(){
+      this.cargarCausas();
     }    
+    
+    cambioSeleccion() {
+      let secCausa = this.formulario.get('causa').value;
+      console.log('index', secCausa);
+      this.claseSelec = this.causasAusentismos[secCausa].causa.clase.descripcion;
+      console.log('clase '+ this.claseSelec);
+      this.tipoSelec = this.causasAusentismos[secCausa].causa.clase.tipo.descripcion;
+      console.log('tipo '+ this.tipoSelec);
+      //let clase = this.causasAusentismos;
+      //console.log(clase);
+    }
+
+    cargarCausas(){
+      this.ausentismosService.getCausasEmpresa(this.usuarioService.empresa, this.usuarioService.cadenaConexion)
+      .subscribe(
+        data=> {
+          console.log('causas', data);
+          this.causasAusentismos = data;
+        }
+      )
+    }
 
     enviarNovedad(){
 

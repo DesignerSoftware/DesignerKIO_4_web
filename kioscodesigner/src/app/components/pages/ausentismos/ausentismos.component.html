@@ -10,7 +10,7 @@
         <li class="breadcrumb-item active" aria-current="page">{{reporteSeleccionado && reporteSeleccionado['descripcion'] || ''}}</li>
     </ol>
 </nav>
-<div class="col-md-12 col-sm-12 grid-margin stretch-card animated fadeIn fast" *ngIf="ausentismosService.opcionesKiosco.length==0">
+<div class="col-md-12 col-sm-12 grid-margin stretch-card animated fadeIn fast" *ngIf="ausentismosService.opciones.length==0">
     <div class="loader-demo-box" style="border: 0px !important;">
       <div class="dot-opacity-loader">
         <span></span>
@@ -20,10 +20,10 @@
     </div>
 </div>
 
-<p *ngIf="!reporteSeleccionado && ausentismosService.opcionesKiosco && ausentismosService.opcionesKiosco.length!=0 && ausentismosService.opcionesKiosco">Seleccione la opción que desea realizar.</p>
-<p *ngIf="ausentismosService.opcionesKiosco && ausentismosService.opcionesKiosco && !ausentismosService.opcionesKiosco">No hay opciones habilitadas.</p>
-<div class="row animated fadeIn fast" *ngIf="ausentismosService.opcionesKiosco && ausentismosService.opcionesKiosco.length>0 && !reporteSeleccionado">
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of ausentismosService.opcionesKiosco; index as i">
+<p *ngIf="!reporteSeleccionado && ausentismosService.opciones && ausentismosService.opciones.length!=0 && ausentismosService.opciones">Seleccione la opción que desea realizar.</p>
+<p *ngIf="ausentismosService.opciones && ausentismosService.opciones && !ausentismosService.opciones">No hay opciones habilitadas.</p>
+<div class="row animated fadeIn fast" *ngIf="ausentismosService.opciones && ausentismosService.opciones.length>0 && !reporteSeleccionado">
+    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of ausentismosService.opciones; index as i">
         <div class="card" id="divReportes">
             <div class="card-body">
                 <div class="d-flex flex-row">
