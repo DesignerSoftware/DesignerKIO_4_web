@@ -10,6 +10,8 @@ import { VacacionesService } from './vacaciones.service';
   providedIn: 'root'
 })
 export class LoginService {
+  public kioscoActivo = true;
+  public mensajeKioscoInactivo = null;
 
   constructor(private http: HttpClient, private usuarioService: UsuarioService, private reportesService: ReportesService,
               private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService) {

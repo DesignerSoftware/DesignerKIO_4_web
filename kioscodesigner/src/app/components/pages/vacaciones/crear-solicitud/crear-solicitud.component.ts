@@ -502,6 +502,6 @@ export class CrearSolicitudComponent implements OnInit {
         showConfirmButton: true
       })
     }
-  }  
+  }
 
 }

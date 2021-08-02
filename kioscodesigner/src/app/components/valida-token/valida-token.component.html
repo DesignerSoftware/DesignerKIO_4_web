@@ -23,7 +23,7 @@
                     </div>
               </div>
             </div>
-            <div class="row mt-5">
+            <div class="row mt-5" *ngIf="this.usuarioService.grupoEmpresarial && this.usuarioService.grupoEmpresarial!=null && this.usuarioService.grupoEmpresarial!='' ">
               <div class="col-12 text-center mt-xl-2">
                 <a class="btn btn-outline-light" (click)="dirigirLogin()">Ingresar a Kiosco</a>
               </div>

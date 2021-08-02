@@ -1,4 +1,4 @@
-<div class="container-fluid animated fadeIn slow">
+<div class="container-fluid animated fadeIn slow" *ngIf="loginService.kioscoActivo">
   <div class="row no-gutter">
     <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
     <div class="col-md-8 col-lg-6">
@@ -233,4 +233,43 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="container-scroller" *ngIf="!loginService.kioscoActivo">
+  <div class="container-fluid page-body-wrapper full-page-wrapper">
+    <div class="content-wrapper d-flex align-items-center text-center error-page bg-dark">
+      <div class="row flex-grow">
+          <div class="col-12">
+              <img  loading="lazy" src="assets/images/fotos_empleados/logodesigner-light-xl.png" class="img-fluid" />
+          </div>
+        <div class="col-lg-7 mx-auto text-white">
+          <div class="row align-items-center d-flex flex-row">
+            <div class="col-lg-6 text-lg-right pr-lg-4">
+              <h1 class="display-1 mb-0">
+
+                <img src="./../../../assets/images/fds2.gif">
+              </h1>
+            </div>
+            <div class="col-lg-6 error-page-divider text-lg-left pl-lg-4">
+              <h2>¡Página fuera de servicio!</h2>
+              <h3 class="font-weight-light">
+                  Lamentamos los inconvenientes.</h3>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-12 text-center mt-xl-2">
+              {{loginService.mensajeKioscoInactivo || 'El Kiosco se encuentra en mantenimiento, por favor inténtelo de nuevo más tarde.'}}
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-12 mt-xl-2">
+              <p class="text-white font-weight-medium text-center">Copyright &copy; 2020  All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- content-wrapper ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
 </div>

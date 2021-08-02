@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private loginService: LoginService,
+    public loginService: LoginService,
     public usuarioService: UsuarioService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -59,7 +59,17 @@ export class LoginComponent implements OnInit {
                 this.cadenasApp = data;
                 console.log('cadenas: ', data)
                 this.usuarioService.cadenaConexion = data[0][4];
-                //console.log('Cadena: ', this.usuarioService.cadenaConexion);
+                console.log('Cadena: ', this.usuarioService.cadenaConexion);
+                console.log('length: '+this.cadenasApp.length);
+                this.loginService.kioscoActivo = true;
+                for (let i=0; i<this.cadenasApp.length; i++){
+                  console.log(data[i][7]);
+                  if (data[i][7]=='INACTIVO'){
+                    console.log('desde login (usuario NO logueado) estado Kiosco: '+this.loginService.kioscoActivo);
+                    this.loginService.kioscoActivo = false;
+                    
+                  }
+                }
                 if (this.cadenasApp.length === 1) {
                   this.formulario
                     .get('empresa')
@@ -87,7 +97,23 @@ export class LoginComponent implements OnInit {
         }
       );*/
     } else {
-      this.navigate();
+      // Validar que el Kiosco este activo  
+      this.loginService.kioscoActivo = true;
+      this.cadenasKioskos.getCadenasKioskosEmp(this.usuarioService.grupoEmpresarial)
+      .subscribe(data=>{
+        this.cadenasApp = data;
+        for (let i=0; i<this.cadenasApp.length; i++){
+          console.log(data[i][7]);
+          if (data[i][7]=='INACTIVO'){
+            this.loginService.kioscoActivo = false;
+            this.loginService.mensajeKioscoInactivo = data[i][8];
+            console.log('desde login (usuario logueado) estado Kiosco: '+this.loginService.kioscoActivo);
+          }
+        }
+      });
+      if (this.loginService.kioscoActivo) {
+        this.navigate();
+      }
     }
   }
 
@@ -107,7 +133,7 @@ export class LoginComponent implements OnInit {
       control.markAsTouched();
     });
     if (this.formulario.valid) {
-      this.usuarioService.validarIngresoKioscoSeudonimo(this.formulario.get('usuario').value.toLowerCase(),
+      this.usuarioService.validarIngresoKioscoSeudonimo(this.formulario.get('usuario').value.trim().toLowerCase(),
         this.formulario.get('clave').value,
         this.formulario.get('empresa').value, this.usuarioService.cadenaConexion)
         .subscribe(

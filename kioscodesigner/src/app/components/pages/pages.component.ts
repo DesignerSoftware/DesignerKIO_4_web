@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OpcionesKioskosService } from 'src/app/services/opciones-kioskos.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
 import { LoginService } from 'src/app/services/login.service';
@@ -49,20 +49,35 @@ export class PagesComponent implements OnInit {
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
     //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    let cadenasApp: any;
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
     .subscribe(
       data => {
         //console.log('getInfoUsuario', data);
         //console.log(sesion['grupo']);
         for (let i in data) {
-          if (data[i][3] === sesion['grupo']) { // GRUPO
-          const temp = data[i];
-          ////console.log('cadena: ', temp[4]) // CADENA
-          this.usuarioServicio.cadenaConexion=temp[4];
-          ////console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
-          this.cargarDatosIniciales();
+
+         /* cadenasApp = data;
+          console.log(data[i][7]);
+          if (data[i][7] == 'INACTIVO') {
+            this.loginService.kioscoActivo = false;
+            this.loginService.mensajeKioscoInactivo = data[i][8];
           }
-        }
+          if (!this.loginService.kioscoActivo) {
+            console.log('estado Kiosco (pages): ' + this.loginService.kioscoActivo);
+            //this.navigate();
+          }*/
+
+
+
+          if (data[i][3] === sesion['grupo']) { // GRUPO
+            const temp = data[i];
+            //console.log('cadena: ', temp[4]) // CADENA
+            this.usuarioServicio.cadenaConexion = temp[4];
+            //console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+            this.cargarDatosIniciales();
+          }
+        }  /** Fin for **/
       }
     );
   }
@@ -134,12 +149,7 @@ export class PagesComponent implements OnInit {
   logout() {
     //console.log('cerrar sesion');
     localStorage.removeItem('currentUser');
-    if (this.usuarioServicio.grupoEmpresarial!=null) {
-       this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
-      //this.router.navigate(['/']);
-    } else {
-      this.router.navigate(['/login']);
-    }
+    this.navigate();
     this.loginService.logOut(); // Limpiar datos
   }
 
@@ -250,6 +260,15 @@ export class PagesComponent implements OnInit {
         }
       );
     }
+  }
+
+  navigate(){
+    if (this.usuarioServicio.grupoEmpresarial!=null) {
+      this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
+     //this.router.navigate(['/']);
+   } else {
+     this.router.navigate(['/login']);
+   }
   }
     
 

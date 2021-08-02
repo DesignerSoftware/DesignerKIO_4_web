@@ -53,12 +53,29 @@ export class AusentismosComponent implements OnInit {
           //console.log('cadena: ', temp[4]) // CADENA
           this.usuarioServicio.cadenaConexion=temp[4];
           //console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
-          this.filtrarOpcionesReportes();
+          this.cargarDatosIniciales();
           }
         }
       }
     );
   }  
+
+  cargarDatosIniciales(){
+    this.filtrarOpcionesReportes();
+    this.getOpcionesDiagnosticos();
+  }  
+
+  getOpcionesDiagnosticos(){
+    if (!this.ausentismosService.codigosAusentismos || this.ausentismosService.codigosAusentismos!=null){
+      this.ausentismosService.getCodigosAusentismos(this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
+      .subscribe(
+        data=> {
+          this.ausentismosService.codigosAusentismos = data;
+          console.log(data);
+        }
+      )
+    }
+  }
 
   filtrarOpcionesReportes() {
     let opkTempo: any = [];
@@ -104,15 +121,15 @@ export class AusentismosComponent implements OnInit {
   this.router.navigateByUrl(`/ausentismos`)
  }
 
- imagenVacaciones(opcion: any){
+ imagenAusentismos(opcion: any){
     if (opcion =="Reportar Ausentismo") {
-      return "assets/images/icono_vacaciones1.png";
+      return "assets/images/icono_ausentismos1.png";
     } else if (opcion == "Ver mis ausentismos reportados") {
-      return "assets/images/icono_vacaciones2.png";
-    } else if (opcion=="Procesar Ausentismos") {
-      return "assets/images/icono_vacaciones3.png";
+      return "assets/images/icono_ausentismos2.png";
+    } else if (opcion=="Procesar ausentismos") {
+      return "assets/images/icono_ausentismos3.png";
     } else if (opcion=="Ausentismos procesados"){
-      return "assets/images/icono_vacaciones4.png";
+      return "assets/images/icono_ausentismos4.png";
     } else {
       return "assets/images/reporte.png";
     }

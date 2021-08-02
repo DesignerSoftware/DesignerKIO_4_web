@@ -10,13 +10,9 @@
     <li class="breadcrumb-item active" aria-current="page">Reportar Ausentismo</li>
   </ol>
 </nav>
-<!-- <div class="alert alert-warning" role="alert">
-    Esta página está en construcción
-  </div> -->
-<br>
+
 <div class="container animated fadeIn fast">
 
-  <hr>
   <!-- <form> -->
 
 
@@ -29,110 +25,246 @@
       </h4>
 
       <p class="card-description">
-        Por favor diligencie los campos causa, fecha de inicio y dias de ausentismo para reportar la novedad.
+        Por favor diligencie los siguientes campos del formulario con la información de su ausentismo a reportar.
       </p>
 
-      <form class="form-sample mt-5" [formGroup]="formulario" (ngSubmit)="enviarNovedad()">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="container mb-4" style="margin-left: auto;">
+            <label class="col-sm-12 col-form-label" style="text-align: center;">La persona a cargo de autorizar sus ausentismos es: <b style="color: #00223C;">{{autorizadorVacaciones}}</b></label> 
+          </div>
+        </div>
+      </div> 
+
+      <form class="form-sample mt-1" [formGroup]="formulario" (ngSubmit)="enviarNovedad()">
+        <div class="row">
+          <div class="col-md-6">
+          <p class="text-danger" style="font-size: x-small">* Campos obligatorios</p>
+          </div>
+        </div>
         <div class="row">
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Causa:</label>
+              <label class="col-sm-3 col-form-label" for="causa">Causa: <b class="text-danger">*</b></label>
               <div class="col-sm-9">
-                <select class="form-control form-control-sm" formControlName="causa" id="causa" (change)="cambioSeleccion()"
+                <select class="form-control" formControlName="causa" id="causa" (change)="cambioSeleccion()"
                   title="Seleccione la causa del ausentismo">
                   <option [value]="i" *ngFor="let c of causasAusentismos; index as i">{{c.causa.descripcion}}</option>
                 </select>
+                <small class="text-danger" *ngIf="formulario.get('causa').errors?.required && formulario.get('causa').touched">
+                  Seleccione la causa del ausentismo.
+                </small>
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" *ngIf="false">
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Tipo:</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control form-control-sm" formControlName="tipo" [value]="tipoSelec" title="Tipo de ausentismo" readonly="true" />
+                <input type="hidden" class="form-control form-control-sm" formControlName="tipo" [value]="tipoSelec"
+                  title="Tipo de ausentismo" readonly="true" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="false">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Clase:</label>
+              <div class="col-sm-9">
+                <input type="hidden" class="form-control form-control-sm" formControlName="clase" [value]="claseSelec"
+                  title="Clase de ausentismo" readonly="true" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label" for="codDiag">Cód. diagnóstico:</label>
+              <div class="col-sm-9">
+                <div class="input-group mb-3">
+                  <input id="codDiag" type="text" class="form-control form-control-sm" [placeholder]="!this.habilitaBtnCodDiag ? 'NO APLICA': 'Sin seleccionar'" disabled  formControlName="codigo"
+                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                  <button class="btn btn-primary" type="button" id="button-addon2" (click)="mostrarListaCod()"  [attr.disabled]="!habilitaBtnCodDiag ? true : null">Mostrar
+                    códigos</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Clase:</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control form-control-sm" formControlName="clase" [value]="claseSelec"  title="Clase de ausentismo" readonly="true" />
+              <label class="col-sm-4 col-12 col-form-label">Días: <span class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <input type="number" class="form-control form-control-sm" formControlName="dias"
+                  title="Digite el número de días de la novedad de ausentismo." min="1"/>
+                  <small class="text-danger" *ngIf="formulario.get('dias').errors?.required && formulario.get('dias').touched">
+                    Seleccione la cantidad de días del ausentismo.
+                  </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group row">
+              <label class="col-sm-5 col-form-label">Fecha inicio ausentismo: <span class="text-danger">*</span></label>
+              <div class="col-sm-7">
+                <input type="date" class="form-control form-control-sm" formControlName="fechainicio"
+                  title="Seleccione el día que inicia el ausentismo" />
+                  <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched">
+                    Seleccione la fecha de inicio del ausentismo.
+                  </small>
               </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group row">
-              <label class="col-sm-5 col-form-label">Cód. diagnóstico:</label>
+              <label class="col-sm-5 col-form-label">Fecha fin ausentismo:</label>
               <div class="col-sm-7">
-                <input type="text" class="form-control
-                              form-control-sm" formControlName="codigo" title="Digite el código de diagnóstico de enfermedad proporcionado por la entidad médica." />
-              </div>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group row">
-              <label class="col-sm-5 col-form-label">Días:</label>
-              <div class="col-sm-7">
-                <input type="number" class="form-control
-                              form-control-sm" formControlName="dias" title="Digite el número de días de la novedad de ausentismo." />
-              </div>
-            </div>
-          </div>         
-        </div>
-
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Fecha inicio ausentismo:</label>
-              <div class="col-sm-9">
-                <input type="date" class="form-control form-control-sm" formControlName="fechainicio"
-                  title="Seleccione el día que inicia el ausentismo" />
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Fecha fin ausentismo:</label>
-              <div class="col-sm-9">
                 <input type="text" class="form-control form-control-sm" formControlName="fechafin" readonly="true"
                   title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
               </div>
             </div>
           </div>
         </div>
-       
-      <div class="row"> 
-        <div class="col-md-12">
-          <div class="form-group row">
-            <div>
-              <label for="formFileLg" class="form-label">Large file input example</label>
-              <input class="form-control form-control-lg" id="formFileLg" type="file">
+
+
+
+        <div class="row">
+          <div class="col-12 form-group">
+            <div class="">
+              <input type="checkbox" id="exampleCheck1" formControlName="prorroga" (change)="validarCheckProrroga()">
+              <label class="form-check-label" style="margin-left: 5px; margin-bottom: 0px !important;"
+                for="exampleCheck1" title="Seleccione este campo si el ausentismo que está reportando es prórroga">¿Es
+                prórroga de otra incapacidad?</label>
             </div>
           </div>
         </div>
-      </div>
 
-       <div class="row">
-        <div class="col-md-2">
-          <label class="form-label form-control-sm">Documento anexo:</label>
-        </div>
-        <div class="col-md-10">
-          <input class="form-control form-control-lg" id="formFileLg" type="file">
-        </div>
-      </div>
-
-        <div class="row">
-          <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="customCheckProrroga"
-                  formControlName="enviocorreo">
-              <label class="custom-control-label" for="customCheckProrroga">Es prorroga de otra incapacidad</label>
+        <p>
+          <a *ngIf="(!prorrogaSeleccionada || prorrogaSeleccionada==null) && this.formulario.get('prorroga').value==true" class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Seleccionar Prórroga</a>
+        </p>
+        <div class="row" *ngIf="(!prorrogaSeleccionada || prorrogaSeleccionada==null) && this.formulario.get('prorroga').value==true">
+          <div class="col-12 table-responsive">
+            <div class="collapse multi-collapse" id="multiCollapseExample1">
+              <div class="card card-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Causa</th>
+                      <th scope="col">Código</th>
+                      <th scope="col">Diagnóstico</th>
+                      <th scope="col">Fecha inicial</th>
+                      <th scope="col">Fecha final</th>
+                      <th scope="col">Días</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <tr>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                      <td><button class="btn btn-primary" (click)="seleccionaPro('1')">Seleccionar</button></td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-      </div>
+        </div>
+
+        <div class="card card-body table-responsive" *ngIf="prorrogaSeleccionada || prorrogaSeleccionada!=null">
+          <h5 style="color: #008f39">Prórroga Seleccionada: </h5>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Causa</th>
+                <th scope="col">Código</th>
+                <th scope="col">Diagnóstico</th>
+                <th scope="col">Fecha inicial</th>
+                <th scope="col">Fecha final</th>
+                <th scope="col">Días</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td><button class="btn btn-danger" (click)="quitarSeleccionPro()">Quitar selección</button></td>
+                
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Observaciones:</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"  formControlName="observaciones"></textarea>
+        </div>
+
+        <div class="form-group" *ngIf="false">
+          <label>Documento anexo</label>
+          <input type="file" name="img[]" class="file-upload-default" id="fileno" max-size="2000" accept="application/pdf" (change)="onFileSelect($event)">
+          <div class="input-group col-xs-12">
+            <input type="text" class="form-control file-upload-info" disabled placeholder="Seleccione un archivo PDF">
+            <span class="input-group-append">
+              <button class="file-upload-browse btn btn-primary" type="button">Seleccionar</button>
+            </span>
+          </div>
+          <div class="text-center">
+            <small class="text-danger mt-2">
+              {{msjValidArchivoAnexo}}
+            </small>
+           </div>
+        </div>
+
+        <div class="form-group" *ngIf="true">
+          <div>
+            <label for="formFileLg" class="form-label">Documento anexo:</label>
+            <input class="form-control form-control-lg" type="file" id="file" max-size="2000" accept="application/pdf" (change)="onFileSelect($event)">
+          </div>
+          <div>
+            <small class="text-danger mt-2">
+              {{msjValidArchivoAnexo}}
+            </small>
+           </div>
+        </div>
+
+        <div class="row" *ngIf="false">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <div>
+                <label for="formFileLg" class="form-label">Documento anexo:</label>
+                <input class="form-control form-control-lg" id="formFileLg" type="file">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="false">
+          <div class="col-md-2">
+            <label class="form-label form-control-sm ">Documento anexo:</label>
+          </div>
+          <div class="col-md-10">
+            <input class=" anexo" id="formFile" type="file" formControlName="anexo">
+          </div>
+        </div>
+
+        <br>
+
+
+
 
         <div class="row">
           <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
@@ -140,7 +272,8 @@
           </div>
 
           <div class="col-sm-6 col-12" id="btnCancelar">
-            <button type="button" class="btn btn-outline-danger btn-lg" style="width: 200px;" [routerLink]="['/ausentismos']">Cancelar</button>
+            <button type="button" class="btn btn-outline-danger btn-lg" style="width: 200px;"
+              [routerLink]="['/ausentismos']">Cancelar</button>
           </div>
         </div>
 
@@ -153,6 +286,67 @@
 
 
 
-
-
 </div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content container">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Códigos de diagnóstico</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <p>Seleccione el código de ausentismo relacionado a su incapacidad: </p>
+
+        <div class="input-group mb-3 ">
+        <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+        aria-label="Buscar..." aria-describedby="basic-addon2">
+        <span class="input-group-text" id="basic-addon2">Filtrar</span>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="table table-hover" style="text-align: center;">
+            <thead style="background: #00223C; color: white;">
+              <tr id="tblfamiliares">
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Seleccionar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="ausentismosService.codigosAusentismos==null">
+                <td colspan="6">Cargando códigos de ausentismo...</td>
+              </tr>        
+              <tr *ngIf="!ausentismosService.codigosAusentismos || (ausentismosService.codigosAusentismos!=null && ausentismosService.codigosAusentismos.length==0)">
+                <td colspan="6">No hay solicitudes enviadas.</td>
+              </tr>
+              <tr
+                *ngFor="let solic of ausentismosService.codigosAusentismos | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
+                <td>{{solic[1]}}</td>
+                <td>{{solic[2]}}</td>
+                <td><button type="button" class="btn btn-primary" (click)="seleccionarCodDiag(solic[0], solic[1], solic[2], i)">Seleccionar</button></td>
+              </tr>
+            </tbody>
+        
+          </table>
+          <div class="col-md-12">
+            <pagination-controls (pageChange)="p1 = $event" id="second" style="text-align: center;"
+              class="col-sm-12" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+          </div>
+        </div>
+        
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Cierre Modal -->

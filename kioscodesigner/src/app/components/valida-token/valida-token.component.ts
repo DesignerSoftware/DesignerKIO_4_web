@@ -52,7 +52,7 @@ export class ValidaTokenComponent implements OnInit {
                     this.usuarioService.inactivaToken(this.token, this.usuarioService.empresa, this.usuarioService.cadenaConexion).subscribe(
                       (data) => {
                         if (data['modificado'] === true) {
-                          console.log('Se ha inhabilita el token');
+                          console.log('Se ha inhabilitado el token');
                           this.mensaje1 = '¡Felicitaciones!';
                           this.mensaje2 =
                             'Tu cuenta se ha validado correctamente y ya puedes ingresar a tu Kiosco.';
@@ -73,6 +73,7 @@ export class ValidaTokenComponent implements OnInit {
             } else {
               this.respuesta = true;
               this.mensaje2 = data['mensaje'];
+              
               /*swal.fire({
                 icon: 'error',
                 title: data['mensaje'],

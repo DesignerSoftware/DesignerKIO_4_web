@@ -1,0 +1,52 @@
+.anexo{
+    padding: 10px !important;
+    border: 0px !important;
+    background-color: white !important;
+    
+
+}
+
+.anexo + label {
+    color: #c39f77;
+}
+
+#formFileLg2 {
+    background: blue;
+}
+
+#formFileLg2 ::before {
+    background-color: black;
+}
+
+#formFileLg2 ::after {
+    background-color: green;
+}
+
+input #file-upload-button{
+    background: blue !important;
+}
+
+
+.custom-input-file {
+    background-color: #941B80;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    
+    margin: 0 auto 0;
+    
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    
+  }
+  
+  @media(max-width: 575px) {
+    #btnEnviar, #btnCancelar {
+        text-align: center !important;
+    }
+
+    #btnCancelar {
+        margin-top: 5px;
+    }
+}
