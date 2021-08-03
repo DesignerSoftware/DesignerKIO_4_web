@@ -20,6 +20,10 @@ export class ReportesComponent implements OnInit {
   enviocorreo: boolean;
   correo: string = null;
   dirigidoa: string = null;
+  reporteHorasExtra = null;
+  reporteAusentismos = null;
+  temp = null;
+  numero = null;
 
   constructor(
     private opcionesKioskosServicio: OpcionesKioskosService,
@@ -57,7 +61,7 @@ export class ReportesComponent implements OnInit {
     .subscribe(
       data => {
         console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
+        console.log(sesion['grupo'])
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];
@@ -136,13 +140,19 @@ export class ReportesComponent implements OnInit {
           console.log("opciones Consultadas", data);
           opkTempo = data;
           this.reporteServicio.opcionesReportes = opkTempo.filter(
-            (opcKio) => opcKio["clase"] === "REPORTE"
+          (opcKio) => opcKio["clase"] === "REPORTE" && opcKio['kiorol']['nombre']==="EMPLEADO"
+          );
+          this.reporteHorasExtra = opkTempo.filter(//Variable creada para agregar aparte el reporte del jefe 
+            (opcKio) => opcKio["clase"] === "REPORTE" && opcKio['kiorol']['nombre']==="JEFE"
           );
           // console.log('filter 1', this.opcionesReportes[0]['SUBOPCION']);
           console.log(
             "opciones filtradas reportes ",
             this.reporteServicio.opcionesReportes
           );
+          this.temp = this.reporteServicio.opcionesReportes.concat(this.reporteHorasExtra)
+          console.log("completa :",this.temp);
+          console.log("completa :",this.temp.length)
         });
     } else {
       /*opkTempo = this.opcionesKioskosServicio.opcionesKioskos;
@@ -167,16 +177,16 @@ export class ReportesComponent implements OnInit {
 
   seleccionarReporte(index: number) {
     console.log("seleccionarReporte");
-    console.log("opcionesActuales", this.reporteServicio.opcionesReportes);
+    console.log("opcionesActuales", this.temp);
     console.log(index);
-    this.reporteServicio.reporteSeleccionado = this.reporteServicio.opcionesReportes[
+    this.reporteServicio.reporteSeleccionado = this.temp[
       index
     ];
     // this.router.navigateByUrl(`/reportes/${index}`);
-    this.reporteServicio.codigoReporteSeleccionado = this.reporteServicio.opcionesReportes[
+    this.reporteServicio.codigoReporteSeleccionado = this.temp[
       index
     ]["codigo"];
-    this.reporteServicio.nombreReporteSeleccionado = this.reporteServicio.opcionesReportes[
+    this.reporteServicio.nombreReporteSeleccionado = this.temp[
       index
     ]["descripcion"];
   }
@@ -347,7 +357,7 @@ export class ReportesComponent implements OnInit {
         }
       });
   }
-
+/////////////////////////////////////////////////////////////////generar reporte 
   descargarReporte() {
     console.log("cadenaReporte: ", this.usuarioServicio.cadenaConexion);
     this.fechaDesde = this.formulario.get("fechadesde").value;

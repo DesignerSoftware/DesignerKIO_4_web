@@ -1,43 +1,126 @@
-<!--<div class="page-header animated fadeIn slow">
-    <h3 class="page-title">
-        Procesar ausentismos pendientes <span class="badge badge-info" *ngIf="false">3</span>
-    </h3>
-  </div>
+<div class="page-header animated fadeIn slow">
+  <h3 class="page-title">
+    Procesar solicitudes pendientes<span class="badge badge-info" *ngIf="false">3</span>
+  </h3>
+</div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/ausentismos']">Ausentismos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Procesar solicitudes</li>
+  </ol>
+</nav>
+
+<div class="container">
+  <br>
+  <p *ngIf="vacacionesService.SolicitudesJefe && this.vacacionesService.SolicitudesJefe.length<=0" class="text-center">
+    No hay solicitudes pendientes por procesar.</p>
+  <div class="" id="">
+
+    <!--<div class="card card1" *ngFor="let op of vacacionesService.SolicitudesJefe; index as i"
+        style="text-align: center;">
+        <div class="card-body card_hover">
+          <img id="fotoPerfilEmpl" [src]="cargaFoto(op[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile"
+            alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+          <br>
+          <br>
+          <h6 class="card-title text-muted">{{op[1]}}</h6>
+          <h6 class="text-muted">{{op[0]}}</h6>
+          <hr>
+          <p class="card-text">Fecha inicio Vacaciones: {{op[4]}}</p>
+          <p>Fecha fin vacaciones: {{op[12]}}</p>
+          <p>Fecha regreso a laborar: {{op[13]}}</p>
+          <p>Días: {{op[14]}}</p>
+          <button (click)="detalleSolicitud(i)" type="button" class="btn btn-outline-primary" data-toggle="modal"
+            data-target="#exampleModalCenter" *ngIf="vacacionesService.SolicitudesJefe">PROCESAR</button>
   
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/ausentismos']">Ausentismos</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Procesar ausentismos</li>
-    </ol>
-  </nav>
-  
-  <div class="container" >
-    <br>
-    <p *ngIf="ausentismosService.SolicitudesJefe && this.ausentismosService.SolicitudesJefe.length<=0" class="text-center">No hay ausentismos pendientes por procesar.</p>
-            <div class="card-deck" id="">
-              <div class="card card1" *ngFor="let op of ausentismosService.SolicitudesJefe; index as i" style="text-align: center;">
-                <div class="card-body card_hover">
-                  <img id="fotoPerfilEmpl" [src]="cargaFoto(op[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
-                  <br>
-                  <br>
-                  <h6 class="card-title text-muted">{{op[1]}}</h6>
-                    <h6 class="text-muted">{{op[0]}}</h6>
-                  <hr>
-                  <p class="card-text">Fecha inicio Vacaciones: {{op[4]}}</p>
-                  <p>Fecha fin vacaciones: {{op[12]}}</p>
-                  <p>Fecha regreso a laborar: {{op[13]}}</p>
-                  <p>Días: {{op[14]}}</p>
-                  <button  (click)="detalleSolicitud(i)" type="button" class="btn btn-outline-primary"
-                   data-toggle="modal" data-target="#exampleModalCenter" *ngIf="ausentismosService.SolicitudesJefe">PROCESAR</button>
+          <p class="card-text" style="margin-top: 5px;"><small class="text-muted">Ultima modificación {{op[5]}}</small>
+          </p>
+        </div>
+      </div>-->
+
+    <div class="list-group" *ngIf="vacacionesService.SolicitudesJefe && vacacionesService.SolicitudesJefe.length!==0">
+      <a class="list-group-item list-group-item-action active" aria-current="true">
+
+      </a>
+
+      <!---->
+
+
+      <div class="table-responsive">
+        <table class="table table-hover" style="text-align: center;">
+          <thead style="background: #00223C; color: white;">
+          </thead>
+          <tbody class="cuerpo">
+            <tr
+              *ngFor="let op of vacacionesService.SolicitudesJefe | filterTable: dataFilt | paginate: {  itemsPerPage: 2, currentPage: p1, id: 'second' } ; index as i  ">
+
+              <td>
+                <a (click)="detalleSolicitud(i)" data-toggle="modal" data-target="#exampleModalCenter"
+                  class="list-group-item list-group-item-action puntero">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="col-12 col-md-1 float-left">
+                        <div class="">
+                          <img id="fotoPerfilEmpl"
+                            [src]="cargaFoto(op[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile"
+                            alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-11 float-left">
+                        <div class="col-12 float-left">
+                          <div class="col-12 col-md-3 col-sm-6 col-xs-12  sep float-left">
+                            <h6 class="">{{op[1]}}</h6>
+                          </div>
+                          <div class="col-12 col-md-2 col-sm-6 col-xs-12 sep float-left">
+                            <p class="">{{op[0]}}</p>
+                          </div>
+                          <div class="col-12 col-md-2 col-sm-6  col-xs-12 sep float-left">
+                            <p class="">Fecha inicio ausentismo: {{op[4]}}</p>
+                          </div>
+                          <div class="col-12 col-md-2 col-sm-6 col-xs-12 sep float-left">
+                            <p>Fecha fin ausentismo: {{op[12]}}</p>
+                          </div>
+                          <div class="col-12 col-md-2 col-sm-6 col-xs-12 sep float-left">
+                            <p>Motivo ausentismo: {{op[12]}}</p>
+                          </div>
+                          <div class="col-12 col-md-1 col-sm-6 col-xs-12 sep float-left">
+                            <p>Dias: {{op[14]}}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <!--<div class="float-left info">
+          <button (click)="detalleSolicitud(i)" type="button" class="btn btn-outline-primary" data-toggle="modal"
+            data-target="#exampleModalCenter" *ngIf="vacacionesService.SolicitudesJefe">PROCESAR</button>
+          </div>-->
+                  </div>
+
+                </a>
+              </td>
+
+            </tr>
+          </tbody>
+
+        </table>
+        <div class="col-md-12">
+          <pagination-controls (pageChange)="p1 = $event" id="second" style="text-align: center;" class="col-sm-12"
+            previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+        </div>
+      </div>
+
+      <!---->
+
+
+
+    </div>
+
     
-                  <p class="card-text" style="margin-top: 5px;"><small class="text-muted">Ultima modificación {{op[5]}}</small></p>
-                </div>
-              </div>
-              
-            -->
-    
+
     <!-- Modal -->
- <!--  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -46,41 +129,197 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-                <div class="modal-body animated fadeIn slow">
-                  <div class="card" style="text-align: center;">
-                    <div class="card-body">
-                      <img  id="fotoPerfil2" [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
-    
-                      <hr>
-                      <h6>ACCIONES PERMITIDAS</h6><br>
-                      <form [formGroup]="formulario">
-                        <p>Motivo:</p>
-                        <textarea id="form7" class="md-textarea form-control" rows="3" cols="12"  formControlName="motivo"
-                          placeholder="Este campo es obligatorio para el caso de que rechace la solicitud."></textarea>
-                        <br>
-                        <div class="row">
-                          <div class="col-sm-6 col-12" id="btnEnviar">
-                            <button type="button" class="btn btn-outline-primary" (click)="aprobarEnvio()" style="width: 122px;"
-                              data-toggle="modal" data-target="#exampleModalCenter">APROBAR</button>
-                          </div>
-                          <div class="col-sm-6 col-12" id="btnCancelar">
-                            <button type="button" style="width: 122px;" (click)="rechazarEnvio()"
-                              class="btn btn-outline-danger">RECHAZAR</button>
-                          </div>
-                        </div>
-                      
-                      </form>
+          <div class="modal-body animated fadeIn slow">
+            <div class="card" style="text-align: center;">
+              <div class="card-body">
+                <img id="fotoPerfil2"
+                  [src]="cargaFoto(solicitudSeleccionada[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="..."
+                  style=" width: 70px; height: 70px; border-radius: 50%;">
+                <h6 class="card-title text-muted" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]}}</h6>
+                <h6 class="text-muted" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0]}}</h6>
+                <p class="card-text" *ngIf="solicitudSeleccionada" id="fechaSolici"><small class="text-muted">Fecha
+                    solicitud:{{solicitudSeleccionada[3]}}</small></p>
+                <hr id="hrSolici">
+                <!--<p *ngIf="solicitudSeleccionada">Fecha inicio ausentismo: {{solicitudSeleccionada[12]}}</p>
+                <p *ngIf="solicitudSeleccionada">Fecha fin ausentismo: {{solicitudSeleccionada[12]}}</p>
+                <p *ngIf="solicitudSeleccionada">Días: {{solicitudSeleccionada[14]}}</p>
+                <p *ngIf="solicitudSeleccionada">Causa: MATERNIDAD-PATERNIDAD</p>
+                <p *ngIf="solicitudSeleccionada">Tipo: INCAPACIDADES</p>
+                <p *ngIf="solicitudSeleccionada">Clase: REMINERADAS</p>
+                <p *ngIf="solicitudSeleccionada">Codigo: N179</p>
+                <p *ngIf="solicitudSeleccionada">Descripcion: INSUFICIENCIA RENAL AGUDA, NO ESPECIFICADA</p>
+                <p *ngIf="solicitudSeleccionada !=null">Prorroga: {{solicitudSeleccionada[12]}}</p>
+                <p *ngIf="solicitudSeleccionada !=null">Descripcion: {{solicitudSeleccionada[17]}}</p>
+                <p *ngIf="solicitudSeleccionada ">Jefe inmediato: {{solicitudSeleccionada[16]}} </p>
+                --> 
+                <table class="table table-bordered">
+                  <tbody class="tabla">
+                    <tr>
+                      <th class="text-left">Fecha inicio ausentismo:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12]}}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-left">Fecha fin ausentismo:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12]}}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-left">Días:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[14]}}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-left">Causa:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{'MATERNIDAD-PATERNIDAD'}}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-left">Tipo:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{'INCAPACIDADES'}}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-left">Clase:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{'REMINERADAS'}}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-left">Codigo:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{'N179'}}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-left">Descripcion:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{'INSUFICIENCIA RENAL AGUDA, NO ESPECIFICADA'}}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-left">Prorroga:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12]}}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-left">Jefe inmediato:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[16]}}</td>
+                    </tr>
+                </table>
+                <!--<div class="miTable">
+                  <div class="row">
+                    <div class="col-6 float-left izq">
+                      <p *ngIf="solicitudSeleccionada" >Fecha inicio ausentismo:</p>
+                    </div>
+                    <div class="col-6 float-left drch">
+                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[12]}}</p>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col-6 float-left izq">
+                      <p *ngIf="solicitudSeleccionada" >Fecha fin ausentismo:</p>
+                    </div>
+                    <div class="col-6 float-left drch">
+                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[12]}}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 float-left izq">
+                      <p *ngIf="solicitudSeleccionada" >Días:</p>
+                    </div>
+                    <div class="col-6 float-left drch">
+                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[14]}}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 float-left izq">
+                      <p *ngIf="solicitudSeleccionada" >Causa:</p>
+                    </div>
+                    <div class="col-6 float-left drch">
+                      <p *ngIf="solicitudSeleccionada" >MATERNIDAD-PATERNIDAD</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 float-left izq">
+                      <p *ngIf="solicitudSeleccionada" >Tipo:</p>
+                    </div>
+                    <div class="col-6 float-left drch">
+                      <p *ngIf="solicitudSeleccionada" >INCAPACIDADES</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 float-left izq">
+                      <p *ngIf="solicitudSeleccionada" >Clase:</p>
+                    </div>
+                    <div class="col-6 float-left drch">
+                      <p *ngIf="solicitudSeleccionada" >REMINERADAS</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 float-left izq">
+                      <p *ngIf="solicitudSeleccionada" >Codigo:</p>
+                    </div>
+                    <div class="col-6 float-left drch">
+                      <p *ngIf="solicitudSeleccionada" >N179</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 float-left izq">
+                      <p *ngIf="solicitudSeleccionada" >Descripcion:</p>
+                    </div>
+                    <div class="col-6 float-left drch">
+                      <p *ngIf="solicitudSeleccionada" >INSUFICIENCIA RENAL AGUDA, NO ESPECIFICADA</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 float-left izq">
+                      <p *ngIf="solicitudSeleccionada" >Prorroga:</p>
+                    </div>
+                    <div class="col-6 float-left drch">
+                      <p *ngIf="solicitudSeleccionada" >Si</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 float-left" id="izqUlt">
+                      <p *ngIf="solicitudSeleccionada" >Jefe inmediato:</p>
+                    </div>
+                    <div class="col-6 float-left" id="drchUlt">
+                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[16]}}</p>
+                    </div>
+                  </div>
+
+                </div>-->
+               <br>
+
+                <div class="row">
+                  <div class="col-sm-12 col-12" id="btnDescargar">
+                    <button type="button" class="btn btn-outline-dark" (click)="descargarArchivo()">DESCARGAR ANEXO
+                      <i class="fas fa-download"></i>
+                    </button>
+                    <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">click para descargar
+                        documento anexo</small></p>
+                  </div>
+                </div>
+                <hr>
+                <h6>ACCIONES PERMITIDAS</h6><br>
+                <form [formGroup]="formulario" >
+                  <p>Motivo:</p>
+                  <textarea id="form7" class="md-textarea form-control" rows="3" cols="12" formControlName="motivo"
+                    placeholder="Este campo es obligatorio para el caso de que rechace la solicitud."></textarea>
+                  <br>
+
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-6 col-12" id="btnEnviar">
+                      <button type="button" class="btn btn-outline-primary" (click)="aprobarEnvio()"
+                        style="width: 122px;" data-toggle="modal" data-target="#exampleModalCenter">APROBAR</button>
+                    </div>
+                    <div class="col-sm-6 col-12" id="btnCancelar">
+                      <button type="button" style="width: 122px;" (click)="rechazarEnvio()"
+                        class="btn btn-outline-danger">RECHAZAR</button>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
-    
+
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-    
+
           </div>
         </div>
       </div>
     </div>
-    
-    </div>
-  -->
+
+  </div>

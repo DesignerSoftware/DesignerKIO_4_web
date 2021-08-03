@@ -32,6 +32,8 @@ export class UsuarioService {
   datosEstudios = null;
   datosEstudiosNF = null;
   datosExperienciaLab = null;
+  urlActiva = null;
+  tipoUsuario = null;
   urlKioscoDomain = "https://www.designer.com.co:8179";
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
   //public url = `https://www.designer.com.co:8178/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg?cadena=${this.cadenaConexion}`;
@@ -403,5 +405,7 @@ export class UsuarioService {
     this.datosEstudios = null;
     this.datosEstudiosNF = null;
     this.datosExperienciaLab = null;
+    this.urlActiva = null;
+    this.tipoUsuario = null;
   }
 }

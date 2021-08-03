@@ -12,6 +12,7 @@ import { ValidaTokenComponent } from './components/valida-token/valida-token.com
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AboutComponent } from './components/pages/about/about.component';
 import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 import { CambioFotoComponent } from './components/pages/cambio-foto/cambio-foto.component';
 import { FaqComponent } from './components/pages/faq/faq.component';
 import { FAQGENERALESComponent } from './components/faqgenerales/faqgenerales.component';
@@ -40,7 +41,7 @@ const APP_ROUTES: Routes = [
     // Rutas secundarias
     {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
     {path: 'home2', component: Home2Component, canActivate: [AuthGuard]},    
-    {path: 'kioDatoPersonal', component: DatosPersonalesComponent, canActivate: [AuthGuard]},
+    {path: 'kioDatoPersonal', component: DatosPersonalesComponent, canActivate: [AuthGuard,RoleGuard]},
     {path: 'cambioClave', component: CambioClaveComponent, canActivate: [AuthGuard]},
     {path: 'cambioFoto', component: CambioFotoComponent, canActivate: [AuthGuard]},
     {path: 'reportes', component: ReportesComponent },
@@ -49,15 +50,15 @@ const APP_ROUTES: Routes = [
     {path: 'about', component: AboutComponent, canActivate: [AuthGuard]},
     {path: 'contacto', component: ContactoComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones', component: VacacionesComponent, canActivate: [AuthGuard]},
-    {path: 'vacaciones/crearSolicitud', component: CrearSolicitudComponent, canActivate: [AuthGuard]},
+    {path: 'vacaciones/crearSolicitud', component: CrearSolicitudComponent, canActivate: [AuthGuard && ( RoleGuard )]},
     {path: 'vacaciones/verSolicitudesPropias', component: VerSoliciEmpleadosComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones/procesarSolicitudes', component: ProcesarSoliciComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones/solicitudesProcesadas', component: SoliProcesadasComponent, canActivate: [AuthGuard]},
     {path: 'vacaciones/procesarSolicitudesAutorizador', component: VerSoliciSinProcPersonaComponent, canActivate: [AuthGuard]},    
     {path: 'vacaciones/solicitudesProcesadasAutorizador', component: VerSoliciProcPersonaComponent, canActivate: [AuthGuard]},
-    {path: 'infoEstudios', component: InfoEstudiosComponent, canActivate: [AuthGuard]},
-    {path: 'infoExperienciaLab', component: InfoExperienciaComponent, canActivate: [AuthGuard]},
-    {path: 'ausentismos', component: AusentismosComponent, canActivate: [AuthGuard]},
+    {path: 'infoEstudios', component: InfoEstudiosComponent, canActivate: [RoleGuard , AuthGuard] },
+    {path: 'infoExperienciaLab', component: InfoExperienciaComponent, canActivate: [AuthGuard,RoleGuard]},
+    {path: 'ausentismos', component: AusentismosComponent, canActivate: [AuthGuard && ( RoleGuard )]},
     {path: 'ausentismos/reportarAusentismo', component: ReportarAusentismoComponent, canActivate: [AuthGuard]},
     {path: 'ausentismos/verAusentismosReportados', component: VerAusentismosReportadosComponent, canActivate: [AuthGuard]},
     {path: 'ausentismos/procesarAusentismos', component: ProcesarAusentismosComponent, canActivate: [AuthGuard]},

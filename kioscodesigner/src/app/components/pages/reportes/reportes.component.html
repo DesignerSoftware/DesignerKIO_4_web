@@ -145,3 +145,63 @@
         </div>
     </div>
 </div>
+
+<div *ngIf="!reporteServicio.reporteSeleccionado && reporteHorasExtra && reporteHorasExtra.length!==0">
+    <div class="page-header animated fadeIn fast">
+        <h3 class="page-title">
+            Reportes Horas Extras
+        </h3>
+    </div>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="['/reportes']" (click)="limpiarSeleccionado()">Reportes</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{reporteServicio.reporteSeleccionado &&
+                reporteServicio.reporteSeleccionado['descripcion'] || ''}}</li>
+    </ol>
+    </nav>
+    <div class="col-md-12 col-sm-12 grid-margin stretch-card"
+        *ngIf="reporteHorasExtra && reporteHorasExtra.length==0">
+        <div class="loader-demo-box" style="border: 0px !important;">
+            <div class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <p
+        *ngIf="!reporteServicio.reporteSeleccionado && reporteHorasExtra && reporteHorasExtra.length!==0">
+        Seleccione el reporte que desea generar</p>
+    <div class="row animated fadeIn fast"
+        *ngIf="!reporteServicio.reporteSeleccionado && reporteHorasExtra && reporteHorasExtra.length!==0">
+        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card"
+            *ngFor="let rhe of reporteHorasExtra">
+            <div class="card" id="divReportes">
+                <div class="card-body">
+                    <div class="d-flex flex-row">
+                        <img [src]="imagenReporte(rhe['nombreruta']) || 'assets/images/reporte.png'" class="img-lg rounded img-fluid" alt="profile image" />
+                        <div class="ml-3 d-flex align-items-center">
+                            <h6>{{ rhe['descripcion'] || ''}}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <button type="button" class="btn btn-outline-primary"
+                        (click)="seleccionarReporte(temp.length-1)">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12 grid-margin stretch-card"
+        *ngIf="reporteHorasExtra && reporteHorasExtra.length==0">
+        <div class="loader-demo-box" style="border: 0px !important;">
+            <div class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</div>

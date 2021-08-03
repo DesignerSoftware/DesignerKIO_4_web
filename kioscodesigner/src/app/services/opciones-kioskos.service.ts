@@ -15,7 +15,7 @@ export class OpcionesKioskosService {
     // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
     //const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opciones?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
     const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opciones`;
-    //console.log(url);
+    console.log(url);
     return this.http.get(url, {
       params: {
         seudonimo,

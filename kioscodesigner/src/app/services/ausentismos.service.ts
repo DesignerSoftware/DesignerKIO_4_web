@@ -9,6 +9,8 @@ export class AusentismosService {
 
   opciones: any = [];
   codigosAusentismos = null;
+  SolicitudesJefe=null;
+
 
   constructor(public http: HttpClient) { }
 
@@ -23,6 +25,29 @@ export class AusentismosService {
         cadena
       }
     });
+  }
+  getSoliciSinProcesarJefe(nit: string, seudonimo: string, estado: string, cadena: string) {
+    //const url = `${environment.urlKioskoReportes}vacacionesPendientes/soliciSinProcesarJefe/${nit}/${seudonimo}/${estado}?cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/soliciSinProcesarJefe/${nit}/${seudonimo}/${estado}`;
+    ////console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        cadena
+      }
+    });
+  }
+  setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, secuencia: string, motivo: string, urlKiosco: string, grupoEmpr: string) {
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
+    //console.log('url:' + url);
+    return this.http.post(url, []);
+  }
+
+  getAnexoAusentismo(anexo: string, empresa: string, cadena: string) {
+    // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
+    //const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opcionesMenu?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}reportes/obtenerAnexo?anexo=${anexo}&cadena=${cadena}&nitempresa=${empresa}`;
+    ////console.log(url);
+    return this.http.get(url, { responseType: 'blob' });
   }
 
   getCodigosAusentismos(empresa: string, cadena: string) {
