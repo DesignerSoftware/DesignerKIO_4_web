@@ -13,33 +13,39 @@
 
 <div class="container">
   <br>
-  <p *ngIf="vacacionesService.SolicitudesJefe && this.vacacionesService.SolicitudesJefe.length<=0" class="text-center">
+  <div class="alert alert-secondary text-center" 
+      *ngIf="!ausentismoService.SolicitudesJefe || ausentismoService.SolicitudesJefe.length<=0 || ausentismoService.SolicitudesJefe == null"
+      role="alert">
+      No hay solicitudes pendientes por procesar.
+  </div>
+  <!--
+  <p  class="text-center">
     No hay solicitudes pendientes por procesar.</p>
-  <div class="" id="">
+  <div class="" id="">-->
 
-    <!--<div class="card card1" *ngFor="let op of vacacionesService.SolicitudesJefe; index as i"
+    <!--<div class="card card1" *ngFor="let op of ausentismoService.SolicitudesJefe; index as i"
         style="text-align: center;">
         <div class="card-body card_hover">
           <img id="fotoPerfilEmpl" [src]="cargaFoto(op[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile"
             alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
           <br>
           <br>
-          <h6 class="card-title text-muted">{{op[1]}}</h6>
-          <h6 class="text-muted">{{op[0]}}</h6>
+          <h6 class="card-title text-muted">{{op[1] || 'N/A' }}</h6>
+          <h6 class="text-muted">{{op[0] || 'N/A' }}</h6>
           <hr>
-          <p class="card-text">Fecha inicio Vacaciones: {{op[4]}}</p>
-          <p>Fecha fin vacaciones: {{op[12]}}</p>
-          <p>Fecha regreso a laborar: {{op[13]}}</p>
-          <p>Días: {{op[14]}}</p>
+          <p class="card-text">Fecha inicio Vacaciones: {{op[4] || 'N/A' }}</p>
+          <p>Fecha fin vacaciones: {{op[12] || 'N/A' }}</p>
+          <p>Fecha regreso a laborar: {{op[13] || 'N/A' }}</p>
+          <p>Días: {{op[14] || 'N/A' }}</p>
           <button (click)="detalleSolicitud(i)" type="button" class="btn btn-outline-primary" data-toggle="modal"
-            data-target="#exampleModalCenter" *ngIf="vacacionesService.SolicitudesJefe">PROCESAR</button>
+            data-target="#exampleModalCenter" *ngIf="ausentismoService.SolicitudesJefe">PROCESAR</button>
   
-          <p class="card-text" style="margin-top: 5px;"><small class="text-muted">Ultima modificación {{op[5]}}</small>
+          <p class="card-text" style="margin-top: 5px;"><small class="text-muted">Ultima modificación {{op[5] || 'N/A' }}</small>
           </p>
         </div>
       </div>-->
 
-    <div class="list-group" *ngIf="vacacionesService.SolicitudesJefe && vacacionesService.SolicitudesJefe.length!==0">
+    <div class="list-group" *ngIf="ausentismoService.SolicitudesJefe && ausentismoService.SolicitudesJefe.length!==0">
       <a class="list-group-item list-group-item-action active" aria-current="true">
 
       </a>
@@ -53,7 +59,7 @@
           </thead>
           <tbody class="cuerpo">
             <tr
-              *ngFor="let op of vacacionesService.SolicitudesJefe | filterTable: dataFilt | paginate: {  itemsPerPage: 2, currentPage: p1, id: 'second' } ; index as i  ">
+              *ngFor="let op of ausentismoService.SolicitudesJefe | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
 
               <td>
                 <a (click)="detalleSolicitud(i)" data-toggle="modal" data-target="#exampleModalCenter"
@@ -70,22 +76,22 @@
                       <div class="col-12 col-md-11 float-left">
                         <div class="col-12 float-left">
                           <div class="col-12 col-md-3 col-sm-6 col-xs-12  sep float-left">
-                            <h6 class="">{{op[1]}}</h6>
+                            <h6 class="">{{op[1] || 'N/A' }}</h6>
                           </div>
                           <div class="col-12 col-md-2 col-sm-6 col-xs-12 sep float-left">
-                            <p class="">{{op[0]}}</p>
+                            <p class="">{{op[0] || 'N/A' }}</p>
                           </div>
                           <div class="col-12 col-md-2 col-sm-6  col-xs-12 sep float-left">
-                            <p class="">Fecha inicio ausentismo: {{op[4]}}</p>
+                            <p class="">Fecha inicio ausentismo: {{op[4] || 'N/A' }}</p>
                           </div>
                           <div class="col-12 col-md-2 col-sm-6 col-xs-12 sep float-left">
-                            <p>Fecha fin ausentismo: {{op[12]}}</p>
+                            <p>Fecha fin ausentismo: {{op[9] || 'N/A' }}</p>
                           </div>
                           <div class="col-12 col-md-2 col-sm-6 col-xs-12 sep float-left">
-                            <p>Motivo ausentismo: {{op[12]}}</p>
+                            <p>Motivo ausentismo: {{op[10] || 'N/A' }}</p>
                           </div>
                           <div class="col-12 col-md-1 col-sm-6 col-xs-12 sep float-left">
-                            <p>Dias: {{op[14]}}</p>
+                            <p>Dias: {{op[11] || 'N/A' }}</p>
                           </div>
                         </div>
                       </div>
@@ -93,7 +99,7 @@
                     </div>
                     <!--<div class="float-left info">
           <button (click)="detalleSolicitud(i)" type="button" class="btn btn-outline-primary" data-toggle="modal"
-            data-target="#exampleModalCenter" *ngIf="vacacionesService.SolicitudesJefe">PROCESAR</button>
+            data-target="#exampleModalCenter" *ngIf="ausentismoService.SolicitudesJefe">PROCESAR</button>
           </div>-->
                   </div>
 
@@ -135,65 +141,74 @@
                 <img id="fotoPerfil2"
                   [src]="cargaFoto(solicitudSeleccionada[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="..."
                   style=" width: 70px; height: 70px; border-radius: 50%;">
-                <h6 class="card-title text-muted" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]}}</h6>
-                <h6 class="text-muted" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0]}}</h6>
+                <h6 class="card-title text-muted" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1] || 'N/A' }}</h6>
+                <h6 class="text-muted" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0] || 'N/A' }}</h6>
                 <p class="card-text" *ngIf="solicitudSeleccionada" id="fechaSolici"><small class="text-muted">Fecha
-                    solicitud:{{solicitudSeleccionada[3]}}</small></p>
+                    solicitud:{{solicitudSeleccionada[5] || 'N/A' }}</small></p>
                 <hr id="hrSolici">
-                <!--<p *ngIf="solicitudSeleccionada">Fecha inicio ausentismo: {{solicitudSeleccionada[12]}}</p>
-                <p *ngIf="solicitudSeleccionada">Fecha fin ausentismo: {{solicitudSeleccionada[12]}}</p>
-                <p *ngIf="solicitudSeleccionada">Días: {{solicitudSeleccionada[14]}}</p>
+                <!--<p *ngIf="solicitudSeleccionada">Fecha inicio ausentismo: {{solicitudSeleccionada[12] || 'N/A' }}</p>
+                <p *ngIf="solicitudSeleccionada">Fecha fin ausentismo: {{solicitudSeleccionada[12] || 'N/A' }}</p>
+                <p *ngIf="solicitudSeleccionada">Días: {{solicitudSeleccionada[14] || 'N/A' }}</p>
                 <p *ngIf="solicitudSeleccionada">Causa: MATERNIDAD-PATERNIDAD</p>
                 <p *ngIf="solicitudSeleccionada">Tipo: INCAPACIDADES</p>
                 <p *ngIf="solicitudSeleccionada">Clase: REMINERADAS</p>
                 <p *ngIf="solicitudSeleccionada">Codigo: N179</p>
                 <p *ngIf="solicitudSeleccionada">Descripcion: INSUFICIENCIA RENAL AGUDA, NO ESPECIFICADA</p>
-                <p *ngIf="solicitudSeleccionada !=null">Prorroga: {{solicitudSeleccionada[12]}}</p>
-                <p *ngIf="solicitudSeleccionada !=null">Descripcion: {{solicitudSeleccionada[17]}}</p>
-                <p *ngIf="solicitudSeleccionada ">Jefe inmediato: {{solicitudSeleccionada[16]}} </p>
+                <p *ngIf="solicitudSeleccionada !=null">Prorroga: {{solicitudSeleccionada[12] || 'N/A' }}</p>
+                <p *ngIf="solicitudSeleccionada !=null">Descripcion: {{solicitudSeleccionada[17] || 'N/A' }}</p>
+                <p *ngIf="solicitudSeleccionada ">Jefe inmediato: {{solicitudSeleccionada[16] || 'N/A' }} </p>
                 --> 
                 <table class="table table-bordered">
                   <tbody class="tabla">
                     <tr>
                       <th class="text-left">Fecha inicio ausentismo:</th>
-                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12]}}</td>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[4] || 'N/A' }}</td>
                     </tr>
                     <tr>
                       <th class="text-left">Fecha fin ausentismo:</th>
-                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12]}}</td>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[9] || 'N/A' }}</td>
                     </tr>
                     <tr>
                       <th class="text-left">Días:</th>
-                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[14]}}</td>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[11] || 'N/A' }}</td>
                     </tr>
                     <tr>
                       <th class="text-left">Causa:</th>
-                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{'MATERNIDAD-PATERNIDAD'}}</td>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[10] || 'N/A' }}</td>
                     </tr>
                     <tr>
                       <th class="text-left">Tipo:</th>
-                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{'INCAPACIDADES'}}</td>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12] || 'N/A' }}</td>
                     </tr>
                     <tr>
                       <th class="text-left">Clase:</th>
-                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{'REMINERADAS'}}</td>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[13] || 'N/A' }}</td>
                     </tr>
                     <tr>
                       <th class="text-left">Codigo:</th>
-                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{'N179'}}</td>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[15] || 'N/A' }}</td>
                     </tr>
                     <tr>
                       <th class="text-left">Descripcion:</th>
-                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{'INSUFICIENCIA RENAL AGUDA, NO ESPECIFICADA'}}</td>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[16] || 'N/A' }}</td>
                     </tr>
                     <tr>
                       <th class="text-left">Prorroga:</th>
-                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12]}}</td>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[14] || 'N/A' }}</td>
                     </tr>
                     <tr>
                       <th class="text-left">Jefe inmediato:</th>
-                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[16]}}</td>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[17] || 'N/A' }}</td>
                     </tr>
+                    <tr>
+                      <th class="text-left">Obsevaciones:</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[18] || 'N/A' }}</td>
+                    </tr>
+                    <tr *ngIf="!anexoSeleccionado || anexoSeleccionado== null || anexoSeleccionado == ''">
+                      <th class="text-left">Nombre Anexo</th>
+                      <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[21] || 'No anexa' }}</td>
+                    </tr>
+                  </tbody> 
                 </table>
                 <!--<div class="miTable">
                   <div class="row">
@@ -201,7 +216,7 @@
                       <p *ngIf="solicitudSeleccionada" >Fecha inicio ausentismo:</p>
                     </div>
                     <div class="col-6 float-left drch">
-                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[12]}}</p>
+                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[12] || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="row">
@@ -209,7 +224,7 @@
                       <p *ngIf="solicitudSeleccionada" >Fecha fin ausentismo:</p>
                     </div>
                     <div class="col-6 float-left drch">
-                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[12]}}</p>
+                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[12] || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="row">
@@ -217,7 +232,7 @@
                       <p *ngIf="solicitudSeleccionada" >Días:</p>
                     </div>
                     <div class="col-6 float-left drch">
-                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[14]}}</p>
+                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[14] || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="row">
@@ -273,20 +288,28 @@
                       <p *ngIf="solicitudSeleccionada" >Jefe inmediato:</p>
                     </div>
                     <div class="col-6 float-left" id="drchUlt">
-                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[16]}}</p>
+                      <p *ngIf="solicitudSeleccionada" >{{solicitudSeleccionada[16] || 'N/A' }}</p>
                     </div>
                   </div>
 
                 </div>-->
                <br>
 
-                <div class="row">
+                <div class="row" *ngIf="!anexoSeleccionado || anexoSeleccionado== null || anexoSeleccionado == ''">
                   <div class="col-sm-12 col-12" id="btnDescargar">
-                    <button type="button" class="btn btn-outline-dark" (click)="descargarArchivo()">DESCARGAR ANEXO
+                    <button type="button" class="btn btn-outline-dark" disabled (click)="descargarArchivo()">DESCARGAR ANEXO
+                      <i class="fas fa-download"></i>
+                    </button>
+                    <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">No se anexó un documento</small></p>
+                  </div>
+                </div>
+                <div class="row" *ngIf="anexoSeleccionado && anexoSeleccionado !== null && anexoSeleccionado !== ''">
+                  <div class="col-sm-12 col-12" id="btnDescargar">
+                    <button type="button" class="btn btn-outline-dark"  (click)="descargarArchivo()">DESCARGAR ANEXO
                       <i class="fas fa-download"></i>
                     </button>
                     <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">click para descargar
-                        documento anexo</small></p>
+                      documento anexo</small></p>
                   </div>
                 </div>
                 <hr>

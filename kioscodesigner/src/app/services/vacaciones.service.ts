@@ -30,10 +30,10 @@ export class VacacionesService {
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/solicitudesXEmpleadoJefe?documentoJefe=${documento}&empresa=${nit}&cadena=${cadena}`;
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/solicitudesXEmpleadoJefe?usuario=${usuario}&empresa=${nit}&cadena=${cadena}`;
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/solicitudesXEmpleadoJefe`;
-    ////console.log('url:' + url);
+    console.log('url:' + url);
     return this.http.get(url, {
       params: {
-        usuario,
+        usuario: usuario,
         empresa: nit,
         cadena: cadena
       }

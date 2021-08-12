@@ -9,6 +9,7 @@ export class AusentismosService {
 
   opciones: any = [];
   codigosAusentismos = null;
+  datosProrroga = null;
   SolicitudesJefe=null;
 
 
@@ -26,20 +27,70 @@ export class AusentismosService {
       }
     });
   }
-  getSoliciSinProcesarJefe(nit: string, seudonimo: string, estado: string, cadena: string) {
+  getSoliciAusentSinProcesarJefe(nit: string, seudonimo: string, estado: string, cadena: string) {
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/soliciSinProcesarJefe/${nit}/${seudonimo}/${estado}?cadena=${cadena}`;
-    const url = `${environment.urlKioskoReportes}vacacionesPendientes/soliciSinProcesarJefe/${nit}/${seudonimo}/${estado}`;
+    const url = `${environment.urlKioskoReportes}ausentismos/soliciSinProcesarJefe`;
     ////console.log('url:' + url);
     return this.http.get(url, {
       params: {
-        cadena
+        nit: nit,
+        jefe: seudonimo,
+        estado: estado,
+        cadena: cadena
       }
     });
   }
-  setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, secuencia: string, motivo: string, urlKiosco: string, grupoEmpr: string) {
-    const url = `${environment.urlKioskoReportes}vacacionesPendientes/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
+
+  getSolicitudesXEmpleadoJefe(usuario: string, nit: string, cadena: string) {
+    //const url = `${environment.urlKioskoReportes}conexioneskioskos/solicitudesXEmpleadoJefe?documentoJefe=${documento}&empresa=${nit}&cadena=${cadena}`;
+    //const url = `${environment.urlKioskoReportes}vacacionesPendientes/solicitudesXEmpleadoJefe?documentoJefe=${documento}&empresa=${nit}&cadena=${cadena}`;
+    //const url = `${environment.urlKioskoReportes}vacacionesPendientes/solicitudesXEmpleadoJefe?usuario=${usuario}&empresa=${nit}&cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}ausentismos/solicitudesXEmpleadoJefe`;
+    ////console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        usuario: usuario,
+        empresa: nit,
+        cadena: cadena
+      }
+    });
+  }
+
+  getProrroga(usuario: string, causa: string,nit: string, cadena: string) {
+    const url = `${environment.urlKioskoReportes}ausentismos/prorroga`;
+    console.log('url:' + url);
+    console.log(nit);
+    console.log(cadena);
+    console.log(usuario);
+    console.log(causa);
+    return this.http.get(url, {
+      params: {
+        nitempresa: nit,
+        cadena: cadena,
+        empleado: usuario,
+        causa: causa
+      }
+    });
+  }
+
+  setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, fechaInicio: string, secuencia: string, motivo: string, urlKiosco: string, grupoEmpr: string) {
+    const url = `${environment.urlKioskoReportes}ausentismos/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&fechainicio=${fechaInicio}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
     //console.log('url:' + url);
     return this.http.post(url, []);
+
+    /*return this.http.post(url, 
+      params , {
+        secuencia: secuencia,
+        motivo: motivo,
+        seudonimo: seudonimo,
+        nitempresa: nit,
+        estado: estado,
+        fechainicio: fechaInicio,
+        cadena: cadena,
+        grupo: grupoEmpr,
+        urlKiosco: urlKiosco,
+      }
+    );*/
   }
 
   getAnexoAusentismo(anexo: string, empresa: string, cadena: string) {
@@ -86,9 +137,23 @@ export class AusentismosService {
     ////console.log('grupo recibid:'+grupoEmpr)
     return this.http.post(url, []);
   }  
+  getSolicitudesXEstado(documento: string, nit: string, estado: string, cadena: string) {
+    //const url = `${environment.urlKioskoReportes}conexioneskioskos/solicitudXEstado?documento=${documento}&empresa=${nit}&estado=${estado}&cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}ausentismos/solicitudXEstado`;
+    ////console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        documento: documento,
+        empresa: nit,
+        estado: estado,
+        cadena: cadena
+      }
+    });
+  }
 
   clear() {
     this.opciones = [];
     this.codigosAusentismos = null;
+    this.datosProrroga = null;
   }
 }

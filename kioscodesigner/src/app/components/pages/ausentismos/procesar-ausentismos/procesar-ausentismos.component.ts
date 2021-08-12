@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class ProcesarAusentismosComponent implements OnInit {
     public usuarioServicio: UsuarioService, 
     private cadenasKioskos: CadenaskioskosappService,
     private usuarioService: UsuarioService, 
+    private router: Router,
     private ausentismoService: AusentismosService, 
     private fb: FormBuilder) {
   }
@@ -78,11 +80,13 @@ export class ProcesarAusentismosComponent implements OnInit {
 
   cargarDatosSolicitudesProcesadas() {
     if (this.ausentismoService.SolicitudesJefe == null) {
-      this.ausentismoService.getSoliciSinProcesarJefe(this.usuarioService.empresa, this.usuarioService.usuario, 'ENVIADO', this.usuarioService.cadenaConexion)
+      this.ausentismoService.getSoliciAusentSinProcesarJefe(this.usuarioService.empresa, this.usuarioService.usuario, 'ENVIADO', this.usuarioService.cadenaConexion)
         .subscribe(
           data => {
             this.ausentismoService.SolicitudesJefe = data;
-            console.log('impresive', this.ausentismoService.SolicitudesJefe);
+            /*console.log('impresive', this.ausentismoService.SolicitudesJefe);
+            console.log("Datos iniciales");
+            console.log(data);*/            
           }
         );
     }
@@ -90,7 +94,11 @@ export class ProcesarAusentismosComponent implements OnInit {
 
   detalleSolicitud(index: string) {
     this.solicitudSeleccionada = this.ausentismoService.SolicitudesJefe[index];
-    $('#staticBackdrop3').modal('show');
+    this.anexoSeleccionado = this.ausentismoService.SolicitudesJefe[index][21];    
+  }
+
+  navigate() {
+    this.router.navigate(['/ausentismos']);
   }
 
   cargaFoto(documento: string) {
@@ -109,8 +117,8 @@ export class ProcesarAusentismosComponent implements OnInit {
       title: '¿Desea aprobar la solicitud?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
       confirmButtonText: 'Aprobar',
       cancelButtonText: 'Cerrar'
     }).then((result) => {
@@ -150,8 +158,16 @@ export class ProcesarAusentismosComponent implements OnInit {
             title: "Procesando solicitud, por favor espere...",
             onBeforeOpen: () => {
               swal.showLoading();
-              this.ausentismoService.setNuevoEstadoSolicio(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion,
-                'AUTORIZADO', this.solicitudSeleccionada[18], null, this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial)
+              this.ausentismoService.setNuevoEstadoSolicio(
+                this.usuarioService.usuario, 
+                this.usuarioService.empresa, 
+                this.usuarioService.cadenaConexion,
+                'AUTORIZADO', 
+                this.solicitudSeleccionada[4] ,
+                this.solicitudSeleccionada[20], 
+                null, 
+                this.usuarioService.urlKioscoDomain, 
+                this.usuarioService.grupoEmpresarial)
                 .subscribe(
                   (data) => {
                     console.log(data);
@@ -160,7 +176,7 @@ export class ProcesarAusentismosComponent implements OnInit {
                         .fire({
                           icon: "success",
                           title:
-                            "¡La solicitud de vacaciones ha sido autorizada exitosamente!",
+                            "¡La solicitud de ausentismo ha sido autorizada exitosamente!",
                           showConfirmButton: true,
                         })
                         .then((res) => {
@@ -208,7 +224,7 @@ export class ProcesarAusentismosComponent implements OnInit {
 
   reloadPage() {
     this.ausentismoService.SolicitudesJefe = null;
-    this.ngOnInit();
+    this.navigate();
   }
 
 
@@ -281,7 +297,8 @@ export class ProcesarAusentismosComponent implements OnInit {
               this.usuarioService.empresa,
               this.usuarioService.cadenaConexion,
               'RECHAZADO',
-              this.solicitudSeleccionada[18],
+              this.solicitudSeleccionada[4],
+              this.solicitudSeleccionada[20],
               this.formulario.get('motivo').value,
               this.usuarioService.urlKioscoDomain,
               this.usuarioService.grupoEmpresarial
@@ -294,11 +311,12 @@ export class ProcesarAusentismosComponent implements OnInit {
                       .fire({
                         icon: "success",
                         title:
-                          "Solicitud de vacaciones rechazada exitosamente",
+                          "Solicitud de ausentismo rechazada exitosamente",
                         showConfirmButton: true,
                       })
                       .then((res) => {
-                        //$("#exampleModalCenter").modal("hide");
+                        $("#exampleModalCenter").modal("hide");
+                        
                         this.reloadPage();
                       });
                   } else {
@@ -309,7 +327,7 @@ export class ProcesarAusentismosComponent implements OnInit {
                         showConfirmButton: true,
                       })
                       .then((res) => {
-                        //$("#exampleModalCenter").modal("hide");
+                        $("#exampleModalCenter").modal("hide");
                         this.reloadPage();                        
                       });
                   }
@@ -342,7 +360,6 @@ export class ProcesarAusentismosComponent implements OnInit {
 
   descargarArchivo() {
     console.log("cadenaReporte: ", this.usuarioServicio.cadenaConexion);
-    this.anexoSeleccionado = "blanco1.pdf";
     console.log(
       "this.usuarioServicio.secuenciaEmpleado: " +
         this.usuarioServicio.secuenciaEmpleado

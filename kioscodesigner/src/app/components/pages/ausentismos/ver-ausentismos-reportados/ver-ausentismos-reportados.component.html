@@ -75,6 +75,7 @@
                     <th>Fecha inicio </th>
                     <th>Días solicitados</th>
                     <th>Fecha procesada </th>
+                    <th>Causa</th>
                     <th>Estado </th>
                     <th *ngIf="false">Empleado Ejecuta </th>
                   </tr>
@@ -82,7 +83,7 @@
                 <tbody>
 
                   <tr *ngIf="!solicitudesEnviadas || solicitudesEnviadas==null || solicitudesEnviadas.length==0">
-                    <td colspan="6">No hay solicitudes enviadas.</td>
+                    <td colspan="7">No hay solicitudes enviadas.</td>
                   </tr>
                   <tr
                     *ngFor="let solic of solicitudesEnviadas | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
@@ -91,12 +92,13 @@
                         <i class="far fa-eye text-info"></i>
                       </a>
                     </td>
-                    <td>{{solic[0]}}</td>
-                    <td>{{solic[1]}}</td>
-                    <td>{{solic[2]}}</td>
-                    <td>{{solic[3]}}</td>
-                    <td>{{solic[4]}}</td>
-                    <td *ngIf="false">{{solic[9]}}</td>
+                    <td>{{solic[0] || 'N/A' }}</td>
+                    <td>{{solic[1] || 'N/A' }}</td>
+                    <td>{{solic[2] || 'N/A' }}</td>
+                    <td>{{solic[3] || 'N/A' }}</td>
+                    <td>{{solic[7] || 'N/A' }}</td>
+                    <td>{{solic[4] || 'N/A' }}</td>
+                    <td *ngIf="false">{{solic[9] || 'N/A' }}</td>
                   </tr>
                 </tbody>
 
@@ -128,11 +130,12 @@
                   <tr id="tblfamiliares">
                     <th>Ver</th>
                     <th>Creación solicitud</th>
-                    <th>Fecha inicio</th>
+                    <th>Fecha inicio </th>
                     <th>Días solicitados</th>
-                    <th>Fecha procesada</th>
-                    <th>Estado</th>
-                    <th>Empleado Ejecuta</th>
+                    <th>Fecha procesada </th>
+                    <th>Causa</th>
+                    <th>Estado </th>
+                    <th *ngIf="false">Empleado Ejecuta </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -146,12 +149,13 @@
                         <i class="far fa-eye text-info"></i>
                       </a>
                     </td>
-                    <td *ngIf="solicitudesAprobadas">{{solic[0]}}</td>
-                    <td *ngIf="solicitudesAprobadas">{{solic[1]}}</td>
-                    <td *ngIf="solicitudesAprobadas">{{solic[2]}}</td>
-                    <td *ngIf="solicitudesAprobadas">{{solic[3]}}</td>
-                    <td *ngIf="solicitudesAprobadas">{{solic[4]}}</td>
-                    <td *ngIf="solicitudesAprobadas">{{solic[9]}}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[0] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[1] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[2] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[3] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[7] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesAprobadas">{{solic[4] || 'N/A' }}</td>                    
+                    <td *ngIf="false">{{solic[9] || 'N/A' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -182,20 +186,19 @@
               <table class="table table-hover" style="text-align: center;">
                 <thead style="background: #00223C; color: white;">
                   <tr id="tblfamiliares">
-
                     <th>Ver</th>
                     <th>Creación solicitud</th>
-                    <th>Fecha inicio</th>
+                    <th>Fecha inicio </th>
                     <th>Días solicitados</th>
-                    <th>Fecha procesada</th>
-                    <th>Estado</th>
-                    <th>Empleado Ejecuta</th>
-                    <th>Motivo</th>
+                    <th>Fecha procesada </th>
+                    <th>Causa</th>
+                    <th>Estado </th>
+                    <th *ngIf="false">Empleado Ejecuta </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngIf="!solicitudesRechazadas || solicitudesRechazadas==null || solicitudesRechazadas.length==0">
-                    <td colspan="8">No hay solicitudes rechazadas.</td>
+                    <td colspan="9">No hay solicitudes rechazadas.</td>
                   </tr>
                   <tr
                     *ngFor="let solic of solicitudesRechazadas | filterTable: dataFilt | paginate: { id: 'fourth', itemsPerPage: 5, currentPage: p3 }; index as i ">
@@ -204,13 +207,13 @@
                         <i class="far fa-eye text-info"></i>
                       </a>
                     </td>
-                    <td *ngIf="solicitudesRechazadas">{{solic[0]}}</td>
-                    <td *ngIf="solicitudesRechazadas">{{solic[1]}}</td>
-                    <td *ngIf="solicitudesRechazadas">{{solic[2]}}</td>
-                    <td *ngIf="solicitudesRechazadas">{{solic[3]}}</td>
-                    <td *ngIf="solicitudesRechazadas">{{solic[4]}}</td>
-                    <td *ngIf="solicitudesRechazadas">{{solic[9]}}</td>
-                    <td *ngIf="solicitudesRechazadas">{{solic[8]}}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[0] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[1] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[2] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[3] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[7] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesRechazadas">{{solic[4] || 'N/A' }}</td>
+                    <td *ngIf="false">{{solic[9] || 'N/A' }}</td>
                   </tr>
 
 
@@ -248,11 +251,12 @@
                   <tr id="tblfamiliares">
                     <th>Ver</th>
                     <th>Creación solicitud</th>
-                    <th>Fecha inicio</th>
+                    <th>Fecha inicio </th>
                     <th>Días solicitados</th>
-                    <th>Fecha procesada</th>
-                    <th>Estado</th>
-                    <th>Empleado Ejecuta</th>
+                    <th>Fecha procesada </th>
+                    <th>Causa</th>
+                    <th>Estado </th>
+                    <th *ngIf="false">Empleado Ejecuta </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -266,12 +270,13 @@
                         <i class="far fa-eye text-info"></i>
                       </a>
                     </td>
-                    <td *ngIf="solicitudesLiquidadas">{{solic[0]}}</td>
-                    <td *ngIf="solicitudesLiquidadas">{{solic[1]}}</td>
-                    <td *ngIf="solicitudesLiquidadas">{{solic[2]}}</td>
-                    <td *ngIf="solicitudesLiquidadas">{{solic[3]}}</td>
-                    <td *ngIf="solicitudesLiquidadas">{{solic[4]}}</td>
-                    <td *ngIf="solicitudesLiquidadas">{{solic[9]}}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[0] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[1] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[2] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[3] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[7] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesLiquidadas">{{solic[4] || 'N/A' }}</td>
+                    <td *ngIf="false">{{solic[9] || 'N/A' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -303,11 +308,12 @@
                   <tr id="tblfamiliares">
                     <th>Ver</th>
                     <th>Creación solicitud</th>
-                    <th>Fecha inicio</th>
+                    <th>Fecha inicio </th>
                     <th>Días solicitados</th>
-                    <th>Fecha procesada</th>
-                    <th>Estado</th>
-                    <th>Empleado Ejecuta</th>
+                    <th>Fecha procesada </th>
+                    <th>Causa</th>
+                    <th>Estado </th>
+                    <th *ngIf="false">Empleado Ejecuta </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -321,12 +327,13 @@
                                     <i class="far fa-eye text-info"></i>
                                   </a>
                                 </td>
-                    <td *ngIf="solicitudesCanceladas">{{solic[0]}}</td>
-                    <td *ngIf="solicitudesCanceladas">{{solic[1]}}</td>
-                    <td *ngIf="solicitudesCanceladas">{{solic[2]}}</td>
-                    <td *ngIf="solicitudesCanceladas">{{solic[3]}}</td>
-                    <td *ngIf="solicitudesCanceladas">{{solic[4]}}</td>
-                    <td *ngIf="solicitudesCanceladas">{{solic[9]}}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[0] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[1] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[2] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[3] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[7] || 'N/A' }}</td>
+                    <td *ngIf="solicitudesCanceladas">{{solic[4] || 'N/A' }}</td>
+                    <td *ngIf="false">{{solic[9] || 'N/A' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -356,29 +363,68 @@
       </div>
       <div class="modal-body text-center">
         <table class="table table-bordered table-sm">
-          <tbody>
+          <tbody class="tabla">
             <tr>
-              <td class="text-left">Fecha inicio Vacaciones:</td>
-              <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]}}</td>
+              <th class="text-left">Fecha inicio ausentismo:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1] || 'N/A' }}</td>
             </tr>
             <tr>
-              <td class="text-left">Fecha final de vacaciones: </td>
-              <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[5]}}</td>
+              <th class="text-left">Fecha fin ausentismo:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[5] || 'N/A' }}</td>
             </tr>
             <tr>
-              <td class="text-left">Días solicitados: </td>
-              <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[2]}}</td>
+              <th class="text-left">Días:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[2] || 'N/A' }}</td>
             </tr>
             <tr>
-              <td class="text-left">Fecha de regreso a laborar:</td>
-              <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[6]}}</td>
+              <th class="text-left">Causa:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[7] || 'N/A' }}</td>
             </tr>
             <tr>
-              <td class="text-left">Periodo afectado: </td>
-              <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[7]}}</td>
+              <th class="text-left">Tipo:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[8] || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Clase:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[9] || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Codigo:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[10] || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Descripcion:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[11] || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Prorroga:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12] || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Jefe inmediato:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[13] || 'N/A' }}</td>
             </tr>
           </tbody>
         </table>
+        <br>
+        <div class="row" *ngIf="estadoSolicitudSeleccionada ==='' || estadoSolicitudSeleccionada !== null">
+          <div class="col-sm-12 col-12" id="btnDescargar">
+            <button type="button" class="btn btn-outline-dark" (click)="descargarArchivo()">DESCARGAR ANEXO
+              <i class="fas fa-download"></i>
+            </button>
+            <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">click para descargar
+                documento anexo</small></p>
+          </div>
+        </div>
+        <div *ngIf="estadoSolicitudSeleccionada ==='' || estadoSolicitudSeleccionada !== null">
+          <hr>
+          <h6>ACCIONES PERMITIDAS</h6><br>
+          <div class="col-12">
+            <div class="col-sm-12 col-12" id="btnCancelar">
+              <button type="button"  class="btn btn-outline-danger" (click)="cancelarEnvio()">CANCELAR SOLICITUD</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>

@@ -8,6 +8,8 @@ import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
+import { AusentismosService } from 'src/app/services/ausentismos.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -28,6 +30,8 @@ export class VerAusentismosReportadosComponent implements OnInit {
   solicitudesRechazadas = null;
   solicitudesLiquidadas = null;
   solicitudesCanceladas = null;
+  anexoSeleccionado = null;
+  estadoSolicitudSeleccionada = null;
   tipoSolicitudSeleccionada;
   indexSolicitudSeleccionada;
   solicitudSeleccionada;
@@ -79,6 +83,8 @@ export class VerAusentismosReportadosComponent implements OnInit {
   constructor(
     private vacacionesService: VacacionesService,
     private usuarioService: UsuarioService,
+    private router : Router,
+    private ausentismoService: AusentismosService, 
     private cadenasKioskos: CadenaskioskosappService
   ) {
 
@@ -162,36 +168,6 @@ export class VerAusentismosReportadosComponent implements OnInit {
   }   
 
   cargarDatosIniciales() {
-    // dias provisionados
-    let diasProv: string = "";
-    this.vacacionesService
-      .getDiasVacacionesProvisionadas(
-        this.usuarioService.usuario,
-        this.usuarioService.empresa,
-        this.usuarioService.cadenaConexion
-      )
-      .subscribe((data) => {
-        diasProv = data.toString();
-        //console.log("diasProv", data);
-
-        this.pieChartData.push(parseInt(diasProv, 0));
-      });
-
-    // dias Enviados
-    this.vacacionesService
-      .getDiasNovedadesVaca(
-        this.usuarioService.empresa,
-        this.usuarioService.usuario,
-        this.usuarioService.cadenaConexion
-      )
-      .subscribe((data) => {
-        let diasEnv = data;
-        //console.log("DiasEnv", data);        
-        this.pieChartData.push(parseInt(diasEnv[0][2], 0));
-        this.pieChartData.push(parseInt(diasEnv[1][2], 0));
-        this.pieChartData.push(parseInt(diasEnv[2][2], 0));
-      });
-
     if (
       this.usuarioService.documento == null ||
       this.usuarioService.documento.lenght === 0
@@ -224,11 +200,14 @@ export class VerAusentismosReportadosComponent implements OnInit {
   detalleSolicitud(tipoSolicitud: string, index: string) {
     this.tipoSolicitudSeleccionada = tipoSolicitud;
     this.indexSolicitudSeleccionada = index;
+    this.estadoSolicitudSeleccionada = null;
     //console.log("tipoSolicitud: " + tipoSolicitud);
     //console.log("index seleccionado: " + index);
+    //console.log(this.estadoSolicitudSeleccionada);
     switch (tipoSolicitud) {
       case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
+        this.estadoSolicitudSeleccionada =  this.solicitudesRechazadas[index][4];         
         break;
       }
       case "APROBADO": {
@@ -250,27 +229,28 @@ export class VerAusentismosReportadosComponent implements OnInit {
       /*default: {
         //this.solicitudSeleccionada = null;
       }*/
+      
     }
     $("#staticBackdrop2").modal("show");
     document.getElementById('staticBackdrop2').style.display = 'block';
   }
 
   getSoliciEnviadas() {
-    this.vacacionesService
+    this.ausentismoService
       .getSolicitudesXEstado(
         this.usuarioService.usuario,
         this.usuarioService.empresa,
         "ENVIADO", this.usuarioService.cadenaConexion
       )
       .subscribe((data) => {
-        //console.log("Datos iniciales");
-        //console.log(data);
+        console.log("Datos iniciales");
+        console.log(data);
         this.solicitudesEnviadas = data;
       });
   }
 
   getSoliciAprobadas() {
-    this.vacacionesService
+    this.ausentismoService
       .getSolicitudesXEstado(
         this.usuarioService.usuario,
         this.usuarioService.empresa,
@@ -283,7 +263,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
   }
 
   getSoliciRechazadas() {
-    this.vacacionesService
+    this.ausentismoService
       .getSolicitudesXEstado(
         this.usuarioService.usuario,
         this.usuarioService.empresa,
@@ -296,7 +276,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
   }
 
   getSoliciLiquidadas() {
-    this.vacacionesService
+    this.ausentismoService
       .getSolicitudesXEstado(
         this.usuarioService.usuario,
         this.usuarioService.empresa,
@@ -309,7 +289,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
   }
 
   getSoliciCanceladas() {
-    this.vacacionesService
+    this.ausentismoService
       .getSolicitudesXEstado(
         this.usuarioService.usuario,
         this.usuarioService.empresa,
@@ -431,13 +411,18 @@ export class VerAusentismosReportadosComponent implements OnInit {
     this.indexSolicitudSeleccionada = index;
     //console.log("tipoSolicitud: " + tipoSolicitud);
     //console.log("index seleccionado: " + index);
+    //console.log(this.estadoSolicitudSeleccionada);
     switch (tipoSolicitud) {
       case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
+        this.estadoSolicitudSeleccionada =  this.solicitudesEnviadas[index][4];
         break;
       }
     }
+    console.log(this.estadoSolicitudSeleccionada);
     $("#staticBackdrop3").modal("show");
+    $("#staticBackdrop2").modal("show");
+    document.getElementById('staticBackdrop2').style.display = 'block';
   }
 
   cancelarEnvio() {
@@ -454,7 +439,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          /*this.vacacionesService
+          /*this.ausentismoService
             .setNuevoEstadoSolicio(
               this.usuarioService.usuario,
               this.usuarioService.empresa,
@@ -496,13 +481,14 @@ export class VerAusentismosReportadosComponent implements OnInit {
               title: "Enviando la solicitud al sistema, por favor espere...",
               onBeforeOpen: () => {
                 swal.showLoading();
-          this.vacacionesService
+          this.ausentismoService
             .setNuevoEstadoSolicio(
               this.usuarioService.usuario,
               this.usuarioService.empresa,
               this.usuarioService.cadenaConexion,
               "CANCELADO",
-              this.solicitudSeleccionada[10],
+              this.solicitudSeleccionada[1],
+              this.solicitudSeleccionada[14],
               null,
               this.usuarioService.urlKioscoDomain,
               this.usuarioService.grupoEmpresarial
@@ -520,8 +506,8 @@ export class VerAusentismosReportadosComponent implements OnInit {
                             showConfirmButton: true,
                           })
                           .then((res) => {
-                            //this.router.navigate(["/vacaciones"]);
-                            this.reloadPage();
+                            $("#staticBackdrop2").modal("hide");
+                            this.router.navigate(["/ausentismos"]);
                           });
                       } else {
                         swal
@@ -533,6 +519,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
                           })
                           .then((res) => {
                             //this.router.navigate(["/vacaciones"]);
+                            $("#staticBackdrop2").modal("hide");
                             this.reloadPage();
                           });
                       }
@@ -548,6 +535,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
                         })
                         .then((res) => {
                           //this.router.navigate(["/vacaciones"]);
+                          $("#staticBackdrop2").modal("hide");
                           this.reloadPage();
                         });
                     }
@@ -559,9 +547,105 @@ export class VerAusentismosReportadosComponent implements OnInit {
         }
       });
   }
+  descargarArchivo() {
+    console.log("cadenaReporte: ", this.usuarioService.cadenaConexion);
+    this.anexoSeleccionado = "blanco1.pdf";
+    console.log(
+      "this.usuarioService.secuenciaEmpleado: " +
+        this.usuarioService.secuenciaEmpleado
+    );
+    swal.fire({
+      title: "Descargando reporte, por favor espere...",
+      onBeforeOpen: () => {
+        swal.showLoading();
+        console.log("descargarReporte");
+        this.ausentismoService
+          .getAnexoAusentismo(
+            //this.reporteServicio.reporteSeleccionado["nombreruta"],
+            //this.usuarioService.secuenciaEmpleado,
+            //this.formulario.get("enviocorreo").value,
+            //this.usuarioService.correo,
+            //this.correo,
+            //this.reporteServicio.reporteSeleccionado["descripcion"],
+            //this.reporteServicio.codigoReporteSeleccionado,
+            this.anexoSeleccionado,
+            this.usuarioService.empresa,
+            this.usuarioService.cadenaConexion
+            //this.usuarioService.usuario,
+            //this.usuarioService.grupoEmpresarial,
+            //this.usuarioService.urlKioscoDomain
+          )
+          .subscribe(
+            (res) => {
+              console.log("ejemplo 1 : ",res);
+              swal.fire({
+                icon: "success",
+                title:
+                  "Reporte generado exitosamente, se descargará en un momento",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              const newBlob = new Blob([res], { type: "application/pdf" });
+              let fileUrl = window.URL.createObjectURL(newBlob); // add 290920
+
+              //if (window.navigator && window.navigator.msSaveOrOpenBlob) { 290920
+              //window.navigator.msSaveOrOpenBlob(newBlob);
+              if (window.navigator.msSaveOrOpenBlob) {
+                // add 290920
+                window.navigator.msSaveOrOpenBlob(
+                  newBlob,
+                  fileUrl.split(":")[1] + ".pdf"
+                );
+              } else {
+                window.open(fileUrl);
+              }
+              //return;
+              ///}
+              // For other browsers:
+              // Create a link pointing to the ObjectURL containing the blob.
+              const data = window.URL.createObjectURL(newBlob);
+              const link = document.createElement("a");
+              link.href = data;
+              let f = new Date();
+              link.download =
+                //this.reporteServicio.reporteSeleccionado["nombreruta"] +
+                this.anexoSeleccionado +
+                "_" +
+                this.usuarioService.usuario +
+                "_" +
+                f.getTime() +
+                ".pdf";
+              // this is necessary as link.click() does not work on the latest firefox
+              link.dispatchEvent(
+                new MouseEvent("click", {
+                  bubbles: true,
+                  cancelable: true,
+                  view: window,
+                })
+              );
+
+              setTimeout(function () {
+                // For Firefox it is necessary to delay revoking the ObjectURL
+                window.URL.revokeObjectURL(data);
+              }, 100);
+            },
+            (error) => {
+              console.log(error);
+              swal.fire(
+                "Se ha presentado un error",
+                "Se presentó un error al generar el reporte, por favor intentelo de nuevo más tarde!",
+                "info"
+              );
+            }
+          );
+      },
+      allowOutsideClick: () => !swal.isLoading(),
+    });
+  }
 
   reloadPage() {
-    this.ngOnInit();
+    //this.ngOnInit();
+    this.router.navigate(['/ausentismos']);
   }
 
   

@@ -19,11 +19,13 @@ export class ReportarAusentismoComponent implements OnInit {
   habilitaBtnCargar = false;
   msjValidArchivoAnexo = '';
   prorrogaSeleccionada = null;
+  cadenaProvisional = null;
   public dataFilt: any = "";
   public p: number = 1;
   public p1: number = 1;
   public autorizadorVacaciones = '...';
   habilitaBtnCodDiag = false;
+  activaProrroga = false;
 
   constructor(
     private fb: FormBuilder,
@@ -59,7 +61,7 @@ export class ReportarAusentismoComponent implements OnInit {
       anexo: []
     });
   }
-  
+
   getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
     const sesion = this.usuarioService.getUserLoggedIn();
     this.usuarioService.setUsuario(sesion['usuario']);
@@ -78,6 +80,7 @@ export class ReportarAusentismoComponent implements OnInit {
               const temp = data[i];
               //console.log('cadena: ', temp[4]) // CADENA
               this.usuarioService.cadenaConexion = temp[4];
+              this.cadenaProvisional = temp[4];
               //console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
               this.cargarDatosIniciales();
             }
@@ -123,6 +126,20 @@ export class ReportarAusentismoComponent implements OnInit {
     }
   }
 
+  getProrrogas() {
+    console.log("entre a validar");
+    let indexCausa = this.formulario.get('causa').value;
+    let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
+    console.log(secuenciaCausa)
+    this.ausentismosService.getProrroga(this.usuarioService.usuario, secuenciaCausa, this.usuarioService.empresa, "DEFAULT1")
+      .subscribe(
+        data => {
+          this.ausentismosService.datosProrroga = data;
+          //console.log(data);
+        }
+      )
+  }
+
   mostrarListaCod() {
     //alert('Hola');
     //document.getElementById('staticBackdropRA').style.display = 'block';
@@ -155,7 +172,10 @@ export class ReportarAusentismoComponent implements OnInit {
   }
 
   seleccionaPro(index) {
-    this.prorrogaSeleccionada = this.ausentismosService.codigosAusentismos[index];
+    //console.log('cambio');
+    //console.log(this.ausentismosService.datosProrroga[index][0]);
+    this.prorrogaSeleccionada = this.ausentismosService.datosProrroga[index];
+    //console.log(this.prorrogaSeleccionada);
   }
 
   quitarSeleccionPro() {
@@ -171,6 +191,7 @@ export class ReportarAusentismoComponent implements OnInit {
 
   cambioSeleccion() {
     let secCausa = this.formulario.get('causa').value;
+    this.activaProrroga = false;
     console.log('index', secCausa);
     this.claseSelec = this.causasAusentismos[secCausa].causa.clase.descripcion;
     console.log('clase ' + this.claseSelec);
@@ -178,7 +199,7 @@ export class ReportarAusentismoComponent implements OnInit {
     console.log('tipo ' + this.tipoSelec);
     let descripcionCausa = this.causasAusentismos[secCausa].causa.descripcion;
     console.log('causa seleccinada', descripcionCausa);
-    if (descripcionCausa.indexOf("ENFERMEDAD")> -1 || this.causasAusentismos[secCausa].causa.clase.tipo.descripcion.indexOf("INCAPACIDAD")> -1)  {
+    if (descripcionCausa.indexOf("ENFERMEDAD") > -1 || this.causasAusentismos[secCausa].causa.clase.tipo.descripcion.indexOf("INCAPACIDAD") > -1) {
       console.log('Selecciono alguna causa relacionada a una enfermedad o tipo incapacidad');
       this.habilitaBtnCodDiag = true;
     } else {
@@ -205,13 +226,13 @@ export class ReportarAusentismoComponent implements OnInit {
       control.markAsTouched();
     });
     if (this.formulario.valid) {
-      if (this.formulario.get('dias').value<=0){
+      if (this.formulario.get('dias').value <= 0) {
         swal.fire({
           title: "¡Valide la cantidad de días del ausentismo!",
           text: 'La cantidad mínima de días a reportar debe ser 1.',
           icon: "error"
         });
-      } else if (this.formulario.get('prorroga').value && this.prorrogaSeleccionada==null) {
+      } else if (this.formulario.get('prorroga').value && this.prorrogaSeleccionada == null) {
         swal.fire({
           title: "¡Seleccione una prórroga!",
           text: 'Ha seleccionado que esta reportando un ausentismo con prórroga pero no ha indicado a cual hace referencia.',
@@ -237,7 +258,7 @@ export class ReportarAusentismoComponent implements OnInit {
                 "grupoEmpresarial: " + this.usuarioService.grupoEmpresarial
               );
               let incluyeAnexo = 'N';
-              if (this.formulario.get('anexo').value != null){
+              if (this.formulario.get('anexo').value != null) {
                 incluyeAnexo = 'S';
               }
               let indexCausa = this.formulario.get('causa').value;
@@ -245,6 +266,7 @@ export class ReportarAusentismoComponent implements OnInit {
               let secuenciaClase = this.causasAusentismos[indexCausa].causa.clase.secuencia;
               let secuenciaTipo = this.causasAusentismos[indexCausa].causa.clase.tipo.secuencia;
               let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
+              let secuenciaProrroga = this.ausentismosService.datosProrroga[indexCausa][0];
               swal.fire({
                 title: "Enviando la solicitud al sistema, por favor espere...",
                 onBeforeOpen: () => {
@@ -253,7 +275,7 @@ export class ReportarAusentismoComponent implements OnInit {
                     this.usuarioService.empresa, 'ENVIADO', this.formulario.get('fechainicio').value,
                     this.formulario.get('fechafin').value, this.formulario.get('dias').value,
                     secuenciaCausa, secuenciaClase,
-                    secuenciaTipo,'prorroga', this.formulario.get('observaciones').value, incluyeAnexo,
+                    secuenciaTipo, 'prorroga', this.formulario.get('observaciones').value, incluyeAnexo,
                     this.usuarioService.cadenaConexion,
                     this.usuarioService.urlKioscoDomain,
                     this.usuarioService.grupoEmpresarial)
