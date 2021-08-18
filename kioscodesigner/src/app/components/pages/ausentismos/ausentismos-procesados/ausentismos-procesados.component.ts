@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AusentismosService } from 'src/app/services/ausentismos.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { VacacionesService } from 'src/app/services/vacaciones.service';
-import { AusentismosService } from 'src/app/services/ausentismos.service';
+
+
 
 @Component({
   selector: 'app-ausentismos-procesados',
@@ -14,9 +16,9 @@ export class AusentismosProcesadosComponent implements OnInit {
   public p8: number = 1;
   public dataFilt: any = "";
 
-  constructor(private vacacionesService: VacacionesService, 
-              private usuarioService: UsuarioService,
-              private ausentismoService: AusentismosService ) { 
+
+  constructor(private ausentismosService: AusentismosService, private usuarioService: UsuarioService) { 
+
     if (this.usuarioService.documento == null || this.usuarioService.documento.lenght === 0) {
       this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
       .subscribe(
@@ -36,13 +38,12 @@ export class AusentismosProcesadosComponent implements OnInit {
   }
 
   obtenerSolicitudes(){
-    this.ausentismoService.getSolicitudesXEmpleadoJefe(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
+    this.ausentismosService.getSolicitudesXEmpleadoJefe(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
     .subscribe(
       data => {
         this.solicitudesProcesadas = data;
-        //console.log(this.solicitudesProcesadas);
-        console.log("Datos iniciales");
-        console.log(data);
+        console.log('ausentismos', this.solicitudesProcesadas);
+
       }
     );
 

@@ -50,7 +50,7 @@ export class PagesComponent implements OnInit {
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
     //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     let cadenasApp: any;
-    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
     .subscribe(
       data => {
         //console.log('getInfoUsuario', data);

@@ -13,7 +13,7 @@ export class ValidaTokenComponent implements OnInit {
   mensaje2 = 'Estamos validando tu cuenta, por favor espere un momento.';
   respuesta = false;
 
-  constructor(private activatedRoute: ActivatedRoute, private usuarioService: UsuarioService, private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, public usuarioService: UsuarioService, private router: Router) {
   this.activatedRoute.params
   .subscribe(params => {
     console.log(params);

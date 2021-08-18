@@ -415,6 +415,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
     switch (tipoSolicitud) {
       case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
+        this.anexoSeleccionado = this.solicitudesEnviadas[index][15];
         this.estadoSolicitudSeleccionada =  this.solicitudesEnviadas[index][4];
         break;
       }
@@ -549,7 +550,6 @@ export class VerAusentismosReportadosComponent implements OnInit {
   }
   descargarArchivo() {
     console.log("cadenaReporte: ", this.usuarioService.cadenaConexion);
-    this.anexoSeleccionado = "blanco1.pdf";
     console.log(
       "this.usuarioService.secuenciaEmpleado: " +
         this.usuarioService.secuenciaEmpleado

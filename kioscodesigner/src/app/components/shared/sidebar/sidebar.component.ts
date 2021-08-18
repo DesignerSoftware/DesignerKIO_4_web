@@ -48,7 +48,7 @@ export class SidebarComponent implements OnInit {
     if (this.usuarioServicio.cadenaConexion) {
       this.cargarDatosIniciales();
     } else {
-    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
     .subscribe(
       data => {
         //console.log('getInfoUsuario', data);

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -5,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AusentismosService } from 'src/app/services/ausentismos.service';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
 
 
@@ -15,7 +17,6 @@ import swal from 'sweetalert2';
 })
 export class ReportarAusentismoComponent implements OnInit {
   fileToUpload: File = null; // variable archivo seleccionado 
-  fotoPerfil;
   habilitaBtnCargar = false;
   msjValidArchivoAnexo = '';
   prorrogaSeleccionada = null;
@@ -29,13 +30,14 @@ export class ReportarAusentismoComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute, private usuarioService: UsuarioService, private ausentismosService: AusentismosService, private cadenasKioskos: CadenaskioskosappService) { }
+    private http: HttpClient, private router: Router,
+    private route: ActivatedRoute, private usuarioService: UsuarioService, public ausentismosService: AusentismosService, private cadenasKioskos: CadenaskioskosappService) { }
   formulario: FormGroup;
   causasAusentismos = null;
   causaSelec = null;
   claseSelec = null;
   tipoSelec = null;
+  secCodDiagSelec = null;
 
   ngOnInit() {
     this.crearFormulario();
@@ -58,7 +60,7 @@ export class ReportarAusentismoComponent implements OnInit {
       tipo: [],
       prorroga: [false],
       observaciones: [''],
-      anexo: []
+      anexo: [null, []]
     });
   }
 
@@ -69,6 +71,7 @@ export class ReportarAusentismoComponent implements OnInit {
     this.usuarioService.setTokenJWT(sesion['JWT']);
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
+    console.log('session token localstorage: ', sesion['JWT']);
     //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
       .subscribe(
@@ -127,17 +130,25 @@ export class ReportarAusentismoComponent implements OnInit {
   }
 
   getProrrogas() {
-    console.log("entre a validar");
-    let indexCausa = this.formulario.get('causa').value;
-    let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
-    console.log(secuenciaCausa)
-    this.ausentismosService.getProrroga(this.usuarioService.usuario, secuenciaCausa, this.usuarioService.empresa, "DEFAULT1")
-      .subscribe(
-        data => {
-          this.ausentismosService.datosProrroga = data;
-          //console.log(data);
-        }
+    if (this.formulario.get('causa').value!=null || this.formulario.get('causa').value!='') {
+      console.log("entre a validar");
+      let indexCausa = this.formulario.get('causa').value;
+      let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
+      console.log(secuenciaCausa)
+      this.ausentismosService.getProrroga(this.usuarioService.usuario, secuenciaCausa, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
+        .subscribe(
+          data => {
+            this.ausentismosService.datosProrroga = data;
+            //console.log(data);
+          }
+        )
+    } else {
+      swal.fire(
+        'No ha seleccionado la causa del ausentismo',
+        'Para seleccionar una prorroga debe seleccionar primero la causa de ausentismo',
+        'error'
       )
+    }
   }
 
   mostrarListaCod() {
@@ -168,6 +179,8 @@ export class ReportarAusentismoComponent implements OnInit {
 
   seleccionarCodDiag(secuencia, codigo, descripcion, index) {
     this.formulario.get('codigo').setValue(codigo + " - " + descripcion);
+    this.secCodDiagSelec = secuencia;
+    console.log('SecDiagnostico', this.secCodDiagSelec);
     this.ocultarListaCod();
   }
 
@@ -175,6 +188,7 @@ export class ReportarAusentismoComponent implements OnInit {
     //console.log('cambio');
     //console.log(this.ausentismosService.datosProrroga[index][0]);
     this.prorrogaSeleccionada = this.ausentismosService.datosProrroga[index];
+    console.log('this.prorrogaSeleccionada', this.prorrogaSeleccionada);
     //console.log(this.prorrogaSeleccionada);
   }
 
@@ -189,7 +203,10 @@ export class ReportarAusentismoComponent implements OnInit {
     }
   }
 
+  /*Método que se ejecuta cuando se cambia la selección de la causa de ausentismo*/
   cambioSeleccion() {
+    this.formulario.get('prorroga').setValue(false); // Quitar check de prorroga
+    this.prorrogaSeleccionada = null; // Quitar la prorroga seleccionada
     let secCausa = this.formulario.get('causa').value;
     this.activaProrroga = false;
     console.log('index', secCausa);
@@ -205,6 +222,8 @@ export class ReportarAusentismoComponent implements OnInit {
     } else {
       this.habilitaBtnCodDiag = false;
     }
+
+    this.cargaFechaFin();
     //let clase = this.causasAusentismos;
     //console.log(clase);
   }
@@ -217,6 +236,24 @@ export class ReportarAusentismoComponent implements OnInit {
           this.causasAusentismos = data;
         }
       )
+  }
+
+  cargaFechaFin() {
+    this.formulario.get('fechafin').setValue('');
+    let indexCausa = this.formulario.get('causa').value;
+    let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
+    if (this.formulario.get('causa').value!='' && this.formulario.get('causa').value!=null
+    && this.formulario.get('dias').value>0 && this.formulario.get('dias').value!=null
+    && this.formulario.get('fechainicio').value!=null && this.formulario.get('fechainicio').value!='') {
+      this.ausentismosService.getFechaFinAusentismo(this.usuarioService.tokenJWT, this.usuarioService.usuario, this.usuarioService.empresa,
+        this.formatoddmmyyyy(this.formulario.get('fechainicio').value), this.formulario.get('dias').value,
+        secuenciaCausa, this.usuarioService.cadenaConexion )
+        .subscribe(
+          data=> {
+            this.formulario.get('fechafin').setValue(data['fechafin']);
+          }
+        )
+    }
   }
 
   enviarNovedad() {
@@ -258,7 +295,7 @@ export class ReportarAusentismoComponent implements OnInit {
                 "grupoEmpresarial: " + this.usuarioService.grupoEmpresarial
               );
               let incluyeAnexo = 'N';
-              if (this.formulario.get('anexo').value != null) {
+              if (this.formulario.get('anexo').value != null && this.formulario.get('anexo').value!=""){
                 incluyeAnexo = 'S';
               }
               let indexCausa = this.formulario.get('causa').value;
@@ -266,22 +303,62 @@ export class ReportarAusentismoComponent implements OnInit {
               let secuenciaClase = this.causasAusentismos[indexCausa].causa.clase.secuencia;
               let secuenciaTipo = this.causasAusentismos[indexCausa].causa.clase.tipo.secuencia;
               let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
-              let secuenciaProrroga = this.ausentismosService.datosProrroga[indexCausa][0];
+              let secuenciaProrroga = null;
+              if (this.prorrogaSeleccionada && this.prorrogaSeleccionada!=null && this.prorrogaSeleccionada!=[] && this.formulario.get('prorroga')) {
+                secuenciaProrroga = this.prorrogaSeleccionada[0];
+              }          
+              console.log('prorrogaSeleccionada', secuenciaProrroga);
               swal.fire({
                 title: "Enviando la solicitud al sistema, por favor espere...",
                 onBeforeOpen: () => {
                   swal.showLoading();
-                  this.ausentismosService.crearNovedadAusentismo(this.usuarioService.usuario,
-                    this.usuarioService.empresa, 'ENVIADO', this.formulario.get('fechainicio').value,
+                  this.ausentismosService.crearNovedadAusentismo(
+                    this.usuarioService.tokenJWT,
+                    this.usuarioService.usuario,
+                    this.usuarioService.empresa, 'ENVIADO', 
+                    this.formatoddmmyyyy(this.formulario.get('fechainicio').value),
                     this.formulario.get('fechafin').value, this.formulario.get('dias').value,
-                    secuenciaCausa, secuenciaClase,
-                    secuenciaTipo, 'prorroga', this.formulario.get('observaciones').value, incluyeAnexo,
+                    secuenciaCausa, this.secCodDiagSelec, secuenciaClase,
+                    secuenciaTipo,secuenciaProrroga, this.formulario.get('observaciones').value, incluyeAnexo,
                     this.usuarioService.cadenaConexion,
                     this.usuarioService.urlKioscoDomain,
                     this.usuarioService.grupoEmpresarial)
                     .subscribe(
                       data => {
                         console.log('rta: ', data);
+                        if (data["NovedadCreada"]) {
+                          swal
+                            .fire({
+                              icon: "info",
+                              title:
+                                "Validando novedad en el sistema...",
+                              showConfirmButton: false,
+                              timer: 1500
+                            })
+                            .then((res) => {
+                              //this.router.navigate(["/ausentismos"]);
+                              // Si se registro correctamente la novedad, subir el anexo:
+                              if (incluyeAnexo == 'S') {
+                                console.log('Novedad reportada incluye anexo');
+                                this.subirAnexo(data["anexo"], data["solicitud"]);
+                              } else {
+                                console.log('Novedad reportada NO incluye anexo');
+                                console.log('solicitud creada: '+data["solicitud"])
+                                this.enviarCorreoNovedad(data["solicitud"]);
+                              }
+                                
+                            });
+                        } else {
+                          swal
+                            .fire({
+                              icon: "error",
+                              title: data["mensaje"],
+                              showConfirmButton: true,
+                            })
+                            .then((res) => {
+                              this.router.navigate(["/ausentismos"]);
+                            });
+                        }
                       }
                     );
                 },
@@ -289,14 +366,6 @@ export class ReportarAusentismoComponent implements OnInit {
               });
             }
           });
-      } else {
-        console.log(this.formulario.controls);
-        swal.fire({
-          title: "¡Por favor valide el formulario!",
-          text:
-            "Por favor valide que todos los campos obligatorios del formulario estén diligenciados.",
-          icon: "error",
-        });
       }
     } else {
       console.log(this.formulario.controls);
@@ -308,6 +377,106 @@ export class ReportarAusentismoComponent implements OnInit {
       });
     }
   }
+
+  subirAnexo(nombreAnexo: string, secKioSoliciAusentismo: string) {
+    const formData = new FormData();
+    formData.append('fichero', this.formulario.get('anexo').value, nombreAnexo + '.pdf');
+
+    this.http
+      .post<any>(
+        `${environment.urlKioskoReportes}ausentismos/cargarAnexoAusentismo?seudonimo=${this.usuarioService.usuario}&solicitud=${secKioSoliciAusentismo}&nit=${this.usuarioService.empresa}&cadena=${this.usuarioService.cadenaConexion}`, formData
+      )
+      .subscribe(
+        (data) => {
+          console.log(data);
+        },
+        (error) => {
+          if (error.status === 200) {
+            swal
+              .fire({
+                icon: 'success',
+                title: 'Se ha subido el documento anexo exitosamente.',
+                showConfirmButton: false,
+                timer: 1500
+              })
+              .then((result) => {
+               /* setTimeout(function(){
+                  swal.close();
+                  }, 2000);*/
+                  //alert('hola');
+                  this.enviarCorreoNovedad(secKioSoliciAusentismo);
+                //this.router.navigated = false;
+                //this.router.navigate([this.router.url]);
+              });
+          } else if (error.status !== 200) {
+            swal
+              .fire({
+                icon: 'error',
+                title: 'Se ha presentado un error',
+                text:
+                  'No se ha podido cargar el archivo, por favor inténtalo de nuevo más tarde.',
+                showConfirmButton: true,
+              })
+              .then((result) => {
+                //this.router.navigated = false;
+                //this.router.navigateByUrl('/home');
+              });
+          }
+        }
+      );
+    console.log(this.formulario.value);
+  }
+
+  enviarCorreoNovedad(secSoliciAusentismo: string) {
+    swal.fire({
+      title: "Enviando la solicitud al sistema, por favor espere...",
+      onBeforeOpen: () => {
+        swal.showLoading();
+        this.ausentismosService.enviarCorreoNuevaNovedad(
+          this.usuarioService.usuario,
+          this.usuarioService.empresa,
+          secSoliciAusentismo,
+          this.formulario.get('observaciones').value,
+          "Asunto prueba",
+          this.usuarioService.urlKioscoDomain,
+          this.usuarioService.grupoEmpresarial,
+          this.usuarioService.cadenaConexion
+        )
+          .subscribe(
+            data => {
+              console.log(data);
+              if (data) {
+                swal.fire({
+                  icon: 'success',
+                  title: 'Su novedad de ausentismo ha sido reportada exitosamente',
+                  showConfirmButton: true
+                }).then((result) => {
+                  this.router.navigateByUrl('/ausentismos');
+                });
+              } else {
+                swal.fire({
+                  icon: 'error',
+                  title: 'Ha ocurrido un error al reportar su novedad de ausentismo',
+                  text: 'Por favor intentelo de nuevo más tarde, si el problema persiste comuniquese con el área de nómina y/o Talento humano de su empresa.',
+                  showConfirmButton: true
+                }).then((result) => {
+                  this.router.navigateByUrl('/ausentismos');
+                });
+              }
+            }
+          )
+      },
+      allowOutsideClick: () => !swal.isLoading(),
+    });
+  }
+
+  formatoddmmyyyy(fecha) {
+    let anio = fecha.substring(0, 4);
+    let mes = fecha.substring(5, 7);
+    let dia = fecha.substring(8, 11);
+    let ensamble = dia + "/" + mes + "/" + anio;
+    return ensamble;
+  } 
 
   onFileSelect(event) {
     if (event.target.files.length > 0) {

@@ -37,20 +37,23 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngIf="!solicitudesProcesadas || solicitudesProcesadas==null || solicitudesProcesadas.length==0"><td colspan="9">No hay solicitudes procesadas.</td></tr>
+                        <tr *ngIf="!solicitudesProcesadas || solicitudesProcesadas==null || solicitudesProcesadas.length==0"><td colspan="7">No hay ausentismos procesados.</td></tr>
+
                         <tr *ngFor="let solic of solicitudesProcesadas | filterTable: dataFilt | paginate: { id: 'eightth', itemsPerPage: 10, currentPage: p8 }; index as i " > 
                         <td>
                             <a (click)="detalleSolicitud('ENVIADO', i)" *ngIf="solicitudesProcesadas">
                               <i class="far fa-eye text-info"></i>
                             </a>
                           </td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[0]||'N/A'}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[1]||'N/A'}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[3]||'N/A'}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[4]||'N/A'}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[3]||'N/A'}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[5]||'N/A'}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[9]||'N/A'}}</td>
+                          
+                          <td *ngIf="solicitudesProcesadas">{{solic[0]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[1]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[2]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[6]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[3]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[10]||''}}</td>
+                          <td *ngIf="solicitudesProcesadas">{{solic[11]||''}}</td>
+
                         </tr>
                       </tbody>
                     </table>
@@ -82,51 +85,56 @@
                 <tbody>
                   <tr>
                     <td class="text-left">Código empleado:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0] || 'N/A' }}</td>
+
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0] || ' '}}</td>
                   </tr>
                   <tr>
                     <td class="text-left">Nombre Completo:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1] || 'N/A' }}</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1] || 'N/A'}}</td>
                   </tr>
                   <tr>
                     <td class="text-left">Fecha inicio ausentismo:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[4] || 'N/A' }}</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[6] || 'N/A'}}</td>
                   </tr>
                   <tr>
                     <td class="text-left">Fecha fin ausentismo:	</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[8] || 'N/A' }}</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[7] || 'N/A'}}</td>
                   </tr>
                   <tr>
                     <td class="text-left">Días de ausentismo:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[10] || 'N/A' }}</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[8] || 'N/A'}}</td>
                   </tr>
                   <tr>
                     <td class="text-left">Causa:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[9] || 'N/A' }}</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[11] || 'N/A'}}</td>
                   </tr>   
                   <tr>
                     <td class="text-left">Tipo:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[11] || 'N/A' }}</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12] ||'N/A'}}</td>
                   </tr>       
                   <tr>
                     <td class="text-left">Clase:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12] || 'N/A' }}</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[13] || 'N/A' }}</td>
                   </tr>         
                   <tr>
                     <td class="text-left">Cód diagnóstico:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[15] || 'N/A' }}</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[14] || 'N/A'}}</td>
                   </tr>       
                   <tr>
                     <td class="text-left">Descripción Cód diagnóstico:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[16] || 'N/A' }}</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[15] || 'N/A'}}</td>
                   </tr>                            
                   <tr>
                     <td class="text-left">Prorroga de otra incapacidad:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[14] || 'N/A' }}</td>
-                  </tr>                                                             
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[17] || 'N/A'}}</td>
+                  </tr>       
+                  <tr>
+                    <td class="text-left">Observaciones:</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[16] || 'N/A'}}</td>
+                  </tr>                                                       
                   <tr>
                     <td class="text-left">Jefe inmediato:	</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[17] || 'N/A' }}</td>
+                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[9] || 'N/A'}}</td>
                   </tr>
                 </tbody>
               </table>

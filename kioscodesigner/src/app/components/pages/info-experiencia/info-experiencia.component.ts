@@ -50,7 +50,7 @@ export class InfoExperienciaComponent implements OnInit {
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
     console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
-    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
     .subscribe(
       data => {
         console.log('getInfoUsuario', data);
@@ -80,7 +80,7 @@ export class InfoExperienciaComponent implements OnInit {
         .subscribe(
           data => {
             this.usuarioServicio.datosPersonales = data;
-            console.log('datos', this.usuarioServicio.datosPersonales);
+            //console.log('datos', this.usuarioServicio.datosPersonales);
           }
         );
     }
@@ -92,7 +92,8 @@ export class InfoExperienciaComponent implements OnInit {
         .subscribe(
           data => {
             this.usuarioServicio.datosExperienciaLab = data;
-            console.log('datosExperienciaLab', this.usuarioServicio.datosExperienciaLab);          }
+            //console.log('datosExperienciaLab', this.usuarioServicio.datosExperienciaLab);          
+          }
         );
     }
   }

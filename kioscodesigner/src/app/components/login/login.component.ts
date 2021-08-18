@@ -52,22 +52,21 @@ export class LoginComponent implements OnInit {
             this.validaParametroGrupo = '';
             /*console.log(params.id);
         console.log(params[‘id’]);*/
-            this.cadenasKioskos
-              .getCadenasKioskosEmp(this.usuarioService.grupoEmpresarial)
+            this.cadenasKioskos.
+            getCadenasKioskosEmp(this.usuarioService.grupoEmpresarial)
               .subscribe((data) => {
                 //console.log('cadenasKioskos form Registro', data);
                 this.cadenasApp = data;
                 console.log('cadenas: ', data)
                 this.usuarioService.cadenaConexion = data[0][4];
                 console.log('Cadena: ', this.usuarioService.cadenaConexion);
-                console.log('length: '+this.cadenasApp.length);
+                console.log('length: ' + this.cadenasApp.length);
                 this.loginService.kioscoActivo = true;
-                for (let i=0; i<this.cadenasApp.length; i++){
+                for (let i = 0; i < this.cadenasApp.length; i++) {
                   console.log(data[i][7]);
-                  if (data[i][7]=='INACTIVO'){
-                    console.log('desde login (usuario NO logueado) estado Kiosco: '+this.loginService.kioscoActivo);
+                  if (data[i][7] == 'INACTIVO') {
+                    console.log('desde login (usuario NO logueado) estado Kiosco: ' + this.loginService.kioscoActivo);
                     this.loginService.kioscoActivo = false;
-                    
                   }
                 }
                 if (this.cadenasApp.length === 1) {
@@ -97,20 +96,20 @@ export class LoginComponent implements OnInit {
         }
       );*/
     } else {
-      // Validar que el Kiosco este activo  
+      // Validar que el Kiosco esté activo  
       this.loginService.kioscoActivo = true;
-      this.cadenasKioskos.getCadenasKioskosEmp(this.usuarioService.grupoEmpresarial)
-      .subscribe(data=>{
-        this.cadenasApp = data;
-        for (let i=0; i<this.cadenasApp.length; i++){
-          console.log(data[i][7]);
-          if (data[i][7]=='INACTIVO'){
-            this.loginService.kioscoActivo = false;
-            this.loginService.mensajeKioscoInactivo = data[i][8];
-            console.log('desde login (usuario logueado) estado Kiosco: '+this.loginService.kioscoActivo);
+      this.cadenasKioskos.getCadenaKioskoXGrupoNit(this.usuarioService.grupoEmpresarial, this.usuarioService.empresa)
+        .subscribe(data => {
+          this.cadenasApp = data;
+          for (let i = 0; i < this.cadenasApp.length; i++) {
+            console.log(data[i][7]);
+            if (data[i][7] == 'INACTIVO') {
+              this.loginService.kioscoActivo = false;
+              this.loginService.mensajeKioscoInactivo = data[i][8];
+              console.log('desde login (usuario logueado) estado Kiosco: ' + this.loginService.kioscoActivo);
+            }
           }
-        }
-      });
+        });
       if (this.loginService.kioscoActivo) {
         this.navigate();
       }
