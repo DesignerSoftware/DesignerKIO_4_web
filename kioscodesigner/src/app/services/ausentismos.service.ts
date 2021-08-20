@@ -41,7 +41,7 @@ export class AusentismosService {
     });
   }
 
-  getProrroga(usuario: string, causa: string,nit: string, cadena: string) {
+  getProrroga(usuario: string, causa: string, fechainicio: string, nit:string, cadena: string) {
     const url = `${environment.urlKioskoReportes}ausentismos/prorroga`;
     console.log('url:' + url);
     console.log(nit);
@@ -53,7 +53,8 @@ export class AusentismosService {
         nitempresa: nit,
         cadena: cadena,
         empleado: usuario,
-        causa: causa
+        causa: causa,
+        fechainicio
       }
     });
   }

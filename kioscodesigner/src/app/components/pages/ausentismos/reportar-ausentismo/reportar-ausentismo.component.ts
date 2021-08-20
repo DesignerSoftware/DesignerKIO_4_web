@@ -135,7 +135,7 @@ export class ReportarAusentismoComponent implements OnInit {
       let indexCausa = this.formulario.get('causa').value;
       let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
       console.log(secuenciaCausa)
-      this.ausentismosService.getProrroga(this.usuarioService.usuario, secuenciaCausa, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
+      this.ausentismosService.getProrroga(this.usuarioService.usuario, secuenciaCausa, this.formulario.get('fechainicio').value, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
         .subscribe(
           data => {
             this.ausentismosService.datosProrroga = data;
