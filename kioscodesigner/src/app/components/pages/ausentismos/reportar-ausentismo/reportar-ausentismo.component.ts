@@ -190,6 +190,7 @@ export class ReportarAusentismoComponent implements OnInit {
     this.formulario.get('fechainicio').setValue('');
     this.prorrogaSeleccionada = this.ausentismosService.datosProrroga[index];
     this.formulario.get('fechainicio').setValue(this.ausentismosService.datosProrroga[index][1]);
+    this.cargaFechaFin();
     console.log('this.prorrogaSeleccionada', this.ausentismosService.datosProrroga[index][1]);
     console.log('this.prorrogaSeleccionada', this.prorrogaSeleccionada);
     //console.log(this.prorrogaSeleccionada);
@@ -202,6 +203,7 @@ export class ReportarAusentismoComponent implements OnInit {
 
   validarCheckProrroga() {
     console.log('cambio');
+    this.formulario.get('fechafin').setValue(null);
     if (this.formulario.get('prorroga').value == false) {
       this.quitarSeleccionPro();
     } else {
