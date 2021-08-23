@@ -27,6 +27,8 @@ export class ProcesarAusentismosComponent implements OnInit {
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
   anexoSeleccionado = null;
+  estadoNovEmple = null;
+  msjNovEmple = null;
   
   constructor( 
     public usuarioServicio: UsuarioService, 
@@ -92,9 +94,31 @@ export class ProcesarAusentismosComponent implements OnInit {
     }
   }
 
+  validaFechaNovedadEmpleadoXJefe(seudonimo: string, fecha: string){
+    // this.ausentismoService.getvalidaFechaNovedadEmpleadoXJefe(this.usuarioService.empresa, seudonimo, fecha, this.usuarioService.cadenaConexion)
+    //     .subscribe(
+    //       data => {
+    //         console.log(data);
+    //         this.estadoNovEmple=data['valida'];
+    //         if(this.estadoNovEmple== 'SA'){
+    //           this.msjNovEmple = 'La fecha de ausentismo coincide con otra novedad de ausentismo';
+    //         } else if (this.estadoNovEmple== 'SV'){
+    //           this.msjNovEmple = 'La fecha de ausentismo coincide con una novedad de vacaciones';
+    //         } else {
+    //           this.msjNovEmple = '';
+    //         }
+    //         ;
+    //         /*console.log('impresive', this.ausentismoService.SolicitudesJefe);
+    //         console.log("Datos iniciales");
+    //         console.log(data);*/            
+    //       }
+    //     );
+  }
+
   detalleSolicitud(index: string) {
     this.solicitudSeleccionada = this.ausentismoService.SolicitudesJefe[index];
     this.anexoSeleccionado = this.ausentismoService.SolicitudesJefe[index][21];    
+    this.validaFechaNovedadEmpleadoXJefe(this.ausentismoService.SolicitudesJefe[index][22],this.ausentismoService.SolicitudesJefe[index][4]);
   }
 
   navigate() {
@@ -103,7 +127,7 @@ export class ProcesarAusentismosComponent implements OnInit {
 
   cargaFoto(documento: string) {
           this.fotoPerfil = documento;
-          console.log('documento: ' + this.fotoPerfil);
+          //console.log('documento: ' + this.fotoPerfil);
          /* document.getElementById('fotoPerfilEmpl').setAttribute('src',
             `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);*/
             this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&empresa=${this.usuarioService.empresa}`;
@@ -123,101 +147,183 @@ export class ProcesarAusentismosComponent implements OnInit {
       cancelButtonText: 'Cerrar'
     }).then((result) => {
       if (result.isConfirmed) {
-        /*this.ausentismoService.setNuevoEstadoSolicio(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion,
-          'AUTORIZADO', this.solicitudSeleccionada[18], null, this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial)
-          .subscribe(
-            data => {
-              aprobado = data.toString();
-              console.log('Envio aprobado', data);
-              if (data) {
-                swal
-                  .fire({
-                    title: "Aprobada!",
-                    text: "La solicitud ha sido Aprobada. ",
-                    icon: "success",
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: "Ok",
-                  })
-                  .then((result2) => {
-                    if (result2.isConfirmed) {
-                      $("#exampleModalCenter").modal("hide");
-                      this.reloadPage();
-                    }
-                  });
-              } else {
-                swal.fire(
-                  "Ha ocurrido un problema!",
-                  "La solicitud  no ha podido ser aprobada.",
-                  "error"
-                );
-              }
-            }
-          );*/
-
+        // informa que la solicitud ya tiene novedades de nomina en ese rango de fechas 
+        if(this.estadoNovEmple=='SA' || this.estadoNovEmple=='SV'){
+          //console.log('Entre a validar aprobarEnvio()');
           swal.fire({
-            title: "Procesando solicitud, por favor espere...",
-            onBeforeOpen: () => {
-              swal.showLoading();
-              this.ausentismoService.setNuevoEstadoSolicio(
-                this.usuarioService.usuario, 
-                this.usuarioService.empresa, 
-                this.usuarioService.cadenaConexion,
-                'AUTORIZADO', 
-                this.solicitudSeleccionada[4] ,
-                this.solicitudSeleccionada[20], 
-                null, 
-                this.usuarioService.urlKioscoDomain, 
-                this.usuarioService.grupoEmpresarial)
-                .subscribe(
-                  (data) => {
-                    console.log(data);
-                    if (data) {
-                      swal
-                        .fire({
-                          icon: "success",
-                          title:
-                            "¡La solicitud de ausentismo ha sido autorizada exitosamente!",
-                          showConfirmButton: true,
-                        })
-                        .then((res) => {
-                          $("#exampleModalCenter").modal("hide");
-                          this.reloadPage();
-                        });
-                    } else {
+            title: this.msjNovEmple,
+            text: '¿Desea continuar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+          }).then((result) => {
+            if(result.isConfirmed){
+              swal.fire({
+                title: "Procesando solicitud, por favor espere...",
+                onBeforeOpen: () => {
+                  swal.showLoading();
+                  this.ausentismoService.setNuevoEstadoSolicio(
+                    this.usuarioService.usuario, 
+                    this.usuarioService.empresa, 
+                    this.usuarioService.cadenaConexion,
+                    'AUTORIZADO', 
+                    this.solicitudSeleccionada[4] ,
+                    this.solicitudSeleccionada[20], 
+                    null, 
+                    this.usuarioService.urlKioscoDomain, 
+                    this.usuarioService.grupoEmpresarial)
+                    .subscribe(
+                      (data) => {
+                        console.log(data);
+                        if (data) {
+                          swal
+                            .fire({
+                              icon: "success",
+                              title:
+                                "¡La solicitud de ausentismo ha sido autorizada exitosamente!",
+                              showConfirmButton: true,
+                            })
+                            .then((res) => {
+                              $("#exampleModalCenter").modal("hide");
+                              this.reloadPage();
+                            });
+                        } else {
+                          swal
+                            .fire({
+                              icon: "error",
+                              title: "Ha ocurrido un error al autorizar la solicitud",
+                              text:
+                              "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                              showConfirmButton: true,
+                            })
+                            .then((res) => {
+                              $("#exampleModalCenter").modal("hide");
+                              this.reloadPage();                        
+                            });
+                        }
+                      },
+                      (error) => {
+                        swal
+                          .fire({
+                            icon: "error",
+                            title: "Ha ocurrido un error al autorizar la solicitud",
+                            text:
+                              "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                            showConfirmButton: true,
+                          })
+                          .then((res) => {
+                            $("#exampleModalCenter").modal("hide");
+                            this.reloadPage();                     
+                          });
+                      }
+                    );
+                },
+                allowOutsideClick: () => !swal.isLoading(),
+              });
+            }
+          });
+        
+        } else {
+          /*this.ausentismoService.setNuevoEstadoSolicio(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion,
+            'AUTORIZADO', this.solicitudSeleccionada[18], null, this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial)
+            .subscribe(
+              data => {
+                aprobado = data.toString();
+                console.log('Envio aprobado', data);
+                if (data) {
+                  swal
+                    .fire({
+                      title: "Aprobada!",
+                      text: "La solicitud ha sido Aprobada. ",
+                      icon: "success",
+                      confirmButtonColor: "#3085d6",
+                      confirmButtonText: "Ok",
+                    })
+                    .then((result2) => {
+                      if (result2.isConfirmed) {
+                        $("#exampleModalCenter").modal("hide");
+                        this.reloadPage();
+                      }
+                    });
+                } else {
+                  swal.fire(
+                    "Ha ocurrido un problema!",
+                    "La solicitud  no ha podido ser aprobada.",
+                    "error"
+                  );
+                }
+              }
+            );*/
+
+            swal.fire({
+              title: "Procesando solicitud, por favor espere...",
+              onBeforeOpen: () => {
+                swal.showLoading();
+                this.ausentismoService.setNuevoEstadoSolicio(
+                  this.usuarioService.usuario, 
+                  this.usuarioService.empresa, 
+                  this.usuarioService.cadenaConexion,
+                  'AUTORIZADO', 
+                  this.solicitudSeleccionada[4] ,
+                  this.solicitudSeleccionada[20], 
+                  null, 
+                  this.usuarioService.urlKioscoDomain, 
+                  this.usuarioService.grupoEmpresarial)
+                  .subscribe(
+                    (data) => {
+                      console.log(data);
+                      if (data) {
+                        swal
+                          .fire({
+                            icon: "success",
+                            title:
+                              "¡La solicitud de ausentismo ha sido autorizada exitosamente!",
+                            showConfirmButton: true,
+                          })
+                          .then((res) => {
+                            $("#exampleModalCenter").modal("hide");
+                            this.reloadPage();
+                          });
+                      } else {
+                        swal
+                          .fire({
+                            icon: "error",
+                            title: "Ha ocurrido un error al autorizar la solicitud",
+                            text:
+                            "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                            showConfirmButton: true,
+                          })
+                          .then((res) => {
+                            $("#exampleModalCenter").modal("hide");
+                            this.reloadPage();                        
+                          });
+                      }
+                    },
+                    (error) => {
                       swal
                         .fire({
                           icon: "error",
                           title: "Ha ocurrido un error al autorizar la solicitud",
                           text:
-                          "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                            "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
                           showConfirmButton: true,
                         })
                         .then((res) => {
                           $("#exampleModalCenter").modal("hide");
-                          this.reloadPage();                        
+                          this.reloadPage();                     
                         });
                     }
-                  },
-                  (error) => {
-                    swal
-                      .fire({
-                        icon: "error",
-                        title: "Ha ocurrido un error al autorizar la solicitud",
-                        text:
-                          "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
-                        showConfirmButton: true,
-                      })
-                      .then((res) => {
-                        $("#exampleModalCenter").modal("hide");
-                        this.reloadPage();                     
-                      });
-                  }
-                );
-            },
-            allowOutsideClick: () => !swal.isLoading(),
-          });
+                  );
+              },
+              allowOutsideClick: () => !swal.isLoading(),
+            });
+
         }
-      });
+      }
+    });
                
       }
 

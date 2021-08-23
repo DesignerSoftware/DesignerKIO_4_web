@@ -27,7 +27,7 @@ export class AusentismosComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.ausentismosService.pruebaToken('orueba')
+    this.ausentismosService.pruebaToken('orueba')
     //.subscribe(
       //data =>{
         /*if (typeof data === 'object')
@@ -37,7 +37,7 @@ export class AusentismosComponent implements OnInit {
         //console.log(JSON.stringify(resp));
 
         /*try {
-          console.log(JSON.parse(JSON.stringify(resp)));
+            console.log(JSON.parse(JSON.stringify(resp)));
         } catch(e ){
           console.log(e);
         }*/
@@ -50,10 +50,13 @@ export class AusentismosComponent implements OnInit {
         console.log('text', response.text);
         else
         console.log('si hubo un error');
-      }*/
-      //}
-    //)
-    //console.log('ngOnInit() ausentismos');
+      }*/     
+       //}
+    .pipe(
+    );
+    console.log('prueba')
+    console.log(this.ausentismosService.pruebaToken('orueba').subscribe()); 
+      //console.log('ngOnInit() ausentismos');
     if (this.usuarioServicio.cadenaConexion) {
       this.filtrarOpcionesReportes();
     } else {

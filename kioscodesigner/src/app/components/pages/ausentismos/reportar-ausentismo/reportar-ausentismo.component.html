@@ -113,7 +113,7 @@
               <label class="col-sm-5 col-form-label">Fecha inicio ausentismo: <span class="text-danger">*</span></label>
               <div class="col-sm-7">
                 <input type="date" class="form-control form-control-sm" formControlName="fechainicio"
-                  title="Seleccione el día que inicia el ausentismo" (change)="cargaFechaFin()" />
+                  title="Seleccione el día que inicia el ausentismo"  (change)="cargaFechaFin()" [attr.readonly]="this.formulario.get('prorroga').value ? true : null"/>
                   <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched">
                     Seleccione la fecha de inicio del ausentismo.
                   </small>
@@ -167,7 +167,9 @@
                   </tr>
                 </thead>
                 <tbody>
-
+                  <tr *ngIf="!ausentismosService.datosProrroga || ausentismosService.datosProrroga==null || ausentismosService.datosProrroga.length==0">
+                    <th colspan="6" style="text-align: center;">No tienes soliitudes procesadas con la causa seleccionada</th>
+                  </tr>
                   <tr *ngFor="let prorroga of ausentismosService.datosProrroga; index as i">
                     <td *ngIf="prorroga"> {{prorroga[2] || 'N/A' }} </td>
                     <td *ngIf="prorroga"> {{prorroga[3] || 'N/A' }} </td>

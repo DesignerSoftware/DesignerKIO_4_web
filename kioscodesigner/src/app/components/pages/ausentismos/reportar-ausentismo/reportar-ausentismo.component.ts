@@ -139,7 +139,7 @@ export class ReportarAusentismoComponent implements OnInit {
         .subscribe(
           data => {
             this.ausentismosService.datosProrroga = data;
-            //console.log(data);
+            console.log(data);
           }
         )
     } else {
@@ -187,19 +187,25 @@ export class ReportarAusentismoComponent implements OnInit {
   seleccionaPro(index) {
     //console.log('cambio');
     //console.log(this.ausentismosService.datosProrroga[index][0]);
+    this.formulario.get('fechainicio').setValue('');
     this.prorrogaSeleccionada = this.ausentismosService.datosProrroga[index];
+    this.formulario.get('fechainicio').setValue(this.ausentismosService.datosProrroga[index][1]);
+    console.log('this.prorrogaSeleccionada', this.ausentismosService.datosProrroga[index][1]);
     console.log('this.prorrogaSeleccionada', this.prorrogaSeleccionada);
     //console.log(this.prorrogaSeleccionada);
   }
 
   quitarSeleccionPro() {
     this.prorrogaSeleccionada = null;
+    this.formulario.get('fechainicio').setValue('');
   }
 
   validarCheckProrroga() {
     console.log('cambio');
     if (this.formulario.get('prorroga').value == false) {
       this.quitarSeleccionPro();
+    } else {
+      this.formulario.get('fechainicio').setValue('');
     }
   }
 
@@ -250,6 +256,7 @@ export class ReportarAusentismoComponent implements OnInit {
         secuenciaCausa, this.usuarioService.cadenaConexion )
         .subscribe(
           data=> {
+            console.log(data);
             this.formulario.get('fechafin').setValue(data['fechafin']);
           }
         )
@@ -304,6 +311,7 @@ export class ReportarAusentismoComponent implements OnInit {
               let secuenciaTipo = this.causasAusentismos[indexCausa].causa.clase.tipo.secuencia;
               let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
               let secuenciaProrroga = null;
+              console.log('fecha de inicio ' , this.formulario.get('fechainicio').value)
               if (this.prorrogaSeleccionada && this.prorrogaSeleccionada!=null && this.prorrogaSeleccionada!=[] && this.formulario.get('prorroga')) {
                 secuenciaProrroga = this.prorrogaSeleccionada[0];
               }          
@@ -315,11 +323,16 @@ export class ReportarAusentismoComponent implements OnInit {
                   this.ausentismosService.crearNovedadAusentismo(
                     this.usuarioService.tokenJWT,
                     this.usuarioService.usuario,
-                    this.usuarioService.empresa, 'ENVIADO', 
+                    this.usuarioService.empresa, 
+                    'ENVIADO', 
                     this.formatoddmmyyyy(this.formulario.get('fechainicio').value),
-                    this.formulario.get('fechafin').value, this.formulario.get('dias').value,
-                    secuenciaCausa, this.secCodDiagSelec, secuenciaClase,
-                    secuenciaTipo,secuenciaProrroga, this.formulario.get('observaciones').value, incluyeAnexo,
+                    this.formulario.get('fechafin').value, 
+                    this.formulario.get('dias').value,
+                    secuenciaCausa, this.secCodDiagSelec, 
+                    secuenciaClase,
+                    secuenciaTipo,secuenciaProrroga, 
+                    this.formulario.get('observaciones').value, 
+                    incluyeAnexo,
                     this.usuarioService.cadenaConexion,
                     this.usuarioService.urlKioscoDomain,
                     this.usuarioService.grupoEmpresarial)

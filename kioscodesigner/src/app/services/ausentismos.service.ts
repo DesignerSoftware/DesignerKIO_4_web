@@ -44,17 +44,18 @@ export class AusentismosService {
   getProrroga(usuario: string, causa: string, fechainicio: string, nit:string, cadena: string) {
     const url = `${environment.urlKioskoReportes}ausentismos/prorroga`;
     console.log('url:' + url);
-    console.log(nit);
-    console.log(cadena);
-    console.log(usuario);
-    console.log(causa);
+    // console.log(nit);
+    // console.log(cadena);
+    // console.log(usuario);
+    // console.log(causa);
+    console.log(fechainicio)
     return this.http.get(url, {
       params: {
         nitempresa: nit,
         cadena: cadena,
         empleado: usuario,
         causa: causa,
-        fechainicio
+        fechainicio: fechainicio  
       }
     });
   }
@@ -121,7 +122,11 @@ export class AusentismosService {
     console.log('url:' + url);
     ////console.log('url recibida:'+urlKiosco)
     ////console.log('grupo recibid:'+grupoEmpr)
-    return this.http.post(url, []);
+    return this.http.post(url, {
+      headers: new HttpHeaders({
+        Authorization: token
+      })
+    });
   }
 
   getSolicitudesXEstado(documento: string, nit: string, estado: string, cadena: string) {
