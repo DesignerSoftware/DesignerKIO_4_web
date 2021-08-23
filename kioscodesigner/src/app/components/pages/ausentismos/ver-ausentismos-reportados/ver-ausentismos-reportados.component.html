@@ -407,13 +407,23 @@
           </tbody>
         </table>
         <br>
-        <div class="row" *ngIf="estadoSolicitudSeleccionada ==='' || estadoSolicitudSeleccionada !== null">
-          <div class="col-sm-12 col-12" id="btnDescargar">
-            <button type="button" class="btn btn-outline-dark" (click)="descargarArchivo()">DESCARGAR ANEXO
-              <i class="fas fa-download"></i>
-            </button>
-            <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">Click para descargar
-                documento anexo</small></p>
+        <div *ngIf="estadoSolicitudSeleccionada ==='' || estadoSolicitudSeleccionada !== null">
+          <div  class="row" *ngIf="anexoSeleccionado && anexoSeleccionado !== null && anexoSeleccionado !== ''">
+            <div class="col-sm-12 col-12" id="btnDescargar">
+              <button type="button" class="btn btn-outline-dark" (click)="descargarArchivo()">DESCARGAR ANEXO
+                <i class="fas fa-download"></i>
+              </button>
+              <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">Click para descargar
+                  documento anexo</small></p>
+            </div>
+          </div>
+          <div  class="row" *ngIf="!anexoSeleccionado || anexoSeleccionado== null || anexoSeleccionado == ''">
+            <div class="col-sm-12 col-12" id="btnDescargar">
+              <button type="button" class="btn btn-outline-dark" disabled (click)="descargarArchivo()">DESCARGAR ANEXO
+                <i class="fas fa-download"></i>
+              </button>
+              <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">No se anexó un documento</small></p>
+            </div>
           </div>
         </div>
         <div *ngIf="estadoSolicitudSeleccionada ==='' || estadoSolicitudSeleccionada !== null">
