@@ -59,6 +59,17 @@ export class AusentismosService {
       }
     });
   }
+  getvalidaFechaNovedadEmpleadoXJefe(nit: string, seudonimo: string, fecha: string, cadena: string) {
+    const url = `${environment.urlKioskoReportes}ausentismos/validaFechaNovedadEmpleadoXJefe`;
+    return this.http.get(url, {
+      params: {
+        nitempresa: nit,
+        cadena: cadena,
+        fechainicio: fecha,
+        usuario: seudonimo,
+      }
+    });
+  }
 
   setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, fechaInicio: string, secuencia: string, motivo: string, urlKiosco: string, grupoEmpr: string) {
     const url = `${environment.urlKioskoReportes}ausentismos/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&fechainicio=${fechaInicio}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;

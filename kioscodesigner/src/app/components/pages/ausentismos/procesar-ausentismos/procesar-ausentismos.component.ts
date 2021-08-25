@@ -95,24 +95,24 @@ export class ProcesarAusentismosComponent implements OnInit {
   }
 
   validaFechaNovedadEmpleadoXJefe(seudonimo: string, fecha: string){
-    // this.ausentismoService.getvalidaFechaNovedadEmpleadoXJefe(this.usuarioService.empresa, seudonimo, fecha, this.usuarioService.cadenaConexion)
-    //     .subscribe(
-    //       data => {
-    //         console.log(data);
-    //         this.estadoNovEmple=data['valida'];
-    //         if(this.estadoNovEmple== 'SA'){
-    //           this.msjNovEmple = 'La fecha de ausentismo coincide con otra novedad de ausentismo';
-    //         } else if (this.estadoNovEmple== 'SV'){
-    //           this.msjNovEmple = 'La fecha de ausentismo coincide con una novedad de vacaciones';
-    //         } else {
-    //           this.msjNovEmple = '';
-    //         }
-    //         ;
-    //         /*console.log('impresive', this.ausentismoService.SolicitudesJefe);
-    //         console.log("Datos iniciales");
-    //         console.log(data);*/            
-    //       }
-    //     );
+    this.ausentismoService.getvalidaFechaNovedadEmpleadoXJefe(this.usuarioService.empresa, seudonimo, fecha, this.usuarioService.cadenaConexion)
+        .subscribe(
+          data => {
+            console.log(data);
+            this.estadoNovEmple=data['valida'];
+            if(this.estadoNovEmple== 'SA'){
+              this.msjNovEmple = 'La fecha de ausentismo coincide con otra novedad de ausentismo';
+            } else if (this.estadoNovEmple== 'SV'){
+              this.msjNovEmple = 'La fecha de ausentismo coincide con una novedad de vacaciones';
+            } else {
+              this.msjNovEmple = '';
+            }
+            ;
+            /*console.log('impresive', this.ausentismoService.SolicitudesJefe);
+            console.log("Datos iniciales");
+            console.log(data);*/            
+          }
+        );
   }
 
   detalleSolicitud(index: string) {
