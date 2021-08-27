@@ -50,14 +50,14 @@ export class CambioFotoComponent implements OnInit {
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
     .subscribe(
       data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo']);
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];
-          console.log('cadena: ', temp[4]) // CADENA
+          //console.log('cadena: ', temp[4]) // CADENA
           this.usuarioService.cadenaConexion=temp[4];
-          console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
+          //console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
           this.cargarDatosIniciales();
           }
         }
@@ -74,9 +74,9 @@ export class CambioFotoComponent implements OnInit {
     this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
     .subscribe(
       data => {
-        console.log(data);
+        //console.log(data);
         this.fotoPerfil = data['result'];
-        console.log('documento: ' + this.fotoPerfil);
+        //console.log('documento: ' + this.fotoPerfil);
         this.usuarioService.documento=this.fotoPerfil;
         this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&empresa=${this.usuarioService.empresa}`;
         /* document.getElementById("imgPrevia").setAttribute("src", 
@@ -97,7 +97,7 @@ export class CambioFotoComponent implements OnInit {
       console.log(file);
       this.formulario.get('profile').setValue(file);
       if (file.type === 'image/jpeg' ) {
-          console.log('Es .jpg');
+          //console.log('Es .jpg');
           // cargar foto previa
           if (event.target.files) {
             const reader = new FileReader();
@@ -135,7 +135,7 @@ export class CambioFotoComponent implements OnInit {
   onSubmit() {
     const formData = new FormData();
     const nombreFoto: any = this.fotoPerfil;
-    console.log(nombreFoto);
+    //console.log(nombreFoto);
     formData.append('fichero', this.formulario.get('profile').value, nombreFoto + '.jpg');
 
     this.http
@@ -144,7 +144,7 @@ export class CambioFotoComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log(data);
+          //console.log(data);
         },
         (error) => {
           if (error.status === 200) {
@@ -177,7 +177,7 @@ export class CambioFotoComponent implements OnInit {
           }
         }
       );
-    console.log(this.formulario.value);
+    //console.log(this.formulario.value);
   }
 
 createImageFromBlob(image: Blob) {
@@ -209,11 +209,11 @@ createImageFromBlob(image: Blob) {
 
 handleFileInput(files: FileList) { // 10 sep
   this.fileToUpload = files.item(0);
-  console.log(this.fileToUpload);
+  //console.log(this.fileToUpload);
 }
 
 uploadFileToActivity() { // 10 sep
-  console.log('envio');
+  //console.log('envio');
   /*this.fileUploadService.postFile(this.fileToUpload).subscribe(data => {
     // do something, if upload success
     }, error => {

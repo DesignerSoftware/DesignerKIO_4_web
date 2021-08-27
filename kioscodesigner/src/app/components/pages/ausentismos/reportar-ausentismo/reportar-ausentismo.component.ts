@@ -308,6 +308,12 @@ export class ReportarAusentismoComponent implements OnInit {
           text: 'Ha seleccionado que esta reportando un ausentismo con prórroga pero no ha indicado a cual hace referencia.',
           icon: "error",
         });
+      } else if (this.formulario.get('anexo').value!=null && (!this.validaTipoArchivoAnexo() || !this.validaSizeAnexo())) {
+        if (!this.validaSizeAnexo()) {
+          swal.fire('Tamaño de archivo demasiado grande', 'Por favor seleccione un archivo de máximo 5MB', 'error');
+        } else if (!this.validaTipoArchivoAnexo()) {
+          swal.fire('Tipo de archivo no válido', 'Por favor seleccione un archivo con extensión .pdf', 'error');
+        }
       } else if (this.formulario.valid) {
         swal
           .fire({
@@ -603,12 +609,10 @@ export class ReportarAusentismoComponent implements OnInit {
       const file = event.target.files[0];
       console.log(file);
       this.formulario.get('anexo').setValue(file);
-      if (file.type === 'application/pdf') {
+      if (this.validaTipoArchivoAnexo()) {
         console.log('Es .pdf');
-        let sizeArchivo = (file.size / 1048576);
-        let sizeArchivo2 = parseFloat(parseFloat(sizeArchivo.toString()).toFixed(2));
         this.msjValidArchivoAnexo = '';
-        if (sizeArchivo > 1) {
+        if (!this.validaSizeAnexo()) {
           this.msjValidArchivoAnexo = 'El tamaño del archivo es demasiado grande. Seleccione un archivo de máximo 5MB.'
           swal.fire('Tamaño de archivo demasiado grande', 'Por favor seleccione un archivo de máximo 5MB', 'error');
         }
@@ -625,5 +629,37 @@ export class ReportarAusentismoComponent implements OnInit {
       });
     }
   }
+
+  // Método que retorna true si el tamaño del archivo no supera los 5MB
+  validaSizeAnexo(){
+    let valid = false;
+    let sizeArchivo = (this.formulario.get('anexo').value.size / 1048576);
+    let sizeArchivo2 = parseFloat(parseFloat(sizeArchivo.toString()).toFixed(2));
+    if (sizeArchivo2<=5) {
+      valid = true;
+      console.log('El anexo no supera los 5 MB');
+    } 
+    return valid;
+  }
+
+  // Método que retorna true si el archivo anexo corresponde a un pdf
+  validaTipoArchivoAnexo(){
+    let valid = false;
+    if (this.formulario.get('anexo').value.type=='application/pdf') {
+      valid = true;
+      console.log('Es PDF');
+    } 
+    return valid;
+  }  
+
+  // Método que quitar  el archivo seleccionado del campo de anexo,
+  quitarArchivoSeleccionado() {
+    console.log('Quitar archivo seleccionado');
+   var file=(<HTMLInputElement>document.getElementById('file'));
+   file.value=null;
+   this.msjValidArchivoAnexo = '';
+   this.formulario.get('anexo').setValue(null);
+  }
+
 
 }

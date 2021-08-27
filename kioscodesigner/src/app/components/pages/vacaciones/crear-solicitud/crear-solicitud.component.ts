@@ -72,18 +72,18 @@ export class CrearSolicitudComponent implements OnInit {
     this.usuarioService.setTokenJWT(sesion['JWT']);
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
+    //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
     .subscribe(
       data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo']);
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];
-          console.log('cadena: ', temp[4]) // CADENA
+          //console.log('cadena: ', temp[4]) // CADENA
           this.usuarioService.cadenaConexion=temp[4];
-          console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
+          //console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
           this.cargarDatosIniciales();
           }
         }
@@ -101,7 +101,7 @@ export class CrearSolicitudComponent implements OnInit {
       )
       .subscribe((data) => {
         this.periodosPendientes = data;
-        console.log(" periodosPendientes ", data);
+        //console.log(" periodosPendientes ", data);
       });
 
     // consultar el periodo de vacaciones más antiguo
@@ -118,9 +118,9 @@ export class CrearSolicitudComponent implements OnInit {
         } else {
           this.ultimoPeriodo = "No hay periodos disponibles";
         }
-        console.log(" ultimoPeriodo ", this.ultimoPeriodo);
+       // console.log(" ultimoPeriodo ", this.ultimoPeriodo);
         this.vacacion = data[0]["rfVacacion"];
-        console.log("rfVacacion", this.vacacion);
+        //console.log("rfVacacion", this.vacacion);
       });
 
     // Consultar dias disponibles para solicitar ultimo periodo
@@ -132,7 +132,7 @@ export class CrearSolicitudComponent implements OnInit {
       )
       .subscribe((data) => {
         this.diasUltimoPeriodo = data;
-        console.log("dias ultimo periodo vacaciones: ", this.diasUltimoPeriodo);
+        //console.log("dias ultimo periodo vacaciones: ", this.diasUltimoPeriodo);
         if (this.diasUltimoPeriodo == 0) {
           this.formulario.get("dias").setErrors({ noDiasDispo: true });
         } else {
@@ -149,7 +149,7 @@ export class CrearSolicitudComponent implements OnInit {
       )
       .subscribe((data) => {
         this.totalDiasVacacionesProv = data;
-        console.log(" totalDiasVacacionesProv ", data);
+        //console.log(" totalDiasVacacionesProv ", data);
       });
 
     // consultar total de dias de vacaciones solicitados
@@ -161,7 +161,7 @@ export class CrearSolicitudComponent implements OnInit {
       )
       .subscribe((data) => {
         this.totalDiasVacacionesSolici = data;
-        console.log(" totalDiasVacacionesSolicitados ", data);
+        //console.log(" totalDiasVacacionesSolicitados ", data);
       });
 
     // consultar total de dias de vacaciones con ultimo estado AUTORIZADO
@@ -174,7 +174,7 @@ export class CrearSolicitudComponent implements OnInit {
       )
       .subscribe((data) => {
         this.totalDiasVacacionesLiquidados = data;
-        console.log(" totalDiasVacacioneLiquidados ", data);
+        //console.log(" totalDiasVacacioneLiquidados ", data);
       });
 
     // consultar total de dias de vacaciones con ultimo estado RECHAZADO
@@ -187,7 +187,7 @@ export class CrearSolicitudComponent implements OnInit {
       )
       .subscribe((data) => {
         this.totalDiasVacacionesRechazados = data;
-        console.log(" totalDiasVacacionesRechazados ", data);
+        //console.log(" totalDiasVacacionesRechazados ", data);
       });
 
     this.vacacionesService
@@ -199,7 +199,7 @@ export class CrearSolicitudComponent implements OnInit {
       .subscribe(
         (data) => {
           this.totalDiasVacacionesSubtipo = data;
-          console.log(" totalDiasVacaciones en dinero", data);
+          //console.log(" totalDiasVacaciones en dinero", data);
         },
         (error) => {
           console.log("se ha presentado un error: " + error);
@@ -215,7 +215,7 @@ export class CrearSolicitudComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log('Autorizador vacaciones: ', data['resultado']);
+          //console.log('Autorizador vacaciones: ', data['resultado']);
           this.autorizadorVacaciones = data['resultado'];
         },
         (error) => {
@@ -331,12 +331,12 @@ export class CrearSolicitudComponent implements OnInit {
           .then((result) => {
             if (result.value) {
               console.log("enviar solicitud");
-              console.log(
+              /*console.log(
                 "ruta Kiosco: " + this.usuarioService.urlKioscoDomain
               );
               console.log(
                 "grupoEmpresarial: " + this.usuarioService.grupoEmpresarial
-              );
+              );*/
               /*let fechainicio = this.formatoddmmyyyy(this.formulario.get('fechainicio').value);
             this.vacacionesService.crearSolicitudVacaciones(this.usuarioService.usuario, this.usuarioService.empresa, 'ENVIADO', fechainicio,
             this.formulario.get('fecharegreso').value, this.formulario.get('dias').value, this.vacacion, this.usuarioService.cadenaConexion)

@@ -50,3 +50,6 @@ input #file-upload-button{
         margin-top: 5px;
     }
 }
+.quitar {
+    padding: 0 !important;
+}

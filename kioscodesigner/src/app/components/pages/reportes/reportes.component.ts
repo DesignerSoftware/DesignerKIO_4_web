@@ -34,14 +34,14 @@ export class ReportesComponent implements OnInit {
     private cadenasKioskos: CadenaskioskosappService,
     public datepipe: DatePipe
   ) {
-    console.log("constructor");
+    //console.log("constructor");
     this.crearFormulario();
     this.reporteServicio.reporteSeleccionado = null
 
   }
 
   ngOnInit() {
-    console.log("ngOnInit reportes");
+    //console.log("ngOnInit reportes");
     if (this.usuarioServicio.cadenaConexion) {
       this.cargarDatosIniciales();
     } else {
@@ -56,18 +56,18 @@ export class ReportesComponent implements OnInit {
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
     .subscribe(
       data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo'])
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo'])
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];
-          console.log('cadena: ', temp[4]) // CADENA
+          //console.log('cadena: ', temp[4]) // CADENA
           this.usuarioServicio.cadenaConexion=temp[4];
-          console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+          //console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
           this.cargarDatosIniciales();
           }
         }
@@ -107,8 +107,8 @@ export class ReportesComponent implements OnInit {
     this.usuarioServicio
       .getParametros(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
       .subscribe((data) => {
-        console.log("data parametrosReportes", data);
-        console.log("fecha desde: " + data[0][0]);
+        //console.log("data parametrosReportes", data);
+        //console.log("fecha desde: " + data[0][0]);
         //this.fechaDesde =  new Date(Date.UTC(2020,11,12,3,0,0,0));
         this.fechaDesde = data[0][0];
         this.fechaHasta = data[0][1];
@@ -137,7 +137,7 @@ export class ReportesComponent implements OnInit {
           this.usuarioServicio.cadenaConexion
         )
         .subscribe((data) => {
-          console.log("opciones Consultadas", data);
+          //console.log("opciones Consultadas", data);
           opkTempo = data;
           this.reporteServicio.opcionesReportes = opkTempo.filter(
           (opcKio) => opcKio["clase"] === "REPORTE" && opcKio['kiorol']['nombre']==="EMPLEADO"
@@ -146,13 +146,13 @@ export class ReportesComponent implements OnInit {
             (opcKio) => opcKio["clase"] === "REPORTE" && opcKio['kiorol']['nombre']==="JEFE"
           );
           // console.log('filter 1', this.opcionesReportes[0]['SUBOPCION']);
-          console.log(
+          /*console.log(
             "opciones filtradas reportes ",
             this.reporteServicio.opcionesReportes
-          );
+          );*/
           this.temp = this.reporteServicio.opcionesReportes.concat(this.reporteHorasExtra)
-          console.log("completa :",this.temp);
-          console.log("completa :",this.temp.length)
+          //console.log("completa :",this.temp);
+          //console.log("completa :",this.temp.length)
         });
     } else {
       /*opkTempo = this.opcionesKioskosServicio.opcionesKioskos;
@@ -171,14 +171,14 @@ export class ReportesComponent implements OnInit {
       )
       .subscribe((data) => {
         this.correo = data["result"];
-        console.log("correo: " + this.correo);
+        //console.log("correo: " + this.correo);
       });
   }
 
   seleccionarReporte(index: number) {
-    console.log("seleccionarReporte");
-    console.log("opcionesActuales", this.temp);
-    console.log(index);
+    //console.log("seleccionarReporte");
+    //console.log("opcionesActuales", this.temp);
+    //console.log(index);
     this.reporteServicio.reporteSeleccionado = this.temp[
       index
     ];
@@ -192,12 +192,12 @@ export class ReportesComponent implements OnInit {
   }
 
   limpiarSeleccionado() {
-    console.log("clear seleccionado");
+    //console.log("clear seleccionado");
     this.reporteServicio.reporteSeleccionado = null;
   }
 
   enviar() {
-    console.log(this.formulario);
+    //console.log(this.formulario);
     Object.values(this.formulario.controls).forEach((control) => {
       control.markAsTouched();
     });
@@ -240,9 +240,9 @@ export class ReportesComponent implements OnInit {
               this.usuarioServicio.cadenaConexion
             )
             .subscribe((data) => {
-              console.log(data);
+              //console.log(data);
               if (data) {
-                console.log("fechas correctas");
+                //console.log("fechas correctas");
                 //this.obtenerSecuenciaEmpleado();
                 this.actualizaParametros();
               } else {
@@ -291,12 +291,12 @@ export class ReportesComponent implements OnInit {
   }
 
   actualizaParametros() {
-    console.log("actualizaParametros(): ");
+    //console.log("actualizaParametros(): ");
     let msjConfirmacion = "";
-    console.log(
+    /*console.log(
       "Codigo reporte seleccionado: " +
         this.reporteServicio.codigoReporteSeleccionado
-    );
+    );*/
     if (
       this.reporteServicio.codigoReporteSeleccionado == "25" ||
       this.reporteServicio.codigoReporteSeleccionado == "26" ||
@@ -340,9 +340,9 @@ export class ReportesComponent implements OnInit {
             )
             .subscribe(
               (data) => {
-                console.log(data);
+                //console.log(data);
                 if (data === 1) {
-                  console.log("parametros actualizados");
+                  //console.log("parametros actualizados");
                   this.descargarReporte();
                 }
               },
@@ -359,18 +359,18 @@ export class ReportesComponent implements OnInit {
   }
 /////////////////////////////////////////////////////////////////generar reporte 
   descargarReporte() {
-    console.log("cadenaReporte: ", this.usuarioServicio.cadenaConexion);
+    //console.log("cadenaReporte: ", this.usuarioServicio.cadenaConexion);
     this.fechaDesde = this.formulario.get("fechadesde").value;
     this.fechaHasta = this.formulario.get("fechahasta").value;
-    console.log(
+    /*console.log(
       "this.usuarioServicio.secuenciaEmpleado: " +
         this.usuarioServicio.secuenciaEmpleado
-    );
+    );*/
     swal.fire({
       title: "Generando reporte, por favor espere...",
       onBeforeOpen: () => {
         swal.showLoading();
-        console.log("descargarReporte");
+        //console.log("descargarReporte");
         this.reporteServicio
           .generarReporte(
             this.reporteServicio.reporteSeleccionado["nombreruta"],
@@ -388,7 +388,7 @@ export class ReportesComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              console.log(res);
+              //console.log(res);
               swal.fire({
                 icon: "success",
                 title:

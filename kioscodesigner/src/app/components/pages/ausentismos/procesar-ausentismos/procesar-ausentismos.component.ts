@@ -35,7 +35,7 @@ export class ProcesarAusentismosComponent implements OnInit {
     private cadenasKioskos: CadenaskioskosappService,
     private usuarioService: UsuarioService, 
     private router: Router,
-    private ausentismoService: AusentismosService, 
+    public ausentismoService: AusentismosService, 
     private fb: FormBuilder) {
   }
 

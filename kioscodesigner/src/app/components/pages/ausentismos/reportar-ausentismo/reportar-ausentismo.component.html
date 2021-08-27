@@ -242,10 +242,11 @@
           </div>
         </div>
 
-        <div class="form-group" *ngIf="true">
+        <div class="form-group">
           <div>
             <label for="formFileLg" class="form-label">Documento anexo:</label>
-            <input class="form-control form-control-lg" type="file" id="file" max-size="2000" accept="application/pdf"
+            <button type="button" class="btn btn-link float-right quitar" *ngIf="formulario.get('anexo').value" (click)="quitarArchivoSeleccionado()"><small>Quitar archivo seleccionado</small></button>
+            <input class="form-control form-control-lg" type="file" id="file" max-size="5000" accept="application/pdf"
               (change)="onFileSelect($event)">
           </div>
           <div>
@@ -253,7 +254,7 @@
               {{msjValidArchivoAnexo}}
             </small>
           </div>
-        </div>
+        </div>  
 
         <div class="row" *ngIf="false">
           <div class="col-md-12">

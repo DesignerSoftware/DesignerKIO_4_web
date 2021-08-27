@@ -19,7 +19,7 @@ export class CadenaskioskosappService {
   /*Retorna los campos de tabla cadenaskioskosapp relacionados al grupo y nit enviados como parametro*/
   getCadenaKioskoXGrupoNit(grupo: string, nit: string) {
     const url = `${environment.urlKioskoReportes}cadenaskioskos/${grupo}/${nit}`;
-    console.log(url);
+    //console.log(url);
     return this.http.get(url);
   }  
 
