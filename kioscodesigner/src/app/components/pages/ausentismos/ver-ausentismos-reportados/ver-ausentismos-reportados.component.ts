@@ -430,7 +430,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
     let cancelado;
     swal
       .fire({
-        title: "¿Está seguro que desea cancelar la solicitud?",
+        title: "¿Está seguro que desea cancelar la novedad de ausentismo?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
@@ -479,7 +479,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
 
 
             swal.fire({
-              title: "Enviando la solicitud al sistema, por favor espere...",
+              title: "Enviando la novedad al sistema, por favor espere...",
               onBeforeOpen: () => {
                 swal.showLoading();
           this.ausentismoService
@@ -503,7 +503,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
                           .fire({
                             icon: "success",
                             title:
-                              "Solicitud de vacaciones cancelada exitosamente",
+                              "Reporte de ausentismo cancelado exitosamente",
                             showConfirmButton: true,
                           })
                           .then((res) => {
@@ -529,7 +529,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
                       swal
                         .fire({
                           icon: 'error',
-                          title: 'Ha ocurrido un error al crear la solicitud',
+                          title: 'Ha ocurrido un error al reportar la novedad',
                           text:
                             'Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.',
                           showConfirmButton: true,
@@ -555,7 +555,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
         this.usuarioService.secuenciaEmpleado
     );
     swal.fire({
-      title: "Descargando reporte, por favor espere...",
+      title: "Descargando documento, por favor espere...",
       onBeforeOpen: () => {
         swal.showLoading();
         console.log("descargarReporte");
@@ -633,7 +633,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
               console.log(error);
               swal.fire(
                 "Se ha presentado un error",
-                "Se presentó un error al generar el reporte, por favor intentelo de nuevo más tarde!",
+                "Se presentó un error al descargar el documento, por favor intentelo de nuevo más tarde!",
                 "info"
               );
             }
