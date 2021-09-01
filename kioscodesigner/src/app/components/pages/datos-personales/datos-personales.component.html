@@ -3,15 +3,18 @@
     <div class="card-body">
       <h4 class="card-title">
         <i class="fas fa-address-card"></i>
-        Datos Personales</h4>
+        Datos Personales
+      </h4>
       <p class="card-description" style="margin: 0px;">
         Información personal
       </p>
 
-     <div style="text-align: center;">
-      <!--<img id="fotoPerfilEmpl1" [src]="cargaFoto() || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" alt="..." style=" width: 150px; height: 150px; border-radius: 50%;">-->
-      <h6 class="card-title text-muted" style="margin-top: 20px;" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales[0] && usuarioServicio.datosPersonales[0][1]">{{usuarioServicio.datosPersonales[0][1]||''}}</h6>
-    </div>
+      <div style="text-align: center;">
+        <!--<img id="fotoPerfilEmpl1" [src]="cargaFoto() || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" alt="..." style=" width: 150px; height: 150px; border-radius: 50%;">-->
+        <h6 class="card-title text-muted" style="margin-top: 20px;"
+          *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales[0] && usuarioServicio.datosPersonales[0][1]">
+          {{usuarioServicio.datosPersonales[0][1]||''}}</h6>
+      </div>
       <hr>
 
       <div class="col-md-12 col-sm-12 grid-margin stretch-card" *ngIf="usuarioServicio.datosPersonales == null">
@@ -23,14 +26,14 @@
           </div>
         </div>
       </div>
-      
+
       <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label col-form-label-sm">Dirección</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control form-control-sm" [value]="usuarioServicio?.datosPersonales[0][23] || ''"
-                disabled />
+              <input type="text" class="form-control form-control-sm"
+                [value]="usuarioServicio?.datosPersonales[0][23] || ''" disabled />
             </div>
           </div>
         </div>
@@ -61,14 +64,15 @@
                 disabled />
             </div>
           </div>
-        </div>                
+        </div>
       </div>
-      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">       
+      <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label col-form-label-sm">Factor RH</label>
             <div class="col-sm-9">
-              <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][7]||''+ ' ' +FactorRHp(usuarioServicio.datosPersonales[0][8]||'')"
+              <input class="form-control form-control-sm"
+                [value]="usuarioServicio.datosPersonales[0][7]||''+ ' ' +FactorRHp(usuarioServicio.datosPersonales[0][8]||'')"
                 disabled />
             </div>
           </div>
@@ -137,10 +141,10 @@
             <div class="col-sm-9">
               <input class="form-control form-control-sm" [value]="usuarioServicio.datosPersonales[0][31] || ''"
                 disabled />
-            </div>        
+            </div>
+          </div>
+
         </div>
-        
-      </div>
       </div>
       <div class="row" *ngIf="usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
@@ -167,54 +171,102 @@
       </p>
 
       <hr>
-        <div class="table-responsive" style="margin-bottom: 20px;">  
-          <table class="table table-hover" style="text-align: center;">
-                  <thead style="background: #00223C; color: white;">
-                      <tr id="tbltelefonos">                                                          
-                        <th>Tipo de telefono</th>
-                        <th>Número de contacto</th>                                                           
-                      </tr>
-                  </thead>
-                  <tbody> 
-                    <td *ngIf="!usuarioServicio.telefonosEmpleado">No hay telefónos registrados</td>                                                          
-                    <tr *ngIf="usuarioServicio.telefonosEmpleado<=0 && usuarioServicio.telefonosEmpleado==null"><td colspan="3">Cargando...</td></tr> 
-                    <tr *ngIf="!usuarioServicio.telefonosEmpleado || usuarioServicio.telefonosEmpleado==null || usuarioServicio.telefonosEmpleado.length==0"><td colspan="3">No hay telefonos asociados...</td></tr>                  
-                    <tr *ngFor="let tel of usuarioServicio.telefonosEmpleado">                         
-                      <td *ngIf="tel">{{tel[0]||''}}</td>
-                      <td *ngIf="tel">{{tel[1]||''}}</td>  
-                    </tr>                              
-                  </tbody>                            
-              </table>              
-        </div> 
+      <div class="table-responsive" style="margin-bottom: 20px;">
+        <table class="table table-hover" style="text-align: center;">
+          <thead style="background: #00223C; color: white;">
+            <tr id="tbltelefonos">
+              <th>Tipo de telefono</th>
+              <th>Número de contacto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td *ngIf="!usuarioServicio.telefonosEmpleado">No hay telefónos registrados</td>
+            <tr *ngIf="usuarioServicio.telefonosEmpleado<=0 && usuarioServicio.telefonosEmpleado==null">
+              <td colspan="3">Cargando...</td>
+            </tr>
+            <tr
+              *ngIf="!usuarioServicio.telefonosEmpleado || usuarioServicio.telefonosEmpleado==null || usuarioServicio.telefonosEmpleado.length==0">
+              <td colspan="3">No hay telefonos asociados...</td>
+            </tr>
+            <tr *ngFor="let tel of usuarioServicio.telefonosEmpleado">
+              <td *ngIf="tel">{{tel[0]||''}}</td>
+              <td *ngIf="tel">{{tel[1]||''}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <p class="card-description">
         Familiares
       </p>
       <hr>
-        <div class="table-responsive" style="margin-bottom: 20px;">  
-          <table class="table table-hover" style="text-align: center;">
-                  <thead style="background: #00223C; color: white;">
-                      <tr id="tblfamiliares">                                  
-                        <th>Nombre</th>
-                        <th>Parentesco</th>
-                        <th>Número de contacto</th>                                                           
-                      </tr>
-                  </thead>
-                  <tbody> 
-                    <tr *ngIf="usuarioServicio.datosFamilia && usuarioServicio.datosFamilia==null"><td colspan="3">Cargando...</td></tr> 
-                      
-                  
-                    <tr *ngIf="!usuarioServicio.datosFamilia || usuarioServicio.datosFamilia==null || usuarioServicio.datosFamilia.length==0"><td colspan="3">No hay familiares asociados...</td></tr>                  
-                    <tr *ngFor="let fami of usuarioServicio.datosFamilia">                         
-                      <td *ngIf="fami">{{fami[0]||''}}</td>
-                      <td *ngIf="fami">{{fami[1]||''}}</td>
-                      <td *ngIf="fami">{{fami[2]||''}}</td>                     
-                    </tr>                              
-                  </tbody>                            
-              </table>              
-        </div> 
+      <div class="table-responsive" style="margin-bottom: 20px;">
+        <table class="table table-hover" style="text-align: center;">
+          <thead style="background: #00223C; color: white;">
+            <tr id="tblfamiliares">
+              <th>Nombre</th>
+              <th>Parentesco</th>
+              <th>Número de contacto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="usuarioServicio.datosFamilia && usuarioServicio.datosFamilia==null">
+              <td colspan="3">Cargando...</td>
+            </tr>
+
+
+            <tr
+              *ngIf="!usuarioServicio.datosFamilia || usuarioServicio.datosFamilia==null || usuarioServicio.datosFamilia.length==0">
+              <td colspan="3">No hay familiares asociados...</td>
+            </tr>
+            <tr *ngFor="let fami of usuarioServicio.datosFamilia">
+              <td *ngIf="fami">{{fami[0]||''}}</td>
+              <td *ngIf="fami">{{fami[1]||''}}</td>
+              <td *ngIf="fami">{{fami[2]||''}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr>
+      <p class="card-description">
+        Documentos Anexos
+      </p>
+      <hr>
+      <div class="accordion" id="accordionExample">
+        <div class="card">
+          <div class="card-header" id="headingOne" style="background: #00223C; color: white;">
+              <a class="text-center tablaA" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                <strong>Documentos Anexos</strong> 
+              </a>
+          </div>
+      
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+              <table class="table table-hover" style="text-align: center;">
+                <tbody>
+                  <tr
+                    *ngIf="!usuarioServicio.documentosAnexos || usuarioServicio.documentosAnexos==null || usuarioServicio.documentosAnexos.length==0">
+                    <td colspan="2">Sin documentos asociados...</td>
+                  </tr>
+                  <tr *ngFor="let doc of usuarioServicio.documentosAnexos | paginate: {  itemsPerPage: 2, currentPage: p1, id: 'second' } ">
+                    <td *ngIf="doc" class="tablaA" colspan="2">{{doc ||''}}</td>
+                    <td *ngIf="doc"><i (click)="descargarDocumento(doc)" class="far fa-file-pdf"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="col-md-12">
+                <pagination-controls (pageChange)="p1 = $event" id="second" style="text-align: center;" class="col-sm-12"
+                  previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <hr>
 
       <p class="card-description">
-       Empresa
+        Empresa
       </p>
       <hr>
       <div class="col-md-12 col-sm-12 grid-margin stretch-card" *ngIf="usuarioServicio.datosPersonales == null">
@@ -226,7 +278,8 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
+      <div class="row"
+        *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales[0]">
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-3 col-form-label col-form-label-sm">Nit:</label>
@@ -251,14 +304,17 @@
 
   <div class="row, text-center" id="div" style="margin-top: 20px;">
     <p>Informar corrección de datos personales:
-      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        (click)="abrirModal()">CLIC AQUI</button>
+    </p>
   </div>
 
 </div>
 
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -269,21 +325,22 @@
       </div>
 
       <form [formGroup]="formulario" novalidate (ngSubmit)="enviarReporteNovedad()">
-      <div class="modal-body">
+        <div class="modal-body">
           <div class="mb-3">
             <p><b>Estimado usuario:</b></p>
-              <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta 
-                será enviada al contacto de nómina y RRHH {{usuarioServicio.nombreContactoSoporte||''}} </p>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
+            <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta
+              será enviada al contacto de nómina y RRHH {{usuarioServicio.nombreContactoSoporte||''}} </p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000"
+              formControlName="mensaje"></textarea>
             <p class="float-right"><small>Máx. 1000 carácteres.</small></p>
           </div>
 
-      </div>
+        </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-primary">Enviar reporte</button>
-      </div>
-    </form>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Enviar reporte</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

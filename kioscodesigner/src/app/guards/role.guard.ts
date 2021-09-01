@@ -17,7 +17,7 @@ export class RoleGuard implements CanActivate {
   rol = "JEFE";
   canActivate(): boolean {
     this.traerUsuario();
-    console.log("usted tiene usuario: "+ this.rol)
+    //console.log("usted tiene usuario: "+ this.rol)
     if (this.rol === "NOMINA" || this.rol === "EMPLEADO" || this.rol === "JEFE" ) { // Trae el rol del localstorage, permite el ingreso
       //this.traertexto();
       return true;
@@ -40,7 +40,7 @@ export class RoleGuard implements CanActivate {
   }
   traerUsuario() {
     console.log(this.usuarioServicio.usuario);
-    console.log('ruta prueba: ' + this.router.url);
+    //console.log('ruta prueba: ' + this.router.url);
     this.usuarioServicio.tipoUsuario = this.rol;
     //    console.log('ruta prueba - route: '+ this.router.navigated)
   }

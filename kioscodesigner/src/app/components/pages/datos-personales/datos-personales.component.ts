@@ -15,6 +15,8 @@ export class DatosPersonalesComponent implements OnInit {
   fotoPerfil;
   url = 'assets/images/fotos_empleados/sinFoto.jpg';
   formulario: FormGroup;
+  public dataFilt: any = "";
+  public p1: number = 1;
 
   // datos = null;
 
@@ -33,6 +35,7 @@ export class DatosPersonalesComponent implements OnInit {
     this.cargarDatos();
     this.cargarDatosFamilias();  
     this.cargarTelefonosEmpleado();
+    this.obtenerAnexosDocumentos();
     //this.cargaFoto();
   }
 
@@ -105,6 +108,25 @@ export class DatosPersonalesComponent implements OnInit {
         );
     }
   } 
+  obtenerAnexosDocumentos() {
+    this.usuarioServicio.getObtenerAnexosDocumentos(this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa )
+      .subscribe(
+        data => {
+          this.usuarioServicio.documentosAnexos = data;
+          console.log('datos documentos ' +data);
+        }
+      );
+  }
+  descargarAnexo(index: string) {
+    this.usuarioServicio.getObtenerAnexosDocumentos(this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa )
+      .subscribe(
+        data => {
+          this.usuarioServicio.documentosAnexos = data;
+          console.log('datos documentos ' +data);
+        }
+      );
+  }
+ 
 
   FactorRHp(n) {
     let resultado;
@@ -132,6 +154,82 @@ export class DatosPersonalesComponent implements OnInit {
 
   abrirModal() {
     $("#staticBackdrop").modal("show");
+  }
+
+  descargarDocumento(index: string) {
+    this.usuarioServicio.documentoSeleccionado = index;
+    swal.fire({
+      title: "Descargando reporte, por favor espere...",
+      onBeforeOpen: () => {
+        swal.showLoading();
+        this.usuarioServicio
+          .getDescargarArchivo(
+            this.usuarioServicio.usuario,
+            this.usuarioServicio.cadenaConexion,
+            this.usuarioServicio.empresa,
+            this.usuarioServicio.documentoSeleccionado
+          )
+          .subscribe(
+            (res) => {
+              swal.fire({
+                icon: "success",
+                title:
+                  "Reporte generado exitosamente, se descargará en un momento",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              const newBlob = new Blob([res], { type: "application/pdf" });
+              let fileUrl = window.URL.createObjectURL(newBlob); // add 290920
+              if (window.navigator.msSaveOrOpenBlob) {
+                //add 290920
+                window.navigator.msSaveOrOpenBlob(
+                  newBlob,
+                  fileUrl.split(":")[1] + ".pdf"
+                );
+              } else {
+                window.open(fileUrl);
+              }
+              
+              //For other browsers:
+              //Create a link pointing to the ObjectURL containing the blob.
+              /*const data = window.URL.createObjectURL(newBlob);
+              const link = document.createElement("a");
+              link.href = data;
+              let f = new Date();
+              link.download =
+                //this.reporteServicio.reporteSeleccionado["nombreruta"] +
+                this.usuarioServicio.documentoSeleccionado +
+                "_" +
+                this.usuarioServicio.usuario +
+                "_" +
+                f.getTime() +
+                ".pdf";
+              //this is necessary as link.click() does not work on the latest firefox
+              link.dispatchEvent(
+                new MouseEvent("click", {
+                  bubbles: true,
+                  cancelable: true,
+                  view: window,
+                })
+              );
+
+              setTimeout(function () {
+                //For Firefox it is necessary to delay revoking the ObjectURL
+                window.URL.revokeObjectURL(data);
+              }, 100);*/
+            },
+            (error) => {
+              console.log(error);
+              swal.fire(
+                "Se ha presentado un error",
+                "Se presentó un error al descargar el documento, por favor intentelo de nuevo más tarde!",
+                "info"
+              );
+            }
+          );
+      },
+      allowOutsideClick: () => !swal.isLoading(),
+    });
   }
 
   enviarReporteNovedad() {

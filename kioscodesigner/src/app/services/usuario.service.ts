@@ -34,6 +34,8 @@ export class UsuarioService {
   datosExperienciaLab = null;
   urlActiva = null;
   tipoUsuario = null;
+  documentosAnexos = null;
+  documentoSeleccionado = null;
   urlKioscoDomain = "https://www.designer.com.co:8179";
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
   //public url = `https://www.designer.com.co:8178/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg?cadena=${this.cadenaConexion}`;
@@ -377,7 +379,24 @@ export class UsuarioService {
         empresa: nitEmpresa
       }
     });
-  }  
+  } 
+  getObtenerAnexosDocumentos(usuario: string, cadena: string, nitEmpresa: string) {
+    //const url = `${environment.urlKioskoReportes}empleados/educacionesFormales?usuario=${usuario}&cadena=${cadena}&empresa=${nitEmpresa}`;
+    const url = `${environment.urlKioskoReportes}empleados/obtenerAnexosDocumentos`;
+    ////console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        empleado: usuario,
+        cadena: cadena,
+        empresa: nitEmpresa
+      }
+    });
+  }   
+  getDescargarArchivo(usuario: string, cadena: string, nitEmpresa: string, anexo: string){
+    const url = `${environment.urlKioskoReportes}empleados/decargarAnexo?usuario=${usuario}&cadena=${cadena}&empresa=${nitEmpresa}&anexo=${anexo}`;
+    ////console.log(url);
+    return this.http.get(url, { responseType: 'blob' });
+  }
 
   clear() {
     this.isUserLoggedIn = null;
@@ -407,5 +426,7 @@ export class UsuarioService {
     this.datosExperienciaLab = null;
     this.urlActiva = null;
     this.tipoUsuario = null;
+    this.documentosAnexos = null;
+    this.documentoSeleccionado = null;
   }
 }

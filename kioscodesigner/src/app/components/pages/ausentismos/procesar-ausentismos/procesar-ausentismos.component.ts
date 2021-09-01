@@ -493,7 +493,7 @@ export class ProcesarAusentismosComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              console.log("ejemplo 1 : ",res);
+              //console.log("ejemplo 1 : ",res);
               swal.fire({
                 icon: "success",
                 title:
