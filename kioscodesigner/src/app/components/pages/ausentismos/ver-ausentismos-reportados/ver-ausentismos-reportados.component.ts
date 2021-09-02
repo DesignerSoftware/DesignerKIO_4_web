@@ -11,7 +11,6 @@ import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.ser
 import { AusentismosService } from 'src/app/services/ausentismos.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-ver-ausentismos-reportados',
   templateUrl: './ver-ausentismos-reportados.component.html',

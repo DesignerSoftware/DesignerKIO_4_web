@@ -67,7 +67,7 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="col-12 col-md-1 float-left">
-                        <div class="">
+                        <div class="" *ngIf="ausentismoService.SolicitudesJefe">
                           <img id="fotoPerfilEmpl"
                             [src]="cargaFoto(op[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile"
                             alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
@@ -76,22 +76,22 @@
                       <div class="col-12 col-md-11 float-left">
                         <div class="col-12 float-left">
                           <div class="col-12 col-md-3 col-sm-6 col-xs-12  sep float-left">
-                            <h6 class="">{{op[1] || 'N/A' }}</h6>
+                            <h6 class="" *ngIf="ausentismoService.SolicitudesJefe">{{op[1] || 'N/A' }}</h6>
                           </div>
                           <div class="col-12 col-md-2 col-sm-6 col-xs-12 sep float-left">
-                            <p class="">{{op[0] || 'N/A' }}</p>
+                            <p class="" *ngIf="ausentismoService.SolicitudesJefe">{{op[0] || 'N/A' }}</p>
                           </div>
                           <div class="col-12 col-md-2 col-sm-6  col-xs-12 sep float-left">
-                            <p class="">Fecha inicio ausentismo: {{op[4] || 'N/A' }}</p>
+                            <p class="" *ngIf="ausentismoService.SolicitudesJefe">Fecha inicio ausentismo: {{op[4] || 'N/A' }}</p>
                           </div>
                           <div class="col-12 col-md-2 col-sm-6 col-xs-12 sep float-left">
-                            <p>Fecha fin ausentismo: {{op[9] || 'N/A' }}</p>
+                            <p *ngIf="ausentismoService.SolicitudesJefe">Fecha fin ausentismo: {{op[9] || 'N/A' }}</p>
                           </div>
                           <div class="col-12 col-md-2 col-sm-6 col-xs-12 sep float-left">
-                            <p>Motivo ausentismo: {{op[10] || 'N/A' }}</p>
+                            <p *ngIf="ausentismoService.SolicitudesJefe">Motivo ausentismo: {{op[10] || 'N/A' }}</p>
                           </div>
                           <div class="col-12 col-md-1 col-sm-6 col-xs-12 sep float-left">
-                            <p>Dias: {{op[11] || 'N/A' }}</p>
+                            <p *ngIf="ausentismoService.SolicitudesJefe">Dias: {{op[11] || 'N/A' }}</p>
                           </div>
                         </div>
                       </div>
@@ -137,7 +137,7 @@
           </div>
           <div class="modal-body animated fadeIn slow">
             <div class="card" style="text-align: center;">
-              <div class="card-body">
+              <div class="card-body" *ngIf="solicitudSeleccionada">
                 <img id="fotoPerfil2"
                   [src]="cargaFoto(solicitudSeleccionada[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="..."
                   style=" width: 70px; height: 70px; border-radius: 50%;">

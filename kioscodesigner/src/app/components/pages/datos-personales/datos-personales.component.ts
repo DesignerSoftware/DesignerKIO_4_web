@@ -192,7 +192,7 @@ export class DatosPersonalesComponent implements OnInit {
               
               //For other browsers:
               //Create a link pointing to the ObjectURL containing the blob.
-              /*const data = window.URL.createObjectURL(newBlob);
+              const data = window.URL.createObjectURL(newBlob);
               const link = document.createElement("a");
               link.href = data;
               let f = new Date();
@@ -216,7 +216,7 @@ export class DatosPersonalesComponent implements OnInit {
               setTimeout(function () {
                 //For Firefox it is necessary to delay revoking the ObjectURL
                 window.URL.revokeObjectURL(data);
-              }, 100);*/
+              }, 100);
             },
             (error) => {
               console.log(error);

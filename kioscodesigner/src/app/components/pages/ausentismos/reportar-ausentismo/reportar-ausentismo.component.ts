@@ -9,7 +9,6 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-reportar-ausentismo',
   templateUrl: './reportar-ausentismo.component.html',
@@ -35,6 +34,7 @@ export class ReportarAusentismoComponent implements OnInit {
     private http: HttpClient, private router: Router,
     private route: ActivatedRoute, private usuarioService: UsuarioService, public ausentismosService: AusentismosService, private cadenasKioskos: CadenaskioskosappService) { }
   formulario: FormGroup;
+  formularioReporteNov: FormGroup;
   causasAusentismos = null;
   causaSelec = null;
   claseSelec = null;
@@ -64,6 +64,12 @@ export class ReportarAusentismoComponent implements OnInit {
       observaciones: [''],
       anexo: [null, []]
     });
+
+    this.formularioReporteNov = this.fb.group(
+      {
+        mensaje: ["", Validators.required]
+      }
+    );
   }
 
   getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
@@ -173,6 +179,80 @@ export class ReportarAusentismoComponent implements OnInit {
       document.getElementById('exampleModal').style.display = 'block';
     }
 
+  }
+
+  // Desplegar ventana para reportar información importante
+  abrirModal() {
+    console.log('Se desplego la venta amodal');
+    $("#exampleModalRN").modal("show");
+  }  
+
+  enviarReporteNovedad(){
+    console.log('enviar', this.formularioReporteNov.controls);
+    if (this.formularioReporteNov.valid) {
+      swal.fire({
+        title: "Enviando mensaje al área de nómina y RRHH, por favor espere...",
+        onBeforeOpen: () => {
+          swal.showLoading();
+          this.usuarioService.enviaCorreoNovedadRRHH(this.usuarioService.usuario, this.usuarioService.empresa, this.formularioReporteNov.get('mensaje').value,
+            'Solicitud de Corrección Jefe Inmediato', this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial, this.usuarioService.cadenaConexion)
+            .subscribe(
+              (data) => {
+                console.log(data);
+                if (data) {
+                  swal
+                    .fire({
+                      icon: "success",
+                      title:
+                        "Mensaje enviado exitosamente al área de nómina y RRHH para su validación.",
+                      showConfirmButton: true,
+                    })
+                    .then((res) => {
+                      $("#exampleModalRN").modal("hide");
+                      this.formularioReporteNov.get('mensaje').setValue('');
+                    });
+                } else {
+                  swal
+                    .fire({
+                      icon: "error",
+                      title: "No fue posible enviar el correo",
+                      text: 'Por favor inténtelo de nuevo más tarde.',
+                      showConfirmButton: true,
+                    })
+                    .then((res) => {
+                      $("#exampleModalRN").modal("hide");
+                      this.formularioReporteNov.get('mensaje').setValue('');
+                    });
+                }
+              },
+              (error) => {
+                swal
+                  .fire({
+                    icon: "error",
+                    title: "Hubo un error al enviar la petición",
+                    text:
+                      "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                    showConfirmButton: true,
+                  })
+                  .then((res) => {
+                    $("#exampleModalRN").modal("hide");
+                    this.formularioReporteNov.get('mensaje').setValue('');
+                  });
+              }
+            );
+        },
+        allowOutsideClick: () => !swal.isLoading(),
+      });
+
+    } else {
+      swal.fire({
+        icon: "error",
+        title: "No ha digitado la observación",
+        text:
+          "Por favor digite una observación sobre la información que se debe corregir en el sistema.",
+        showConfirmButton: true
+      })
+    }
   }
 
   ocultarListaCod() {

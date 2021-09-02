@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AusentismosService } from 'src/app/services/ausentismos.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { VacacionesService } from 'src/app/services/vacaciones.service';
-
-
 
 @Component({
   selector: 'app-ausentismos-procesados',
@@ -15,7 +12,6 @@ export class AusentismosProcesadosComponent implements OnInit {
   solicitudSeleccionada = null;
   public p8: number = 1;
   public dataFilt: any = "";
-
 
   constructor(private ausentismosService: AusentismosService, private usuarioService: UsuarioService) { 
 
@@ -43,10 +39,8 @@ export class AusentismosProcesadosComponent implements OnInit {
       data => {
         this.solicitudesProcesadas = data;
         console.log('ausentismos', this.solicitudesProcesadas);
-
       }
     );
-
   }
   
 

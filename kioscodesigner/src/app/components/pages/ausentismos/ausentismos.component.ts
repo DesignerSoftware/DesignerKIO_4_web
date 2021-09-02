@@ -27,36 +27,6 @@ export class AusentismosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ausentismosService.pruebaToken('orueba')
-    //.subscribe(
-      //data =>{
-        /*if (typeof data === 'object')
-        console.log('es objeto');
-        //console.log(JSON.parse(data.toString()));
-        //console.log(JSON.stringify(data));
-        //console.log(JSON.stringify(resp));
-
-        /*try {
-            console.log(JSON.parse(JSON.stringify(resp)));
-        } catch(e ){
-          console.log(e);
-        }*/
-        
-      //}
-      //console.log(JSON.stringify(data));
-      /*(response: Response) =>{
-        console.log('status', response.status);
-        if (response.status==200)
-        console.log('text', response.text);
-        else
-        console.log('si hubo un error');
-      }*/     
-       //}
-    .pipe(
-    );
-    console.log('prueba')
-    console.log(this.ausentismosService.pruebaToken('orueba').subscribe()); 
-      //console.log('ngOnInit() ausentismos');
     if (this.usuarioServicio.cadenaConexion) {
       this.filtrarOpcionesReportes();
     } else {
