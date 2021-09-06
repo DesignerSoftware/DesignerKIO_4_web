@@ -181,7 +181,7 @@ export class LoginComponent implements OnInit {
                           );
                           console.log('empresa seleccionada', cadenaEmpresa);
                           const sesion: any = {
-                            usuario: this.formulario.get('usuario').value.toLowerCase(),
+                            usuario: this.formulario.get('usuario').value.toLowerCase().trim(),
                             JWT: jwt['JWT'],
                             empresa: this.formulario.get('empresa').value,
                             grupo: this.grupoEmpresarial,

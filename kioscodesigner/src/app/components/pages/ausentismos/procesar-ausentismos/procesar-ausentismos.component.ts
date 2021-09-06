@@ -6,7 +6,6 @@ import { AusentismosService } from 'src/app/services/ausentismos.service';
 import { environment } from 'src/environments/environment';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({

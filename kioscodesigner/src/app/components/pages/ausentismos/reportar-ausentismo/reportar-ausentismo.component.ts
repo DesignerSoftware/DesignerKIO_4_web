@@ -32,7 +32,7 @@ export class ReportarAusentismoComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient, private router: Router,
-    private route: ActivatedRoute, private usuarioService: UsuarioService, public ausentismosService: AusentismosService, private cadenasKioskos: CadenaskioskosappService) { }
+    private route: ActivatedRoute, public usuarioService: UsuarioService, public ausentismosService: AusentismosService, private cadenasKioskos: CadenaskioskosappService) { }
   formulario: FormGroup;
   formularioReporteNov: FormGroup;
   causasAusentismos = null;

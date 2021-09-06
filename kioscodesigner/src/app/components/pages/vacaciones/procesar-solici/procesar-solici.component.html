@@ -18,22 +18,22 @@
   <div class="card-deck" id="">
     <div class="card card1" *ngFor="let op of vacacionesService.SolicitudesJefe; index as i"
       style="text-align: center;">
-      <div class="card-body card_hover">
+      <div class="card-body card_hover" *ngIf="vacacionesService.SolicitudesJefe">
         <img id="fotoPerfilEmpl" [src]="cargaFoto(op[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile"
           alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
         <br>
         <br>
-        <h6 class="card-title text-muted">{{op[1]}}</h6>
-        <h6 class="text-muted">{{op[0]}}</h6>
+        <h6 class="card-title text-muted" *ngIf="vacacionesService.SolicitudesJefe">{{op[1]}}</h6>
+        <h6 class="text-muted" *ngIf="vacacionesService.SolicitudesJefe">{{op[0]}}</h6>
         <hr>
-        <p class="card-text">Fecha inicio Vacaciones: {{op[4]}}</p>
-        <p>Fecha fin vacaciones: {{op[12]}}</p>
-        <p>Fecha regreso a laborar: {{op[13]}}</p>
-        <p>Días: {{op[14]}}</p>
+        <p class="card-text" *ngIf="vacacionesService.SolicitudesJefe">Fecha inicio Vacaciones: {{op[4]}}</p>
+        <p *ngIf="vacacionesService.SolicitudesJefe">Fecha fin vacaciones: {{op[12]}}</p>
+        <p *ngIf="vacacionesService.SolicitudesJefe">Fecha regreso a laborar: {{op[13]}}</p>
+        <p *ngIf="vacacionesService.SolicitudesJefe">Días: {{op[14]}}</p>
         <button (click)="detalleSolicitud(i)" type="button" class="btn btn-outline-primary" data-toggle="modal"
           data-target="#exampleModalCenter" *ngIf="vacacionesService.SolicitudesJefe">PROCESAR</button>
 
-        <p class="card-text" style="margin-top: 5px;"><small class="text-muted">Ultima modificación {{op[5]}}</small>
+        <p class="card-text" *ngIf="vacacionesService.SolicitudesJefe" style="margin-top: 5px;"><small class="text-muted">Ultima modificación {{op[5]}}</small>
         </p>
       </div>
     </div>
@@ -53,7 +53,7 @@
           </div>
           <div class="modal-body animated fadeIn slow">
             <div class="card" style="text-align: center;">
-              <div class="card-body">
+              <div class="card-body" *ngIf="solicitudSeleccionada">
                 <img id="fotoPerfil2"
                   [src]="cargaFoto(solicitudSeleccionada[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="..."
                   style=" width: 70px; height: 70px; border-radius: 50%;">

@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { VacacionesService } from 'src/app/services/vacaciones.service';
 import { environment } from 'src/environments/environment';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-procesar-solici',
@@ -16,18 +18,54 @@ export class ProcesarSoliciComponent implements OnInit {
   fotoPerfil;
   url ='assets/images/fotos_empleados/sinFoto.jpg';
 
-  constructor(public vacacionesService: VacacionesService, private usuarioService: UsuarioService, private fb: FormBuilder) {
+  constructor(public vacacionesService: VacacionesService, private usuarioService: UsuarioService, 
+    private cadenasKioskos: CadenaskioskosappService, private router: Router,
+    private route: ActivatedRoute, private fb: FormBuilder) {
   }
 
   ngOnInit() {
     this.crearFormulario();
-    this.cargarDatosSolicitudesProcesadas();
+    if (this.usuarioService.cadenaConexion) {
+      this.cargarDatosIniciales();
+    } else {
+      this.getInfoUsuario();
+    }   
   }
 
   crearFormulario() {
     this.formulario = this.fb.group({
       motivo: [''],
     })
+  }
+
+  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+    const sesion = this.usuarioService.getUserLoggedIn();
+    this.usuarioService.setUsuario(sesion['usuario']);
+    this.usuarioService.setEmpresa(sesion['empresa']);
+    this.usuarioService.setTokenJWT(sesion['JWT']);
+    this.usuarioService.setGrupo(sesion['grupo']);
+    this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
+    //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
+    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
+    .subscribe(
+      data => {
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo']);
+        for (let i in data) {
+          if (data[i][3] === sesion['grupo']) { // GRUPO
+          const temp = data[i];
+          //console.log('cadena: ', temp[4]) // CADENA
+          this.usuarioService.cadenaConexion=temp[4];
+          //console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
+          this.cargarDatosIniciales();
+          }
+        }
+      }
+    );
+  }
+
+  cargarDatosIniciales(){
+    this.cargarDatosSolicitudesProcesadas();
   }
 
   cargarDatosSolicitudesProcesadas() {
@@ -48,12 +86,12 @@ export class ProcesarSoliciComponent implements OnInit {
   }
 
   cargaFoto(documento: string) {
-          this.fotoPerfil = documento;
-          console.log('documento: ' + this.fotoPerfil);
-         /* document.getElementById('fotoPerfilEmpl').setAttribute('src',
-            `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);*/
-            this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&empresa=${this.usuarioService.empresa}`;
-            return this.url;
+    this.fotoPerfil = documento;
+    console.log('documento: ' + this.fotoPerfil);
+    /* document.getElementById('fotoPerfilEmpl').setAttribute('src',
+       `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);*/
+    this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&empresa=${this.usuarioService.empresa}`;
+    return this.url;
   }
 
   aprobarEnvio() {
@@ -162,7 +200,8 @@ export class ProcesarSoliciComponent implements OnInit {
 
   reloadPage() {
     this.vacacionesService.SolicitudesJefe = null;
-    this.ngOnInit();
+    //this.ngOnInit();
+    this.router.navigate(["/vacaciones"]);
   }
 
 
@@ -252,7 +291,7 @@ export class ProcesarSoliciComponent implements OnInit {
                         showConfirmButton: true,
                       })
                       .then((res) => {
-                        //$("#exampleModalCenter").modal("hide");
+                        $("#exampleModalCenter").modal("hide");
                         this.reloadPage();
                       });
                   } else {
@@ -263,7 +302,7 @@ export class ProcesarSoliciComponent implements OnInit {
                         showConfirmButton: true,
                       })
                       .then((res) => {
-                        //$("#exampleModalCenter").modal("hide");
+                        $("#exampleModalCenter").modal("hide");
                         this.reloadPage();                        
                       });
                   }
