@@ -113,7 +113,7 @@ export class DatosPersonalesComponent implements OnInit {
       .subscribe(
         data => {
           this.usuarioServicio.documentosAnexos = data;
-          console.log('datos documentos ' +data);
+          //console.log('datos documentos ' +data);
         }
       );
   }
@@ -122,7 +122,7 @@ export class DatosPersonalesComponent implements OnInit {
       .subscribe(
         data => {
           this.usuarioServicio.documentosAnexos = data;
-          console.log('datos documentos ' +data);
+          //console.log('datos documentos ' +data);
         }
       );
   }

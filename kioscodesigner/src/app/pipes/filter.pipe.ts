@@ -6,7 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FilterPipe implements PipeTransform{
     transform(value: any, arg: any): any {
         let results = [];
-        //console.log(arg); 
+        //console.log('arg:' ,arg); 
+        //console.log('value:' ,value); 
         /*value.forEach(element => {
             console.log(element);
             element.forEach(element2 => {
@@ -30,7 +31,7 @@ export class FilterPipe implements PipeTransform{
         if(arg == ""){
             results = value;
         }
-        console.log("RESULT PIPE");
+        //console.log("RESULT PIPE");
         //console.log(results);
         return results;
     }

@@ -12,7 +12,7 @@
 </ol>
 </nav>
 <div class="col-md-12 col-sm-12 grid-margin stretch-card"
-    *ngIf="reporteServicio.opcionesReportes && reporteServicio.opcionesReportes.length==0">
+    *ngIf="reporteServicio.reportesEmpleado && reporteServicio.reportesEmpleado.length==0">
     <div class="loader-demo-box" style="border: 0px !important;">
         <div class="dot-opacity-loader">
             <span></span>
@@ -23,12 +23,12 @@
 </div>
 
 <p
-    *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.opcionesReportes && reporteServicio.opcionesReportes.length!=0">
+    *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.reportesEmpleado && reporteServicio.reportesEmpleado.length!=0">
     Seleccione el reporte que desea generar</p>
 <div class="row animated fadeIn fast"
-    *ngIf="reporteServicio.opcionesReportes && reporteServicio.opcionesReportes.length>0 && !reporteServicio.reporteSeleccionado">
+    *ngIf="reporteServicio.reportesEmpleado && reporteServicio.reportesEmpleado.length>0 && !reporteServicio.reporteSeleccionado">
     <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card"
-        *ngFor="let op of reporteServicio.opcionesReportes; index as i">
+        *ngFor="let op of reporteServicio.reportesEmpleado; index as i">
         <div class="card" id="divReportes">
             <div class="card-body">
                 <div class="d-flex flex-row">
@@ -47,7 +47,7 @@
 </div>
 
 <div class="row"
-    *ngIf="reporteServicio.opcionesReportes && reporteServicio.reporteSeleccionado!=null && reporteServicio.reporteSeleccionado!=[]">
+    *ngIf="reporteServicio.reportesEmpleado && reporteServicio.reporteSeleccionado!=null && reporteServicio.reporteSeleccionado!=[]">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -146,7 +146,7 @@
     </div>
 </div>
 
-<div *ngIf="!reporteServicio.reporteSeleccionado && reporteHorasExtra && reporteHorasExtra.length!==0">
+<div *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.reportesJefe && reporteServicio.reportesJefe.length!==0">
     <div class="page-header animated fadeIn fast">
         <h3 class="page-title">
             Reportes Horas Extras
@@ -161,7 +161,7 @@
     </ol>
     </nav>
     <div class="col-md-12 col-sm-12 grid-margin stretch-card"
-        *ngIf="reporteHorasExtra && reporteHorasExtra.length==0">
+        *ngIf="reporteServicio.reportesJefe && reporteServicio.reportesJefe.length==0">
         <div class="loader-demo-box" style="border: 0px !important;">
             <div class="dot-opacity-loader">
                 <span></span>
@@ -172,12 +172,12 @@
     </div>
 
     <p
-        *ngIf="!reporteServicio.reporteSeleccionado && reporteHorasExtra && reporteHorasExtra.length!==0">
+        *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.reportesJefe && reporteServicio.reportesJefe.length!==0">
         Seleccione el reporte que desea generar</p>
     <div class="row animated fadeIn fast"
-        *ngIf="!reporteServicio.reporteSeleccionado && reporteHorasExtra && reporteHorasExtra.length!==0">
+        *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.reportesJefe && reporteServicio.reportesJefe.length!==0">
         <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card"
-            *ngFor="let rhe of reporteHorasExtra">
+            *ngFor="let rhe of reporteServicio.reportesJefe;  index as i; ">
             <div class="card" id="divReportes">
                 <div class="card-body">
                     <div class="d-flex flex-row">
@@ -189,13 +189,13 @@
                 </div>
                 <div class="card-footer text-right">
                     <button type="button" class="btn btn-outline-primary"
-                        (click)="seleccionarReporte(temp.length-1)">Seleccionar</button>
+                        (click)="seleccionarReporte(numero + i)">Seleccionar</button>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-12 col-sm-12 grid-margin stretch-card"
-        *ngIf="reporteHorasExtra && reporteHorasExtra.length==0">
+        *ngIf="reporteServicio.reportesJefe && reporteServicio.reportesJefe.length==0">
         <div class="loader-demo-box" style="border: 0px !important;">
             <div class="dot-opacity-loader">
                 <span></span>

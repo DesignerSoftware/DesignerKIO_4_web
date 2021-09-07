@@ -20,7 +20,6 @@ export class ReportesComponent implements OnInit {
   enviocorreo: boolean;
   correo: string = null;
   dirigidoa: string = null;
-  reporteHorasExtra = null;
   reporteAusentismos = null;
   temp = null;
   numero = null;
@@ -139,10 +138,10 @@ export class ReportesComponent implements OnInit {
         .subscribe((data) => {
           //console.log("opciones Consultadas", data);
           opkTempo = data;
-          this.reporteServicio.opcionesReportes = opkTempo.filter(
+          this.reporteServicio.reportesEmpleado = opkTempo.filter(
           (opcKio) => opcKio["clase"] === "REPORTE" && opcKio['kiorol']['nombre']==="EMPLEADO"
           );
-          this.reporteHorasExtra = opkTempo.filter(//Variable creada para agregar aparte el reporte del jefe 
+          this.reporteServicio.reportesJefe = opkTempo.filter(//Variable creada para agregar aparte el reporte del jefe 
             (opcKio) => opcKio["clase"] === "REPORTE" && opcKio['kiorol']['nombre']==="JEFE"
           );
           // console.log('filter 1', this.opcionesReportes[0]['SUBOPCION']);
@@ -150,7 +149,12 @@ export class ReportesComponent implements OnInit {
             "opciones filtradas reportes ",
             this.reporteServicio.opcionesReportes
           );*/
-          this.temp = this.reporteServicio.opcionesReportes.concat(this.reporteHorasExtra)
+          this.reporteServicio.opcionesReportes = this.reporteServicio.reportesEmpleado.concat(this.reporteServicio.reportesJefe)
+          this.numero = (this.reporteServicio.opcionesReportes.length - 1) - (this.reporteServicio.reportesJefe.length - 1) ;
+          
+          // console.log(this.reporteServicio.reporteHorasExtra);
+          // console.log(this.temp);
+          // console.log('numero empieza json' ,this.numero);
           //console.log("completa :",this.temp);
           //console.log("completa :",this.temp.length)
         });
@@ -178,15 +182,18 @@ export class ReportesComponent implements OnInit {
   seleccionarReporte(index: number) {
     //console.log("seleccionarReporte");
     //console.log("opcionesActuales", this.temp);
+    //console.log(this.reporteServicio.opcionesReportes[index]);
     //console.log(index);
-    this.reporteServicio.reporteSeleccionado = this.temp[
+    console.log('index:' ,index);
+    console.log('numero: ' , this.numero);
+    this.reporteServicio.reporteSeleccionado = this.reporteServicio.opcionesReportes[
       index
     ];
     // this.router.navigateByUrl(`/reportes/${index}`);
-    this.reporteServicio.codigoReporteSeleccionado = this.temp[
+    this.reporteServicio.codigoReporteSeleccionado = this.reporteServicio.opcionesReportes[
       index
     ]["codigo"];
-    this.reporteServicio.nombreReporteSeleccionado = this.temp[
+    this.reporteServicio.nombreReporteSeleccionado = this.reporteServicio.opcionesReportes[
       index
     ]["descripcion"];
   }
