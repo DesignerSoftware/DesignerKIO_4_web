@@ -26,6 +26,7 @@ export class InfoExperienciaComponent implements OnInit {
     }
 
   ngOnInit() {
+    //console.log(this.usuarioServicio.cadenaConexion);
     if (this.usuarioServicio.cadenaConexion) {
       this.cargarDatosIniciales();
     } else {

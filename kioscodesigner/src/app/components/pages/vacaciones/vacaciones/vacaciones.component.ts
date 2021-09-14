@@ -28,6 +28,7 @@ codigoReporteSeleccionado = null;
 
   ngOnInit() {
     //console.log('ngOnInit() vacaciones');
+    //console.log(this.usuarioServicio.cadenaConexion)
     if (this.usuarioServicio.cadenaConexion) {
       this.filtrarOpcionesReportes();
     } else {
@@ -42,8 +43,9 @@ codigoReporteSeleccionado = null;
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
+    //console.log('grupo en datos en vacas:' , this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']));
     //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
-    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'],sesion['empresa'])
     .subscribe(
       data => {
         //console.log('getInfoUsuario', data);

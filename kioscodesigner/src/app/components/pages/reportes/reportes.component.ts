@@ -22,7 +22,6 @@ export class ReportesComponent implements OnInit {
   dirigidoa: string = null;
   reporteAusentismos = null;
   temp = null;
-  numero = null;
 
   constructor(
     private opcionesKioskosServicio: OpcionesKioskosService,
@@ -40,6 +39,7 @@ export class ReportesComponent implements OnInit {
   }
 
   ngOnInit() {
+    //console.log(this.usuarioServicio.cadenaConexion);
     //console.log("ngOnInit reportes");
     if (this.usuarioServicio.cadenaConexion) {
       this.cargarDatosIniciales();
@@ -150,7 +150,7 @@ export class ReportesComponent implements OnInit {
             this.reporteServicio.opcionesReportes
           );*/
           this.reporteServicio.opcionesReportes = this.reporteServicio.reportesEmpleado.concat(this.reporteServicio.reportesJefe)
-          this.numero = (this.reporteServicio.opcionesReportes.length - 1) - (this.reporteServicio.reportesJefe.length - 1) ;
+          this.reporteServicio.numeroReporte = (this.reporteServicio.opcionesReportes.length - 1) - (this.reporteServicio.reportesJefe.length - 1) ;
           
           // console.log(this.reporteServicio.reporteHorasExtra);
           // console.log(this.temp);
@@ -184,8 +184,8 @@ export class ReportesComponent implements OnInit {
     //console.log("opcionesActuales", this.temp);
     //console.log(this.reporteServicio.opcionesReportes[index]);
     //console.log(index);
-    console.log('index:' ,index);
-    console.log('numero: ' , this.numero);
+    // console.log('index:' ,index);
+    // console.log('numero: ' , this.reporteServicio.numeroReporte);
     this.reporteServicio.reporteSeleccionado = this.reporteServicio.opcionesReportes[
       index
     ];

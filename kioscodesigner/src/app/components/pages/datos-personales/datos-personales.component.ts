@@ -28,7 +28,12 @@ export class DatosPersonalesComponent implements OnInit {
 
   ngOnInit() {
     //this.cargaFoto();
-    this.getInfoUsuario();
+    //console.log('datos en info:',this.usuarioServicio.cadenaConexion);
+    if (this.usuarioServicio.cadenaConexion) {
+      this.cargarDatosIniciales();
+    } else {
+      this.getInfoUsuario();
+    } 
   }
 
   cargarDatosIniciales(){
@@ -46,8 +51,9 @@ export class DatosPersonalesComponent implements OnInit {
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
+    //console.log('grupo en datos:' , this.usuarioServicio.setUrlKiosco(sesion['urlKiosco'],));
     //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
-    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'],sesion['empresa'])
     .subscribe(
       data => {
         //console.log('getInfoUsuario', data);
@@ -86,6 +92,7 @@ export class DatosPersonalesComponent implements OnInit {
   }
 
   cargarDatosFamilias() {
+    console.log(this.usuarioServicio.cadenaConexion);
     if (this.usuarioServicio.datosFamilia == null) {
       this.usuarioServicio.getDatosUsuarioFamilia(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
         .subscribe(
@@ -98,6 +105,7 @@ export class DatosPersonalesComponent implements OnInit {
   }
 
   cargarTelefonosEmpleado() {
+    console.log(this.usuarioServicio.cadenaConexion);
     if (this.usuarioServicio.telefonosEmpleado == null) {
       this.usuarioServicio.getTelefonosEmpleado(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
         .subscribe(

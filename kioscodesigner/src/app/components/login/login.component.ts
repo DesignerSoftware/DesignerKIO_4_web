@@ -30,9 +30,9 @@ export class LoginComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private cadenasKioskos: CadenaskioskosappService
   ) {
-    console.log('constructor login');
+    //console.log('constructor login');
     this.cadenasApp = null;
-    console.log('usuario logueado', usuarioService.getUserLoggedIn());
+    //console.log('usuario logueado', usuarioService.getUserLoggedIn());
     this.infoInicio();
   }
 
@@ -47,8 +47,8 @@ export class LoginComponent implements OnInit {
           if (params['grupo']) {
             this.grupoEmpresarial = params['grupo'];
             this.usuarioService.grupoEmpresarial = this.grupoEmpresarial;
-            console.log('this.usuarioService.grupo', this.usuarioService.grupoEmpresarial);
-            console.log(params);
+            //console.log('this.usuarioService.grupo', this.usuarioService.grupoEmpresarial);
+            //console.log(params);
             this.validaParametroGrupo = '';
             /*console.log(params.id);
         console.log(params[‘id’]);*/
@@ -57,15 +57,16 @@ export class LoginComponent implements OnInit {
               .subscribe((data) => {
                 //console.log('cadenasKioskos form Registro', data);
                 this.cadenasApp = data;
-                console.log('cadenas: ', data)
+                //console.log('cadenas: ', data)
                 this.usuarioService.cadenaConexion = data[0][4];
-                console.log('Cadena: ', this.usuarioService.cadenaConexion);
-                console.log('length: ' + this.cadenasApp.length);
+                //console.log('Cadena: ', this.usuarioService.cadenaConexion);
+                //console.log('length: ' + this.cadenasApp.length);
                 this.loginService.kioscoActivo = true;
                 for (let i = 0; i < this.cadenasApp.length; i++) {
                   console.log(data[i][7]);
                   if (data[i][7] == 'INACTIVO') {
                     console.log('desde login (usuario NO logueado) estado Kiosco: ' + this.loginService.kioscoActivo);
+                    this.loginService.mensajeKioscoInactivo = data[i][8];
                     this.loginService.kioscoActivo = false;
                   }
                 }

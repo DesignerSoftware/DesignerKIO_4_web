@@ -12,6 +12,7 @@ export class ContactoComponent implements OnInit {
   constructor(private kioPersonalizaciones: KiopersonalizacionesService, public usuarioService: UsuarioService) { }
 
   ngOnInit() {
+    //console.log(this.usuarioService.cadenaConexion);
     this.consultarDatosContacto();
   }
 

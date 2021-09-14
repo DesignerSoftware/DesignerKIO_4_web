@@ -17,6 +17,7 @@ export class InfoEstudiosComponent implements OnInit {
   constructor(public usuarioServicio: UsuarioService, private fb: FormBuilder, private cadenasKioskos: CadenaskioskosappService) { }
 
   ngOnInit() {
+    //console.log(this.usuarioServicio.cadenaConexion);
     this.crearFormulario();
     if (this.usuarioServicio.cadenaConexion) {
       this.cargarDatosIniciales();

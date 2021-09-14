@@ -13,6 +13,7 @@ export class ReportesService {
   codigoReporteSeleccionado;
   reporteSeleccionado = null;
   nombreReporteSeleccionado;
+  numeroReporte = null;
   
   constructor(private http: HttpClient) { }
 
@@ -42,5 +43,6 @@ export class ReportesService {
     this.nombreReporteSeleccionado = null;
     this.reportesEmpleado = [];
     this.reportesJefe = [];
+    this.numeroReporte = null;
   }
 }
