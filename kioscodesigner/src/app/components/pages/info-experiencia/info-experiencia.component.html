@@ -16,6 +16,8 @@
                 <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">Experiencias Laborales</h4>
                 </div>
             </div>
+            <p *ngIf="usuarioServicio.datosExperienciaLab && usuarioServicio.datosExperienciaLab.length<=0" class="text-center">
+                No hay información asociada.</p> 
             <div class="container" *ngFor="let op of usuarioServicio.datosExperienciaLab  index as i;">
             
             <!-- <div class="row text-center align-items-center d-flex"> -->
