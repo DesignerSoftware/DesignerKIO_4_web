@@ -4,13 +4,14 @@ export const environment = {
   // urlKioskoDesigner: 'https://www.designer.com.co:8181/wsjavanov5/wsKiosco/restapi/',
   // urlKioskoReportes: 'http://www.nominadesigner.co:8080/wsreporte/webresources/',
   //urlKioskoReportes: 'https://www.designer.com.co:8178/wsreporte/webresources/', //ability1
-  urlKioskoReportes: 'https://intranet.nominadesigner.co:8178/wsreporte/webresources/', //NominaDesigner
+  urlKioskoReportes: 'https://www.designer.com.co:8188/wsreporte/webresources/', //ability1
+  //urlKioskoReportes: 'https://intranet.nominadesigner.co:8178/wsreporte/webresources/', //NominaDesigner
   //urlKioskoReportes: 'https://www.nominas.co:8178/wsreporte/webresources/', // oracle
   //urlKioskoReportes: 'https://www.nomina.com.co:8178/wsreporte/webresources/', // www.nomina.com.co
   //urlKioskoReportes: 'https://autogestion.mab.com.co:8080/wsreporte/webresources/', // mab
   // urlKiosko: 'http://www.nominadesigner.co',
-  //urlKiosko: 'https://www.designer.com.co:8179' //ability1
-  urlKiosko: 'https://intranet.nominadesigner.co:80' //NominaDesigner
+  urlKiosko: 'https://www.designer.com.co:8179' //ability1
+  //urlKiosko: 'https://intranet.nominadesigner.co:80' //NominaDesigner
   //urlKiosko: 'https://www.nominas.co:8179' // oracle
   //urlKiosko: 'https://www.nomina.com.co:8179' // www.nomina.com.co
   //urlKiosko: 'https://autogestion.mab.com.co:8179' // mab

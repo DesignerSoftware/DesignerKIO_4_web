@@ -41,6 +41,145 @@ input #file-upload-button{
     
   }
   
+  
+.quitar {
+    padding: 0 !important;
+}
+.texto_responsive:before{
+    content: attr(data-desktoptext);
+    display: block;
+  }
+.expandir {
+    content: attr(data-phonetext);
+    display: none;
+}
+
+/*.inputFileModificado {
+    position: relative;
+    padding: 10px;
+    display: none;
+}
+
+.inputFileOculto {
+    position: relative;
+    text-align: right;
+    -moz-opacity: 0;
+    opacity: 0;
+    display: none;
+    /*z-index: 2;       
+}*/
+/*  */
+/*.inputParaMostrar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /*z-index: 1;
+    margin: 10px 0 10px 0;
+    display: none;    
+}
+.inputFileModificado input {
+    border: 5px;
+    padding: 10px;
+    width: 100%;
+    display: none;    
+}
+
+.botonfile{
+    display: block; 
+}
+  
+  @media (max-width:900px) {
+      .texto_responsive:before {
+          content: attr(data-tablettext);
+          display: block;
+      }
+      .expandir {
+        /*content: attr(data-phonetext);*/
+        /*display: none;
+    }
+  }*/
+  .inputFileModificado input {
+    border: 5px #000 solid;
+    width: 400px;
+    height: 20px;
+    padding-left: 5px;
+    padding-top: 2px;
+    margin-right: -95px;
+    display: none; 
+}
+
+.inputFileModificado {
+    position: relative;
+    display: none; 
+    /*margin-bottom: 20px;*/
+}
+
+.inputFileOculto {
+    position: relative;
+    text-align: right;
+    -moz-opacity: 0;
+    opacity: 0;
+    z-index: 2;   
+    display: none;     
+}
+
+.inputParaMostrar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /*width: 600px;*/
+    z-index: 1;
+    display: none; 
+}
+.adjunto{
+    margin-bottom: 30px;
+}
+.adjunto i {
+    float: left;
+}
+.adjunto p {
+    float: left;
+}
+.botones{
+    margin-top: 70px;
+}
+  
+  @media (max-width:760px){
+      .expandir {
+          /*content: attr(data-phonetext);*/
+          display: block;
+      }
+      .texto_responsive:before {
+        display: none;
+    }   
+    .inputFileModificado {
+        display: block;
+        padding-top: 10px;
+    }
+    
+    .inputFileOculto {
+        display: block;
+        /*z-index: 2;       */
+    }
+    /*  */
+    .inputParaMostrar {
+        display: block; 
+    }
+    .inputFileModificado input {
+        display: block; 
+    }
+    .botonfile{
+        display: none; 
+    }
+    .row button small{
+        float: left !important;
+        margin-left: 10px;
+    }
+    .adjunto p {
+        width: 400px;
+    }    
+  }
+
   @media(max-width: 575px) {
     #btnEnviar, #btnCancelar {
         text-align: center !important;
@@ -49,7 +188,16 @@ input #file-upload-button{
     #btnCancelar {
         margin-top: 5px;
     }
+
+    .adjunto p {
+        width: 200px;
+    } 
 }
-.quitar {
-    padding: 0 !important;
+@media(max-width: 350px) {
+    .adjunto p {
+        width: 150px;
+    } 
 }
+  /*-----------------*/
+
+

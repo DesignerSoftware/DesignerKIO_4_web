@@ -28,6 +28,7 @@ export class ReportarAusentismoComponent implements OnInit {
   activaProrroga = false;
   estadoNovEmple = null;
   msjNovEmple = null;
+  nomArchivo = null;
 
   constructor(
     private fb: FormBuilder,
@@ -689,9 +690,11 @@ export class ReportarAusentismoComponent implements OnInit {
       const file = event.target.files[0];
       console.log(file);
       this.formulario.get('anexo').setValue(file);
+      console.log('Name File' + file.name);
       if (this.validaTipoArchivoAnexo()) {
         console.log('Es .pdf');
         this.msjValidArchivoAnexo = '';
+        this.nomArchivo = this.formulario.get('anexo').value.name;
         if (!this.validaSizeAnexo()) {
           this.msjValidArchivoAnexo = 'El tamaño del archivo es demasiado grande. Seleccione un archivo de máximo 5MB.'
           swal.fire('Tamaño de archivo demasiado grande', 'Por favor seleccione un archivo de máximo 5MB', 'error');
@@ -739,6 +742,7 @@ export class ReportarAusentismoComponent implements OnInit {
    file.value=null;
    this.msjValidArchivoAnexo = '';
    this.formulario.get('anexo').setValue(null);
+   this.nomArchivo = null;
   }
 
 

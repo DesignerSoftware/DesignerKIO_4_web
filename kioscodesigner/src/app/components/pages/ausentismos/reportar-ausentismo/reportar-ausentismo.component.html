@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="form-group row">
               <label class="col-sm-3 col-form-label"  for="causa">Causa: <b class="text-danger">*</b></label>
               <div class="col-sm-9">
@@ -80,8 +80,9 @@
               </div>
             </div>
           </div>
-
-          <div class="col-md-6">
+        </div>
+        <div class="row">
+          <div class="col-md-12">
             <div class="form-group row">
               <label class="col-sm-3 col-form-label" for="codDiag">Cód. diagnóstico:</label>
               <div class="col-sm-9">
@@ -90,8 +91,12 @@
                     [placeholder]="!this.habilitaBtnCodDiag ? 'NO APLICA': 'Sin seleccionar'" disabled
                     formControlName="codigo" aria-label="Recipient's username" aria-describedby="button-addon2">
                   <button class="btn btn-primary" type="button" id="button-addon2" (click)="mostrarListaCod()"
-                    [attr.disabled]="!habilitaBtnCodDiag ? true : null">Mostrar
-                    códigos</button>
+                    [attr.disabled]="!habilitaBtnCodDiag ? true : null">
+                    <span class="texto_responsive" data-desktoptext="Mostrar Codigo" 
+                    data-tablettext="Mostrar Codigo" data-phonetext=""></span>
+                    <i class="expandir fas fa-external-link-alt" data-phonetext=""></i>
+                    <!--Mostrar códigos-->
+                  </button>
                 </div>
               </div>
             </div>
@@ -101,8 +106,8 @@
         <div class="row">
           <div class="col-md-3">
             <div class="form-group row">
-              <label class="col-sm-4 col-12 col-form-label">Días: <span class="text-danger">*</span></label>
-              <div class="col-sm-8">
+              <label class="col-sm-3 col-12 col-form-label">Días: <span class="text-danger">*</span></label>
+              <div class="col-sm-9 col-12">
                 <input type="number" class="form-control form-control-sm" formControlName="dias"
                   title="Digite el número de días de la novedad de ausentismo." min="1" (keyup)="cargaFechaFin()" (change)="cargaFechaFin()" />
                   <small class="text-danger" *ngIf="formulario.get('dias').errors?.required && formulario.get('dias').touched">
@@ -128,8 +133,8 @@
           </div>
           <div class="col-md-4">
             <div class="form-group row">
-              <label class="col-sm-5 col-form-label">Fecha fin ausentismo:</label>
-              <div class="col-sm-7">
+              <label class="col-sm-6 col-form-label">Fecha fin ausentismo:</label>
+              <div class="col-sm-6">
                 <input type="text" class="form-control form-control-sm" formControlName="fechafin" readonly="true"
                   title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
               </div>
@@ -246,18 +251,37 @@
         </div>
 
         <div class="form-group">
-          <div>
-            <label for="formFileLg" class="form-label">Documento anexo:</label>
-            <button type="button" class="btn btn-link float-right quitar" *ngIf="formulario.get('anexo').value" (click)="quitarArchivoSeleccionado()"><small>Quitar archivo seleccionado</small></button>
-            <input class="form-control form-control-lg" type="file" id="file" max-size="5000" accept="application/pdf"
-              (change)="onFileSelect($event)">
+          <div class="row">
+            <label for="formFileLg" class="form-label col-sm-4 col-12 col-md-4">Documento anexo:</label>
+            <button type="button" class="btn btn-link quitar col-sm-8 col-12 col-md-8" *ngIf="formulario.get('anexo').value" (click)="quitarArchivoSeleccionado()"><small class=" float-right">Quitar archivo seleccionado</small></button>
+            <input class="form-control form-control-lg botonfile col-sm-12 col-12 col-md-12" type="file" id="file" max-size="5000" accept="application/pdf"
+              (change)="onFileSelect($event)" >               
           </div>
+          <!--<div class="filemini">-->
+            <div *ngIf="nomArchivo == null" class="col-sm-12 col-12 col-md-12">
+              <div class="inputFileModificado ">
+                <input class="inputFileOculto" name="input1" type="file"  id="file" max-size="5000" accept="application/pdf"
+                (change)="onFileSelect($event)" >
+                <div class="inputParaMostrar">
+                    <i class="fas fa-paperclip"></i>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="nomArchivo !== null ">
+              <div class="inputFileModificado">
+                <div class="inputParaMostrar adjunto">
+                  <i class="fas fa-paperclip"></i>
+                  <p class="">&nbsp;{{nomArchivo}}</p>
+              </div>
+              </div>
+            </div>              
+            <!--</div>-->
           <div>
             <small class="text-danger mt-2">
               {{msjValidArchivoAnexo}}
             </small>
           </div>
-        </div>  
+        </div> 
 
         <div class="row" *ngIf="false">
           <div class="col-md-12">
@@ -278,13 +302,7 @@
             <input class=" anexo" id="formFile" type="file" formControlName="anexo">
           </div>
         </div>
-
-        <br>
-
-
-
-
-        <div class="row">
+        <div class="row botones">
           <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
             <button type="submit" class="btn btn-outline-primary btn-lg" style="width: 200px">Enviar Novedad</button>
           </div>
@@ -367,7 +385,10 @@
               <tr id="tblfamiliares">
                 <th>Código</th>
                 <th>Descripción</th>
-                <th>Seleccionar</th>
+                <th><span class="texto_responsive" data-desktoptext="Seleccionar" 
+                  data-tablettext="Seleccionar" data-phonetext=""></span>
+                    <i class="expandir fas fa-check" data-phonetext=""></i>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -379,11 +400,15 @@
                 <td colspan="6">No hay solicitudes enviadas.</td>
               </tr>
               <tr
-                *ngFor="let solic of ausentismosService.codigosAusentismos | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
+                *ngFor="let solic of ausentismosService.codigosAusentismos | filterTable: dataFilt | paginate: {  itemsPerPage: 8, currentPage: p1, id: 'second' } ; index as i  ">
                 <td>{{solic[1]}}</td>
                 <td>{{solic[2]}}</td>
                 <td><button type="button" class="btn btn-primary"
-                    (click)="seleccionarCodDiag(solic[0], solic[1], solic[2], i)">Seleccionar</button></td>
+                    (click)="seleccionarCodDiag(solic[0], solic[1], solic[2], i)">
+                    <span class="texto_responsive" data-desktoptext="Seleccionar" 
+                    data-tablettext="Seleccionar" data-phonetext=""></span>
+                    <i class="expandir far fa-hand-pointer" data-phonetext=""></i>
+                  </button></td>
               </tr>
             </tbody>
 
