@@ -170,3 +170,9 @@
     padding-right: calc(1.5em + .75rem);
     background-position: top calc(.375em + .1875rem) right calc(.375em + .1875rem)
 }
+/*Resalta la pestaña activa de los tabs */
+[aria-selected="true"]{
+    background-color: #00223c !important;
+    color: white !important;
+    border-top: #007bff 2.5px solid !important;
+}

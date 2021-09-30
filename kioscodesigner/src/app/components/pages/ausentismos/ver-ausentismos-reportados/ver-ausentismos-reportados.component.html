@@ -19,7 +19,7 @@
       <div class="card-body">
         <p class="card-description">Solicitudes propias</p>
         <div class="col-sm-12">
-          <ul class="nav nav-tabs" role="tablist">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
             <!--<li class="nav-item active col-md-1"> 
               <a class="nav-link" aria-disabled="true" role="tab" >&nbsp;</a>
             </li>-->
@@ -428,7 +428,7 @@
         </div>
         <div *ngIf="estadoSolicitudSeleccionada ==='' || estadoSolicitudSeleccionada !== null">
           <hr>
-          <h6>ACCIONES PERMITIDAS</h6><br>
+          <h6 *ngIf="false">ACCIONES PERMITIDAS</h6><br>
           <div class="col-12">
             <div class="col-sm-12 col-12" id="btnCancelar">
               <button type="button"  class="btn btn-outline-danger" (click)="cancelarEnvio()">CANCELAR SOLICITUD</button>
