@@ -227,12 +227,11 @@
         </table>
       </div>
 
-      <hr>
-      <p class="card-description">
+      <p class="card-description" *ngIf="this.usuarioServicio.empresa=='830045567'">
         Documentos Anexos
       </p>
-      <hr>
-      <div class="accordion" id="accordionExample">
+      <hr *ngIf="this.usuarioServicio.empresa=='830045567'">
+      <div class="accordion" id="accordionExample" *ngIf="this.usuarioServicio.empresa=='830045567'">
         <div class="card">
           <a data-toggle="collapse" data-target="#collapseOne">
           <div class="card-header" id="headingOne" style="background: #00223C; color: white;">
@@ -264,8 +263,7 @@
         </div>
       </div>
       
-      <hr>
-
+      <br *ngIf="this.usuarioServicio.empresa=='830045567'">
       <p class="card-description">
         Empresa
       </p>
@@ -305,7 +303,7 @@
 
   <div class="row, text-center" id="div" style="margin-top: 20px;">
     <p>Informar corrección de datos personales:
-      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+      <button class="btn btn-primary btn-sm" id="btnInfoDP" data-bs-toggle="modal" data-bs-target="#exampleModal"
         (click)="abrirModal()">CLIC AQUI</button>
     </p>
   </div>

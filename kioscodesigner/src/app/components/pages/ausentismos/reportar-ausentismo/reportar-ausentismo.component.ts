@@ -27,7 +27,8 @@ export class ReportarAusentismoComponent implements OnInit {
   habilitaBtnCodDiag = false;
   activaProrroga = false;
   estadoNovEmple = null;
-  msjNovEmple = null;
+  msjNovEmpleTitle = null;
+  msjNovEmpleDetalle = null;
   nomArchivo = null;
 
   constructor(
@@ -325,12 +326,19 @@ export class ReportarAusentismoComponent implements OnInit {
           data => {
             console.log(data);
             this.estadoNovEmple=data['valida'];
-            if(this.estadoNovEmple== 'SA'){
-              this.msjNovEmple = 'La fecha de ausentismo coincide con otra novedad de ausentismo';
+            if(this.estadoNovEmple== 'KSA'){
+              this.msjNovEmpleTitle = '¡Rango de fechas no válido!';
+              this.msjNovEmpleDetalle = 'Ya reportaste una novedad de ausentismo en ese rango de fechas';
+            } 
+            else if (this.estadoNovEmple== 'SA') {
+              this.msjNovEmpleTitle = '¡Rango de fechas no válido!';
+              this.msjNovEmpleDetalle = 'La fechas coinciden con otra novedad de ausentismo. Por favor validarlo con el área de nómina y recursos humanos de su empresa.';
             } else if (this.estadoNovEmple== 'SV'){
-              this.msjNovEmple = 'La fecha de ausentismo coincide con una novedad de vacaciones';
+              this.msjNovEmpleTitle = '¡Rango de fechas no válido!';
+              this.msjNovEmpleDetalle = 'La fecha de ausentismo coincide con una novedad de vacaciones';
             } else {
-              this.msjNovEmple = '';
+              this.msjNovEmpleTitle = '';
+              this.msjNovEmpleDetalle = '';
             }
             ;
             /*console.log('impresive', this.ausentismoService.SolicitudesJefe);
@@ -431,83 +439,15 @@ export class ReportarAusentismoComponent implements OnInit {
               console.log('prorrogaSeleccionada', secuenciaProrroga);
               console.log('estado de mensaje ', this.estadoNovEmple);
               /* si la fecha de solicitud coincide con alguna novedad anterior */
-              if (this.estadoNovEmple=='SA' || this.estadoNovEmple=='SV') {
+              if (this.estadoNovEmple=='KSA' || this.estadoNovEmple=='SA'|| this.estadoNovEmple=='SV') {
                 swal.fire({
-                  title: this.msjNovEmple,
-                  text: '¿Desea continuar?',
+                  title: this.msjNovEmpleTitle,
+                  text: this.msjNovEmpleDetalle,
                   icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Si',
-                  cancelButtonText: 'No'
-                }).then((result) => {
-                  if(result.isConfirmed){
-                    swal.fire({
-                      title: "Enviando la solicitud al sistema, por favor espere...",
-                      onBeforeOpen: () => {
-                        swal.showLoading();
-                        this.ausentismosService.crearNovedadAusentismo(
-                          this.usuarioService.tokenJWT,
-                          this.usuarioService.usuario,
-                          this.usuarioService.empresa, 
-                          'ENVIADO', 
-                          this.formatoddmmyyyy(this.formulario.get('fechainicio').value),
-                          this.formulario.get('fechafin').value, 
-                          this.formulario.get('dias').value,
-                          secuenciaCausa, this.secCodDiagSelec, 
-                          secuenciaClase,
-                          secuenciaTipo,secuenciaProrroga, 
-                          this.formulario.get('observaciones').value, 
-                          incluyeAnexo,
-                          this.usuarioService.cadenaConexion,
-                          this.usuarioService.urlKioscoDomain,
-                          this.usuarioService.grupoEmpresarial)
-                          .subscribe(
-                            data => {
-                              console.log('rta: ', data);
-                              if (data["NovedadCreada"]) {
-                                swal
-                                  .fire({
-                                    icon: "info",
-                                    title:
-                                      "Validando novedad en el sistema...",
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                  })
-                                  .then((res) => {
-                                    //this.router.navigate(["/ausentismos"]);
-                                    // Si se registro correctamente la novedad, subir el anexo:
-                                    if (incluyeAnexo == 'S') {
-                                      console.log('Novedad reportada incluye anexo');
-                                      this.subirAnexo(data["anexo"], data["solicitud"]);
-                                    } else {
-                                      console.log('Novedad reportada NO incluye anexo');
-                                      console.log('solicitud creada: '+data["solicitud"])
-                                      this.enviarCorreoNovedad(data["solicitud"]);
-                                    }
-                                      
-                                  });
-                              } else {
-                                swal
-                                  .fire({
-                                    icon: "error",
-                                    title: data["mensaje"],
-                                    showConfirmButton: true,
-                                  })
-                                  .then((res) => {
-                                    this.router.navigate(["/ausentismos"]);
-                                  });
-                              }
-                            }
-                          );
-                      },
-                      allowOutsideClick: () => !swal.isLoading(),
-                    });
-                  }
+                }).then(()=>{
+                    this.router.navigate(['/ausentismos']);
                 });
-              }
-              else {
+              } else {
               swal.fire({
                 title: "Enviando la solicitud al sistema, por favor espere...",
                 onBeforeOpen: () => {
