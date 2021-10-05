@@ -397,7 +397,7 @@ export class ReportarAusentismoComponent implements OnInit {
           text: 'Ha seleccionado que esta reportando un ausentismo con prórroga pero no ha indicado a cual hace referencia.',
           icon: "error",
         });
-      } else if (this.formulario.get('anexo').value!=null && (!this.validaTipoArchivoAnexo() || !this.validaSizeAnexo())) {
+      } else if ((this.formulario.get('anexo').value!=null && this.formulario.get('anexo').value!='') && (!this.validaTipoArchivoAnexo() || !this.validaSizeAnexo())) {
         if (!this.validaSizeAnexo()) {
           swal.fire('Tamaño de archivo demasiado grande', 'Por favor seleccione un archivo de máximo 5MB', 'error');
         } else if (!this.validaTipoArchivoAnexo()) {
@@ -678,10 +678,10 @@ export class ReportarAusentismoComponent implements OnInit {
   // Método que quitar  el archivo seleccionado del campo de anexo,
   quitarArchivoSeleccionado() {
     console.log('Quitar archivo seleccionado');
-   var file=(<HTMLInputElement>document.getElementById('file'));
-   file.value=null;
+   //var file=(<HTMLInputElement>document.getElementById('file'));
+   //file.value=null;
    this.msjValidArchivoAnexo = '';
-   this.formulario.get('anexo').setValue(null);
+   this.formulario.get('anexo').setValue('');
    this.nomArchivo = null;
   }
 

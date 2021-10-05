@@ -49,9 +49,9 @@
         <div class="row">
           <div class="col-md-12">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label"  for="causa">Causa: <b class="text-danger">*</b></label>
+              <label class="col-sm-3 col-form-label" for="causa">Causa: <b class="text-danger">*</b></label>
               <div class="col-sm-9">
-                <select class="form-control" formControlName="causa" id="causa"  (change)="cambioSeleccion()"
+                <select class="form-control" formControlName="causa" id="causa" (change)="cambioSeleccion()"
                   title="Seleccione la causa del ausentismo">
                   <option [value]="i" *ngFor="let c of causasAusentismos; index as i">{{c.causa.descripcion}}</option>
                 </select>
@@ -92,8 +92,8 @@
                     formControlName="codigo" aria-label="Recipient's username" aria-describedby="button-addon2">
                   <button class="btn btn-primary" type="button" id="button-addon2" (click)="mostrarListaCod()"
                     [attr.disabled]="!habilitaBtnCodDiag ? true : null">
-                    <span class="texto_responsive" data-desktoptext="Mostrar Codigo" 
-                    data-tablettext="Mostrar Codigo" data-phonetext=""></span>
+                    <span class="texto_responsive" data-desktoptext="Mostrar Codigo" data-tablettext="Mostrar Codigo"
+                      data-phonetext=""></span>
                     <i class="expandir fas fa-external-link-alt" data-phonetext=""></i>
                     <!--Mostrar códigos-->
                   </button>
@@ -109,10 +109,12 @@
               <label class="col-sm-3 col-12 col-form-label">Días: <span class="text-danger">*</span></label>
               <div class="col-sm-9 col-12">
                 <input type="number" class="form-control form-control-sm" formControlName="dias"
-                  title="Digite el número de días de la novedad de ausentismo." min="1" (keyup)="cargaFechaFin()" (change)="cargaFechaFin()" />
-                  <small class="text-danger" *ngIf="formulario.get('dias').errors?.required && formulario.get('dias').touched">
-                    Seleccione la cantidad de días del ausentismo.
-                  </small>
+                  title="Digite el número de días de la novedad de ausentismo." min="1" (keyup)="cargaFechaFin()"
+                  (change)="cargaFechaFin()" />
+                <small class="text-danger"
+                  *ngIf="formulario.get('dias').errors?.required && formulario.get('dias').touched">
+                  Seleccione la cantidad de días del ausentismo.
+                </small>
               </div>
             </div>
           </div>
@@ -121,20 +123,23 @@
               <label class="col-sm-5 col-form-label">Fecha inicio ausentismo: <span class="text-danger">*</span></label>
               <div class="col-sm-7">
                 <input type="date" class="form-control form-control-sm" formControlName="fechainicio"
-                  title="Seleccione el día que inicia el ausentismo"  (change)="cargaFechaFin()" [attr.readonly]="this.formulario.get('prorroga').value ? true : null"/>
-                  <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched && !this.formulario.get('prorroga').value">
-                    Seleccione la fecha de inicio del ausentismo.
-                  </small>
-                  <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched && this.formulario.get('prorroga').value">
-                    Seleccione la prorroga para calcular la fecha de inicio de su ausentismo.
-                  </small>
+                  title="Seleccione el día que inicia el ausentismo" (change)="cargaFechaFin()"
+                  [attr.readonly]="this.formulario.get('prorroga').value ? true : null" />
+                <small class="text-danger"
+                  *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched && !this.formulario.get('prorroga').value">
+                  Seleccione la fecha de inicio del ausentismo.
+                </small>
+                <small class="text-danger"
+                  *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched && this.formulario.get('prorroga').value">
+                  Seleccione la prorroga para calcular la fecha de inicio de su ausentismo.
+                </small>
               </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group row">
-              <label class="col-sm-6 col-form-label">Fecha fin ausentismo:</label>
-              <div class="col-sm-6">
+              <label class="col-sm-5 col-form-label">Fecha fin ausentismo:</label>
+              <div class="col-sm-7">
                 <input type="text" class="form-control form-control-sm" formControlName="fechafin" readonly="true"
                   title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
               </div>
@@ -147,7 +152,8 @@
         <div class="row">
           <div class="col-12 form-group">
             <div class="">
-              <input type="checkbox" id="exampleCheck1" formControlName="prorroga" [(ngModel)]="activaProrroga" (change)="validarCheckProrroga()">
+              <input type="checkbox" id="exampleCheck1" formControlName="prorroga" [(ngModel)]="activaProrroga"
+                (change)="validarCheckProrroga()">
               <label class="form-check-label" style="margin-left: 5px; margin-bottom: 0px !important;"
                 for="exampleCheck1" title="Seleccione este campo si el ausentismo que está reportando es prórroga">¿Es
                 prórroga de otra incapacidad?</label>
@@ -164,7 +170,7 @@
         <div class="row collapse multi-collapse" id="multiCollapseExample1"
           *ngIf="(!prorrogaSeleccionada || prorrogaSeleccionada==null) && this.formulario.get('prorroga').value==true">
           <div class="card card-body table-responsive">
-            <div >
+            <div>
               <table class="table">
                 <thead>
                   <tr>
@@ -177,8 +183,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngIf="!ausentismosService.datosProrroga || ausentismosService.datosProrroga==null || ausentismosService.datosProrroga.length==0">
-                    <th colspan="6" style="text-align: center;">No tienes novedades de ausentismo procesadas con la causa seleccionada</th>
+                  <tr
+                    *ngIf="!ausentismosService.datosProrroga || ausentismosService.datosProrroga==null || ausentismosService.datosProrroga.length==0">
+                    <th colspan="6" style="text-align: center;">No tienes novedades de ausentismo procesadas con la
+                      causa seleccionada</th>
                   </tr>
                   <tr *ngFor="let prorroga of ausentismosService.datosProrroga; index as i">
                     <td *ngIf="prorroga"> {{prorroga[2] || 'N/A' }} </td>
@@ -250,45 +258,48 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" *ngIf="false">
           <div class="row">
             <label for="formFileLg" class="form-label col-sm-4 col-12 col-md-4">Documento anexo:</label>
-            <button type="button" class="btn btn-link quitar col-sm-8 col-12 col-md-8" *ngIf="formulario.get('anexo').value" (click)="quitarArchivoSeleccionado()"><small class=" float-right">Quitar archivo seleccionado</small></button>
-            <input class="form-control form-control-lg botonfile col-sm-12 col-12 col-md-12" type="file" id="file" max-size="5000" accept="application/pdf"
-              (change)="onFileSelect($event)" >               
+            <button type="button" class="btn btn-link quitar col-sm-8 col-12 col-md-8"
+              *ngIf="formulario.get('anexo').value" (click)="quitarArchivoSeleccionado()"><small
+                class=" float-right">Quitar archivo seleccionado</small></button>
+            <input class="form-control form-control-lg botonfile col-sm-12 col-12 col-md-12" type="file" id="file"
+              max-size="5000" accept="application/pdf" (change)="onFileSelect($event)">
           </div>
           <!--<div class="filemini">-->
-            <div *ngIf="nomArchivo == null" class="col-sm-12 col-12 col-md-12">
-              <div class="inputFileModificado ">
-                <input class="inputFileOculto" name="input1" type="file"  id="file" max-size="5000" accept="application/pdf"
-                (change)="onFileSelect($event)" >
-                <div class="inputParaMostrar">
-                    <i class="fas fa-paperclip"></i>
-                </div>
+          <div *ngIf="nomArchivo == null" class="col-sm-12 col-12 col-md-12">
+            <div class="inputFileModificado ">
+              <input class="inputFileOculto" name="input1" type="file" id="file" max-size="5000"
+                accept="application/pdf" (change)="onFileSelect($event)">
+              <div class="inputParaMostrar">
+                <i class="fas fa-paperclip"></i>
               </div>
             </div>
-            <div *ngIf="nomArchivo !== null ">
-              <div class="inputFileModificado">
-                <div class="inputParaMostrar adjunto">
-                  <i class="fas fa-paperclip"></i>
-                  <p class="">&nbsp;{{nomArchivo}}</p>
+          </div>
+          <div *ngIf="nomArchivo !== null ">
+            <div class="inputFileModificado">
+              <div class="inputParaMostrar adjunto">
+                <i class="fas fa-paperclip"></i>
+                <p class="">&nbsp;{{nomArchivo}}</p>
               </div>
-              </div>
-            </div>              
-            <!--</div>-->
+            </div>
+          </div>
+          <!--</div>-->
           <div>
             <small class="text-danger mt-2">
               {{msjValidArchivoAnexo}}
             </small>
           </div>
-        </div> 
+        </div>
 
         <div class="row" *ngIf="false">
           <div class="col-md-12">
             <div class="form-group row">
               <div>
                 <label for="formFileLg" class="form-label">Documento anexo:</label>
-                <input class="form-control form-control-lg" id="formFileLg" type="file">
+                <input class="form-control form-control-lg" type="file" id="file" max-size="5000"
+                  accept="application/pdf" (change)="onFileSelect($event)">
               </div>
             </div>
           </div>
@@ -302,6 +313,71 @@
             <input class=" anexo" id="formFile" type="file" formControlName="anexo">
           </div>
         </div>
+
+
+        <div class="row" *ngIf="true">
+          <div class="col-md-5  col-xs-12 col-sm-12 col-12">
+            <table>
+              <thead>
+                <th></th>
+                <th></th>
+              </thead>
+              <tbody>
+                <td>
+                  <i class="fas fa-times-circle" *ngIf="nomArchivo == null"></i>
+                  <i class="fas fa-check-circle " *ngIf="nomArchivo !== null"></i>
+                </td>
+                <td>
+                  <p class="anexoP" *ngIf="nomArchivo == null">Anexar un archivo</p>
+                  <p class="anexoP" *ngIf="nomArchivo !== null">&nbsp;{{nomArchivo}}</p>
+                </td>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-4  col-xs-6 col-sm-12 col-12 ">
+            <div class="botonAnexos" *ngIf="nomArchivo == null">
+              <div class="file-select btn btn-outline-primary puntero btn-lg  " id="src-file1">
+                <input type="file" class="puntero" name="src-file1" aria-label="Archivo"
+                  style="height: 52px; width: 230px;" id="file" max-size="5000" accept="application/pdf"
+                  (change)="onFileSelect($event)">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-5 col-sm-12 col-12 ">
+            <div class="botonAnexos" *ngIf="nomArchivo !== null">
+              <button type="button" class="btn btn-outline-danger btn-lg " style="width: 200px"
+                (click)="quitarArchivoSeleccionado()">Borrar</button>
+            </div>
+          </div>
+          <!--<div *ngIf="nomArchivo == null" class="col-sm-12 col-12 col-md-12">
+            <div class="inputFileModificado ">
+              <input class="inputFileOculto" name="input1" type="file" id="file" max-size="5000"
+                accept="application/pdf" (change)="onFileSelect($event)">
+              <div class="inputParaMostrar">
+                <i class="fas fa-paperclip"></i>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="nomArchivo !== null ">
+            <button type="button" class="btn btn-link quitar col-sm-8 col-12 col-md-8 inputParaMostrarArchivo"
+              *ngIf="formulario.get('anexo').value" (click)="quitarArchivoSeleccionado()"><small
+                class=" float-right">Quitar archivo seleccionado</small></button>
+            <div class="inputFileModificado">
+              <div class="inputParaMostrar adjunto" *ngIf="nomArchivo == null">
+                <i class="fas fa-paperclip"></i>
+                <p class="">&nbsp;{{nomArchivo}}</p>
+              </div>
+            </div>
+          </div>-->
+          <!--</div>-->
+          <div>
+            <small class="text-danger mt-2">
+              {{msjValidArchivoAnexo}}
+            </small>
+          </div>
+        </div>
+
+
         <div class="row botones">
           <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
             <button type="submit" class="btn btn-outline-primary btn-lg" style="width: 200px">Enviar Novedad</button>
@@ -321,8 +397,9 @@
 
 
   <div class="row, text-center" id="div" style="margin-top: 20px;">
-    <p>Informar corrección de jefe: 
-      <button class="btn btn-primary btn-sm" (click)="abrirModal()">CLIC AQUI</button></p>
+    <p>Informar corrección de jefe:
+      <button class="btn btn-primary btn-sm" (click)="abrirModal()">CLIC AQUI</button>
+    </p>
   </div>
 
 </div>
@@ -385,9 +462,9 @@
               <tr id="tblfamiliares">
                 <th>Código</th>
                 <th>Descripción</th>
-                <th><span class="texto_responsive" data-desktoptext="Seleccionar" 
-                  data-tablettext="Seleccionar" data-phonetext=""></span>
-                    <i class="expandir fas fa-check" data-phonetext=""></i>
+                <th><span class="texto_responsive" data-desktoptext="Seleccionar" data-tablettext="Seleccionar"
+                    data-phonetext=""></span>
+                  <i class="expandir fas fa-check" data-phonetext=""></i>
                 </th>
               </tr>
             </thead>
@@ -405,8 +482,8 @@
                 <td>{{solic[2]}}</td>
                 <td><button type="button" class="btn btn-primary"
                     (click)="seleccionarCodDiag(solic[0], solic[1], solic[2], i)">
-                    <span class="texto_responsive" data-desktoptext="Seleccionar" 
-                    data-tablettext="Seleccionar" data-phonetext=""></span>
+                    <span class="texto_responsive" data-desktoptext="Seleccionar" data-tablettext="Seleccionar"
+                      data-phonetext=""></span>
                     <i class="expandir far fa-hand-pointer" data-phonetext=""></i>
                   </button></td>
               </tr>
@@ -428,7 +505,7 @@
   <!-- Cierre Modal -->
 
   <!-- Modal -->
-<!--<div class="modal fade" id="staticBackdropRA" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <!--<div class="modal fade" id="staticBackdropRA" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -457,6 +534,4 @@
     </div>
   </div>
 </div>-->
-<!----fin modal-->
-
-
+  <!----fin modal-->
