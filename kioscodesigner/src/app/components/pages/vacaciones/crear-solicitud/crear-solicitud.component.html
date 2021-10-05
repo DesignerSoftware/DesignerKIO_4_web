@@ -128,7 +128,7 @@
             <label class="col-sm-3 col-form-label">Fecha inicio:</label>
             <div class="col-sm-9">
               <input type="date" class="form-control 
-                      form-control-sm" formControlName="fechainicio" (change)="validaFecha()" />
+                      form-control-sm" title="Seleccione la fecha de inicio de las vacaciones" formControlName="fechainicio" (change)="validaFecha()" />
               <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.required
                       && formulario.get('fechainicio').touched">
                      Seleccione la fecha de inicio de vacaciones
@@ -159,7 +159,7 @@
           <div class="form-group row">
             <label class="col-sm-3 col-form-label">Días:</label>
             <div class="col-sm-9">
-              <select class="form-control" formControlName="dias" (change)="validaFecha()">
+              <select class="form-control" formControlName="dias" (change)="validaFecha()" title="Seleccione el número de días de vacaciones a solicitar">
                 <option value="" *ngIf="array.length<=0 && diasUltimoPeriodo==null" selected="true">Cargando...</option>
                 <option value="" *ngIf="array.length>0" selected="true">Seleccione días a solicitar</option>
                 <option [value]="d" *ngFor="let d of array">{{d}}</option>
@@ -184,7 +184,7 @@
             <label class="col-sm-3 col-form-label">Fecha fin de disfrute:</label>
             <div class="col-sm-9">
               <input type="text" class="form-control
-                  form-control-sm" formControlName="fechafin" value="xx/xx/xxxx" readonly="true" title="Este campo se calcula automaticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
+                  form-control-sm" formControlName="fechafin" value="xx/xx/xxxx" readonly="true" title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
             </div>
           </div>
         </div>
@@ -193,7 +193,7 @@
             <label class="col-sm-3 col-form-label">Fecha regreso a laborar:</label>
             <div class="col-sm-9">
               <input type="text" class="form-control form-control-sm" formControlName="fecharegreso" readonly="true"
-               title="Este campo se calcula automaticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
+               title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
             </div>
 
 
@@ -202,14 +202,12 @@
       </div>
 
       <div class="row">
-
-
         <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
-          <button type="submit" class="btn btn-outline-primary btn-lg" style="width: 200px">Enviar solicitud</button>
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Enviar solicitud</button>
         </div>
 
         <div class="col-sm-6 col-12" id="btnCancelar">
-          <button type="button" class="btn btn-outline-danger btn-lg" style="width: 200px;" [routerLink]="['/vacaciones']">Cancelar</button>
+          <button type="button" class="btn btn-outline-primary btn-lg" style="width: 200px;" [routerLink]="['/vacaciones']">Cancelar</button>
         </div>
       </div>
 

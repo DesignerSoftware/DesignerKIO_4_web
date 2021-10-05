@@ -76,7 +76,7 @@
                                             <label class="col-sm-3 col-form-label">Fecha desde:</label>
                                             <div class="col-sm-9">
                                                 <input type="date" [value]="fechaDesde | date: 'yyyy-MM-dd'" (change)=cambioFechas()
-                                                 class="form-control form-control-sm" formControlName="fechadesde" />
+                                                 class="form-control form-control-sm" formControlName="fechadesde" title="Seleccione la fecha desde cuando va a generar el reporte"/>
                                                 <small class="text-danger" *ngIf="formulario.get('fechadesde').errors?.required
                                                 && this.formulario.get('fechadesde').touched">
                                                     Seleccione una fecha válida
@@ -89,7 +89,7 @@
                                             <label class="col-sm-3 col-form-label">Fecha hasta:</label>
                                             <div class="col-sm-9">
                                                 <input type="date" [value]="fechaHasta | date: 'yyyy-MM-dd'" (change)=cambioFechas()
-                                                class="form-control form-control-sm" formControlName="fechahasta" />
+                                                class="form-control form-control-sm" formControlName="fechahasta" title="Seleccione la fecha hasta cuando va a generar el reporte"/>
                                                 <small class="text-danger" *ngIf="formulario.get('fechahasta').errors?.required
                                                 && formulario.get('fechahasta').touched">
                                                     Seleccione una fecha válida

@@ -87,7 +87,7 @@
               <label class="col-sm-3 col-form-label" for="codDiag">Cód. diagnóstico:</label>
               <div class="col-sm-9">
                 <div class="input-group mb-3">
-                  <input id="codDiag" type="text" class="form-control form-control-sm"
+                  <input id="codDiag" type="text" class="form-control form-control-sm" title="El código de diagnóstico hace referencia al código de enfermedad médico, antes de seleccionarlo debe elegir la causa del ausentismo."
                     [placeholder]="!this.habilitaBtnCodDiag ? 'NO APLICA': 'Sin seleccionar'" disabled
                     formControlName="codigo" aria-label="Recipient's username" aria-describedby="button-addon2">
                   <button class="btn btn-primary" type="button" id="button-addon2" (click)="mostrarListaCod()"
@@ -141,7 +141,7 @@
               <label class="col-sm-5 col-form-label">Fecha fin ausentismo:</label>
               <div class="col-sm-7">
                 <input type="text" class="form-control form-control-sm" formControlName="fechafin" readonly="true"
-                  title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
+                  title="Fecha en la que finaliza el ausentismo, este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
               </div>
             </div>
           </div>
@@ -238,7 +238,7 @@
         <div class="form-group">
           <label for="exampleFormControlTextarea1">Observaciones:</label>
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"
-            formControlName="observaciones"></textarea>
+            formControlName="observaciones" title="Digite alguna observación o información adicional respecto a su ausentismo."></textarea>
         </div>
 
         <div class="form-group" *ngIf="false">
@@ -316,7 +316,7 @@
 
 
         <div class="row" *ngIf="true">
-          <div class="col-md-5  col-xs-12 col-sm-12 col-12">
+          <div class="col-md-6  col-xs-12 col-sm-12 col-12">
             <table>
               <thead>
                 <th></th>
@@ -334,21 +334,22 @@
               </tbody>
             </table>
           </div>
-          <div class="col-md-4  col-xs-6 col-sm-12 col-12 ">
+          <div class="col-md-6  col-xs-12 col-sm-12 col-12 ">
             <div class="botonAnexos" *ngIf="nomArchivo == null">
-              <div class="file-select btn btn-outline-primary puntero btn-lg  " id="src-file1">
+              <div class="file-select btn btn-outline-light puntero btn-lg float-left" id="src-file1">
                 <input type="file" class="puntero" name="src-file1" aria-label="Archivo"
                   style="height: 52px; width: 230px;" id="file" max-size="5000" accept="application/pdf"
                   (change)="onFileSelect($event)">
               </div>
             </div>
-          </div>
-          <div class="col-md-3 col-xs-5 col-sm-12 col-12 ">
             <div class="botonAnexos" *ngIf="nomArchivo !== null">
-              <button type="button" class="btn btn-outline-danger btn-lg " style="width: 200px"
+              <button type="button" class="btn btn-outline-danger btn-lg float-left" style=""
                 (click)="quitarArchivoSeleccionado()">Borrar</button>
             </div>
           </div>
+          <!--<div class="col-md-3 col-xs-5 col-sm-12 col-12 ">
+            
+          </div>-->
           <!--<div *ngIf="nomArchivo == null" class="col-sm-12 col-12 col-md-12">
             <div class="inputFileModificado ">
               <input class="inputFileOculto" name="input1" type="file" id="file" max-size="5000"
@@ -380,11 +381,11 @@
 
         <div class="row botones">
           <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
-            <button type="submit" class="btn btn-outline-primary btn-lg" style="width: 200px">Enviar Novedad</button>
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Enviar Novedad</button>
           </div>
 
           <div class="col-sm-6 col-12" id="btnCancelar">
-            <button type="button" class="btn btn-outline-danger btn-lg" style="width: 200px;"
+            <button type="button" class="btn btn-outline-primary btn-lg" style="width: 200px;"
               [routerLink]="['/ausentismos']">Cancelar</button>
           </div>
         </div>

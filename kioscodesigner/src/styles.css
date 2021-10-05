@@ -176,3 +176,13 @@
     color: white !important;
     border-top: #007bff 2.5px solid !important;
 }
+
+
+.btn-primary:hover, .btn-primary:active {
+    background-color: #00223c !important;
+    border-color: #00223c !important;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:active {
+    border-color: #0077FF !important;
+}

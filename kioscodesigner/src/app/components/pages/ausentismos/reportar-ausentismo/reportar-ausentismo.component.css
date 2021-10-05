@@ -251,3 +251,10 @@ input #file-upload-button {
 @media(max-width: 350px) {}
 
 /*-----------------*/
+
+
+
+#src-file1{
+    color: rgb(124, 124, 124) !important;
+    border-color: rgb(124, 124, 124) !important;
+}
