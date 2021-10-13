@@ -462,13 +462,14 @@ export class ReportesComponent implements OnInit {
 
 
   imagenReporte(opcion: any){
-    if (opcion.indexOf("kioVacaPendiente")> -1) {
+    console.log('opcion: ', opcion);
+    if (opcion.toLowerCase().indexOf("vaca")> -1) {
       return "assets/images/kioVacapendiente.png";
-    } else if (opcion.indexOf("kio_certingresos")> -1) {
+    } else if (opcion.toLowerCase().indexOf("certingresos")> -1) {
       return "assets/images/kio_certingresos.png";
-    } else if (opcion.indexOf("kioSaldoCesantias")> -1) {
+    } else if (opcion.toLowerCase().indexOf("cesantias")> -1) {
       return "assets/images/kioSaldoCesantias.png";
-    } else if (opcion.indexOf("kio_DesprendibleCO")> -1) {
+    } else if (opcion.toLowerCase().indexOf("desprendible")> -1) {
       return "assets/images/kio_DesprendibleCO.png";
     } else {
       return "assets/images/reporte.png";
