@@ -13,7 +13,12 @@
         <img [src]="url" width="150" height="150" style="width: 150px; height: 150px;" class="img-fluid" id="imgPrevia" alt="Imagen previa foto perfil">
         <!-- <input type="file" (change)="onSelectFile($event)" class="btn-primary"> -->
       </div>
-
+      <!--eliminar la foto del empleado -->
+      <!--<div class="text-center"  *ngIf="this.usuarioService.existefotoPerfil != false &&  this.usuarioService.existefotoPerfil != null" >
+        <input type="submit" class="btn btn-primary"value="Quitar Foto">
+        <br>
+      </div>
+      <br *ngIf="this.usuarioService.existefotoPerfil != false &&  this.usuarioService.existefotoPerfil != null">-->
 
       <!-- <img [src]="imageToShow"
         alt="Place image title"

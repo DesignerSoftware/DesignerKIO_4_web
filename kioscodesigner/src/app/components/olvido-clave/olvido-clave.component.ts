@@ -17,6 +17,7 @@ empresas;
 grupoEmpresarial = null;
 cadenasApp;
 validaParametroGrupo = '';
+urlKiosco = "https://www.designer:8179/#/login/GrupoEmpresarial1";
 
   constructor(private fb: FormBuilder, private router: Router, private loginService: LoginService,
               private usuarioService: UsuarioService, private activatedRoute: ActivatedRoute,
@@ -29,9 +30,9 @@ validaParametroGrupo = '';
         this.grupoEmpresarial = params['grupo'];
         this.usuarioService.grupoEmpresarial = this.grupoEmpresarial;
         //console.log(params);
-
+        this.urlKiosco = document.location.href;
         this.cadenasKioskos
-        .getCadenasKioskosEmp(params['grupo'])
+        .getCadenasKioskosEmp(params['grupo'], this.urlKiosco)
         .subscribe((data) => {
           //console.log(data);
           this.cadenasApp = data;
@@ -74,7 +75,7 @@ validaParametroGrupo = '';
       control.markAsTouched();
     });
     if (this.formulario.valid) {
-
+      //console.log(this.usuarioService.cadenaConexion);
       swal.fire({
         title: 'Espere un momento... Estamos validando la información.',
         onBeforeOpen: () => {
@@ -111,6 +112,7 @@ validaParametroGrupo = '';
   }
 
   enviaClave() {
+    //console.log(this.usuarioService.cadenaConexion);
     swal.fire({
       title: 'Espera un momento... Estamos generando tu nueva contraseña.',
       onBeforeOpen: () => {
@@ -121,10 +123,22 @@ validaParametroGrupo = '';
           )
           .subscribe(
             data => {
+              //console.log('datos de cambiar de corero ' , data);
               if (data['envioCorreo'] === true) {
                 swal.fire({
                   icon: 'success',
                   title: '¡Revisa tu correo! Te hemos enviado tu nueva contraseña!',
+                  showConfirmButton: true
+                }).then((result) => {
+                  if (result.value) {
+                    this.redirigirInicio();
+                  }
+                });
+              } else if(data['envioCorreo'] === false && data['correo'] === null){
+                swal.fire({
+                  icon: 'error',
+                  title: 'Hubo un error al enviar el correo.',
+                  text: '¡No fue posible enviar el correo debido a que su cuenta no tiene un email asignado.',
                   showConfirmButton: true
                 }).then((result) => {
                   if (result.value) {

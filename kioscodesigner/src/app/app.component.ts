@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CadenaskioskosappService } from './services/cadenaskioskosapp.service';
 import { UsuarioService } from './services/usuario.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,7 @@ export class AppComponent {
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
     //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
-    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'], environment.urlKiosko)
     .subscribe(
       data => {
         //console.log('getInfoUsuario', data);

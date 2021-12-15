@@ -19,15 +19,16 @@ export class LoginService {
 
   registrarUsuario(seudonimo: string, usuario: string, clave: string, nitEmpresa: string, correo: string, cadena: string) {
     // const url = `${environment.urlKioskoDesigner}conexioneskioskos?seudonimo=${seudonimo}&usuario=${usuario}&clave=${clave}&nitEmpresa=${nitempresa}&correo=${correo}`;
+    //const url = `${environment.urlKioskoReportes}conexioneskioskos/creaUsuario`;
     const url = `${environment.urlKioskoReportes}conexioneskioskos/creaUsuario?seudonimo=${seudonimo}&usuario=${usuario}&clave=${clave}&nitEmpresa=${nitEmpresa}&correo=${correo}&cadena=${cadena}`;
     //console.log(url);
     // let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*');
     return this.http.post(url, { params: {
-      seudonimo,
-      usuario,
-      clave,
-      nitEmpresa,
-      correo
+      seudonimo: seudonimo,
+      usuario: usuario,
+      clave: clave,
+      nitEmpresa: nitEmpresa,
+      correo: correo
     }});
   }
 

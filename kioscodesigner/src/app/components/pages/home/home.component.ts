@@ -20,6 +20,7 @@ import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.ser
 export class HomeComponent implements OnInit {
   @Input() urlLogoEmpresaDarkXl = 'assets/images/fotos_empleados/logodesigner-dark-xl.png'; // recibe valor de pages.component
   totalDiasVacacionesProv: any = "...";
+  urlValidacion = null;
   public totalDiasVacacionesSubtipo = null;
   formulario: FormGroup;
 
@@ -91,6 +92,7 @@ export class HomeComponent implements OnInit {
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
     console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    this.updateDatosUrl();
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
     .subscribe(
       data => {
@@ -107,6 +109,21 @@ export class HomeComponent implements OnInit {
         }
       }
     );
+  }
+
+  urlKiosko(){
+    let urltemp = this.usuarioService.getUrl();
+    return urltemp
+  }
+
+  updateDatosUrl(){
+    this.urlValidacion = this.urlKiosko();
+    if (this.usuarioServicio.urlKioscoDomain != this.urlValidacion) {
+      //console.log('la url es di')
+      this.usuarioServicio.urlKioscoDomain = this.urlValidacion
+      //const sesion = this.usuarioServicio.getUserLoggedIn();
+      //this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
+    }
   }
 
   cargarDatosIniciales() {

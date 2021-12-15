@@ -56,7 +56,7 @@ export class ProcesarAusentismosComponent implements OnInit {
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
     console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
-    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'],this.usuarioService.urlKioscoDomain)
     .subscribe(
       data => {
         //console.log('getInfoUsuario', data);
@@ -146,7 +146,7 @@ export class ProcesarAusentismosComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         // informa que la solicitud ya tiene novedades de nomina en ese rango de fechas 
-        if(this.estadoNovEmple=='SA' || this.estadoNovEmple=='SV'){
+        if(this.estadoNovEmple=='SV'){
           //console.log('Entre a validar aprobarEnvio()');
           swal.fire({
             title: this.msjNovEmple,

@@ -12,6 +12,7 @@ export class ValidaTokenComponent implements OnInit {
   mensaje1 = '';
   mensaje2 = 'Estamos validando tu cuenta, por favor espere un momento.';
   respuesta = false;
+  jwt: string;
 
   constructor(private activatedRoute: ActivatedRoute, public usuarioService: UsuarioService, private router: Router) {
   this.activatedRoute.params
@@ -21,6 +22,15 @@ export class ValidaTokenComponent implements OnInit {
     console.log('token recuperado', this.token);
     this.validarToken(params['token']);
   });
+  /*this.activatedRoute.queryParams
+  .subscribe(params => {
+    console.log(params); // { order: "popular"   
+    this.token = params.jwt;
+    console.log(this.token); // popular
+    this.validarToken(this.token);
+  }
+);*/
+
 }
 
   ngOnInit() {

@@ -462,7 +462,7 @@ export class ReportesComponent implements OnInit {
 
 
   imagenReporte(opcion: any){
-    console.log('opcion: ', opcion);
+    //console.log('opcion: ', opcion);
     if (opcion.toLowerCase().indexOf("vaca")> -1) {
       return "assets/images/kioVacapendiente.png";
     } else if (opcion.toLowerCase().indexOf("certingresos")> -1) {

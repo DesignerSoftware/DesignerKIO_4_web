@@ -37,47 +37,6 @@ export class VerAusentismosReportadosComponent implements OnInit {
   public totalDiasVacacionesProv;
   private countEventsSubscription$: Subscription;
   private eventsOnChartLimit = 20;
-  /////////////////////Pie////////////////
-  public pieChartOptions: ChartOptions = {
-    responsive: true,
-    maintainAspectRatio: true,
-    aspectRatio: 1,
-    devicePixelRatio: 5,
-    legend: {
-      fullWidth: true,
-      position: "top",
-      align: "start",
-      labels: {
-        padding: 7,
-        fontSize: 10,
-        usePointStyle: true,
-      },
-    },
-    plugins: {},
-  };
-
-  public pieChartLabels: Label[] = [
-    ["Días provisionados"],
-    ["Días en dinero"],
-    ["Días disfrutados"],
-    "Días liquidados",
-  ];
-  public pieChartData: number[] = [];
-
-  public pieChartType: ChartType = "pie";
-  public pieChartLegend = true;
-
-  public pieChartPlugins = [{}];
-  public pieChartColors = [
-    {
-      backgroundColor: [
-        "rgba(91, 179, 174,0.3)",
-        "rgba(8, 104, 179,0.3)",
-        "rgba(26, 71, 186,0.3)",
-        "rgba(118, 54, 38,0.3)",
-      ],
-    },
-  ];
 
   constructor(
     private vacacionesService: VacacionesService,
@@ -148,7 +107,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
     //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
-    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'])
+    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'], this.usuarioService.urlKioscoDomain)
     .subscribe(
       data => {
         //console.log('getInfoUsuario', data);
@@ -196,44 +155,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
     this.getSoliciCanceladas();
   }
 
-  detalleSolicitud(tipoSolicitud: string, index: string) {
-    this.tipoSolicitudSeleccionada = tipoSolicitud;
-    this.indexSolicitudSeleccionada = index;
-    this.estadoSolicitudSeleccionada = null;
-    //console.log("tipoSolicitud: " + tipoSolicitud);
-    //console.log("index seleccionado: " + index);
-    //console.log(this.estadoSolicitudSeleccionada);
-    switch (tipoSolicitud) {
-      case "ENVIADO": {
-        this.solicitudSeleccionada = this.solicitudesEnviadas[index];
-        this.estadoSolicitudSeleccionada =  this.solicitudesRechazadas[index][4];         
-        break;
-      }
-      case "APROBADO": {
-        this.solicitudSeleccionada = this.solicitudesAprobadas[index];
-        break;
-      }
-      case "RECHAZADO": {
-        this.solicitudSeleccionada = this.solicitudesRechazadas[index];
-        break;
-      }
-      case "LIQUIDADO": {
-        this.solicitudSeleccionada = this.solicitudesLiquidadas[index];
-        break;
-      }
-      case "CANCELADO": {
-        this.solicitudSeleccionada = this.solicitudesCanceladas[index];
-        break;
-      }
-      /*default: {
-        //this.solicitudSeleccionada = null;
-      }*/
-      
-    }
-    $("#staticBackdrop2").modal("show");
-    document.getElementById('staticBackdrop2').style.display = 'block';
-  }
-
+  
   getSoliciEnviadas() {
     this.ausentismoService
       .getSolicitudesXEstado(
@@ -315,94 +237,52 @@ export class VerAusentismosReportadosComponent implements OnInit {
   // }
 
   // events pie
-  public chartClicked({
-    event,
-    active,
-  }: {
-    event: MouseEvent;
-    active: {}[];
-  }): void {
-    //console.log(event, active);
-  }
 
-  public chartHovered({
-    event,
-    active,
-  }: {
-    event: MouseEvent;
-    active: {}[];
-  }): void {
-    //console.log(event, active);
-  }
-
-  changeLabels(): void {
-    const words = [
-      "hen",
-      "variable",
-      "embryo",
-      "instal",
-      "pleasant",
-      "physical",
-      "bomber",
-      "army",
-      "add",
-      "film",
-      "conductor",
-      "comfortable",
-      "flourish",
-      "establish",
-      "circumstance",
-      "chimney",
-      "crack",
-      "hall",
-      "energy",
-      "treat",
-      "window",
-      "shareholder",
-      "division",
-      "disk",
-      "temptation",
-      "chord",
-      "left",
-      "hospital",
-      "beef",
-      "patrol",
-      "satisfied",
-      "academy",
-      "acceptance",
-      "ivory",
-      "aquarium",
-      "building",
-      "store",
-      "replace",
-      "language",
-      "redeem",
-      "honest",
-      "intention",
-      "silk",
-      "opera",
-      "sleep",
-      "innocent",
-      "ignore",
-      "suite",
-      "applaud",
-      "funny",
-    ];
-    const randomWord = () => words[Math.trunc(Math.random() * words.length)];
-    this.pieChartLabels = Array.apply(null, { length: 4 }).map((_) =>
-      randomWord()
-    );
-  }
-
-  removeSlice(): void {
-    this.pieChartLabels.pop();
-    this.pieChartData.pop();
-    this.pieChartColors[0].backgroundColor.pop();
-  }
-
-  changeLegendPosition(): void {
-    this.pieChartOptions.legend.position =
-      this.pieChartOptions.legend.position === "left" ? "top" : "left";
+  detalleSolicitud(tipoSolicitud: string, index: string) {
+    this.tipoSolicitudSeleccionada = tipoSolicitud;
+    this.indexSolicitudSeleccionada = index;
+    this.estadoSolicitudSeleccionada = null;
+    //console.log("tipoSolicitud: " + tipoSolicitud);
+    //console.log("index seleccionado: " + index);
+    //console.log(this.estadoSolicitudSeleccionada);
+    switch (tipoSolicitud) {
+      case "ENVIADO": {
+        this.solicitudSeleccionada = this.solicitudesEnviadas[index];
+        this.anexoSeleccionado = this.solicitudesEnviadas[index][15];
+        this.estadoSolicitudSeleccionada =  this.solicitudesEnviadas[index][4];         
+        break;
+      }
+      case "APROBADO": {
+        this.solicitudSeleccionada = this.solicitudesAprobadas[index];
+        this.anexoSeleccionado = this.solicitudesAprobadas[index][15];
+        this.estadoSolicitudSeleccionada =  this.solicitudesAprobadas[index][4];         
+        break;
+      }
+      case "RECHAZADO": {
+        this.solicitudSeleccionada = this.solicitudesRechazadas[index];
+        this.anexoSeleccionado = this.solicitudesRechazadas[index][15];
+        this.estadoSolicitudSeleccionada =  this.solicitudesRechazadas[index][4];         
+        break;
+      }
+      case "LIQUIDADO": {
+        this.solicitudSeleccionada = this.solicitudesLiquidadas[index];
+        this.anexoSeleccionado = this.solicitudesLiquidadas[index][15];
+        this.estadoSolicitudSeleccionada =  this.solicitudesLiquidadas[index][4];         
+        break;
+      }
+      case "CANCELADO": {
+        this.solicitudSeleccionada = this.solicitudesCanceladas[index];
+        this.anexoSeleccionado = this.solicitudesCanceladas[index][15];
+        this.estadoSolicitudSeleccionada =  this.solicitudesCanceladas[index][4];         
+        break;
+      }
+      /*default: {
+        //this.solicitudSeleccionada = null;
+      }*/
+      
+    }
+    $("#staticBackdrop2").modal("show");
+    document.getElementById('staticBackdrop2').style.display = 'block';
   }
 
   detalleSolicitud2(tipoSolicitud: string, index: string) {

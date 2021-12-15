@@ -5,6 +5,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ValidadoresService } from 'src/app/services/validadores.service';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
+import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
 
 @Component({
@@ -35,7 +36,7 @@ export class RegistroComponent implements OnInit {
 
     	/*console.log(params.id);
     	console.log(params[‘id’]);*/
-      this.cadenasKioskos.getCadenasKioskosEmp(params['grupo'])
+      this.cadenasKioskos.getCadenasKioskosEmp(params['grupo'], environment.urlKiosko)
       .subscribe(
         data => {
         console.log('cadenasKioskos ',data);
@@ -73,7 +74,8 @@ export class RegistroComponent implements OnInit {
       nitempresa: ['', [Validators.required, Validators.pattern("^([0-9])*$")] ],
       seudonimo: [, Validators.required],
       pass1: [, [Validators.required,
-                 Validators.pattern("^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\\*\\.\\-_\\+~\\/;,\\(\\)!\\&]).{8,})$")
+                 //Validators.pattern("^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\\*\\.\\-_\\+~\\/;,\\(\\)!\\&]).{8,})$")
+                 Validators.pattern("^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[%\\*\\.\\-_\\+~\\;,\\(\\)!]).{8,})$")
                 ]
              ],
       pass2: [, [Validators.required]]

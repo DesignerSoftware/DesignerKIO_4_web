@@ -52,8 +52,9 @@ export class LoginComponent implements OnInit {
             this.validaParametroGrupo = '';
             /*console.log(params.id);
         console.log(params[‘id’]);*/
+          this.urlKiosco = document.location.href;
             this.cadenasKioskos.
-            getCadenasKioskosEmp(this.usuarioService.grupoEmpresarial)
+            getCadenasKioskosEmp(this.usuarioService.grupoEmpresarial, this.urlKiosco)
               .subscribe((data) => {
                 //console.log('cadenasKioskos form Registro', data);
                 this.cadenasApp = data;
@@ -63,9 +64,9 @@ export class LoginComponent implements OnInit {
                 //console.log('length: ' + this.cadenasApp.length);
                 this.loginService.kioscoActivo = true;
                 for (let i = 0; i < this.cadenasApp.length; i++) {
-                  console.log(data[i][7]);
+                  //console.log(data[i][7]);
                   if (data[i][7] == 'INACTIVO') {
-                    console.log('desde login (usuario NO logueado) estado Kiosco: ' + this.loginService.kioscoActivo);
+                    //console.log('desde login (usuario NO logueado) estado Kiosco: ' + this.loginService.kioscoActivo);
                     this.loginService.mensajeKioscoInactivo = data[i][8];
                     this.loginService.kioscoActivo = false;
                   }
@@ -80,7 +81,7 @@ export class LoginComponent implements OnInit {
                 }
               });
           } else {
-            console.log('no hay parámetro');
+            //console.log('no hay parámetro');
             this.validaParametroGrupo = 'Importante: El link de acceso no es válido, por favor confirme con su empresa el enlace correcto.';
             $('#staticBackdrop').modal('show');
           }
@@ -103,11 +104,11 @@ export class LoginComponent implements OnInit {
         .subscribe(data => {
           this.cadenasApp = data;
           for (let i = 0; i < this.cadenasApp.length; i++) {
-            console.log(data[i][7]);
+            //console.log(data[i][7]);
             if (data[i][7] == 'INACTIVO') {
               this.loginService.kioscoActivo = false;
               this.loginService.mensajeKioscoInactivo = data[i][8];
-              console.log('desde login (usuario logueado) estado Kiosco: ' + this.loginService.kioscoActivo);
+              //console.log('desde login (usuario logueado) estado Kiosco: ' + this.loginService.kioscoActivo);
             }
           }
         });
@@ -118,12 +119,17 @@ export class LoginComponent implements OnInit {
   }
 
   crearFormulario() {
-    console.log('crearFormulario()');
+    //console.log('crearFormulario()');
     this.formulario = this.fb.group({
       usuario: ['', Validators.required],
       clave: ['', Validators.required],
       empresa: [, Validators.required]
     });
+  }
+
+  urlKiosko(){
+    let urltemp = this.usuarioService.getUrl();
+    return urltemp
   }
 
   enviar() {
@@ -138,14 +144,16 @@ export class LoginComponent implements OnInit {
         this.formulario.get('empresa').value, this.usuarioService.cadenaConexion)
         .subscribe(
           data => {
-            console.log(data);
+            //console.log(data);
+            //console.log('correo1:' , data['Correo']);
+            let correoTemp = data['Correo'];
             if (data['ingresoExitoso']) {
-              console.log('ingresoExitoso: ' + data['ingresoExitoso']);
+              //console.log('ingresoExitoso: ' + data['ingresoExitoso']);
               this.loginService.generarToken(this.formulario.get('usuario').value.toLowerCase(),
                 this.formulario.get('clave').value, this.formulario.get('empresa').value, this.usuarioService.cadenaConexion, this.usuarioService.grupoEmpresarial)
                 .subscribe(
                   res => {
-                    console.log('Respuesta token generado: ', res);
+                    //console.log('Respuesta token generado: ', res);
                     let jwt: any = JSON.parse(JSON.stringify(res));
                     //console.log('JWT Generado: ' + jwt['JWT']);
                     if (!res) {
@@ -180,7 +188,7 @@ export class LoginComponent implements OnInit {
                             //(opcKio) => opcKio['NITEMPRESA'] === this.formulario.get('empresa').value
                             (opcKio) => opcKio[2] === this.formulario.get('empresa').value
                           );
-                          console.log('empresa seleccionada', cadenaEmpresa);
+                          //console.log('empresa seleccionada', cadenaEmpresa);
                           const sesion: any = {
                             usuario: this.formulario.get('usuario').value.toLowerCase().trim(),
                             JWT: jwt['JWT'],
@@ -188,7 +196,7 @@ export class LoginComponent implements OnInit {
                             grupo: this.grupoEmpresarial,
                             // cadena: cadenaEmpresa['CADENA']
                             cadena: cadenaEmpresa[4],
-                            urlKiosco: document.location.href
+                            urlKiosco: document.location.href//this.urlKiosko()//
                           };
                           //console.log('cadena: ', cadenaEmpresa[4]);
                           this.usuarioService.setUserLoggedIn(sesion);
@@ -199,7 +207,7 @@ export class LoginComponent implements OnInit {
                     }
                   },
                   error => {
-                    console.log('Error: ' + JSON.stringify(error.statusText));
+                    //console.log('Error: ' + JSON.stringify(error.statusText));
                     swal.fire({
                       icon: 'error',
                       title: '¡Se ha presentado un error!',
@@ -209,10 +217,10 @@ export class LoginComponent implements OnInit {
                   },
                   () => this.navigate()
                 );
-            } else if (data['EstadoUsuario'] == 'P') {
+            } else if (data['EstadoUsuario'] == 'P' && data['primerIngreso']) {
               swal.fire({
                 icon: 'error',
-                title: '¡Cuenta no validada!',
+                title: '¡Cambio de correo!',
                 /*'¡Usuario o contraseña incorrectos!',*/
                 text: `${data['mensaje']}`,
                 showCancelButton: true,
@@ -221,6 +229,20 @@ export class LoginComponent implements OnInit {
               }).then((result) => {
                 if (result.isConfirmed) {
                   this.enviarCorreoConfirmaCuenta(this.usuarioService.usuario);
+                }
+              });
+            } else if (data['EstadoUsuario'] == 'P' && data['ValidaEmail']) {
+              swal.fire({
+                icon: 'error',
+                title: '¡Valida correo nuevo!',
+                /*'¡Usuario o contraseña incorrectos!',*/
+                text: `${data['mensaje']}`,
+                showCancelButton: true,
+                cancelButtonText: 'Ok',
+                confirmButtonText: `Reenviar`
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.enviarCorreoConfirmaCuenta(correoTemp);
                 }
               });
             } else {
@@ -247,17 +269,20 @@ export class LoginComponent implements OnInit {
   }
 
   enviarCorreoConfirmaCuenta(seudonimo: string) {
-    console.log('enviarCorreoConfirmación');
+    //console.log('enviarCorreoConfirmación');
+    //console.log('correo:' , seudonimo);
+    
     swal.fire({
       title: 'Espera un momento.. Estamos enviándote el correo de confirmación',
       onBeforeOpen: () => {
         swal.showLoading();
-        this.usuarioService.inactivaTokensTipo('VALIDACUENTA', this.formulario.get('usuario').value, this.formulario.get('empresa').value, this.usuarioService.cadenaConexion)
+        this.usuarioService.inactivaTokensTipo('VALIDACUENTA', seudonimo, this.formulario.get('empresa').value, this.usuarioService.cadenaConexion)
           .subscribe(
             data => {
               // console.log(data);
+              
               this.loginService.enviarCorreoConfirmaCuenta(
-                this.formulario.get('usuario').value,
+                seudonimo,
                 this.formulario.get('clave').value,
                 //this.formulario.get('empresa').value, 'www.nominadesigner.co')
                 this.formulario.get('empresa').value, this.usuarioService.cadenaConexion, this.usuarioService.grupoEmpresarial, this.urlKiosco
@@ -265,7 +290,7 @@ export class LoginComponent implements OnInit {
                 .subscribe(
                   data2 => {
                     if (data2['envioCorreo'] === true) {
-                      console.log('Por favor verifica tu cuenta de correo');
+                      //console.log('Por favor verifica tu cuenta de correo');
                       swal.fire({
                         icon: 'success',
                         title: '¡Revisa tu correo!',

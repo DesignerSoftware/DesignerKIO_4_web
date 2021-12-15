@@ -72,7 +72,7 @@ export class AusentismosComponent implements OnInit {
       .subscribe(
         data=> {
           this.ausentismosService.codigosAusentismos = data;
-          console.log(data);
+          //console.log(data);
         }
       )
     }

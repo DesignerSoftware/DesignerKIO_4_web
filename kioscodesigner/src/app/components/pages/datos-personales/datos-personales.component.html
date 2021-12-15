@@ -166,12 +166,21 @@
           </div>
         </div>
       </div>
-      <p class="card-description">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="this.usuarioServicio.carnetSeleccionado != null && this.usuarioServicio.carnetSeleccionado.length >0 && this.usuarioServicio.empresa != '830056149'" > 
+        <button class="btn btn-primary btn-lg carnet text-center" (click)="descargarCarnet();">Descargar Carnet Virtual</button>    
+        <button class="btn btn-primary btn-lg small text-center" (click)="descargarCarnet();">Carnet Virtual</button>
+        <button class="btn btn-primary btn-lg small-xs text-center" (click)="descargarCarnet();">Carnet</button>
+        <br>
+        <hr>
+      </div>
+      
+
+      <p class="card-description" *ngIf="this.usuarioServicio.empresa != '830056149'"  > <!--Se crea validacion para que el cliente CI2 no me aparezca-->
         Telefonos
       </p>
 
-      <hr>
-      <div class="table-responsive" style="margin-bottom: 20px;">
+      <hr *ngIf="this.usuarioServicio.empresa != '830056149'" >
+      <div class="table-responsive" style="margin-bottom: 20px;" *ngIf="this.usuarioServicio.empresa != '830056149'" >
         <table class="table table-hover" style="text-align: center;">
           <thead style="background: #00223C; color: white;">
             <tr id="tbltelefonos">
@@ -195,11 +204,11 @@
           </tbody>
         </table>
       </div>
-      <p class="card-description">
+      <p class="card-description" *ngIf="this.usuarioServicio.empresa != '830056149'" >
         Familiares
       </p>
-      <hr>
-      <div class="table-responsive" style="margin-bottom: 20px;">
+      <hr *ngIf="this.usuarioServicio.empresa != '830056149'" >
+      <div class="table-responsive" style="margin-bottom: 20px;" *ngIf="this.usuarioServicio.empresa != '830056149'" >
         <table class="table table-hover" style="text-align: center;">
           <thead style="background: #00223C; color: white;">
             <tr id="tblfamiliares">
@@ -234,11 +243,12 @@
       <div class="accordion" id="accordionExample" *ngIf="this.usuarioServicio.empresa=='830045567'">
         <div class="card">
           <a data-toggle="collapse" data-target="#collapseOne">
-          <div class="card-header" id="headingOne" style="background: #00223C; color: white;">
-              <a class="text-center tablaA" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                <strong>Documentos Anexos</strong> 
+            <div class="card-header" id="headingOne" style="background: #00223C; color: white;">
+              <a class="text-center tablaA" type="button" data-toggle="collapse" data-target="#collapseOne"
+                aria-expanded="false" aria-controls="collapseOne">
+                <strong>Documentos Anexos</strong>
               </a>
-          </div>
+            </div>
           </a>
           <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
@@ -248,21 +258,22 @@
                     *ngIf="!usuarioServicio.documentosAnexos || usuarioServicio.documentosAnexos==null || usuarioServicio.documentosAnexos.length==0">
                     <td colspan="2">Sin documentos asociados...</td>
                   </tr>
-                  <tr *ngFor="let doc of usuarioServicio.documentosAnexos | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ">
+                  <tr
+                    *ngFor="let doc of usuarioServicio.documentosAnexos | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ">
                     <td *ngIf="doc" class="tablaA" colspan="2">{{doc ||''}}</td>
                     <td *ngIf="doc"><i (click)="descargarDocumento(doc)" class="far fa-file-pdf"></i></td>
                   </tr>
                 </tbody>
               </table>
               <div class="col-md-12">
-                <pagination-controls (pageChange)="p1 = $event" id="second" style="text-align: center;" class="col-sm-12"
-                  previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+                <pagination-controls (pageChange)="p1 = $event" id="second" style="text-align: center;"
+                  class="col-sm-12" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
+
       <br *ngIf="this.usuarioServicio.empresa=='830045567'">
       <p class="card-description">
         Empresa

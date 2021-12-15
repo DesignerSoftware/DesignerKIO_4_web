@@ -1,147 +1,176 @@
 <div class="page-header animated fadeIn fast">
-    <h3 class="page-title">
-        Histórico de ausentismos procesados
-    </h3>
+  <h3 class="page-title">
+    Histórico de ausentismos procesados
+  </h3>
 </div>
 
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/ausentismos']">Ausentismos</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Histórico de ausentismos procesados</li>
-    </ol>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/ausentismos']">Ausentismos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Histórico de ausentismos procesados</li>
+  </ol>
 </nav>
-   <!-- partial -->
-   <div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <p class="card-description">Ausentismos procesados</p>
-          <div class="input-group mb-3 ">
-            <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
-              aria-label="Buscar..." aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">Filtrar</span>
+<!-- partial -->
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-description">Ausentismos procesados</p>
+        <div class="input-group mb-3 ">
+          <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+            aria-label="Buscar..." aria-describedby="basic-addon2">
+          <span class="input-group-text" id="basic-addon2">Filtrar</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover" style="text-align: center;">
+            <thead style="background: #00223C; color: white;">
+              <tr id="tblfamiliares">
+                <th>Ver</th>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Fecha reporte</th>
+                <th>Fecha inicio</th>
+                <th>Fecha última modificación</th>
+                <th>Estado</th>
+                <th>Causa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="!solicitudesProcesadas || solicitudesProcesadas==null || solicitudesProcesadas.length==0">
+                <td colspan="7">No hay ausentismos procesados.</td>
+              </tr>
+
+              <tr
+                *ngFor="let solic of solicitudesProcesadas | filterTable: dataFilt | paginate: { id: 'eightth', itemsPerPage: 10, currentPage: p8 }; index as i ">
+                <td>
+                  <a (click)="detalleSolicitud('ENVIADO', i)" *ngIf="solicitudesProcesadas">
+                    <i class="far fa-eye text-info"></i>
+                  </a>
+                </td>
+
+                <td *ngIf="solicitudesProcesadas">{{solic[0]||''}}</td>
+                <td *ngIf="solicitudesProcesadas">{{solic[1]||''}}</td>
+                <td *ngIf="solicitudesProcesadas">{{solic[2]||''}}</td>
+                <td *ngIf="solicitudesProcesadas">{{solic[6]||''}}</td>
+                <td *ngIf="solicitudesProcesadas">{{solic[3]||''}}</td>
+                <td *ngIf="solicitudesProcesadas">{{solic[10]||''}}</td>
+                <td *ngIf="solicitudesProcesadas">{{solic[11]||''}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-md-12">
+              <pagination-controls (pageChange)="p8 = $event" id="eightth" style="text-align: center;"
+                previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+            </div>
           </div>
+        </div>
 
-          <div class="table-responsive">
-            <table class="table table-hover" style="text-align: center;">
-              <thead style="background: #00223C; color: white;">
-                <tr id="tblfamiliares">
-                          <th>Ver</th>
-                          <th>Código</th>
-                          <th>Nombre</th>
-                          <th>Fecha reporte</th>
-                          <th>Fecha inicio</th>
-                          <th>Fecha última modificación</th>
-                          <th>Estado</th>
-                          <th>Causa</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngIf="!solicitudesProcesadas || solicitudesProcesadas==null || solicitudesProcesadas.length==0"><td colspan="7">No hay ausentismos procesados.</td></tr>
-
-                        <tr *ngFor="let solic of solicitudesProcesadas | filterTable: dataFilt | paginate: { id: 'eightth', itemsPerPage: 10, currentPage: p8 }; index as i " > 
-                        <td>
-                            <a (click)="detalleSolicitud('ENVIADO', i)" *ngIf="solicitudesProcesadas">
-                              <i class="far fa-eye text-info"></i>
-                            </a>
-                          </td>
-                          
-                          <td *ngIf="solicitudesProcesadas">{{solic[0]||''}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[1]||''}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[2]||''}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[6]||''}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[3]||''}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[10]||''}}</td>
-                          <td *ngIf="solicitudesProcesadas">{{solic[11]||''}}</td>
-
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div class="row">
-                      <div class="col-md-12">
-                      <pagination-controls (pageChange)="p8 = $event" id="eightth" style="text-align: center;"
-                        previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
-                      </div>
-                      </div>
-                  </div>
-                
       </div>
     </div>
 
 
 
 
-    <div class="modal fade" id="staticBackdrop3" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel3">DETALLE DEL AUSENTISMO</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body text-center">
-              <table class="table table-bordered table-sm">
-                <tbody>
-                  <tr>
-                    <td class="text-left">Código empleado:</td>
+    <div class="modal fade" id="staticBackdrop3" data-backdrop="static" data-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel3">DETALLE DEL AUSENTISMO</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <table class="table table-bordered table-sm">
+              <tbody>
+                <tr>
+                  <td class="text-left">Código empleado:</td>
 
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0] || ' '}}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Nombre Completo:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1] || 'N/A'}}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Fecha inicio ausentismo:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[6] || 'N/A'}}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Fecha fin ausentismo:	</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[7] || 'N/A'}}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Días de ausentismo:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[8] || 'N/A'}}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left">Causa:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[11] || 'N/A'}}</td>
-                  </tr>   
-                  <tr>
-                    <td class="text-left">Tipo:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12] ||'N/A'}}</td>
-                  </tr>       
-                  <tr>
-                    <td class="text-left">Clase:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[13] || 'N/A' }}</td>
-                  </tr>         
-                  <tr>
-                    <td class="text-left">Cód diagnóstico:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[14] || 'N/A'}}</td>
-                  </tr>       
-                  <tr>
-                    <td class="text-left">Descripción Cód diagnóstico:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[15] || 'N/A'}}</td>
-                  </tr>                            
-                  <tr>
-                    <td class="text-left">Prorroga de otra incapacidad:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[17] || 'N/A'}}</td>
-                  </tr>       
-                  <tr>
-                    <td class="text-left">Observaciones:</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[16] || 'N/A'}}</td>
-                  </tr>                                                       
-                  <tr>
-                    <td class="text-left">Jefe inmediato:	</td>
-                    <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[9] || 'N/A'}}</td>
-                  </tr>
-                </tbody>
-              </table>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0] || ' '}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Nombre Completo:</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1] || 'N/A'}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Fecha inicio ausentismo:</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[6] || 'N/A'}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Fecha fin ausentismo: </td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[7] || 'N/A'}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Días de ausentismo:</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[8] || 'N/A'}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Causa:</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[11] || 'N/A'}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Tipo:</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12] ||'N/A'}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Clase:</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[13] || 'N/A' }}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Cód diagnóstico:</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[14] || 'N/A'}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Descripción Cód diagnóstico:</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[15] || 'N/A'}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Prorroga de otra incapacidad:</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[18] || 'N/A'}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Observaciones:</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[16] || 'N/A'}}</td>
+                </tr>
+                <tr>
+                  <td class="text-left">Jefe inmediato: </td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[9] || 'N/A'}}</td>
+                </tr>
+                <tr *ngIf="!anexoSeleccionado || anexoSeleccionado== null || anexoSeleccionado == ''">
+                  <td class="text-left">Nombre Anexo</td>
+                  <td class="text-left" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[17] || 'No anexa' }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+            <br>
+
+            <div class="row" *ngIf="!anexoSeleccionado || anexoSeleccionado== null || anexoSeleccionado == ''">
+              <div class="col-sm-12 col-12" id="btnDescargar">
+                <button type="button" class="btn btn-outline-dark" disabled (click)="descargarArchivo()">DESCARGAR ANEXO
+                  <i class="fas fa-download"></i>
+                </button>
+                <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">No se anexó un
+                    documento</small></p>
+              </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+            <div class="row" *ngIf="anexoSeleccionado && anexoSeleccionado !== null && anexoSeleccionado !== ''">
+              <div class="col-sm-12 col-12" id="btnDescargar">
+                <button type="button" class="btn btn-outline-dark" (click)="descargarArchivo()">DESCARGAR ANEXO
+                  <i class="fas fa-download"></i>
+                </button>
+                <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">click para descargar
+                    documento anexo</small></p>
+              </div>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>
+    </div>

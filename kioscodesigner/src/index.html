@@ -13,12 +13,25 @@
   <link defer rel="stylesheet" href="assets/libs/css/style.css" rel="preload">
 
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="manifest" href="manifest.webmanifest" url="window.location.href">
   <meta name="theme-color" content="#1976d2">
   <link rel="apple-touch-icon" href="assets/icons/icon-152x152.png">
 
-  <script async src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <!--<script async src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+  <!-- jQuery -->
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <!-- BS JavaScript -->
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <!-- Have fun using Bootstrap JS -->
+  <script type="text/javascript">
+    $(window).load(function () {
+      $('#prizePopup').modal('show');
+    });
+  </script>
+  <!---------------------------------------------------------------------------->
   <script>
+    var URLactual = window.location.href;
+    console.log("url del index: ", URLactual);
     $(function () {
       $("#datepicker").datepicker();
       $("#format").on("change", function () {
@@ -42,10 +55,10 @@
       var cambio = document.getElementById("inputClave1");
       if (cambio.type == "password") {
         cambio.type = "text";
-        
+
       } else {
         cambio.type = "password";
-        
+
       }
     }
     function mostrarPassword2() {
@@ -55,7 +68,7 @@
         $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye').getElementById("e");
       } else {
         cambio.type = "password";
-        
+
       }
     }
     function mostrarPassword3() {
@@ -65,7 +78,7 @@
         $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye').getElementById("e");
       } else {
         cambio.type = "password";
-        
+
       }
     }
 
@@ -74,17 +87,17 @@
       $('#ShowPassword').click(function () {
         $('#Password').attr('type', $(this).is(':checked') ? 'text' : 'password');
       });
-      $('#btnInfoDP').click(function(){
+      $('#btnInfoDP').click(function () {
         $("#staticBackdrop").modal("show");
       });
     });
   </script>
- 
- <!--<meta http-equiv="Cache-Control" content="no-cache, mustrevalidate" >-->
+
+  <!--<meta http-equiv="Cache-Control" content="no-cache, mustrevalidate" >-->
 
 </head>
 
-<body class="sidebar-fixed sidebar-dark" >
+<body class="sidebar-fixed sidebar-dark">
   <app-root></app-root>
 
   <!-- plugins:js -->

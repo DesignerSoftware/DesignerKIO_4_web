@@ -87,7 +87,8 @@
               <label class="col-sm-3 col-form-label" for="codDiag">Cód. diagnóstico:</label>
               <div class="col-sm-9">
                 <div class="input-group mb-3">
-                  <input id="codDiag" type="text" class="form-control form-control-sm" title="El código de diagnóstico hace referencia al código de enfermedad médico, antes de seleccionarlo debe elegir la causa del ausentismo."
+                  <input id="codDiag" type="text" class="form-control form-control-sm"
+                    title="El código de diagnóstico hace referencia al código de enfermedad médico, antes de seleccionarlo debe elegir la causa del ausentismo."
                     [placeholder]="!this.habilitaBtnCodDiag ? 'NO APLICA': 'Sin seleccionar'" disabled
                     formControlName="codigo" aria-label="Recipient's username" aria-describedby="button-addon2">
                   <button class="btn btn-primary" type="button" id="button-addon2" (click)="mostrarListaCod()"
@@ -122,8 +123,11 @@
             <div class="form-group row">
               <label class="col-sm-5 col-form-label">Fecha inicio ausentismo: <span class="text-danger">*</span></label>
               <div class="col-sm-7">
-                <input type="date" class="form-control form-control-sm" formControlName="fechainicio"
-                  title="Seleccione el día que inicia el ausentismo" (change)="cargaFechaFin()"
+                <input type="date" class="form-control form-control-sm" formControlName="fechainicio" id="fechainicio"
+                  title="Seleccione el día que inicia el ausentismo" (change)="validaFecha();" 
+                  [attr.readonly]="this.formulario.get('prorroga').value ? true : null" hidden />
+                <input type="text" class="form-control form-control-sm" (mouseover)="backDt();" (click)="backDt();" id="fechainiciodt" formControlName="fechainiciodt"
+                  title="Seleccione el día que inicia el ausentismo" 
                   [attr.readonly]="this.formulario.get('prorroga').value ? true : null" />
                 <small class="text-danger"
                   *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched && !this.formulario.get('prorroga').value">
@@ -237,8 +241,8 @@
 
         <div class="form-group">
           <label for="exampleFormControlTextarea1">Observaciones:</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"
-            formControlName="observaciones" title="Digite alguna observación o información adicional respecto a su ausentismo."></textarea>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName="observaciones"
+            title="Digite alguna observación o información adicional respecto a su ausentismo."></textarea>
         </div>
 
         <div class="form-group" *ngIf="false">
@@ -343,7 +347,7 @@
               </div>
             </div>
             <div class="botonAnexos" *ngIf="nomArchivo !== null">
-              <button type="button" class="btn btn-outline-danger btn-lg float-left" style=""
+              <button type="button" class="btn btn-outline-danger btn-lg float-left"
                 (click)="quitarArchivoSeleccionado()">Borrar</button>
             </div>
           </div>

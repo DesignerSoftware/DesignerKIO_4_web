@@ -1,3 +1,5 @@
+
+
 <div class="page-header animated fadeIn fast">
   <h3 class="page-title">
     Crear solicitud
@@ -127,8 +129,10 @@
           <div class="form-group row">
             <label class="col-sm-3 col-form-label">Fecha inicio:</label>
             <div class="col-sm-9">
-              <input type="date" class="form-control 
-                      form-control-sm" title="Seleccione la fecha de inicio de las vacaciones" formControlName="fechainicio" (change)="validaFecha()" />
+              <input type="date" class="form-control form-control-sm" title="Seleccione la fecha de inicio de las vacaciones" 
+              formControlName="fechainicio" (change)="validaFecha();" id="fechainicio" hidden/>
+              <input type="text" class="form-control form-control-sm" (mouseover)="backDt();" (click)="backDt();" id="fechainiciodt" formControlName="fechainiciodt"
+                  title="Seleccione el día que inicia el ausentismo" placeholder="dd/mm/yyyy"/>
               <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.required
                       && formulario.get('fechainicio').touched">
                      Seleccione la fecha de inicio de vacaciones
@@ -183,8 +187,11 @@
           <div class="form-group row">
             <label class="col-sm-3 col-form-label">Fecha fin de disfrute:</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control
-                  form-control-sm" formControlName="fechafin" value="xx/xx/xxxx" readonly="true" title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
+              <!--<input type="date" class="form-control
+                  form-control-sm" formControlName="fechafin" value="xx/xx/xxxx" readonly="true" title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" -->
+                  <input type="text" class="form-control
+                  form-control-sm" formControlName="fechafin" readonly="true" placeholder="dd/mm/yyyy"
+                  title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina"> 
             </div>
           </div>
         </div>
@@ -192,7 +199,10 @@
           <div class="form-group row">
             <label class="col-sm-3 col-form-label">Fecha regreso a laborar:</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control form-control-sm" formControlName="fecharegreso" readonly="true"
+              <!--<input type="date" class="form-control form-control-sm" formControlName="fecharegreso" readonly="true"
+               title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />-->
+               <input type="text" class="form-control form-control-sm"
+               formControlName="fecharegreso" readonly="true" placeholder="dd/mm/yyyy"
                title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
             </div>
 

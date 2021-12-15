@@ -67,6 +67,7 @@ export class CambioFotoComponent implements OnInit {
 
   cargarDatosIniciales(){
     this.cargarFotoActual();
+    //this.fotoActual();
   }
 
   cargarFotoActual() {
@@ -74,7 +75,7 @@ export class CambioFotoComponent implements OnInit {
     this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
     .subscribe(
       data => {
-        //console.log(data);
+        //console.log('foto actual: ' , data);
         this.fotoPerfil = data['result'];
         //console.log('documento: ' + this.fotoPerfil);
         this.usuarioService.documento=this.fotoPerfil;
@@ -179,6 +180,7 @@ export class CambioFotoComponent implements OnInit {
       );
     //console.log(this.formulario.value);
   }
+  
 
 createImageFromBlob(image: Blob) {
    const reader = new FileReader();
@@ -228,6 +230,7 @@ uploadFileToActivity() { // 10 sep
   );
 }
 
+
 cambiar() {
   //this.cambio.emit('Dato emitido');
 }
@@ -236,5 +239,74 @@ close() {
   console.log('close');
   this.cargarFotoActual();
 }
+  //eliminar la foto del usuario 
+  /*
+  fotoActual(){
+    this.usuarioService.getValidaFoto(this.usuarioService.usuario, this.usuarioService.cadenaConexion, this.usuarioService.empresa)
+      .subscribe(
+        data => {
+          console.log('data: ' , data);
+          this.usuarioService.existefotoPerfil = data;
+        }
+      );
+  }
+  eliminarFoto(){
+    if (!this.usuarioService.existefotoPerfil) {
+      swal
+        .fire({
+          icon: "error",
+          title: "Por favor actualice su foto",
+          text:"",
+          showConfirmButton: true,
+        })
+    } else {
+      swal.fire({
+        title: "Eliminando Foto, por favor espere...",
+        onBeforeOpen: () => {
+          swal.showLoading();
+          //console.log("descargarReporte");
+          this.usuarioService.getGenerarQR(
+            this.usuarioService.usuario,
+            this.usuarioService.telefonosEmpleado[0][0],
+            this.usuarioService.datosPersonales[0][12],
+            this.usuarioService.datosPersonales[0][20],
+            this.usuarioService.datosPersonales[0][17],
+            this.usuarioService.cadenaConexion,
+            this.usuarioService.empresa
+          )
+            .subscribe(
+              (data) => {
+                swal
+                .fire({
+                  icon: "success",
+                  title: "Su foto se ha eliminado correctamente",
+                  showConfirmButton: true,
+                })
+                .then((res) => {
+                  $("#staticBackdrop").modal("hide");
+                  this.formulario.get('mensaje').setValue('');
+                });
+              },
+              (error) => {
+                swal
+                  .fire({
+                    icon: "error",
+                    title: "Hubo un error al eliminar su foto",
+                    text:
+                      "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                    showConfirmButton: true,
+                  })
+                  .then((res) => {
+                    $("#staticBackdrop").modal("hide");
+                    this.formulario.get('mensaje').setValue('');
+                  });
+              }
+            );
+        },
+        allowOutsideClick: () => !swal.isLoading(),
+      });
+
+    }
+  }*/
 
 }

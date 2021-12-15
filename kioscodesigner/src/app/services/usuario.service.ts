@@ -36,6 +36,8 @@ export class UsuarioService {
   tipoUsuario = null;
   documentosAnexos = null;
   documentoSeleccionado = null;
+  carnetSeleccionado = null;
+  existefotoPerfil = null; 
   urlKioscoDomain = "https://www.designer.com.co:8179";
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
   //public url = `https://www.designer.com.co:8178/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg?cadena=${this.cadenaConexion}`;
@@ -75,6 +77,10 @@ export class UsuarioService {
 
   setUrlKiosco(url: string){
     this.urlKioscoDomain=url;
+  }
+
+  getUrl(){
+    return environment.urlKiosko;
   }
 
   getDatosUsuario(usuario: string, nit: string, cadena: string) {
@@ -261,7 +267,7 @@ export class UsuarioService {
     //const url = `${environment.urlKioskoDesigner}restKiosco/validarJWTActivarCuenta?jwt=${jwt}`;
     const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarJWTActivarCuenta?jwt=${jwt}&cadena=${cadena}`;
     //const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarJWTActivarCuenta`;
-    ////console.log(url);
+    console.log(url);
     return this.http.get(url/*,
       {
         params: {
@@ -397,6 +403,44 @@ export class UsuarioService {
     ////console.log(url);
     return this.http.get(url, { responseType: 'blob' });
   }
+  getGenerarQR(seudonimo: string,celular: string,correo: string,cargo: string,empresa: string, cadena: string, nitEmpresa: string){
+    const url = `${environment.urlKioskoReportes}empleados/generaQR`;
+    ////console.log(url);
+    return this.http.get(url, {
+      params: {
+        documento: seudonimo,
+        celular: celular,
+        correo: correo,
+        cargo: cargo,
+        nomEmpresa: empresa,
+        cadena: cadena,
+        nit: nitEmpresa
+      }
+    });
+  }
+  getValidaFoto(seudonimo: string, cadena: string, nitEmpresa: string){
+    const url = `${environment.urlKioskoReportes}empleados/exiteFoto`;
+    ////console.log(url);
+    return this.http.get(url, {
+      params: {
+        documento: seudonimo,
+        cadena: cadena,
+        nit: nitEmpresa
+      }
+    });
+  }
+  /*para eliminar la foto del usuario*/
+  getEliminarFoto(seudonimo: string, cadena: string, nitEmpresa: string){
+    const url = `${environment.urlKioskoReportes}empleados/eliminarFoto`;
+    ////console.log(url);
+    return this.http.get(url, {
+      params: {
+        documento: seudonimo,
+        cadena: cadena,
+        nit: nitEmpresa
+      }
+    });
+  }
 
   clear() {
     this.isUserLoggedIn = null;
@@ -428,5 +472,7 @@ export class UsuarioService {
     this.tipoUsuario = null;
     this.documentosAnexos = null;
     this.documentoSeleccionado = null;
+    this.carnetSeleccionado = null;
+    this.existefotoPerfil = null;
   }
 }

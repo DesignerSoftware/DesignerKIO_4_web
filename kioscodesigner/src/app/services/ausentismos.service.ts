@@ -127,17 +127,18 @@ export class AusentismosService {
   
   crearNovedadAusentismo(token: string, seudonimo: string, nit: string, estado: string, fechainicio: string, fechafin: string, dias: string,
     causa: string, secDiagnostico: string, clase: string, tipo: string, prorroga: string, observacion: string, anexoadjunto: string, cadena: string, urlKiosco: string, grupoEmpr: string) {
-    let url = `${environment.urlKioskoReportes}ausentismos/crearNovedadAusentismo?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&fechafin=${fechafin}&dias=${dias}`;
-    url += `&causa=${causa}&diagnostico=${secDiagnostico}&clase=${clase}&tipo=${tipo}&prorroga=${prorroga}&observacion=${observacion}&anexoadjunto=${anexoadjunto}`;
-    url += `&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
+    let url = `${environment.urlKioskoReportes}ausentismos/crearNovedadAusentismo?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&fechafin=${fechafin}&dias=${dias}` +
+    `&causa=${causa}&diagnostico=${secDiagnostico}&clase=${clase}&tipo=${tipo}&prorroga=${prorroga}&observacion=${observacion}&anexoadjunto=${anexoadjunto}`
+    + `&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
     console.log('url:' + url);
     ////console.log('url recibida:'+urlKiosco)
     ////console.log('grupo recibid:'+grupoEmpr)
-    return this.http.post(url, {
+    return this.http.post(url, []
+      /*{
       headers: new HttpHeaders({
         Authorization: token
       })
-    });
+    }*/);
   }
 
   getSolicitudesXEstado(documento: string, nit: string, estado: string, cadena: string) {
@@ -175,9 +176,10 @@ export class AusentismosService {
   
   enviarCorreoNuevaNovedad(seudonimo: string, nit: string, secSoliciAusentismo: string, observacion: string, asunto: string,
     urlKiosco: string, grupo: string, cadena: string) {
-    const url = `${environment.urlKioskoReportes}ausentismos/enviaCorreoNuevoAusentismo`;
+    const url = `${environment.urlKioskoReportes}ausentismos/enviaCorreoNuevoAusentismo?usuario=${seudonimo}&nitempresa=${nit}&solicitud=${secSoliciAusentismo}&observacion=${observacion}&asunto=${asunto}&grupo=${grupo}&cadena=${cadena}&urlKiosco=${urlKiosco}`;
+
     //console.log('url:' + url);
-    return this.http.get(url, {
+    /*return this.http.get(url, {
       params: {
         usuario: seudonimo,
         nitempresa: nit,
@@ -188,7 +190,8 @@ export class AusentismosService {
         grupo,
         cadena: cadena
       }
-    });
+    });*/
+    return this.http.get(url);
   }
 
   /*Retorna las solicitudes ya procesadas por el empleado jefe*/
@@ -231,5 +234,19 @@ export class AusentismosService {
     this.opciones = [];
     this.codigosAusentismos = null;
     this.datosProrroga = null;
+  }
+  
+  validaFechaInicioAusent(seudonimo: string, nit: string, fechainicio: string, cadena: string) {
+    //const url = `${environment.urlKioskoReportes}empleados/validaFechaInicioVacaciones?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}empleados/validaFechaInicioAusentismo`;
+    ////console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        seudonimo: seudonimo,
+        nitempresa: nit,
+        fechainicio: fechainicio,
+        cadena: cadena
+      }
+    });    
   }
 }

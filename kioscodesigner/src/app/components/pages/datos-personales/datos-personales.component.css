@@ -21,3 +21,33 @@
 .accordion .card .card-header {
     padding: 20px !important;
 }
+.carnet{
+    display: block;
+    margin: auto;
+}
+.small{
+    display: none;
+    margin: auto;
+}
+.small-xs{
+    display: none;
+    margin: auto;
+}
+
+@media(max-width: 450px) {
+    .carnet{
+        display: none;
+    }
+    .small{
+        display: block;
+    }
+}
+@media(max-width: 370px) {
+    .small{
+        display: none;
+    }
+    .small-xs{
+        display: block;
+    }
+
+}

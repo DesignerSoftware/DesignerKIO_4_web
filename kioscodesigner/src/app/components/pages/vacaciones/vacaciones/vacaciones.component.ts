@@ -69,7 +69,7 @@ codigoReporteSeleccionado = null;
       opkTempo = this.opcionesKioskosServicio
         .getOpcionesKiosco(this.usuarioServicio.empresa, this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion)
         .subscribe((data) => {
-          //console.log('opciones Consultadas', data);
+          console.log('opciones Consultadas', data);
           opkTempo = data;
           this.vacacionesService.opcionesKiosco = opkTempo.filter(
             //(opcKio) => opcKio['opcionkioskopadre']['codigo'] === '30'
@@ -79,6 +79,7 @@ codigoReporteSeleccionado = null;
               }
             }
           );
+          console.log('opciones Filtradas', this.vacacionesService.opcionesKiosco);
           //this.vacacionesService.opcionesKiosco = opkTempo;
           // //console.log('filter 1', this.opcionesReportes[0]['SUBOPCION']);
            //console.log('filter 1', this.vacacionesService.opcionesKiosco);

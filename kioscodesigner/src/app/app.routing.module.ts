@@ -72,7 +72,7 @@ const APP_ROUTES: Routes = [
 {path: 'registro', component: RegistroComponent },
 {path: 'olvidoClave', component: OlvidoClaveComponent },
 {path: 'olvidoClave/:grupo', component: OlvidoClaveComponent },
-{path: 'validacionCuenta/:token', component: ValidaTokenComponent},
+{path: 'validacionCuenta/:token'  , component: ValidaTokenComponent},
 {path: 'FAQ1', component: FAQGENERALESComponent},
 {path: '**', component: PageNotFoundComponent},
 ];
