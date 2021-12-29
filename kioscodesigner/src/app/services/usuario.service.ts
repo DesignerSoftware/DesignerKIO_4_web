@@ -38,6 +38,7 @@ export class UsuarioService {
   documentoSeleccionado = null;
   carnetSeleccionado = null;
   existefotoPerfil = null; 
+  notificacionesVacaciones: string = null;
   urlKioscoDomain = "https://www.designer.com.co:8179";
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
   //public url = `https://www.designer.com.co:8178/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg?cadena=${this.cadenaConexion}`;
@@ -441,6 +442,18 @@ export class UsuarioService {
       }
     });
   }
+  getNotifiaciones(seudonimo: string, tipoNoti: string,cadena: string, nit: string){
+    const url = `${environment.urlKioskoReportes}empleados/getNotificaciones`;
+    ////console.log('url:' + url);
+    return this.http.get(url,{
+      params: {
+        usuario: seudonimo,
+        tipoNotificacion: tipoNoti,
+        empresa: nit,
+        cadena: cadena
+      }
+      });
+  }
 
   clear() {
     this.isUserLoggedIn = null;
@@ -474,5 +487,6 @@ export class UsuarioService {
     this.documentoSeleccionado = null;
     this.carnetSeleccionado = null;
     this.existefotoPerfil = null;
+    this.notificacionesVacaciones = null;
   }
 }

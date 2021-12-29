@@ -24,7 +24,7 @@ export class SidebarComponent implements OnInit {
   constructor(private opcionesKioskosService: OpcionesKioskosService, private cadenasKioskos: CadenaskioskosappService,
               public usuarioServicio: UsuarioService, private loginService: LoginService, private router: Router, private reporteService: ReportesService) {
     //console.log(this.usuarioServicio.tokenJWT);
-    this.getInfoUsuario(); 
+    this.getInfoUsuario();
   }
 
   ngOnInit() {
@@ -48,27 +48,28 @@ export class SidebarComponent implements OnInit {
     if (this.usuarioServicio.cadenaConexion) {
       this.cargarDatosIniciales();
     } else {
-    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
-    .subscribe(
-      data => {
-        //console.log('getInfoUsuario', data);
-        //console.log(sesion['grupo']);
-        for (let i in data) {
-          if (data[i][3] === sesion['grupo']) { // GRUPO
-          const temp = data[i];
-          //console.log('cadena: ', temp[4]) // CADENA
-          this.usuarioServicio.cadenaConexion=temp[4];
-          //this.cargarDatosIniciales();
+      this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
+        .subscribe(
+          data => {
+            //console.log('getInfoUsuario', data);
+            //console.log(sesion['grupo']);
+            for (let i in data) {
+              if (data[i][3] === sesion['grupo']) { // GRUPO
+                const temp = data[i];
+                //console.log('cadena: ', temp[4]) // CADENA
+                this.usuarioServicio.cadenaConexion = temp[4];
+                //this.cargarDatosIniciales();
+              }
+            }
+            this.cargarDatosIniciales();
           }
-        }
-        this.cargarDatosIniciales();
-      }
-    );
+        );
     }
   }
 
   cargarDatosIniciales() {
     this.cargarOpciones();
+    this.cargarNotificaciones();
     this.cargaFoto();
   }
 
@@ -105,9 +106,9 @@ export class SidebarComponent implements OnInit {
             this.opcionesKioskosAntes = data;
             this.usuarioServicio.datos = data;
             opkTempo = data;
-            ////console.log('opcionesKioskosAntes::', JSON.stringify(opkTempo));
+            //console.log('opcionesKioskosAntes::', JSON.stringify(opkTempo));
             this.opcionesKioskos = opkTempo
-            ////console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
+            //console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
           });
     } else {
       this.opcionesKioskos = this.opcionesKioskosService.opcionesKioskos;
@@ -115,18 +116,28 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+  cargarNotificaciones() {
+    this.usuarioServicio.getNotifiaciones(this.usuarioServicio.usuario,'VACACION' ,  this.usuarioServicio.cadenaConexion,this.usuarioServicio.empresa)
+      .subscribe(
+        data => {
+          this.usuarioServicio.notificacionesVacaciones = data[0];
+          //console.log('cant Notificaciones vacas:', this.usuarioServicio.notificacionesVacaciones);
+          //console.log('cant Notificaciones vacas:', this.usuarioServicio.notificacionesVacaciones[0]);
+        });
+  }
+
   cargaFoto() {
     //console.log('getDocumentoSidebar');
     this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
-    .subscribe(
-      data => {
-        //console.log(data);
-        this.fotoPerfil = data['result'];
-        //console.log('documento: ' + this.fotoPerfil);
-        document.getElementById('fotoPerfil').setAttribute('src',
-        `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`);
-      }
-    );
+      .subscribe(
+        data => {
+          //console.log(data);
+          this.fotoPerfil = data['result'];
+          //console.log('documento: ' + this.fotoPerfil);
+          document.getElementById('fotoPerfil').setAttribute('src',
+            `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`);
+        }
+      );
   }
 
   logout() {
@@ -134,14 +145,14 @@ export class SidebarComponent implements OnInit {
     localStorage.removeItem('currentUser');
     // this.router.navigate(['/login']);
     //this.router.navigate(['/']);
-    if (this.usuarioServicio.grupoEmpresarial!=null) {
+    if (this.usuarioServicio.grupoEmpresarial != null) {
       this.router.navigate(['/login', this.usuarioServicio.grupoEmpresarial]);
-   } else {
-     this.router.navigate(['/login']);
-   }
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
-  
-  minbody2() {    
+
+  minbody2() {
     $('.sidebar-offcanvas').toggleClass('active');
     //console.log('presionado 2');
   }

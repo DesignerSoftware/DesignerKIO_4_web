@@ -142,7 +142,11 @@ export class VerSoliciSinProcPersonaComponent implements OnInit {
             onBeforeOpen: () => {
               swal.showLoading();
               this.vacacionesService.setNuevoEstadoSolicio(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion,
-                'AUTORIZADO', this.solicitudSeleccionada[18], null, this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial)
+                'AUTORIZADO', this.solicitudSeleccionada[18], null, this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial,
+                this.solicitudSeleccionada[4],
+                this.solicitudSeleccionada[13],
+                this.solicitudSeleccionada[14],
+                this.solicitudSeleccionada[15])
                 .subscribe(
                   (data) => {
                     console.log(data);
@@ -275,7 +279,11 @@ export class VerSoliciSinProcPersonaComponent implements OnInit {
               this.solicitudSeleccionada[18],
               this.formulario.get('motivo').value,
               this.usuarioService.urlKioscoDomain,
-              this.usuarioService.grupoEmpresarial
+              this.usuarioService.grupoEmpresarial,
+              this.solicitudSeleccionada[4],
+              this.solicitudSeleccionada[13],
+              this.solicitudSeleccionada[14],
+              this.solicitudSeleccionada[15]
             )
             .subscribe(
                 (data) => {

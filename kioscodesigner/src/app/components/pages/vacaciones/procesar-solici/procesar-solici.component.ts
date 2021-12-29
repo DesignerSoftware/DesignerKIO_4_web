@@ -143,7 +143,8 @@ export class ProcesarSoliciComponent implements OnInit {
             onBeforeOpen: () => {
               swal.showLoading();
               this.vacacionesService.setNuevoEstadoSolicio(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion,
-                'AUTORIZADO', this.solicitudSeleccionada[18], null, this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial)
+                'AUTORIZADO', this.solicitudSeleccionada[18], null, this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial, 
+                this.solicitudSeleccionada[4],this.solicitudSeleccionada[13],this.solicitudSeleccionada[14],this.solicitudSeleccionada[15])
                 .subscribe(
                   (data) => {
                     console.log(data);
@@ -157,6 +158,7 @@ export class ProcesarSoliciComponent implements OnInit {
                         })
                         .then((res) => {
                           $("#exampleModalCenter").modal("hide");
+                          this.cargarNotificaciones();
                           this.reloadPage();
                         });
                     } else {
@@ -206,6 +208,10 @@ export class ProcesarSoliciComponent implements OnInit {
 
 
   rechazarEnvio() {
+    console.log(this.solicitudSeleccionada[4],)
+    console.log(this.solicitudSeleccionada[13]);
+    console.log(this.solicitudSeleccionada[14]);
+    console.log(this.solicitudSeleccionada[15]);    
     let rechazado
     swal.fire({
       title: '¿Desea rechazar la solicitud?',
@@ -277,7 +283,11 @@ export class ProcesarSoliciComponent implements OnInit {
               this.solicitudSeleccionada[18],
               this.formulario.get('motivo').value,
               this.usuarioService.urlKioscoDomain,
-              this.usuarioService.grupoEmpresarial
+              this.usuarioService.grupoEmpresarial,
+              this.solicitudSeleccionada[4],
+              this.solicitudSeleccionada[13],
+              this.solicitudSeleccionada[14],
+              this.solicitudSeleccionada[15]
             )
             .subscribe(
                 (data) => {
@@ -292,6 +302,7 @@ export class ProcesarSoliciComponent implements OnInit {
                       })
                       .then((res) => {
                         $("#exampleModalCenter").modal("hide");
+                        this.cargarNotificaciones();
                         this.reloadPage();
                       });
                   } else {
@@ -331,6 +342,15 @@ export class ProcesarSoliciComponent implements OnInit {
 
     })
 
+  }
+  cargarNotificaciones() {
+    this.usuarioService.getNotifiaciones(this.usuarioService.usuario,'VACACION' ,  this.usuarioService.cadenaConexion,this.usuarioService.empresa)
+      .subscribe(
+        data => {
+          this.usuarioService.notificacionesVacaciones = data[0];
+          //console.log('cant Notificaciones vacas:', this.usuarioServicio.notificacionesVacaciones);
+          //console.log('cant Notificaciones vacas:', this.usuarioServicio.notificacionesVacaciones[0]);
+        });
   }
 
 

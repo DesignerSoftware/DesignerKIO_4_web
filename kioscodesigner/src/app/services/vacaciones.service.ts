@@ -30,7 +30,7 @@ export class VacacionesService {
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/solicitudesXEmpleadoJefe?documentoJefe=${documento}&empresa=${nit}&cadena=${cadena}`;
     //const url = `${environment.urlKioskoReportes}vacacionesPendientes/solicitudesXEmpleadoJefe?usuario=${usuario}&empresa=${nit}&cadena=${cadena}`;
     const url = `${environment.urlKioskoReportes}vacacionesPendientes/solicitudesXEmpleadoJefe`;
-    console.log('url:' + url);
+    //console.log('url:' + url);
     return this.http.get(url, {
       params: {
         usuario: usuario,
@@ -207,9 +207,11 @@ export class VacacionesService {
     });    
   }
 
-  setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, secuencia: string, motivo: string, urlKiosco: string, grupoEmpr: string) {
-    const url = `${environment.urlKioskoReportes}vacacionesPendientes/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
-    //console.log('url:' + url);
+  setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, secuencia: string, motivo: string, 
+    urlKiosco: string, grupoEmpr: string,  fechaInicio: string, fechaFin: string, dias: string, periodo: string) {
+    const url = `${environment.urlKioskoReportes}vacacionesPendientes/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&cadena=${cadena}&grupo=${grupoEmpr}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}&dias=${dias}&periodo=${periodo}&urlKiosco=${urlKiosco}`;
+    console.log('url:' + url);
+    //return this.http.post(url, []);
     return this.http.post(url, []);
   }
 

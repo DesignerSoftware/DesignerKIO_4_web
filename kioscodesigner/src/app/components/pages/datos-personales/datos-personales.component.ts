@@ -165,7 +165,7 @@ export class DatosPersonalesComponent implements OnInit {
           this.usuarioServicio.carnetSeleccionado = opkTempo.filter(
             //(opcKio) => opcKio['opcionkioskopadre']['codigo'] === '30'
             (opcKio) => {
-              if (opcKio.opcionkioskopadre && opcKio.opcionkioskopadre.codigo === '10') {
+              if (opcKio.opcionkioskopadre && opcKio.opcionkioskopadre.codigo === '10' && opcKio.codigo == '13') {
                 return true;
               }
             }

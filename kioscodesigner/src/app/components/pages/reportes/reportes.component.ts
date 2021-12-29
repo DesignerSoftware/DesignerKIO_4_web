@@ -408,9 +408,10 @@ export class ReportesComponent implements OnInit {
 
               //if (window.navigator && window.navigator.msSaveOrOpenBlob) { 290920
               //window.navigator.msSaveOrOpenBlob(newBlob);
-              if (window.navigator.msSaveOrOpenBlob) {
+              let nav = (window.navigator as any);
+              if (nav.msSaveOrOpenBlob) {
                 // add 290920
-                window.navigator.msSaveOrOpenBlob(
+                nav.msSaveOrOpenBlob(
                   newBlob,
                   fileUrl.split(":")[1] + ".pdf"
                 );

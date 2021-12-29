@@ -10,15 +10,17 @@ export const environment = {
   //urlKioskoReportes: 'https://www.nomina.com.co:8178/wsreporte/webresources/', // www.nomina.com.co
   //urlKioskoReportes: 'https://www.nominasas.com:8181/wsreporte/webresources/', // www.nominasas.com
   //urlKioskoReportes: 'https://autogestion.mab.com.co:8080/wsreporte/webresources/', // mab
-  urlKioskoReportes: 'https://designer.ci2.co:8181/wsreporte/webresources/', // CI2
+  //urlKioskoReportes: 'https://designer.ci2.co:8181/wsreporte/webresources/', // CI2
+  urlKioskoReportes: 'https://midas.s3.com.co:8181/wsreporte/webresources/', // www.nomina.com.co
   // urlKiosko: 'http://www.nominadesigner.co',
   //urlKiosko: 'https://www.designer.com.co:8179' //ability1 (Designer)
   //urlKiosko: 'https://intranet.nominadesigner.co:80' //NominaDesigner
   //urlKiosko: 'https://www.nominas.co:8179' // www.nominas.co:8178
   //urlKiosko: 'https://www.nomina.com.co:8179' // www.nomina.com.co
   //urlKiosko: 'https://autogestion.mab.com.co:8179' // mab
-  urlKiosko: 'https://designer.ci2.co' // CI2
+  //urlKiosko: 'https://designer.ci2.co' // CI2
   //urlKiosko: 'https://www.nominasas.com:8179' // www.nominasas.com
+  urlKiosko: 'https://midas.s3.com.co' // www.nomina.com.co
   // urlMysql: 'com.mysql.jdbc.Driver',
   // urlDriverMysql='jdbc:mysql://localhost:3306/kiosco',
   // userMysql : 'root',

@@ -506,7 +506,11 @@ export class VerSoliciEmpleadosComponent implements OnInit {
               this.solicitudSeleccionada[10],
               null,
               this.usuarioService.urlKioscoDomain,
-              this.usuarioService.grupoEmpresarial
+              this.usuarioService.grupoEmpresarial,
+              this.solicitudSeleccionada[4],
+              this.solicitudSeleccionada[13],
+              this.solicitudSeleccionada[14],
+              this.solicitudSeleccionada[15]
             )
             .subscribe(
                     (data) => {
