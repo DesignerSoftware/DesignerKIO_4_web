@@ -22,7 +22,7 @@
             <a class="nav-link" [routerLink]="['/', opc.nombreruta]" (click)="clic()" data-toggle="minimize" (click)="minbody2()">
               <i [class]="opc.icono"></i>
               <span class="menu-title">{{opc.descripcion}}</span>
-              <span *ngIf='(this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0)  &&  opc.codigo == 30' class="badge bg-warning text-dark">{{this.usuarioServicio.notificacionesVacaciones}}</span>
+              <span *ngIf='(this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != "")  &&  opc.codigo == 30' class="badge bg-warning text-dark">{{this.usuarioServicio.notificacionesVacaciones}}</span>
             </a>
           </li>
         </ul>

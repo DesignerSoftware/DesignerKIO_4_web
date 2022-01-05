@@ -85,7 +85,7 @@ export class ReportarAusentismoComponent implements OnInit {
     this.usuarioService.setTokenJWT(sesion['JWT']);
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
-    console.log('session token localstorage: ', sesion['JWT']);
+    //console.log('session token localstorage: ', sesion['JWT']);
     //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'], this.usuarioService.urlKioscoDomain)
       .subscribe(
@@ -126,7 +126,7 @@ export class ReportarAusentismoComponent implements OnInit {
           this.autorizadorVacaciones = data['resultado'];
         },
         (error) => {
-          console.log("se ha presentado un error al consultar autorizador vacaciones: " + JSON.stringify(error.statusText));
+          //console.log("se ha presentado un error al consultar autorizador vacaciones: " + JSON.stringify(error.statusText));
         }
       );
   }
@@ -181,7 +181,7 @@ export class ReportarAusentismoComponent implements OnInit {
     try {
       $("#exampleModal").modal("show");
     } catch (error) {
-      console.log('ERROR AL ABRIR VENTANA MODAL!!!: ' , error);
+      //console.log('ERROR AL ABRIR VENTANA MODAL!!!: ' , error);
       //document.getElementById('exampleModal').style.display = 'block';
     }
 
@@ -328,7 +328,7 @@ export class ReportarAusentismoComponent implements OnInit {
     this.ausentismosService.getvalidaFechaNovedadEmpleadoXJefe(this.usuarioService.empresa, this.usuarioService.usuario, this.formulario.get('fechafin').value, this.usuarioService.cadenaConexion)
       .subscribe(
         data => {
-         console.log(data);
+         //console.log(data);
           this.estadoNovEmple = data['valida'];
           if (this.estadoNovEmple == 'KSA') {
             this.msjNovEmpleTitle = '¡Rango de fechas no válido!';
@@ -399,10 +399,10 @@ export class ReportarAusentismoComponent implements OnInit {
       )
       .subscribe((data) => {
         //console.log("validaFecha: ", data["valido"]);
-        console.log(data);
+        //console.log(data);
         if (data["valido"]) {
           //this.actualizaCampos();
-          console.log('estres')
+          //console.log('estres')
           this.cargaFechaFin();
         } else {
           this.formulario.get("fechainicio").setErrors({ noValido: true });
@@ -421,6 +421,7 @@ export class ReportarAusentismoComponent implements OnInit {
   enviarNovedad() {
     //console.log(" formulario valido", this.formulario.valid);
     //console.log("Valores: ", this.formulario.controls);
+    console.log('value adjunto: ' , this.formulario.get('anexo').value, ' dias: ', this.formulario.get('dias').value);    
     Object.values(this.formulario.controls).forEach((control) => {
       control.markAsTouched();
     });
@@ -444,12 +445,23 @@ export class ReportarAusentismoComponent implements OnInit {
         } else if (!this.validaTipoArchivoAnexo()) {
           swal.fire('Tipo de archivo no válido', 'Por favor seleccione un archivo con extensión .pdf', 'error');
         }
-      } else if (this.formulario.valid) {
+      } /*else if ((this.formulario.get('anexo').value == null || this.formulario.get('anexo').value == '') && this.formulario.get('dias').value > 2){
+        swal.fire({title: "Aviso",text: "Por favor anexa un documento soporte, debido a que la solicitud supera los dos días de ausentismo", icon: "warning"})
+      }*/ else if (this.formulario.valid) {
+        let html, foot;
+        if ( this.formulario.get('dias').value > 2){
+          html ='Por favor hacer llegar al área de talento humano o área encargada los documentos físicos originales de la incapacidad e historia clínica debido a que su incapacidad supera los dos días de ausentismo.<br>'
+          foot = '¿Esta seguro(a) de que desea enviar la novedad?';
+        } else {
+          html ='¿Esta seguro(a) de que desea enviar la novedad?'
+          foot = '';
+        }
         swal
           .fire({
-            title: "Confirmación",
-            text: "¿Esta seguro(a) de que desea enviar la novedad?",
-            icon: "info",
+            title: "Aviso",
+            html: html,
+            icon: "warning",
+            footer: foot,
             confirmButtonColor: "#3085d6",
             confirmButtonText: "Aceptar",
             showCancelButton: true,
@@ -525,10 +537,10 @@ export class ReportarAusentismoComponent implements OnInit {
                                 //this.router.navigate(["/ausentismos"]);
                                 // Si se registro correctamente la novedad, subir el anexo:
                                 if (incluyeAnexo == 'S') {
-                                  console.log('Novedad reportada incluye anexo');
+                                  //console.log('Novedad reportada incluye anexo');
                                   this.subirAnexo(data["anexo"], data["solicitud"]);
                                 } else {
-                                  console.log('Novedad reportada NO incluye anexo');
+                                  //console.log('Novedad reportada NO incluye anexo');
                                  //console.log('solicitud creada: ' + data["solicitud"])
                                   this.enviarCorreoNovedad(data["solicitud"]);
                                 }
@@ -575,7 +587,7 @@ export class ReportarAusentismoComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log(data);
+          //console.log(data);
         },
         (error) => {
           if (error.status === 200) {
@@ -747,7 +759,7 @@ export class ReportarAusentismoComponent implements OnInit {
     //let temp = dt + '/' + mn + '/' + yy;
     //console.log('temp ', temp)
     let datetemp = this.formatoddmmyyyy(this.formulario.get('fechainicio').value);
-    console.log('fecha: ' , datetemp)
+    //console.log('fecha: ' , datetemp)
     this.formulario.get("fechainiciodt").setValue(datetemp);
     document.getElementById("fechainiciodt").hidden = false;
     document.getElementById("fechainicio").hidden = true;
