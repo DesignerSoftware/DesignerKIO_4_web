@@ -29,9 +29,21 @@
                 <div class="d-flex flex-row">
                     <img [src]="imagenVacaciones(op['descripcion'])"
                         class="img-lg rounded img-fluid" alt="profile image" />
-                    <div class="ml-3 d-flex align-items-center">
-                        <h6>{{  op['descripcion'] || ''}}</h6>
+                    <!-- Alerta  -->
+                    <div class="notifyVA"
+                        *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0 ) &&  op.codigo == 33 )'>
+                        <span class="heartbitVA "></span>
+                       
+                      </div>
+                    <!-- fin alerta -->
+
+                    <div class="ml-3 d-flex align-items-center row">
+                        <h6 class="">{{  op['descripcion'] || ''}} </h6> 
+                        <span *ngIf='(this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0)  &&  op.codigo == 33' 
+                            class="badge bg-danger notifyRedonVA text-white ">{{this.usuarioServicio.notificacionesVacaciones}} pendientes
+                         </span>
                     </div>
+                    
                 </div>
             </div>
             <div class="card-footer text-right">

@@ -37,7 +37,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngIf="!solicitudesProcesadas || solicitudesProcesadas==null || solicitudesProcesadas.length==0"><td colspan="5">No hay solicitudes procesadas.</td></tr>
+                        <tr *ngIf="!solicitudesProcesadas || solicitudesProcesadas==null || solicitudesProcesadas.length==0"><td colspan="8">No hay solicitudes procesadas.</td></tr>
                         <tr *ngFor="let solic of solicitudesProcesadas | filterTable: dataFilt | paginate: { id: 'eightth', itemsPerPage: 10, currentPage: p8 }; index as i " > 
                         <td>
                             <a (click)="detalleSolicitud('ENVIADO', i)" *ngIf="solicitudesProcesadas">

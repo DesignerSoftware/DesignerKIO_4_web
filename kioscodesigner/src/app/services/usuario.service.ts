@@ -11,6 +11,7 @@ export class UsuarioService {
   public usserLogged;
   secuenciaEmpleado = null;
   nombrePersona = 'Bienvenido';
+  nombreApellidoPersona ='Bienvenido';
   datos;
   usuario=null;
   empresa=null;
@@ -35,15 +36,18 @@ export class UsuarioService {
   urlActiva = null;
   tipoUsuario = null;
   documentosAnexos = null;
+  existeDocumentoAnexo : Array<string> = [];
   documentoSeleccionado = null;
-  carnetSeleccionado = null;
+  carnetSeleccionado : Array<string> = [];
   existefotoPerfil = null; 
-  notificacionesVacaciones: string = null;
+  notificacionesVacaciones:number  = 0;
+  notificacionesAusentismo: number= 0;
+
   urlKioscoDomain = "https://www.designer.com.co:8179";
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
   //public url = `https://www.designer.com.co:8178/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg?cadena=${this.cadenaConexion}`;
   public url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/sinFoto.jpg?usuario=${this.usuario}&empresa=${this.empresa}&cadena=${this.cadenaConexion}`;
-
+   
   constructor(private http: HttpClient) {
     this.isUserLoggedIn =  false;
   }
@@ -460,6 +464,7 @@ export class UsuarioService {
     this.usserLogged = null;
     this.secuenciaEmpleado = null;
     this.nombrePersona = 'Bienvenido';
+    this.nombreApellidoPersona = 'Bienvenido';
     this.datos = null;
     this.usuario = null;
     this.empresa = null;
@@ -485,8 +490,10 @@ export class UsuarioService {
     this.tipoUsuario = null;
     this.documentosAnexos = null;
     this.documentoSeleccionado = null;
-    this.carnetSeleccionado = null;
+    this.carnetSeleccionado = [];
     this.existefotoPerfil = null;
-    this.notificacionesVacaciones = null;
+    this.notificacionesVacaciones = 0;
+    this.notificacionesAusentismo= 0;
+    this.existeDocumentoAnexo = [];
   }
 }

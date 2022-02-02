@@ -9,7 +9,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 @Component({
   selector: 'app-ausentismos',
   templateUrl: './ausentismos.component.html',
-  styleUrls: ['./ausentismos.component.css']
+  styleUrls: ['./ausentismos.component.scss']
 })
 export class AusentismosComponent implements OnInit {
   opcioneskioskoG: any = [];
@@ -19,7 +19,7 @@ export class AusentismosComponent implements OnInit {
   reporteSeleccionado = null;
   codigoReporteSeleccionado = null;
 
-  constructor(private opcionesKioskosServicio: OpcionesKioskosService, private usuarioServicio: UsuarioService,
+  constructor(private opcionesKioskosServicio: OpcionesKioskosService, public usuarioServicio: UsuarioService,
     private router: Router, public ausentismosService: AusentismosService, private cadenasKioskos: CadenaskioskosappService
   ) {
     //this.opcioneskioskoG = this.opcionesKioskosServicio.getopciones(this.empresa);

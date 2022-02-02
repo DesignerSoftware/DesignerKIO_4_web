@@ -9,7 +9,7 @@
               </div>
               <div class="profile-name">
                 <p class="name">
-                  {{usuarioServicio.nombrePersona}} 
+                  {{usuarioServicio.nombrePersona | titlecase }}
                 </p>
                 <p class="designation">
                   
@@ -20,9 +20,23 @@
 
           <li class="nav-item" *ngFor="let opc of opcionesKioskos" routerLinkActive="active" >
             <a class="nav-link" [routerLink]="['/', opc.nombreruta]" (click)="clic()" data-toggle="minimize" (click)="minbody2()">
-              <i [class]="opc.icono"></i>
+              <div >
+                <i [class]="opc.icono"></i>
+                  <div class="notify" *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0)  &&  opc.codigo == 30 )
+                                            || ((this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0)  &&  opc.codigo == 40)'>
+                    <span class="heartbit " ></span>
+                    <span class="point" ></span>
+                  </div>
+                  <!-- <div class="notify" *ngIf='(this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0)  &&  opc.codigo == 40'>
+                    <span class="heartbit " ></span>
+                    <span class="point" ></span>
+                  </div> -->
+              </div>
+              
               <span class="menu-title">{{opc.descripcion}}</span>
-              <span *ngIf='(this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != "")  &&  opc.codigo == 30' class="badge bg-warning text-dark">{{this.usuarioServicio.notificacionesVacaciones}}</span>
+              <span *ngIf='(this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0)  &&  opc.codigo == 30' class="badge bg-danger notifyRedon text-white">{{this.usuarioServicio.notificacionesVacaciones}}</span>
+              <span *ngIf='(this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0)  &&  opc.codigo == 40' class="badge bg-danger notifyRedon text-white">{{this.usuarioServicio.notificacionesAusentismo}}</span>
+
             </a>
           </li>
         </ul>

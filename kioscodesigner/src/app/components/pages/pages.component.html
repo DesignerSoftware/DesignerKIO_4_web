@@ -1,98 +1,232 @@
 <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row default-layout-navbar navbar-dark">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo" routerLink="/home"><img loading="lazy" [src]="usuarioServicio.urlLogoEmpresa || 'assets/images/fotos_empleados/logodesigner-light-xl.png'" alt="logo"/></a>
-            <a class="navbar-brand brand-logo-mini" routerLink="/home"><img [src]="urlLogoEmpresaMin" alt="logo"/></a>
-          </div>
-          <div class="navbar-menu-wrapper d-flex align-items-stretch" style="background:linear-gradient(85deg, #00223C, #0868B3);">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize" (click)="min()">
-                <span class="fas fa-bars"></span>
-            </button>
-              <ul class="navbar-nav navbar-nav-right">
-
-        <app-navbar ></app-navbar>
-        <li class="nav-item nav-profile dropdown" style="border: none; margin: 0px;" >
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown" style="text-align: center"> 
-              <img id='perfil' [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" />
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item" (click)="mostrarModalCambiarFoto()">
-                <i class="fas fa-upload text-primary"></i>
-                Cargar foto de perfil
-              </a>
-              <a class="dropdown-item" [routerLink]="['/cambioClave']">
-                <i class="fas fa-cog text-primary"></i>
-                Cambiar contraseña
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" (click)="logout()">
-                <i class="fas fa-power-off text-primary"></i>
-                Cerrar Sesión
-              </a>
-            </div>
-          </li>
-
-              </ul>
-          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" id="opc-home" 
-              (click)="cambiarRuta(0)">
-            <span [class]="opcionesKioskosServicio.opcionesKioskos && opcionesKioskosServicio.opcionesKioskos.length>0 && opcionesKioskosServicio.opcionesKioskos[0] && 
-            opcionesKioskosServicio.opcionesKioskos[0]['icono'] || '' "></span>
-          </button>
-          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" id="opc-datos"
-              (click)="cambiarRuta(1)">
-            <span [class]="opcionesKioskosServicio.opcionesKioskos && opcionesKioskosServicio.opcionesKioskos.length>0 && this.opcionesKioskosServicio.opcionesKioskos[1]['icono'] || '' "
-            *ngIf="opcionesKioskosServicio.opcionesKioskos"></span>
-          </button>
-          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" id="opc-rep"
-              (click)="cambiarRuta(2)">
-            <span [class]="opcionesKioskosServicio.opcionesKioskos && opcionesKioskosServicio.opcionesKioskos.length>0 && this.opcionesKioskosServicio.opcionesKioskos[2]['icono'] || '' "></span>
-          </button>
-          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas" (click)="min1()">
-            <span class="fas fa-bars"></span>
-          </button> 
-          </div>
-    </nav>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper ">
-      <!-- partial:../../partials/_settings-panel.html -->
-      <div class="theme-setting-wrapper" *ngIf="false">
-        <div id="settings-trigger"><i class="fas fa-fill-drip"></i></div>
-        <div id="theme-settings" class="settings-panel">
-          <i class="settings-close fa fa-times"></i>
-          <p class="settings-heading">SIDEBAR SKINS</p>
-          <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>
-          <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>
-          <p class="settings-heading mt-2">HEADER SKINS</p>
-          <div class="color-tiles mx-0 px-4">
-            <div class="tiles primary"></div>
-            <div class="tiles success"></div>
-            <div class="tiles warning"></div>
-            <div class="tiles danger"></div>
-            <div class="tiles info"></div>
-            <div class="tiles dark"></div>
-            <div class="tiles default"></div>
-          </div>
-        </div>
-      </div>
-
- <app-sidebar [urlFotoPerfil]="url"></app-sidebar>
-      <!-- partial -->
-      <div class="main-panel" > 
-        <div class="content-wrapper" >
-          <p *ngIf="false">{{datoHijo}}</p>
-            <router-outlet></router-outlet>
-        </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-        <!-- <app-footer></app-footer> -->
-        <!-- partial -->
-      </div>
-      <!-- main-panel ends -->
+  <!-- partial:../../partials/_navbar.html -->
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row default-layout-navbar navbar-dark">
+    <div class="text-center navbar-brand-wrapper  align-items-center justify-content-center">
+      <a class="navbar-brand brand-logo" routerLink="/home"><img loading="lazy"
+          [src]="usuarioServicio.urlLogoEmpresa || 'assets/images/fotos_empleados/logodesigner-light-xl.png'"
+          alt="logo" /></a>
+      <a class="navbar-brand brand-logo-mini miniLogo" routerLink="/home"><img [src]="urlLogoEmpresaMin" alt="logo" /></a>
     </div>
-    <!-- page-body-wrapper ends -->
+    <div class="navbar-menu-wrapper d-flex align-items-stretch"
+      style="background:linear-gradient(85deg, #00223C, #0868B3);">
+      <button class="navbar-toggler align-self-center" type="button" data-toggle="minimize" (click)="min()">
+        <span class="fas fa-bars"></span>
+      </button>
+
+      <ul class=" navbar-nav navbar-nav-left" *ngFor='let opc of this.opcionesKioskosServicio.opcionesKios'>
+        <!-- <li class="nav-item"> -->
+        <div 
+          *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0 )&&  opc.codigo == 30 ) || 
+                    ((this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0 )&&  opc.codigo == 40 )  '>
+          <div class="navbar-toggler align-self-center">
+            <li>
+
+              <div>
+                <a [routerLink]="['/', opc.nombreruta]" data-toggle="minimize">
+                  <div>
+                    <i [class]="opc.icono"></i>
+                    <div class="notify">
+                      <span class="heartbit "></span>
+                      <span class="point"></span>
+                    </div>
+                  </div>
+
+                </a>
+              </div>
+
+            </li>
+          </div>
+        </div>
+
+        <!-- </li> -->
+
+      </ul>
+
+      <ul class="navbar-nav navbar-nav-right ml-auto">
+        <app-navbar></app-navbar>
+        <li class="nav-item nav-profile dropdown " style="border: none; margin-left: -25px;">
+          <!-- <div class="profile-name">
+            <p class="name">
+              {{usuarioServicio.nombreApellidoPersona}} 
+            </p>
+            <p class="designation">
+              
+            </p>
+          </div> -->
+          
+          <a class="nav-link dropdown-toggle " href="#" data-toggle="dropdown" id="profileDropdown"
+            style="text-align: center">
+            <img id='perfil' [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" />
+        <span class="nombreApellido">
+          {{usuarioServicio.nombreApellidoPersona | titlecase}} 
+
+        </span>
+
+ 
+
+          </a>
+          <!-- <a class="navbar-toggler col-sm" href="#" data-toggle="dropdown" id="profileDropdown"
+          style="text-align: center">
+
+          <div class="profile-name">
+            <p class="name">
+              {{usuarioServicio.nombreApellidoPersona}} 
+            </p>
+          </div>
+
+        </a> -->
+
+
+
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown " aria-labelledby="profileDropdown">
+            <a class="dropdown-item nombreApellidoDrm disabled d-flex flex-column nomCorreo" >
+              <!-- <i class="fas fa-user text-primary nombreApellidoDrm"></i> -->
+              <div class="text-center textoNombre">
+                <span class="nombreApellidoDrm p-2">
+                  
+                  {{usuarioServicio.nombreApellidoPersona | titlecase}} 
+                </span> 
+              </div>
+              
+              <div>
+                  <small class="nombreApellidoDrm textCorreo text-center p-2">
+                    {{usuarioServicio.correo }} 
+                  </small>
+              </div>
+              <!-- <span class="nombreApellidoDrm">
+      
+              </span> -->
+            </a>
+
+            <div class="dropdown-divider division nombreApellidoDrm"></div>
+            <a class="dropdown-item" (click)="mostrarModalCambiarFoto()">
+              <i class="fas fa-upload text-primary"></i>
+              Cargar foto de perfil
+            </a>
+            <a class="dropdown-item" [routerLink]="['/cambioClave']">
+              <i class="fas fa-cog text-primary"></i>
+              Cambiar contraseña
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()">
+              <i class="fas fa-power-off text-primary"></i>
+              Cerrar Sesión
+            </a>
+          </div>
+        </li>
+
+      </ul>
+      <!-- <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" id="opc-home"
+        (click)="cambiarRuta(0)">
+        <span [class]="opcionesKioskosServicio.opcionesKioskos && opcionesKioskosServicio.opcionesKioskos.length>0 && opcionesKioskosServicio.opcionesKioskos[0] && 
+            opcionesKioskosServicio.opcionesKioskos[0]['icono'] || '' "></span>
+      </button>
+      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center " type="button" id="opc-datos"
+        (click)="cambiarRuta(1)">
+        <span
+          [class]="opcionesKioskosServicio.opcionesKioskos && opcionesKioskosServicio.opcionesKioskos.length>0 && this.opcionesKioskosServicio.opcionesKioskos[1]['icono'] || '' "
+          *ngIf="opcionesKioskosServicio.opcionesKioskos"></span>
+      </button> 
+       <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" id="opc-rep"
+        (click)="cambiarRuta(2)">
+        <span
+          [class]="opcionesKioskosServicio.opcionesKioskos && opcionesKioskosServicio.opcionesKioskos.length>0 && this.opcionesKioskosServicio.opcionesKioskos[2]['icono'] || '' ">SDF</span>
+      </button>  -->
+
+
+      <!-- <div class=" navbar-toggler navbar-toggler-right d-lg-none align-self-center" id="opc-vac" >
+            <div *ngFor='let opc of this.opcionesKioskosServicio.opcionesKios'  >
+              <div *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0 )&&  opc.codigo == 30) 
+                          || ((this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0 )&&  opc.codigo == 40 ) ' 
+                          class="nav-item">
+                  <div >
+                    <a   [routerLink]="['/', opc.nombreruta]"  data-toggle="minimize">
+                      <div>
+                        <i  [class]="opc.icono"  ></i>
+                          <div class="notify" >
+                            <span class="heartbit " ></span>
+                            <span class="point" ></span>
+                          </div>
+                      </div>
+                      
+                    </a>
+                  </div>
+              </div> -->
+      <!-- <div *ngIf='(this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0 )&&  opc.codigo == 40 ' >
+                <div >
+                  <a   [routerLink]="['/', opc.nombreruta]"  data-toggle="minimize">
+                    <div>
+                      <i  [class]="opc.icono"  ></i>
+                        <div class="notify" >
+                          <span class="heartbit " ></span>
+                          <span class="point" ></span>
+                        </div>
+                    </div>
+                    
+                  </a>
+                </div>
+            </div> -->
+      <!-- </div>
+          </div> -->
+
+
+      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center barras ml-auto" type="button"
+        data-toggle="offcanvas" (click)="min1()">
+        <span class="fas fa-bars"></span>
+        <div class="notify"
+          *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0 )) 
+                   || ((this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0 ) )'>
+          <span class="heartbit "></span>
+          <span class="point"></span>
+        </div>
+      </button>
+
+    </div>
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper ">
+    <!-- partial:../../partials/_settings-panel.html -->
+    <div class="theme-setting-wrapper" *ngIf="false">
+      <div id="settings-trigger"><i class="fas fa-fill-drip"></i></div>
+      <div id="theme-settings" class="settings-panel">
+        <i class="settings-close fa fa-times"></i>
+        <p class="settings-heading">SIDEBAR SKINS</p>
+        <div class="sidebar-bg-options selected" id="sidebar-light-theme">
+          <div class="img-ss rounded-circle bg-light border mr-3"></div>Light
+        </div>
+        <div class="sidebar-bg-options" id="sidebar-dark-theme">
+          <div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark
+        </div>
+        <p class="settings-heading mt-2">HEADER SKINS</p>
+        <div class="color-tiles mx-0 px-4">
+          <div class="tiles primary"></div>
+          <div class="tiles success"></div>
+          <div class="tiles warning"></div>
+          <div class="tiles danger"></div>
+          <div class="tiles info"></div>
+          <div class="tiles dark"></div>
+          <div class="tiles default"></div>
+        </div>
+      </div>
+    </div>
+
+    <app-sidebar [urlFotoPerfil]="url"></app-sidebar>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <p *ngIf="false">{{datoHijo}}</p>
+        <router-outlet></router-outlet>
+      </div>
+      <!-- content-wrapper ends -->
+      <!-- partial:../../partials/_footer.html -->
+      <!-- <app-footer></app-footer> -->
+      <!-- partial -->
+    </div>
+    <!-- main-panel ends -->
   </div>
-  <!-- container-scroller -->
+  <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
 
 
-  <app-cambio-foto [urlFotoPerfil]="url" (cambio)="funCambiar($event)"></app-cambio-foto>
+<app-cambio-foto [urlFotoPerfil]="url" (cambio)="funCambiar($event)"></app-cambio-foto>

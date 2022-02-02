@@ -7,7 +7,7 @@ import { OpcionesKioskosService } from 'src/app/services/opciones-kioskos.servic
 import { ReportesService } from 'src/app/services/reportes.service';
 //import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
-
+ 
 
 @Component({
   selector: 'app-datos-personales',
@@ -155,8 +155,7 @@ export class DatosPersonalesComponent implements OnInit {
 
   filtrarOpcionesReportes() {
     let opkTempo: any = [];
-    if (this.usuarioServicio.carnetSeleccionado == null) {
-     //console.log('entre a filtrarOpcionesReportes2');
+    if (this.usuarioServicio.carnetSeleccionado.length === 0 || this.usuarioServicio.existeDocumentoAnexo.length === 0) {
       opkTempo = this.opcionesKioskosServicio
         .getOpcionesKiosco(this.usuarioServicio.empresa, this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion)
         .subscribe((data) => {
@@ -170,7 +169,14 @@ export class DatosPersonalesComponent implements OnInit {
               }
             }
           );
-          //console.log('opciones Filtradas', this.usuarioServicio.carnetSeleccionado);
+          this.usuarioServicio.existeDocumentoAnexo = opkTempo.filter(
+                     (opcKio) => {
+                       if (opcKio.opcionkioskopadre && opcKio.opcionkioskopadre.codigo === '10' && opcKio.codigo==='14') {
+                        // console.log('aca estamos');
+                         return true;
+                       }
+                     }
+                   );
         });
     } 
     this.cargarFotoActual();

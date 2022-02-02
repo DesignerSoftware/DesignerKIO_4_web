@@ -11,7 +11,7 @@ import { KiopersonalizacionesService } from 'src/app/services/kiopersonalizacion
 @Component({
   selector: 'app-pages',
   templateUrl: './pages.component.html',
-  styleUrls: ['./pages.component.css']
+  styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent implements OnInit {
   fotoPerfil;
@@ -22,16 +22,22 @@ export class PagesComponent implements OnInit {
   urlLogoEmpresaMin;
   urlLogoEmpresaDarkXl;
 
+  
+
   constructor(public opcionesKioskosServicio: OpcionesKioskosService, private router: Router,
               public usuarioServicio: UsuarioService, private loginService: LoginService, 
               private cadenasKioskos: CadenaskioskosappService, private kioPersonalizaciones: KiopersonalizacionesService) {
     this.getInfoUsuario();
     //console.log('constructor pages');
   }
+  
 
   ngOnInit() {
     //console.log('ngOnInit pages');
+  
+
   }
+
 
   cargarDatosIniciales() {
     this.validarSesion();
@@ -39,6 +45,7 @@ export class PagesComponent implements OnInit {
     this.cargaLogo();
     this.consultarDatosContacto();
     this.cargarDatosPersonales();
+
   }
 
   getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
@@ -90,7 +97,10 @@ export class PagesComponent implements OnInit {
           this.usuarioServicio.datosPersonales = data;
           //console.log('datosPer', this.usuarioServicio.datosPersonales);
           const nombrePersona = data[0][1];
-          this.usuarioServicio.nombrePersona = nombrePersona.trim().split(' ', 1);
+          this.usuarioServicio.nombrePersona = nombrePersona.trim().split(' ', 1)+'';
+          this.usuarioServicio.nombreApellidoPersona = nombrePersona.trim().split(' ', 1) +' '+data[0][3];
+          console.log('NombreApellido',this.usuarioServicio.nombreApellidoPersona);
+          
           this.usuarioServicio.correo = data[0][12];
         }
       );
@@ -269,6 +279,11 @@ export class PagesComponent implements OnInit {
    } else {
      this.router.navigate(['/login']);
    }
+  }
+
+  minbody2() {
+    $('.sidebar-offcanvas').toggleClass('active');
+    //console.log('presionado 2');
   }
     
 

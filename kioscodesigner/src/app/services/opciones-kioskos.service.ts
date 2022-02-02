@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment';
 export class OpcionesKioskosService {
   opcionesKioskos: any = [];
 
+  opcionesKios: any = [];
+
   constructor(private http: HttpClient) { }
 
   getOpcionesKiosco(empresa: string, seudonimo: string, cadena: string) {

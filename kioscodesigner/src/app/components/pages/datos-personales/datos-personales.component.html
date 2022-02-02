@@ -236,11 +236,11 @@
         </table>
       </div>
 
-      <p class="card-description" *ngIf="this.usuarioServicio.empresa=='830045567'">
-        Documentos Anexos
+      <p class="card-description" *ngIf="this.usuarioServicio.documentosAnexos!=null && this.usuarioServicio.existeDocumentoAnexo.length > 0 ">
+        Documentos Anexos 
       </p>
-      <hr *ngIf="this.usuarioServicio.empresa=='830045567'">
-      <div class="accordion" id="accordionExample" *ngIf="this.usuarioServicio.empresa=='830045567'">
+      <hr *ngIf="this.usuarioServicio.documentosAnexos!=null && this.usuarioServicio.empresa != '830056149' && this.usuarioServicio.existeDocumentoAnexo.length > 0">
+      <div class="accordion" id="accordionExample" *ngIf="this.usuarioServicio.documentosAnexos!=null && this.usuarioServicio.empresa != '830056149' && this.usuarioServicio.existeDocumentoAnexo.length > 0 ">
         <div class="card">
           <a data-toggle="collapse" data-target="#collapseOne">
             <div class="card-header" id="headingOne" style="background: #00223C; color: white;">

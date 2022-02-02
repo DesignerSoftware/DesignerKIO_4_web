@@ -29,8 +29,19 @@
                 <div class="d-flex flex-row">
                     <img [src]="imagenAusentismos(op['descripcion'])"
                         class="img-lg rounded img-fluid" alt="profile image" />
-                    <div class="ml-3 d-flex align-items-center">
+
+                <!-- Alerta  -->
+                    <div class="notifyVA"
+                    *ngIf='((usuarioServicio.notificacionesAusentismo != null && usuarioServicio.notificacionesAusentismo != 0) &&  op.codigo == 43 )'>
+                    <span class="heartbitVA "></span>
+                   
+                  </div>
+                <!-- fin alerta -->
+                    <div class="ml-3 d-flex align-items-center row">
                         <h6>{{  op['descripcion'] || ''}}</h6>
+                        <span *ngIf='(usuarioServicio.notificacionesAusentismo != null && usuarioServicio.notificacionesAusentismo != 0)  &&  op.codigo == 43' 
+                            class="badge bg-danger notifyRedonVA text-white ">{{usuarioServicio.notificacionesAusentismo}} pendientes
+                         </span>
                     </div>
                 </div>
             </div>

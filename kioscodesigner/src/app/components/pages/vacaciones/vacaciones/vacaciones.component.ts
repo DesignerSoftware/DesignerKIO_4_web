@@ -8,7 +8,7 @@ import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.ser
 @Component({
   selector: 'app-vacaciones',
   templateUrl: './vacaciones.component.html',
-  styleUrls: ['./vacaciones.component.css']
+  styleUrls: ['./vacaciones.component.scss']
 })
 export class VacacionesComponent implements OnInit {
 opcioneskioskoG: any = [];
@@ -18,7 +18,7 @@ private empresa: string;
 reporteSeleccionado = null;
 codigoReporteSeleccionado = null;
 
-  constructor(private opcionesKioskosServicio: OpcionesKioskosService, private usuarioServicio: UsuarioService, 
+  constructor(private opcionesKioskosServicio: OpcionesKioskosService, public usuarioServicio: UsuarioService, 
     private router: Router, public vacacionesService: VacacionesService, private cadenasKioskos: CadenaskioskosappService
     ) {
     //this.opcioneskioskoG = this.opcionesKioskosServicio.getOpcionesKiosco(this.empresa);
