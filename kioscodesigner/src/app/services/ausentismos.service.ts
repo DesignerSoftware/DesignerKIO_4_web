@@ -126,10 +126,11 @@ export class AusentismosService {
   }  
   
   crearNovedadAusentismo(token: string, seudonimo: string, nit: string, estado: string, fechainicio: string, fechafin: string, dias: string,
-    causa: string, secDiagnostico: string, clase: string, tipo: string, prorroga: string, observacion: string, anexoadjunto: string, cadena: string, urlKiosco: string, grupoEmpr: string) {
+    causa: string, secDiagnostico: string, clase: string, tipo: string, prorroga: string, observacion: string, anexoadjunto: string, 
+    cadena: string, urlKiosco: string, grupoEmpr: string, codCausa: string) {
     let url = `${environment.urlKioskoReportes}ausentismos/crearNovedadAusentismo?seudonimo=${seudonimo}&nitempresa=${nit}&fechainicio=${fechainicio}&fechafin=${fechafin}&dias=${dias}` +
     `&causa=${causa}&diagnostico=${secDiagnostico}&clase=${clase}&tipo=${tipo}&prorroga=${prorroga}&observacion=${observacion}&anexoadjunto=${anexoadjunto}`
-    + `&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
+    + `&codigoCausa=${codCausa}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
     console.log('url:' + url);
     ////console.log('url recibida:'+urlKiosco)
     ////console.log('grupo recibid:'+grupoEmpr)

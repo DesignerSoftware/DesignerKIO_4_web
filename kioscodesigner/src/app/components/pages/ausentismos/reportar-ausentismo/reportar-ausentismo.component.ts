@@ -427,11 +427,19 @@ export class ReportarAusentismoComponent implements OnInit {
     });
     this.validaFechaNovedadEmpleadoXJefe();
     if (this.formulario.valid) {
+      let indexCausa = this.formulario.get('causa').value;
+      console.log('codigoCausa', this.causasAusentismos[indexCausa].causa.codigo);
       if (this.formulario.get('dias').value <= 0) {
         swal.fire({
           title: "¡Valide la cantidad de días del ausentismo!",
           text: 'La cantidad mínima de días a reportar debe ser 1.',
           icon: "error"
+        });
+      } else if (this.formulario.get('dias').value >= 2 && this.causasAusentismos[indexCausa].causa.codigo==="54") {
+        swal.fire({
+          title: "¡Ha solicitado mas de un dia familiar.!",
+          //text: 'Ha solicitado mas de un dia familiar.',
+          icon: "error",
         });
       } else if (this.formulario.get('prorroga').value && this.prorrogaSeleccionada == null) {
         swal.fire({
@@ -449,7 +457,7 @@ export class ReportarAusentismoComponent implements OnInit {
         swal.fire({title: "Aviso",text: "Por favor anexa un documento soporte, debido a que la solicitud supera los dos días de ausentismo", icon: "warning"})
       }*/ else if (this.formulario.valid) {
         let html, foot;
-        if ( this.formulario.get('dias').value > 2){
+        if ( this.formulario.get('dias').value > 2 && this.causasAusentismos[indexCausa].causa.codigo!=="54"){
           html ='Por favor hacer llegar al área de talento humano o área encargada los documentos físicos originales de la incapacidad e historia clínica debido a que su incapacidad supera los dos días de ausentismo.<br>'
           foot = '¿Esta seguro(a) de que desea enviar la novedad?';
         } else {
@@ -479,11 +487,12 @@ export class ReportarAusentismoComponent implements OnInit {
               if (this.formulario.get('anexo').value != null && this.formulario.get('anexo').value != "") {
                 incluyeAnexo = 'S';
               }
-              let indexCausa = this.formulario.get('causa').value;
               //console.log('index', indexCausa);
+              console.log('causasAusentismos', this.causasAusentismos);
               let secuenciaClase = this.causasAusentismos[indexCausa].causa.clase.secuencia;
               let secuenciaTipo = this.causasAusentismos[indexCausa].causa.clase.tipo.secuencia;
               let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
+              let codCausa = this.causasAusentismos[indexCausa].causa.codigo;
               let secuenciaProrroga = null;
               //console.log('fecha de inicio ', this.formulario.get('fechainicio').value)
               if (this.prorrogaSeleccionada && this.prorrogaSeleccionada != null && this.prorrogaSeleccionada != [] && this.formulario.get('prorroga')) {
@@ -520,7 +529,8 @@ export class ReportarAusentismoComponent implements OnInit {
                       incluyeAnexo,
                       this.usuarioService.cadenaConexion,
                       this.usuarioService.urlKioscoDomain,
-                      this.usuarioService.grupoEmpresarial)
+                      this.usuarioService.grupoEmpresarial,
+                      codCausa)
                       .subscribe(
                         data => {
                          //console.log('rta: ', data);
