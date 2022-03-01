@@ -81,21 +81,29 @@
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown " aria-labelledby="profileDropdown">
             <a class="dropdown-item nombreApellidoDrm disabled d-flex flex-column nomCorreo" >
               <!-- <i class="fas fa-user text-primary nombreApellidoDrm"></i> -->
-              <div class="text-center textoNombre">
-                <span class="nombreApellidoDrm p-2">
+              <div class="row perfil-foto text-left nombreApellidoDrm contedidoPerfil">
+                <div class=" col-3 col-sm-5 col-lg-3 mt-1 "> 
                   
-                  {{usuarioServicio.nombreApellidoPersona | titlecase}} 
-                </span> 
+                    <img id='perfil' class="nombreApellidoDrm perfil-img rounded d-block img-fluid  m-1" [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" />
+    
+                  
+                </div>
+               <div class=" col-9 col-sm-7 col-lg-9 pt-3  nombreApellidoDrm content-correo" >
+                <div class="text-left textoNombre nombreApellidoDrm ">
+                  <span class="nombreApellidoDrm p-2">
+                    
+                    {{usuarioServicio.nombreApellidoPersona | titlecase}} 
+                  </span> 
+                </div>
+                
+                <div class="pt-2" >
+                    <small class="nombreApellidoDrm textCorreo text-center p-2" >
+                      {{usuarioServicio.correo }} 
+                    </small>
+                </div>
               </div>
-              
-              <div>
-                  <small class="nombreApellidoDrm textCorreo text-center p-2">
-                    {{usuarioServicio.correo }} 
-                  </small>
-              </div>
-              <!-- <span class="nombreApellidoDrm">
-      
-              </span> -->
+
+            </div>
             </a>
 
             <div class="dropdown-divider division nombreApellidoDrm"></div>

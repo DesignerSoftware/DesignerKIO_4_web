@@ -7,6 +7,7 @@ import { ReportesService } from 'src/app/services/reportes.service';
 import { DatePipe } from '@angular/common';
 import swal from 'sweetalert2';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
+import * as moment from 'moment';
 
 @Component({
   selector: "app-reportes",
@@ -22,6 +23,7 @@ export class ReportesComponent implements OnInit {
   dirigidoa: string = null;
   reporteAusentismos = null;
   temp = null;
+  year:string;
 
   constructor(
     private opcionesKioskosServicio: OpcionesKioskosService,
@@ -291,10 +293,61 @@ export class ReportesComponent implements OnInit {
     return ensamble;
   }
 
-  cambioFechas() {
-    // console.log('cambia fechas');
+  cambioFechas(codigoReporte:string) {
+    //console.log('codigoReporte '+codigoReporte);
+    
+    if(codigoReporte== '29'){
+
+      this.formulario.get("fechadesde").setValue('2019-01-01');
+      this.fechaDesde = this.formulario.get("fechadesde").value;
+      //console.log('fecha desde '+this.fechaDesde ); 
+
+      this.formulario.get("fechahasta").setValue('2019-12-31');
+      this.fechaHasta = this.formulario.get("fechahasta").value;
+
+      
+
+    }else if(codigoReporte== '22'){
+
+      //this.formulario.get("fechadesde").setValue('2019-01-01');
+      this.fechaDesde = this.formulario.get("fechadesde").value;
+     this.year = moment(this.fechaDesde).startOf('year').format('yyyy');
+      
+     if(this.year == '2020'){
+      this.formulario.get("fechadesde").setValue('2020-01-01');
+      this.fechaDesde = this.formulario.get("fechadesde").value;
+      //console.log('fecha desde '+this.fechaDesde ); 
+
+      this.formulario.get("fechahasta").setValue('2020-12-31');
+      this.fechaHasta = this.formulario.get("fechahasta").value;
+     }
+     if (this.year == '2021'){
+
+        this.formulario.get("fechadesde").setValue('2021-01-01');
+        this.fechaDesde = this.formulario.get("fechadesde").value;
+        //console.log('fecha desde '+this.fechaDesde ); 
+  
+        this.formulario.get("fechahasta").setValue('2021-12-31');
+        this.fechaHasta = this.formulario.get("fechahasta").value;
+
+
+      }
+    
+
+
+    }
+    else{
+      
     this.fechaDesde = this.formulario.get("fechadesde").value;
+    const ultimoDia  =    moment(this.fechaDesde).endOf('month').format('YYYY-MM-DD');
+    //  console.log('fecha desde '+this.fechaDesde ); 
+    //  console.log('ultimo dia' +ultimoDia);
+
+     this.formulario.get("fechahasta").setValue(ultimoDia);
     this.fechaHasta = this.formulario.get("fechahasta").value;
+    // console.log(this.formulario.get("fechahasta").value);
+    }
+ 
   }
 
   actualizaParametros() {
@@ -476,6 +529,8 @@ export class ReportesComponent implements OnInit {
       return "assets/images/reporte.png";
     }
  }
+
+
 
 
 }

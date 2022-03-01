@@ -127,7 +127,7 @@ export class DatosPersonalesComponent implements OnInit {
     this.usuarioServicio.getObtenerAnexosDocumentos(this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa)
       .subscribe(
         data => {
-          this.usuarioServicio.documentosAnexos = data;
+          this.usuarioServicio.documentosAnexos = data; 
           //console.log('datos documentos ' +data);
         }
       );
