@@ -1,0 +1,179 @@
+<div class="page-header animated fadeIn slow">
+  <h3 class="page-title">
+    Mensajes
+  </h3>
+</div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/recursoshumanos']">Recursos Humanos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Consultar Mensajes</li>
+  </ol>
+</nav>
+
+<!-- partial -->
+
+<div class="row animated fadeIn slow">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card animated fadeIn fast">
+      <div class="card-body">
+        <div class="" id="" role="">
+          <div class="page-header">
+            <h3 class="page-title">
+              Mensajes Creados
+            </h3>
+            <br>
+          </div>
+          <div class="input-group mb-3 ">
+            <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+              aria-label="Buscar..." aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2">Filtrar</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover" style="text-align: center;">
+              <thead class="tablaCabeza" style="background: #00223C; color: white;">
+                <tr id="tblfamiliares">
+                  <th>Titulo</th>
+                  <th>Fecha Inicio </th>
+                  <th>Fecha Fin</th>
+                  <th>Estado </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr *ngIf="!mensajeCosulatdos || mensajeCosulatdos==null || mensajeCosulatdos.length==0">
+                  <td colspan="4">No hay solicitudes enviadas.</td>
+                </tr>
+                <tr
+                  *ngFor="let solic of mensajeCosulatdos | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p, id: 'second' } ; index as i  ">
+                  <td>
+                    <a (click)="detalleSolicitud(i)" *ngIf="mensajeCosulatdos">
+                      <i class="far fa-eye text-info"></i>
+                    </a>
+                  </td>
+                  <td>{{solic[0] || 'N/A' }}</td>
+                  <td>{{solic[1] || 'N/A' }}</td>
+                  <td>{{solic[2] || 'N/A' }}</td>
+                  <td>{{solic[3] || 'N/A' }}</td>
+                </tr>
+              </tbody>
+
+            </table>
+            <div class="col-md-12">
+              <pagination-controls (pageChange)="p1 = $event" id="second" style="text-align: center;" class="col-sm-12"
+                previousLabel="Anterior" nextLabel="Siguiente">
+              </pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade animated fadeIn slow" id="staticBackdrop2" data-backdrop="static" data-keyboard="false"
+  tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel2">DETALLE DE LA SOLICITUD</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <table class="table table-bordered table-sm">
+          <tbody class="tabla">
+            <tr>
+              <th class="text-left">Fecha inicio ausentismo:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]
+                || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Fecha fin ausentismo:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[5]
+                || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Días:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[2]
+                || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Causa:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[7]
+                || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Tipo:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[8]
+                || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Clase:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[9]
+                || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Codigo:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[10]
+                || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Descripcion:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[11]
+                || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Prorroga:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12]
+                || 'N/A' }}</td>
+            </tr>
+            <tr>
+              <th class="text-left">Jefe inmediato:</th>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[13]
+                || 'N/A' }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <div *ngIf="estadoSolicitudSeleccionada ==='' || estadoSolicitudSeleccionada !== null">
+          <div class="row" *ngIf="anexoSeleccionado && anexoSeleccionado !== null && anexoSeleccionado !== ''">
+            <div class="col-sm-12 col-12" id="btnDescargar">
+              <button type="button" class="btn btn-outline-dark" (click)="descargarArchivo()">DESCARGAR
+                ANEXO
+                <i class="fas fa-download"></i>
+              </button>
+              <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">Click para
+                  descargar
+                  documento anexo</small></p>
+            </div>
+          </div>
+          <div class="row" *ngIf="!anexoSeleccionado || anexoSeleccionado== null || anexoSeleccionado == ''">
+            <div class="col-sm-12 col-12" id="btnDescargar">
+              <button type="button" class="btn btn-outline-dark" disabled (click)="descargarArchivo()">DESCARGAR ANEXO
+                <i class="fas fa-download"></i>
+              </button>
+              <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">No se anexó un
+                  documento</small></p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="estadoSolicitudSeleccionada ==='' || estadoSolicitudSeleccionada !== null">
+          <hr>
+          <h6 *ngIf="false">ACCIONES PERMITIDAS</h6><br>
+          <div class="col-12">
+            <div class="col-sm-12 col-12" id="btnCancelar">
+              <button type="button" class="btn btn-outline-danger" (click)="cancelarEnvio()">CANCELAR
+                SOLICITUD</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

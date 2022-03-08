@@ -80,7 +80,7 @@ export class CrearSolicitudComponent implements OnInit {
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
     //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
-    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
+    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], this.usuarioService.urlKioscoDomain)
       .subscribe(
         data => {
           //console.log('getInfoUsuario', data);

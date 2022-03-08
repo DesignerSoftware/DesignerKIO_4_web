@@ -67,15 +67,15 @@ export class HomeComponent implements OnInit {
 
   constructor(private fb: FormBuilder, public usuarioServicio: UsuarioService, private router: Router, private cadenasKioskos: CadenaskioskosappService,
     private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService, private usuarioService: UsuarioService) {
-      if (this.usuarioServicio.empresa==''){
+    if (this.usuarioServicio.empresa == '') {
 
-      }
-    console.log('constructor home');
+    }
+    //console.log('constructor home');
   }
 
 
   ngOnInit() {
-    console.log('ngOnInit home');
+    //console.log('ngOnInit home');
     if (this.usuarioServicio.cadenaConexion) {
       this.cargarDatosIniciales();
     } else {
@@ -94,29 +94,29 @@ export class HomeComponent implements OnInit {
     console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     this.updateDatosUrl();
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
-    .subscribe(
-      data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
-        for (let i in data) {
-          if (data[i][3] === sesion['grupo']) { // GRUPO
-          const temp = data[i];
-          console.log('cadena: ', temp[4]) // CADENA
-          this.usuarioServicio.cadenaConexion=temp[4];
-          console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
-          this.cargarDatosIniciales();
+      .subscribe(
+        data => {
+          console.log('getInfoUsuario', data);
+          console.log(sesion['grupo']);
+          for (let i in data) {
+            if (data[i][3] === sesion['grupo']) { // GRUPO
+              const temp = data[i];
+              console.log('cadena: ', temp[4]) // CADENA
+              this.usuarioServicio.cadenaConexion = temp[4];
+              console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+              this.cargarDatosIniciales();
+            }
           }
         }
-      }
-    );
+      );
   }
 
-  urlKiosko(){
+  urlKiosko() {
     let urltemp = this.usuarioService.getUrl();
     return urltemp
   }
 
-  updateDatosUrl(){
+  updateDatosUrl() {
     this.urlValidacion = this.urlKiosko();
     if (this.usuarioServicio.urlKioscoDomain != this.urlValidacion) {
       //console.log('la url es di')
@@ -189,11 +189,11 @@ export class HomeComponent implements OnInit {
     $("#staticBackdrop").modal("show");
   }
 
-  sumaDias(num1: string, num2: string){
+  sumaDias(num1: string, num2: string) {
     const numero1: number = parseFloat(num1);
     const numero2: number = parseFloat(num2);
     //return Math.ceil(numero1+numero2);
-    return Math.round(numero1+numero2);
+    return Math.round(numero1 + numero2);
   }
 
   enviarReporteNovedad() {

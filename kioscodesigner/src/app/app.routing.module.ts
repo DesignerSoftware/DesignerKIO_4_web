@@ -31,6 +31,10 @@ import { AusentismosProcesadosComponent } from './components/pages/ausentismos/a
 import { InfoExperienciaComponent } from './components/pages/info-experiencia/info-experiencia.component';
 import { VerSoliciSinProcPersonaComponent } from './components/pages/vacaciones/ver-solici-sin-proc-persona/ver-solici-sin-proc-persona.component';
 import { VerSoliciProcPersonaComponent } from './components/pages/vacaciones/ver-solici-proc-persona/ver-solici-proc-persona.component';
+import { RecursosHumanosComponent } from './components/pages/recursos-humanos/recursos-humanos.component';
+import { CrearMensajeComponent } from './components/pages/recursos-humanos/crear-mensaje/crear-mensaje.component';
+import { ConsultarMensajeComponent } from './components/pages/recursos-humanos/consultar-mensaje/consultar-mensaje.component';
+import { NotificacionesMensajeComponent } from './components/pages/recursos-humanos/notificaciones-mensaje/notificaciones-mensaje.component';
 
 
 const APP_ROUTES: Routes = [
@@ -63,6 +67,10 @@ const APP_ROUTES: Routes = [
     {path: 'ausentismos/verAusentismosReportados', component: VerAusentismosReportadosComponent, canActivate: [AuthGuard]},
     {path: 'ausentismos/procesarAusentismos', component: ProcesarAusentismosComponent, canActivate: [AuthGuard]},
     {path: 'ausentismos/ausentismosProcesados', component: AusentismosProcesadosComponent, canActivate: [AuthGuard]},
+    {path: 'recursoshumanos', component: RecursosHumanosComponent, canActivate: [AuthGuard]},
+    {path: 'recursoshumanos/crearMensajes', component: CrearMensajeComponent, canActivate: [AuthGuard]},
+    {path: 'recursoshumanos/consultarMensajes', component: ConsultarMensajeComponent, canActivate: [AuthGuard]},
+    {path: 'mensajesrh', component: NotificacionesMensajeComponent, canActivate: [AuthGuard]},
     {path: '', redirectTo: '/login/GrupoEmpresarial2', pathMatch: 'full'}
 ]},
 // Rutas principales

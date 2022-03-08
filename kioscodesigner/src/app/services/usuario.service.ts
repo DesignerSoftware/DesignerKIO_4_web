@@ -88,6 +88,10 @@ export class UsuarioService {
     return environment.urlKiosko;
   }
 
+  getUrlws(){
+    return environment.urlKioskoReportes;
+  }
+
   getDatosUsuario(usuario: string, nit: string, cadena: string) {
     const obj: any = this.getUserLoggedIn;
     // const url = 'http://localhost:8080/wsjavanov5/jcmouse/restapi/restKiosco/getDatosEmpleadoNit/' + usuario + '/' + nit;

@@ -1,0 +1,39 @@
+.comunicado{
+    background-color: #ffe4e1;
+  }
+  .comunicadoImg{
+    padding-top: 20px;
+  }
+  .comunicadoImg img{
+    max-width: 500px;;
+  }
+  .comunicadoTxt {
+    padding: 15px;
+  }
+  .comunicadoTxt h4{
+    text-align: center;
+    padding: 15px;
+  }
+  .comunicadoTxt p{
+    padding: 15px;
+    font-size: 1.2rem;
+  }
+  
+  @media (max-width: 650px) {
+    .comunicadoImg img{
+      width: 350px;
+    }
+  }
+  @media (max-width: 500px) {
+    #img-logo {
+      width: 200px;
+    }
+    .comunicadoImg img{
+      width: 250px;
+    }
+  }
+  @media (max-width: 400px) {
+    .comunicadoImg img{
+      width: 200px;
+    }
+  }

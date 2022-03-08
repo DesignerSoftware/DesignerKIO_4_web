@@ -54,6 +54,10 @@ import { Home2Component } from './components/pages/home2/home2.component';
 import { InfoExperienciaComponent } from './components/pages/info-experiencia/info-experiencia.component';
 import { VerSoliciSinProcPersonaComponent } from './components/pages/vacaciones/ver-solici-sin-proc-persona/ver-solici-sin-proc-persona.component';
 import { VerSoliciProcPersonaComponent } from './components/pages/vacaciones/ver-solici-proc-persona/ver-solici-proc-persona.component';
+import { RecursosHumanosComponent } from './components/pages/recursos-humanos/recursos-humanos.component';
+import { CrearMensajeComponent } from './components/pages/recursos-humanos/crear-mensaje/crear-mensaje.component';
+import { ConsultarMensajeComponent } from './components/pages/recursos-humanos/consultar-mensaje/consultar-mensaje.component';
+import { NotificacionesMensajeComponent } from './components/pages/recursos-humanos/notificaciones-mensaje/notificaciones-mensaje.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +95,11 @@ import { VerSoliciProcPersonaComponent } from './components/pages/vacaciones/ver
     Home2Component,
     InfoExperienciaComponent,
     VerSoliciSinProcPersonaComponent,
-    VerSoliciProcPersonaComponent
+    VerSoliciProcPersonaComponent,
+    RecursosHumanosComponent,
+    CrearMensajeComponent,
+    ConsultarMensajeComponent,
+    NotificacionesMensajeComponent
   ],
   imports: [
     BrowserModule,
