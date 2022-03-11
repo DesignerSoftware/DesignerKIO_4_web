@@ -9,15 +9,22 @@ export class RecursosHumanosService {
 
   mensajes: any = [];
   opciones: any = [];
+  urlMsj = null;
 
   constructor(public http: HttpClient) { }
 
-  getMensajes(empresa: string, cadena: string) {
+  getMensajes(empresa: string, cadena: string , estado: string) {
     // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
     //const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opcionesMenu?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
-    const url = `${environment.urlKioskoReportes}rrhh/consultarmsj`;
+    
+    if (estado == 'S') {
+      this.urlMsj = `${environment.urlKioskoReportes}rrhh/consultarmsjActivos`; 
+    } else {
+      this.urlMsj = `${environment.urlKioskoReportes}rrhh/consultarmsj`; 
+    }
+     
     ////console.log(url);
-    return this.http.get(url, {
+    return this.http.get(this.urlMsj, {
       params: {
         nitempresa: empresa,
         cadena: cadena
@@ -40,6 +47,38 @@ export class RecursosHumanosService {
       })
     }*/);
   }
+
+  updateMensaje(token: string, seudonimo: string, nit: string, fechainicio: string, fechafin: string, titulo: string,
+    mensaje: string, anexoadjunto: string, cadena: string, extenciondjunto: string, secuenciaMensaje: string, estado: string ) {
+    let url = `${environment.urlKioskoReportes}rrhh/updateMensajeRh?seudonimo=${seudonimo}&secuenciamsj=${secuenciaMensaje}&nitempresa=${nit}&`
+    + `fechainicio=${fechainicio}&fechafin=${fechafin}&titulo=${titulo}&`
+    + `mensaje=${mensaje}&anexoadjunto=${anexoadjunto}&cadena=${cadena}&extenciondjunto=${extenciondjunto}`
+    + `&estado=${estado}`;
+    //console.log('url:' + url);
+    ////console.log('url recibida:'+urlKiosco)
+    ////console.log('grupo recibid:'+grupoEmpr)
+    return this.http.post(url, []
+      /*{
+      headers: new HttpHeaders({
+        Authorization: token
+      })
+    }*/);
+  }
+
+  deleteMsj(token: string, seudonimo: string, secuenciaMensaje: string, nit: string, cadena: string) {
+    let url = `${environment.urlKioskoReportes}rrhh/deleteMensajeRh?seudonimo=${seudonimo}&secuenciamsj=${secuenciaMensaje}&nitempresa=${nit}&`
+    + `cadena=${cadena}`;
+    //console.log('url:' + url);
+    ////console.log('url recibida:'+urlKiosco)
+    ////console.log('grupo recibid:'+grupoEmpr)
+    return this.http.post(url, []
+      /*{
+      headers: new HttpHeaders({
+        Authorization: token
+      })
+    }*/);
+  }
+
 
   getAnexo(anexo: string, empresa: string, cadena: string) {
     // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;

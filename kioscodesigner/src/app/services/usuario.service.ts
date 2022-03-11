@@ -42,6 +42,7 @@ export class UsuarioService {
   existefotoPerfil = null; 
   notificacionesVacaciones:number  = 0;
   notificacionesAusentismo: number= 0;
+  notificacionesRh: number = 0;
 
   urlKioscoDomain = "https://www.designer.com.co:8179";
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
@@ -498,6 +499,7 @@ export class UsuarioService {
     this.existefotoPerfil = null;
     this.notificacionesVacaciones = 0;
     this.notificacionesAusentismo= 0;
+    this.notificacionesRh = 0;
     this.existeDocumentoAnexo = [];
   }
 }

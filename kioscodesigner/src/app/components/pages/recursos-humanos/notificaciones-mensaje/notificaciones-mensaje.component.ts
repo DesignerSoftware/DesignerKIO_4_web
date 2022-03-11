@@ -69,10 +69,11 @@ export class NotificacionesMensajeComponent implements OnInit {
     this.recursosHumanosService
       .getMensajes(
         this.usuarioServicio.empresa,
-        this.usuarioServicio.cadenaConexion
+        this.usuarioServicio.cadenaConexion,
+        'S'
       )
       .subscribe((data) => {
-        console.log('getMensajesRrHh', data);
+        //console.log('getMensajesRrHh', data);
         this.mensajeRh = data;
       });
   }
@@ -163,7 +164,7 @@ export class NotificacionesMensajeComponent implements OnInit {
               }, 100);
             },
             (error) => {
-              console.log(error);
+              //console.log(error);
               swal.fire(
                 "Se ha presentado un error",
                 "Se presentó un error al generar el reporte, por favor intentelo de nuevo más tarde!",

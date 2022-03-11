@@ -153,7 +153,7 @@ export class CrearMensajeComponent implements OnInit {
                       showConfirmButton: true,
                     })
                     .then((res) => {
-                      this.router.navigate(['/mensajesrh']);
+                      
                     });
                 }
               }
@@ -254,7 +254,7 @@ export class CrearMensajeComponent implements OnInit {
         }
       } else {
         this.msjValidArchivoAnexo = 'El tipo de archivo seleccionado no es válido';
-        swal.fire('Tipo de archivo no válido', 'Por favor Seleccione un archivo de imagen', 'error');
+        swal.fire('Tipo de archivo no válido', 'Por favor Seleccione un archivo valido', 'error');
       }
 
     } else {

@@ -1,12 +1,13 @@
 <div class="card" *ngIf='mensajeRh.length>0'>
-    <div class="card-header text-center comunicado">
-      Comunicados
-    </div>
-  
-    <div *ngFor='let msj of mensajeRh; index as i'>
+  <div class="card-header text-center comunicado">
+    Comunicados
+  </div>
+  <div style="width: 95%; padding: 10px; margin: auto;">
+    <div *ngFor='let msj of mensajeRh; index as i' class="card" style="margin-top: 10px;">
       <div class="text-center comunicadoImg" *ngIf='msj["nombreadjunto"]!="N"'>
-        <div *ngIf='msj["formato"]==".pdf"'> 
-          <a style="cursor: pointer;" (click)='descargarArchivo(i);'><img id="" [src]="cargaFoto(i)" alt="profile" alt="foto"></a>
+        <div *ngIf='msj["formato"]==".pdf"'>
+          <a style="cursor: pointer;" (click)='descargarArchivo(i);'><img id="" [src]="cargaFoto(i)" alt="profile"
+              alt="foto"></a>
         </div>
         <div *ngIf='msj["formato"]==".png" || msj["formato"]==".jpg"'>
           <img id="" [src]="cargaFoto(i)" alt="profile" alt="foto">
@@ -17,5 +18,5 @@
         <p class="card-text">{{msj['descripcion']}}</p>
       </div>
     </div>
-  
   </div>
+</div>

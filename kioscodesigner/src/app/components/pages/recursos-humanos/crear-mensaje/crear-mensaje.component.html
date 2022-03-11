@@ -1,13 +1,13 @@
 <div class="page-header animated fadeIn fast">
     <h3 class="page-title">
-      Crear Mensajes Recursos Humanos 
+      Crear Comunicado Recursos Humanos 
     </h3>
   </div>
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/recursoshumanos']">Recursos Humanos</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Crear Mensajes</li>
+      <li class="breadcrumb-item active" aria-current="page">Crear Comunicado</li>
     </ol>
   </nav>
 
@@ -25,7 +25,7 @@
         </h4>
   
         <p class="card-description">
-          Por favor diligencie los siguientes campos del formulario con la información del mensaje a crear.
+          Por favor diligencie los siguientes campos del formulario con la información del comunicado a crear.
         </p>
   
         <form class="form-sample mt-1" [formGroup]="formulario" (ngSubmit)="enviarNovedad()">
@@ -41,7 +41,7 @@
                 <div class="col-sm-9">
                   <input type="text" class="form-control" formControlName="titulo" id="titulo">
                   <small class="text-danger" *ngIf="formulario.get('titulo').errors?.required && formulario.get('titulo').touched">
-                    Digite un título para el mensaje.
+                    Digite un título para el comunicados.
                   </small>
                 </div>
               </div>
@@ -55,7 +55,7 @@
                 <div class="col-sm-9 col-12">
                   <textarea class="form-control form-control-sm" formControlName="descripcion"></textarea>
                   <small class="text-danger" *ngIf="formulario.get('descripcion').errors?.required && formulario.get('descripcion').touched">
-                    Digite una descripción para el mensaje.
+                    Digite una descripción para el comunicados.
                   </small>
                 </div>
               </div>
@@ -68,7 +68,7 @@
                 <div class="col-sm-9">
                   <input type="date" class="form-control" formControlName="fechainicio" id="fechainicio">
                   <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched">
-                    Digite una fecha de inicio para el mensaje.
+                    Digite una fecha de inicio para el comunicados.
                   </small>
                 </div>
               </div>
@@ -79,7 +79,7 @@
                 <div class="col-sm-9">
                   <input type="date" class="form-control" formControlName="fechafin" id="fechafin">
                   <small class="text-danger" *ngIf="formulario.get('fechafin').errors?.required && formulario.get('fechafin').touched">
-                    Digite una fecha de inicio para el mensaje.
+                    Digite una fecha de fin para el comunicados.
                   </small>
                 </div>
               </div>
@@ -127,7 +127,7 @@
   
           <div class="row botones">
             <div class="col-sm-12 col-12" style="text-align: center;" id="btnEnviar">
-              <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Crear mensaje</button>
+              <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Crear</button>
             </div>
           </div>
   

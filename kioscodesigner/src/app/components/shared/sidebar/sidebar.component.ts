@@ -22,7 +22,7 @@ export class SidebarComponent implements OnInit {
   datos;
 
   constructor(private opcionesKioskosService: OpcionesKioskosService, private cadenasKioskos: CadenaskioskosappService,
-              public usuarioServicio: UsuarioService, private loginService: LoginService, private router: Router, private reporteService: ReportesService) {
+    public usuarioServicio: UsuarioService, private loginService: LoginService, private router: Router, private reporteService: ReportesService) {
     //console.log(this.usuarioServicio.tokenJWT);
     this.getInfoUsuario();
   }
@@ -111,8 +111,7 @@ export class SidebarComponent implements OnInit {
             this.opcionesKioskosService.opcionesKios = opkTempo;
             //console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
           });
-          console.log('opcionesKios ',this.opcionesKioskosService.opcionesKios);
-          
+      console.log('opcionesKios ', this.opcionesKioskosService.opcionesKios);
     } else {
       this.opcionesKioskos = this.opcionesKioskosService.opcionesKioskos;
       //console.log('opcionesKioskos', this.opcionesKioskos);
@@ -120,7 +119,7 @@ export class SidebarComponent implements OnInit {
   }
 
   cargarNotificaciones() {
-    this.usuarioServicio.getNotifiaciones(this.usuarioServicio.usuario,'VACACION' , this.usuarioServicio.cadenaConexion,this.usuarioServicio.empresa)
+    this.usuarioServicio.getNotifiaciones(this.usuarioServicio.usuario, 'VACACION', this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa)
       .subscribe(
         data => {
           this.usuarioServicio.notificacionesVacaciones = data[0];
@@ -128,10 +127,16 @@ export class SidebarComponent implements OnInit {
           //console.log('cant Notificaciones vacas:', this.usuarioServicio.notificacionesVacaciones[0]);
         });
 
-    this.usuarioServicio.getNotifiaciones(this.usuarioServicio.usuario,'AUSENTISMO' , this.usuarioServicio.cadenaConexion,this.usuarioServicio.empresa)
+    this.usuarioServicio.getNotifiaciones(this.usuarioServicio.usuario, 'AUSENTISMO', this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa)
       .subscribe(
         data => {
           this.usuarioServicio.notificacionesAusentismo = data[0];
+        });
+
+    this.usuarioServicio.getNotifiaciones(this.usuarioServicio.usuario, 'RRHH', this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa)
+      .subscribe(
+        data => {
+          this.usuarioServicio.notificacionesRh = data[0];
         });
   }
 

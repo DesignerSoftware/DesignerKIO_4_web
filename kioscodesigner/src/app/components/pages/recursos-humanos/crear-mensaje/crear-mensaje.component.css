@@ -179,7 +179,7 @@ input #file-upload-button {
     justify-content: center;
     align-items: center;
     border-radius: 3px;
-    content: 'Adjuntar Documento';
+    content: 'Adjuntar Archivo';
     /* testo por defecto */
     position: absolute;
     left: 0;
@@ -196,7 +196,7 @@ input #file-upload-button {
 }
 
 #src-file1::before {
-    content: 'Adjuntar Documento';
+    content: 'Adjuntar Archivo';
 }
 
 .file-select:hover, .puntero:hover {
