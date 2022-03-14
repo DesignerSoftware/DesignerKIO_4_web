@@ -20,9 +20,13 @@ import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.ser
 export class HomeComponent implements OnInit {
   @Input() urlLogoEmpresaDarkXl = 'assets/images/fotos_empleados/logodesigner-dark-xl.png'; // recibe valor de pages.component
   totalDiasVacacionesProv: any = "...";
+  //listProverbios:Array <string> =[];
+  listProverbios=null;
+  proverbio:string ='';
   urlValidacion = null;
   public totalDiasVacacionesSubtipo = null;
   formulario: FormGroup;
+  today: number = Date.now();
 
   public polarAreaChartOptions: ChartOptions = {
     responsive: true,
@@ -129,6 +133,7 @@ export class HomeComponent implements OnInit {
   cargarDatosIniciales() {
     this.consultarDiasProvisionados();
     this.consultarDatosGraficas();
+    this.getProverbios();
   }
 
   consultarDatosGraficas() {
@@ -262,5 +267,23 @@ export class HomeComponent implements OnInit {
         showConfirmButton: true
       })
     }
+  }
+
+  getProverbios(){
+    this.usuarioService
+      .getProverbios(
+        this.usuarioService.cadenaConexion,
+        this.usuarioService.empresa
+      )
+      .subscribe((data:Array<string>) => {
+        //console.log("totalDiasVacacionesProv ", data);
+        this.listProverbios=data[ Math.floor(Math.random()*data.length)];
+        //console.log('this.listProverbios', this.listProverbios);
+        
+      });
+    
+    //this.proverbio=this.listProverbios[ Math.floor(Math.random()*this.listProverbios.length)];
+
+    
   }
 }

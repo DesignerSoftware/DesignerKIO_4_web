@@ -33,3 +33,20 @@
 .azul2 {
   background:linear-gradient(85deg,#007bff, #002060, #007bff) !important;
 }
+
+.proverb{
+  background: url('../../../../assets/images/fondoProverbio.jpg')no-repeat center ;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  /* width: 100% !important; */
+}
+
+.text-pro{
+  color: #fff !important;
+}
+
+.color-pro{
+  background:linear-gradient(85deg, #00223C, #0868B3);
+}

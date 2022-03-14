@@ -10,20 +10,20 @@
       class="img-fluid" id="img-logo"></p>
 
       <!-- Proverbios -->
-  <!-- <hr class="my-4">
-  <div class="card" >
-    <div class="card-header">
+  <hr class="my-4">
+  <div class="card proverb" >
+    <div class="card-header azul1 text-pro">
       Recuerda
     </div>
     <div class="card-body">
       <h1 class="display-4">Buen día!</h1>
-      <p class="lead"> <i> "La confianza en sí mismo es el primer secreto del éxito."</i> </p>
-      <p class="lead"> <i> Ralph Waldo Emerson.</i></p>
+      <p class="lead"> <i>"{{this.listProverbios.mensaje || '...'}}"</i> </p>
+      <p class="lead"> <i> {{this.listProverbios.autor || '...'}}.</i></p>
     </div>
-    <div class="card-footer text-muted">
-      09 de Marzo de 2022
+    <div class="card-footer text-muted azul1 text-pro">
+      {{today | date:'fullDate' | titlecase}}
     </div>
-  </div> -->
+  </div> 
 <!-- fin de proverbios -->
   <hr class="my-4">
   <p class="card-description text-muted">

@@ -39,6 +39,7 @@ export class UsuarioService {
   existeDocumentoAnexo : Array<string> = [];
   documentoSeleccionado = null;
   carnetSeleccionado : Array<string> = [];
+  listProverbios : Array<string> = [];
   existefotoPerfil = null; 
   notificacionesVacaciones:number  = 0;
   notificacionesAusentismo: number= 0;
@@ -451,6 +452,7 @@ export class UsuarioService {
       }
     });
   }
+
   getNotifiaciones(seudonimo: string, tipoNoti: string,cadena: string, nit: string){
     const url = `${environment.urlKioskoReportes}empleados/getNotificaciones`;
     ////console.log('url:' + url);
@@ -459,6 +461,17 @@ export class UsuarioService {
         usuario: seudonimo,
         tipoNotificacion: tipoNoti,
         empresa: nit,
+        cadena: cadena
+      }
+      });
+  }
+
+  getProverbios(cadena: string, nit: string){
+    const url = `${environment.urlKioskoReportes}empleados/proverbios`;
+    //console.log('url:' + url);
+    return this.http.get(url,{
+      params: {
+        nit: nit,
         cadena: cadena
       }
       });

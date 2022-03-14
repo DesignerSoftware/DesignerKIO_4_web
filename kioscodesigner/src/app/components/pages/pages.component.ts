@@ -102,6 +102,9 @@ export class PagesComponent implements OnInit {
           console.log('NombreApellido',this.usuarioServicio.nombreApellidoPersona);
           
           this.usuarioServicio.correo = data[0][12];
+          if (this.usuarioServicio.correo.length > 30){
+            this.usuarioServicio.correo= this.usuarioServicio.correo.slice(0,30) +'...';
+          }
         }
       );
     }
