@@ -90,8 +90,8 @@ export class Home2Component implements OnInit {
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
     .subscribe(
       data => {
-        console.log('getInfoUsuario', data);
-        console.log(sesion['grupo']);
+        //console.log('getInfoUsuario', data);
+        //console.log(sesion['grupo']);
         for (let i in data) {
           if (data[i][3] === sesion['grupo']) { // GRUPO
           const temp = data[i];

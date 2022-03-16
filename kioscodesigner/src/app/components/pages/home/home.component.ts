@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   @Input() urlLogoEmpresaDarkXl = 'assets/images/fotos_empleados/logodesigner-dark-xl.png'; // recibe valor de pages.component
   totalDiasVacacionesProv: any = "...";
   //listProverbios:Array <string> =[];
-  listProverbios=null;
+  listProverbios: any= null;
   proverbio:string ='';
   urlValidacion = null;
   public totalDiasVacacionesSubtipo = null;
@@ -80,6 +80,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     //console.log('ngOnInit home');
+    //console.log('this.listProverbios:', this.listProverbios);
     if (this.usuarioServicio.cadenaConexion) {
       this.cargarDatosIniciales();
     } else {
@@ -100,8 +101,8 @@ export class HomeComponent implements OnInit {
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
       .subscribe(
         data => {
-          console.log('getInfoUsuario', data);
-          console.log(sesion['grupo']);
+          //console.log('getInfoUsuario', data);
+          //console.log(sesion['grupo']);
           for (let i in data) {
             if (data[i][3] === sesion['grupo']) { // GRUPO
               const temp = data[i];
@@ -276,8 +277,8 @@ export class HomeComponent implements OnInit {
         this.usuarioService.empresa
       )
       .subscribe((data:Array<string>) => {
-        //console.log("totalDiasVacacionesProv ", data);
-        this.listProverbios=data[ Math.floor(Math.random()*data.length)];
+        //console.log("getProverbios ", data);
+        this.listProverbios = data[ Math.floor(Math.random()*data.length)];
         //console.log('this.listProverbios', this.listProverbios);
         
       });

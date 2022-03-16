@@ -9,22 +9,24 @@
       [src]="usuarioServicio.urlLogoEmpresaDarkXl || 'assets/images/fotos_empleados/logodesigner-dark-xl.png'"
       class="img-fluid" id="img-logo"></p>
 
-      <!-- Proverbios -->
-  <hr class="my-4">
-  <div class="card proverb" >
-    <div class="card-header azul1 text-pro">
-      Recuerda
+  <!-- Proverbios -->
+  <div *ngIf="this.listProverbios!=null && this.listProverbios!='' && this.listProverbios!=0">
+    <hr class="my-4">
+    <div class="card proverb">
+      <div class="card-header azul1 text-pro">
+        Recuerda
+      </div>
+      <div class="card-body">
+        <h1 class="display-4">Buen día!</h1>
+        <p class="lead"> <i>"{{this.listProverbios["mensaje"] || '...'}}"</i> </p>
+        <p class="lead"> <i> {{this.listProverbios["autor"] || '...'}}.</i></p>
+      </div>
+      <div class="card-footer text-muted azul1 text-pro">
+        {{today | date:'fullDate' | titlecase}}
+      </div>
     </div>
-    <div class="card-body">
-      <h1 class="display-4">Buen día!</h1>
-      <p class="lead"> <i>"{{this.listProverbios.mensaje || '...'}}"</i> </p>
-      <p class="lead"> <i> {{this.listProverbios.autor || '...'}}.</i></p>
-    </div>
-    <div class="card-footer text-muted azul1 text-pro">
-      {{today | date:'fullDate' | titlecase}}
-    </div>
-  </div> 
-<!-- fin de proverbios -->
+  </div>
+  <!-- fin de proverbios -->
   <hr class="my-4">
   <p class="card-description text-muted">
     Datos de interes

@@ -1,8 +1,8 @@
-<div class="card" *ngIf='mensajeRh.length>0'>
+<div class="card">
   <div class="card-header text-center comunicado">
     Comunicados
   </div>
-  <div style="width: 95%; padding: 10px; margin: auto;">
+  <div style="width: 95%; padding: 10px; margin: auto;" *ngIf='mensajeRh.length>0'>
     <div *ngFor='let msj of mensajeRh; index as i' class="card" style="margin-top: 10px;">
       <div class="text-center comunicadoImg" *ngIf='msj["nombreadjunto"]!="N"'>
         <div *ngIf='msj["formato"]==".pdf"'>
@@ -17,6 +17,13 @@
         <h4 class="">{{msj['titulo']}}</h4>
         <p class="card-text">{{msj['descripcion']}}</p>
       </div>
+    </div>
+  </div>
+
+  <div style="width: 95%; padding: 10px; margin: auto;"
+    *ngIf='mensajeRh.length==0 || mensajeRh.length==null || mensajeRh.length==""'>
+    <div class="alert alert-secondary text-center" role="alert">
+      No hay comunicados por visualizar.
     </div>
   </div>
 </div>

@@ -111,7 +111,7 @@ export class SidebarComponent implements OnInit {
             this.opcionesKioskosService.opcionesKios = opkTempo;
             //console.log('opcionesKioskosapp 2 filtro::', this.opcionesKioskos);
           });
-      console.log('opcionesKios ', this.opcionesKioskosService.opcionesKios);
+      //console.log('opcionesKios ', this.opcionesKioskosService.opcionesKios);
     } else {
       this.opcionesKioskos = this.opcionesKioskosService.opcionesKioskos;
       //console.log('opcionesKioskos', this.opcionesKioskos);

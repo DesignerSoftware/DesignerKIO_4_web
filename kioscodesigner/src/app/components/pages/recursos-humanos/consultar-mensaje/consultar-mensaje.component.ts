@@ -362,7 +362,8 @@ export class ConsultarMensajeComponent implements OnInit {
     this.mesajeSeleccionado(index);
     this.completarMensaje();
     swal.fire({
-      title: 'Desea Eliminar el Comunicado, recuerde que el comunicado tiene auditoría',
+      title: '¿Desea Eliminar el Comunicado?. Los comunicados mantienen'
+      + 'trazabilidad indistintamente si se eliminan.',
       text: '¿Desea continuar?',
       icon: 'warning',
       showCancelButton: true,
