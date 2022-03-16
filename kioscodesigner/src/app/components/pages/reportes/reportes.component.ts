@@ -307,21 +307,24 @@ export class ReportesComponent implements OnInit {
 
       
 
-    }else if(codigoReporte== '22'){
+    }else if(codigoReporte== '22'  ){
 
       //this.formulario.get("fechadesde").setValue('2019-01-01');
       this.fechaDesde = this.formulario.get("fechadesde").value;
      this.year = moment(this.fechaDesde).startOf('year').format('yyyy');
       
-     if(this.year == '2020'){
       this.formulario.get("fechadesde").setValue('2020-01-01');
       this.fechaDesde = this.formulario.get("fechadesde").value;
       //console.log('fecha desde '+this.fechaDesde ); 
 
       this.formulario.get("fechahasta").setValue('2020-12-31');
       this.fechaHasta = this.formulario.get("fechahasta").value;
-     }
-     if (this.year == '2021'){
+
+
+
+    }else if(codigoReporte== '28' || codigoReporte== '2105'){
+      this.fechaDesde = this.formulario.get("fechadesde").value;
+      this.year = moment(this.fechaDesde).startOf('year').format('yyyy');
 
         this.formulario.get("fechadesde").setValue('2021-01-01');
         this.fechaDesde = this.formulario.get("fechadesde").value;
@@ -329,12 +332,7 @@ export class ReportesComponent implements OnInit {
   
         this.formulario.get("fechahasta").setValue('2021-12-31');
         this.fechaHasta = this.formulario.get("fechahasta").value;
-
-
-      }
-    
-
-
+        
     }
     else{
       
