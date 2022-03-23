@@ -24,6 +24,8 @@ export class ReportesComponent implements OnInit {
   reporteAusentismos = null;
   temp = null;
   year:string;
+  anos: string[]=['2019','2020','2021'];
+  nombreRuta: string='';
 
   constructor(
     private opcionesKioskosServicio: OpcionesKioskosService,
@@ -36,8 +38,8 @@ export class ReportesComponent implements OnInit {
   ) {
     //console.log("constructor");
     this.crearFormulario();
-    this.reporteServicio.reporteSeleccionado = null
-
+    this.reporteServicio.reporteSeleccionado = null;
+ 
   }
 
   ngOnInit() {
@@ -99,6 +101,7 @@ export class ReportesComponent implements OnInit {
     this.formulario = this.fb.group({
       fechadesde: [, Validators.required],
       fechahasta: [, Validators.required],
+      anoCIR: [,],
       enviocorreo: [false],
       dirigidoa: [],
     });
@@ -206,17 +209,29 @@ export class ReportesComponent implements OnInit {
   }
 
   enviar() {
-    //console.log(this.formulario);
+    console.log(this.formulario);
     Object.values(this.formulario.controls).forEach((control) => {
       control.markAsTouched();
     });
     if (this.formulario.valid) {
-      const fechadesde: Date = new Date(
-        this.formulario.get("fechadesde").value
-      );
-      const fechahasta: Date = new Date(
-        this.formulario.get("fechahasta").value
-      );
+      let fechadesde: Date = null;
+      let fechahasta: Date = null;
+      let anocir: string = null; 
+      anocir = this.formulario.get("anoCIR").value
+      if (anocir != null) {
+        fechadesde = new Date(anocir+"-01-01");
+        fechahasta = new Date(anocir+"-12-31");
+        //console.log('es CIR: ', fechadesde ,', ' , fechahasta);      
+      } else {
+        fechadesde = new Date(
+          this.formulario.get("fechadesde").value
+        );
+        fechahasta = new Date(
+          this.formulario.get("fechahasta").value
+        ); 
+        //console.log('no es CIR: ', fechadesde ,', ' , fechahasta);      
+      }
+      
       if (fechadesde >= fechahasta) {
         const text =
           "<div class='alert alert-danger alert-dismissible fade show' role='alert'>" +
@@ -296,45 +311,7 @@ export class ReportesComponent implements OnInit {
   cambioFechas(codigoReporte:string) {
     //console.log('codigoReporte '+codigoReporte);
     
-    if(codigoReporte== '29'){
 
-      this.formulario.get("fechadesde").setValue('2019-01-01');
-      this.fechaDesde = this.formulario.get("fechadesde").value;
-      //console.log('fecha desde '+this.fechaDesde ); 
-
-      this.formulario.get("fechahasta").setValue('2019-12-31');
-      this.fechaHasta = this.formulario.get("fechahasta").value;
-
-      
-
-    }else if(codigoReporte== '22'  ){
-
-      //this.formulario.get("fechadesde").setValue('2019-01-01');
-      this.fechaDesde = this.formulario.get("fechadesde").value;
-     this.year = moment(this.fechaDesde).startOf('year').format('yyyy');
-      
-      this.formulario.get("fechadesde").setValue('2020-01-01');
-      this.fechaDesde = this.formulario.get("fechadesde").value;
-      //console.log('fecha desde '+this.fechaDesde ); 
-
-      this.formulario.get("fechahasta").setValue('2020-12-31');
-      this.fechaHasta = this.formulario.get("fechahasta").value;
-
-
-
-    }else if(codigoReporte== '28' || codigoReporte== '2105'){
-      this.fechaDesde = this.formulario.get("fechadesde").value;
-      this.year = moment(this.fechaDesde).startOf('year').format('yyyy');
-
-        this.formulario.get("fechadesde").setValue('2021-01-01');
-        this.fechaDesde = this.formulario.get("fechadesde").value;
-        //console.log('fecha desde '+this.fechaDesde ); 
-  
-        this.formulario.get("fechahasta").setValue('2021-12-31');
-        this.fechaHasta = this.formulario.get("fechahasta").value;
-        
-    }
-    else{
       
     this.fechaDesde = this.formulario.get("fechadesde").value;
     const ultimoDia  =    moment(this.fechaDesde).endOf('month').format('YYYY-MM-DD');
@@ -344,7 +321,8 @@ export class ReportesComponent implements OnInit {
      this.formulario.get("fechahasta").setValue(ultimoDia);
     this.fechaHasta = this.formulario.get("fechahasta").value;
     // console.log(this.formulario.get("fechahasta").value);
-    }
+
+    
  
   }
 
@@ -375,6 +353,19 @@ export class ReportesComponent implements OnInit {
         " hasta el " +
         this.formatoddmmyyyy(this.formulario.get("fechahasta").value);
     }
+       let fechadesde: string = null;
+      let fechahasta: string = null;
+      let anocir: string = null; 
+      anocir = this.formulario.get("anoCIR").value
+      if (anocir != null) {
+
+        fechadesde = anocir+"-01-01";
+        fechahasta = anocir+"-12-31";
+    
+      } else {
+        fechadesde = this.formulario.get("fechadesde").value;
+        fechahasta = this.formulario.get("fechahasta").value;     
+      }
     swal
       .fire({
         title: "Confirmación",
@@ -390,8 +381,8 @@ export class ReportesComponent implements OnInit {
             .actualizaParametrosReportes(
               this.usuarioServicio.usuario,
               this.usuarioServicio.empresa,
-              this.formulario.get("fechadesde").value,
-              this.formulario.get("fechahasta").value,
+              fechadesde,
+              fechahasta,
               this.formulario.get("enviocorreo").value,
               this.formulario.get("dirigidoa").value,
               this.usuarioServicio.cadenaConexion
@@ -414,12 +405,33 @@ export class ReportesComponent implements OnInit {
             );
         }
       });
+
   }
+
+
+
 /////////////////////////////////////////////////////////////////generar reporte 
   descargarReporte() {
+    
     //console.log("cadenaReporte: ", this.usuarioServicio.cadenaConexion);
-    this.fechaDesde = this.formulario.get("fechadesde").value;
-    this.fechaHasta = this.formulario.get("fechahasta").value;
+    // console.log('añooooooooo',this.year);
+    let anocir: string = null; 
+    anocir = this.formulario.get("anoCIR").value
+    if(this.reporteServicio.codigoReporteSeleccionado =='2105'){
+      if( anocir=='2019'){
+        this.nombreRuta=this.reporteServicio.reporteSeleccionado["nombreruta"]+anocir;
+      }else if(anocir=='2020'){
+        this.nombreRuta=this.reporteServicio.reporteSeleccionado["nombreruta"]+anocir;
+      }else if(anocir=='2021'){
+        this.nombreRuta=this.reporteServicio.reporteSeleccionado["nombreruta"]+anocir;
+      }
+    }else{
+      this.fechaDesde = this.formulario.get("fechadesde").value;
+      this.fechaHasta = this.formulario.get("fechahasta").value;
+
+      this.nombreRuta=this.reporteServicio.reporteSeleccionado["nombreruta"];
+    }
+
     /*console.log(
       "this.usuarioServicio.secuenciaEmpleado: " +
         this.usuarioServicio.secuenciaEmpleado
@@ -431,7 +443,8 @@ export class ReportesComponent implements OnInit {
         //console.log("descargarReporte");
         this.reporteServicio
           .generarReporte(
-            this.reporteServicio.reporteSeleccionado["nombreruta"],
+            // this.reporteServicio.reporteSeleccionado["nombreruta"],
+            this.nombreRuta,
             //this.usuarioServicio.secuenciaEmpleado,
             this.formulario.get("enviocorreo").value,
             this.usuarioServicio.correo,

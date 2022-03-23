@@ -68,10 +68,10 @@
                             Información del reporte</h6>
                         <p class="text-justify">{{reporteServicio.reporteSeleccionado['ayuda'] || ''}}</p>
 
-                        <div class="col-12 grid-margin">
+                        <div class="col-12 grid-margin" >
                             <form class="form-sample" [formGroup]="formulario" (ngSubmit)="enviar()">
-                                <div class="row">
-                                    <div class="col-md-6">
+                                <div class="row" *ngIf="reporteServicio.codigoReporteSeleccionado != '2105'">
+                                    <div class="col-md-6" >
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Fecha desde:</label>
                                             <div class="col-sm-9">
@@ -101,6 +101,29 @@
                                     </div>
                                 </div>
 
+                                <div class="row" *ngIf="reporteServicio.codigoReporteSeleccionado == '2105'">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-6 col-form-label">Seleccione Año del CIR:</label>
+                                            <div class="col-sm-6">
+                                                <!-- <input type="date" [value]="fechaDesde | date: 'yyyy'"  id='fechaDesde'
+                                                 class="form-control form-control-sm" formControlName="fechadesde" title="Seleccione la fecha desde cuando va a generar el reporte"/>
+                                                <small class="text-danger" *ngIf="formulario.get('fechadesde').errors?.required
+                                                && this.formulario.get('fechadesde').touched">
+                                                    Seleccione una fecha válida
+                                                </small> -->
+                                                <select name="" id="" [(ngModel)]="year" formControlName="anoCIR" class="form-control form-control-sm">
+                                                    <option  selected disabled>Seleccione un año</option>
+                                                    <option *ngFor="let a of anos" [ngValue]="a">{{a}}</option>
+
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
                                 <div class="row">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="customCheck1"
@@ -124,6 +147,19 @@
 
                                 </div>
                                 <br>
+                                <!-- <div class="row">
+                                    <div class="col-6">
+                                        <button type="submit" class="btn btn-primary
+                                        btn-icon-text">
+                                            <i class="fa fa-download
+                                            btn-icon-prepend"></i>
+                                            Descargar Reporte
+                                        </button>
+                                    </div>
+                                </div> -->
+                           
+                               
+                                
                                 <div class="row">
                                     <div class="col-6">
                                         <button type="submit" class="btn btn-primary
@@ -134,10 +170,14 @@
                                         </button>
                                     </div>
                                 </div>
+
                             </form>
 
 
                         </div>
+
+
+
 
                     </div>
                 </div>
