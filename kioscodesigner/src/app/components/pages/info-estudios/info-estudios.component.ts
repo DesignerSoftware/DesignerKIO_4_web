@@ -64,6 +64,7 @@ export class InfoEstudiosComponent implements OnInit {
   cargarDatosIniciales() {
     this.cargarDatosEstudios();
     this.cargarDatosEstudiosNoFormales();
+    this.cargarNotificaciones();
   }
 
   cargarDatosEstudios() {
@@ -168,5 +169,9 @@ export class InfoEstudiosComponent implements OnInit {
       })
     }
   } 
+
+  cargarNotificaciones() {
+    this.usuarioServicio.loadAllNotifications();
+   }
 
 }

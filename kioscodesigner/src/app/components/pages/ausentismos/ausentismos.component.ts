@@ -64,6 +64,7 @@ export class AusentismosComponent implements OnInit {
   cargarDatosIniciales(){
     this.filtrarOpcionesReportes();
     this.getOpcionesDiagnosticos();
+    this.cargarNotificaciones();
   }  
 
   getOpcionesDiagnosticos(){
@@ -135,6 +136,7 @@ export class AusentismosComponent implements OnInit {
       return "assets/images/reporte.png";
     }
  }
-
-
+ cargarNotificaciones() {
+  this.usuarioServicio.loadAllNotifications();
+ }
 }

@@ -119,25 +119,7 @@ export class SidebarComponent implements OnInit {
   }
 
   cargarNotificaciones() {
-    this.usuarioServicio.getNotifiaciones(this.usuarioServicio.usuario, 'VACACION', this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa)
-      .subscribe(
-        data => {
-          this.usuarioServicio.notificacionesVacaciones = data[0];
-          // console.log('cant Notificaciones vacas:', this.usuarioServicio.notificacionesVacaciones.length);
-          //console.log('cant Notificaciones vacas:', this.usuarioServicio.notificacionesVacaciones[0]);
-        });
-
-    this.usuarioServicio.getNotifiaciones(this.usuarioServicio.usuario, 'AUSENTISMO', this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa)
-      .subscribe(
-        data => {
-          this.usuarioServicio.notificacionesAusentismo = data[0];
-        });
-
-    this.usuarioServicio.getNotifiaciones(this.usuarioServicio.usuario, 'RRHH', this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa)
-      .subscribe(
-        data => {
-          this.usuarioServicio.notificacionesRh = data[0];
-        });
+    this.usuarioServicio.loadAllNotifications();
   }
 
   cargaFoto() {

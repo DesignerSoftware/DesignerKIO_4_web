@@ -117,6 +117,7 @@ export class ConsultarMensajeComponent implements OnInit {
     } else {
       this.consultarSolici();
     }
+    this.cargarNotificaciones();
   }
 
   consultarSolici() {
@@ -267,7 +268,7 @@ export class ConsultarMensajeComponent implements OnInit {
     //console.log('value adjunto: ', this.formulario.get('anexo').value, ' fechaInicio: ', this.formulario.get('fechainicio').value);
     //console.log("this.formulario.get('anexo')", this.formulario.get('anexo'));  
     //console.log('valor Estado:' , this.mensajeEstado , ' / ' , this.formulario.get('estado').value);
-    
+
     /////////////////////////
     Object.values(this.formulario.controls).forEach((control) => {
       control.markAsTouched();
@@ -286,10 +287,9 @@ export class ConsultarMensajeComponent implements OnInit {
         } else if (this.formulario.get('anexo').value.type == 'application/pdf') {
           this.formato = '.pdf';
         }
-      } else if (this.mensajeAnexo !== 'N') {
-        incluyeAnexo = this.mensajeAnexo;
+      } else if (this.nomArchivo !== 'N' && this.nomArchivo !== null) {
+        incluyeAnexo = this.nomArchivo;
       }
-
       swal.fire({
         title: "Enviando la solicitud al sistema, por favor espere...",
         onBeforeOpen: () => {
@@ -309,10 +309,10 @@ export class ConsultarMensajeComponent implements OnInit {
             this.mensajeEstado)
             .subscribe(
               data => {
-                //console.log('rta: ', data);
+                console.log('rta: ', data);
                 if (data["NovedadModificada"]) {
                   if (incluyeAnexo == 'S') {
-                    //console.log('Novedad reportada incluye anexo');
+                    console.log('Novedad reportada incluye anexo');
                     this.subirAnexo(data["anexo"]);
                   }
                   else {
@@ -344,9 +344,6 @@ export class ConsultarMensajeComponent implements OnInit {
         },
         allowOutsideClick: () => !swal.isLoading(),
       });
-
-
-
     } else {
       //console.log(this.formulario.controls);
       swal.fire({
@@ -363,7 +360,7 @@ export class ConsultarMensajeComponent implements OnInit {
     this.completarMensaje();
     swal.fire({
       title: '¿Desea Eliminar el Comunicado?. Los comunicados mantienen'
-      + 'trazabilidad indistintamente si se eliminan.',
+        + 'trazabilidad indistintamente si se eliminan.',
       text: '¿Desea continuar?',
       icon: 'warning',
       showCancelButton: true,
@@ -461,7 +458,7 @@ export class ConsultarMensajeComponent implements OnInit {
       );
     //console.log(this.formulario.value);
   }
-
-
-
+  cargarNotificaciones() {
+    this.usuarioService.loadAllNotifications();
+  }
 }

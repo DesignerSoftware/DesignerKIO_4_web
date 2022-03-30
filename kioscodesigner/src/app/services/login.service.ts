@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UsuarioService } from './usuario.service';
 import { ReportesService } from './reportes.service';
 import { OpcionesKioskosService } from './opciones-kioskos.service';
@@ -17,19 +17,22 @@ export class LoginService {
               private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService) {
   }
 
-  registrarUsuario(seudonimo: string, usuario: string, clave: string, nitEmpresa: string, correo: string, cadena: string) {
+  registrarUsuario(seudonimo1: string, usuario1: string, clave1: string, nitEmpresa1: string, correo1: string, cadena1: string) {
     // const url = `${environment.urlKioskoDesigner}conexioneskioskos?seudonimo=${seudonimo}&usuario=${usuario}&clave=${clave}&nitEmpresa=${nitempresa}&correo=${correo}`;
     //const url = `${environment.urlKioskoReportes}conexioneskioskos/creaUsuario`;
-    const url = `${environment.urlKioskoReportes}conexioneskioskos/creaUsuario?seudonimo=${seudonimo}&usuario=${usuario}&clave=${clave}&nitEmpresa=${nitEmpresa}&correo=${correo}&cadena=${cadena}`;
+    //const url = `${environment.urlKioskoReportes}conexioneskioskos/creaUsuario?seudonimo=${seudonimo}&usuario=${usuario}&clave=${clave}&nitEmpresa=${nitEmpresa}&correo=${correo}&cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/creaUsuario`;
     //console.log(url);
     // let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*');
-    return this.http.post(url, { params: {
-      seudonimo: seudonimo,
-      usuario: usuario,
-      clave: clave,
-      nitEmpresa: nitEmpresa,
-      correo: correo
-    }});
+    return this.http.post(url, "", {params: {
+      seudonimo: seudonimo1,
+      usuario: usuario1,
+      clave: clave1,
+      nitEmpresa: nitEmpresa1,
+      correo: correo1,
+      cadena: cadena1
+    }}
+    );
   }
 
   validarUsuarioYEmpresa(codEmpleado: string, nitEmpresa: string, cadena: string) {

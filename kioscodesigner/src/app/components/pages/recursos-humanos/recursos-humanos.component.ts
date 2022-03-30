@@ -63,6 +63,7 @@ export class RecursosHumanosComponent implements OnInit {
 
   cargarDatosIniciales(){
     this.filtrarOpciones();
+    this.cargarNotificaciones();
   }  
 
   filtrarOpciones() {
@@ -107,5 +108,8 @@ export class RecursosHumanosComponent implements OnInit {
     } else {
       return "assets/images/reporte.png";
     }
+ }
+ cargarNotificaciones() {
+  this.usuarioServicio.loadAllNotifications();
  }
 }

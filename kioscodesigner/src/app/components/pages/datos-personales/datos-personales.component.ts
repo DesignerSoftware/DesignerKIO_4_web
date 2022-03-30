@@ -48,6 +48,7 @@ export class DatosPersonalesComponent implements OnInit {
     this.cargarDatosFamilias();
     this.cargarTelefonosEmpleado();
     this.obtenerAnexosDocumentos();
+    this.cargarNotificaciones();
     //this.cargaFoto();
   }
 
@@ -470,4 +471,7 @@ export class DatosPersonalesComponent implements OnInit {
         }
       );
   }
+  cargarNotificaciones() {
+    this.usuarioServicio.loadAllNotifications();
+   }
 }

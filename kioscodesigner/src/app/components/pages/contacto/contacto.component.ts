@@ -14,6 +14,7 @@ export class ContactoComponent implements OnInit {
   ngOnInit() {
     //console.log(this.usuarioService.cadenaConexion);
     this.consultarDatosContacto();
+    this.cargarNotificaciones();
   }
 
   consultarDatosContacto() {
@@ -28,5 +29,8 @@ export class ContactoComponent implements OnInit {
       );
     }
   }
+  cargarNotificaciones() {
+    this.usuarioService.loadAllNotifications();
+   }
 
 }

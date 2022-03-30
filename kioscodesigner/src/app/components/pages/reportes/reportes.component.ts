@@ -82,6 +82,7 @@ export class ReportesComponent implements OnInit {
     this.filtrarOpcionesReportes();
     this.consultarParametrosReportes();
     this.getCorreoConexioneskioskos();
+    this.cargarNotificaciones();
   }  
 
   conviertefecha(fecharecibidatexto) {
@@ -541,7 +542,7 @@ export class ReportesComponent implements OnInit {
     }
  }
 
-
-
-
+ cargarNotificaciones() {
+  this.usuarioServicio.loadAllNotifications();
+ }
 }

@@ -86,7 +86,7 @@ export class CrearMensajeComponent implements OnInit {
   }
 
   cargarDatosIniciales() {
-
+    this.cargarNotificaciones();
   }
 
 
@@ -330,5 +330,9 @@ export class CrearMensajeComponent implements OnInit {
     document.getElementById("fechainiciodt").hidden = false;
     document.getElementById("fechainicio").hidden = true;
   }
+
+  cargarNotificaciones() {
+    this.usuarioService.loadAllNotifications();
+   }
 
 }

@@ -3,10 +3,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { OpcionesKioskosService } from 'src/app/services/opciones-kioskos.service';
 import { Router } from '@angular/router';
 import { VacacionesService } from 'src/app/services/vacaciones.service';
-import { Label } from 'ng2-charts';
+import { Label, Color } from 'ng2-charts';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
-import { ChartOptions, ChartType } from 'chart.js';
+import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   @Input() urlLogoEmpresaDarkXl = 'assets/images/fotos_empleados/logodesigner-dark-xl.png'; // recibe valor de pages.component
   totalDiasVacacionesProv: any = "...";
   //listProverbios:Array <string> =[];
-  listProverbios: any= null;
+  //listProverbios: any= null;
   proverbio:string ='';
   urlValidacion = null;
   public totalDiasVacacionesSubtipo = null;
@@ -66,11 +66,55 @@ export class HomeComponent implements OnInit {
     "Días liquidados",
     "Días provisionados",
   ];
+
+  public lineChartData: ChartDataSets[] = [
+    //{ data: [12, 72, 78, 75 ,17 ,75 ], label: 'Prueba1'}    
+  ];
+
+  public lineChartLabels: Label[] = [
+    //"enero","febrero","marzo","abril"
+  ];
+
+  public lineChartOptions = { 
+    responsive: true,
+    legend: {
+      display: false,
+      fullWidth: false,
+      position: "top",
+      align: "start",
+      labels: {
+        padding: 7,
+        fontSize: 10,
+        usePointStyle: true,
+      },
+    } };
+
+  public lineChartColors: Color[] = [
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgb(176, 196, 222, .5)'
+    },
+  ];
+
+  public lineChartLegend = true;
+  public lineChartPlugins = [];
+  public lineChartType: ChartType = "line";
+
+  /*nose(){
+    this.lineChartData = [
+      { data: [Math.random() * (100-0) + 0, Math.random() * (100-0) + 0, 
+        Math.random() * (100-0) + 0, Math.random() * (100-0) + 0 ,Math.random() * (100-0) + 0 ,Math.random() * (100-0) + 0 ], label: 'Prueba1'},
+      { data: [Math.random() * (100-0) + 0, Math.random() * (100-0) + 0, Math.random() * (100-0) + 0, 
+        Math.random() * (100-0) + 0 ,Math.random() * (100-0) + 0 ,Math.random() * (100-0) + 0 ], label: 'Prueba2'}
+    ];
+
+  }*/
+  
   public polarAreaChartData: number[] = [];
   public polarAreaLegend = true;
 
   constructor(private fb: FormBuilder, public usuarioServicio: UsuarioService, private router: Router, private cadenasKioskos: CadenaskioskosappService,
-    private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService, private usuarioService: UsuarioService) {
+    private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService) {
     if (this.usuarioServicio.empresa == '') {
 
     }
@@ -96,7 +140,7 @@ export class HomeComponent implements OnInit {
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     this.updateDatosUrl();
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
       .subscribe(
@@ -106,9 +150,9 @@ export class HomeComponent implements OnInit {
           for (let i in data) {
             if (data[i][3] === sesion['grupo']) { // GRUPO
               const temp = data[i];
-              console.log('cadena: ', temp[4]) // CADENA
+              //console.log('cadena: ', temp[4]) // CADENA
               this.usuarioServicio.cadenaConexion = temp[4];
-              console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
+              //console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
               this.cargarDatosIniciales();
             }
           }
@@ -117,7 +161,7 @@ export class HomeComponent implements OnInit {
   }
 
   urlKiosko() {
-    let urltemp = this.usuarioService.getUrl();
+    let urltemp = this.usuarioServicio.getUrl();
     return urltemp
   }
 
@@ -135,6 +179,8 @@ export class HomeComponent implements OnInit {
     this.consultarDiasProvisionados();
     this.consultarDatosGraficas();
     this.getProverbios();
+    this.cargarNotificaciones();
+    this.cargarUltimosPagos();
   }
 
   consultarDatosGraficas() {
@@ -181,9 +227,9 @@ export class HomeComponent implements OnInit {
     // consultar total dias provisionados
     this.vacacionesService
       .getDiasVacacionesProvisionadas(
-        this.usuarioService.usuario,
-        this.usuarioService.empresa,
-        this.usuarioService.cadenaConexion
+        this.usuarioServicio.usuario,
+        this.usuarioServicio.empresa,
+        this.usuarioServicio.cadenaConexion
       )
       .subscribe((data) => {
         this.totalDiasVacacionesProv = data;
@@ -209,8 +255,8 @@ export class HomeComponent implements OnInit {
         title: "Enviando mensaje al área de nómina y RRHH, por favor espere...",
         onBeforeOpen: () => {
           swal.showLoading();
-          this.usuarioService.enviaCorreoNovedadRRHH(this.usuarioService.usuario, this.usuarioService.empresa, this.formulario.get('mensaje').value,
-            'Solicitud para Corrección de información', this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
+          this.usuarioServicio.enviaCorreoNovedadRRHH(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.formulario.get('mensaje').value,
+            'Solicitud para Corrección de información', this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
             .subscribe(
               (data) => {
                 //console.log(data);
@@ -271,20 +317,50 @@ export class HomeComponent implements OnInit {
   }
 
   getProverbios(){
-    this.usuarioService
+    if (this.usuarioServicio.listProverbios == null) {
+      this.usuarioServicio
       .getProverbios(
-        this.usuarioService.cadenaConexion,
-        this.usuarioService.empresa
+        this.usuarioServicio.cadenaConexion,
+        this.usuarioServicio.empresa
       )
       .subscribe((data:Array<string>) => {
         //console.log("getProverbios ", data);
-        this.listProverbios = data[ Math.floor(Math.random()*data.length)];
+        //this.listProverbios = data[ Math.floor(Math.random()*data.length)];
+        this.usuarioServicio.listProverbios = data[ Math.floor(Math.random()*data.length)];
         //console.log('this.listProverbios', this.listProverbios);
         
-      });
-    
-    //this.proverbio=this.listProverbios[ Math.floor(Math.random()*this.listProverbios.length)];
-
-    
+      }); 
+    } 
+    //this.proverbio=this.listProverbios[ Math.floor(Math.random()*this.listProverbios.length)];    
   }
+
+  cargarNotificaciones() {
+    this.usuarioServicio.loadAllNotifications();
+   }
+
+   cargarUltimosPagos() {
+    this.usuarioServicio.getUltimosPagos(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
+      .subscribe(
+        data => {
+          //console.log('getUltimosPagos: ', data);
+          let temp: any = data;
+          let tempDatos: any = [];
+          let tempLabel: any = [];
+          for (let i = 0; i < temp.length; i++) {
+            //this.lineChartData.push({ data: temp[i][9]});
+            //this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));
+            tempDatos.push(parseInt(temp[i][10]));
+            tempLabel.push(temp[i][9]);
+            this.lineChartLabels.push(temp[i][4]);
+          }
+          //console.log('lineChartData3',this.lineChartData);
+          //this.lineChartData = [{ data: tempDatos, label: 'Neto de Nómina'}];
+          this.lineChartData = [{ data: tempDatos, label: 'Neto de Nómina'}];
+          //console.log('lineChartData1',tempDatos);
+          //console.log('lineChartData2',this.lineChartData);
+          //console.log('lineChartLabels ',  this.lineChartLabels);
+          //console.log('lineChartLabels.length ', this.lineChartLabels.length);
+          
+        });
+   }
 }

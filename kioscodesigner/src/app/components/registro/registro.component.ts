@@ -71,7 +71,7 @@ export class RegistroComponent implements OnInit {
     this.formulario = this.fb.group({
       documento: ['', [Validators.required, Validators.pattern("^([0-9])*$")]],
       correo: ['', Validators.required],
-      nitempresa: ['', [Validators.required, Validators.pattern("^([0-9])*$")] ],
+      nitempresa: [,],
       seudonimo: [, Validators.required],
       pass1: [, [Validators.required,
                  //Validators.pattern("^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\\*\\.\\-_\\+~\\/;,\\(\\)!\\&]).{8,})$")

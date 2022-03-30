@@ -569,23 +569,7 @@ export class ProcesarAusentismosComponent implements OnInit {
     })
   }
 
-
   cargarNotificaciones() {
-
-    this.usuarioService.getNotifiaciones(this.usuarioService.usuario, 'VACACION' ,  this.usuarioService.cadenaConexion,this.usuarioService.empresa)
-    .subscribe(
-      data => {
-        this.usuarioService.notificacionesVacaciones = data[0];
-  
-      });
-      this.usuarioService.getNotifiaciones(this.usuarioService.usuario, 'AUSENTISMO' ,  this.usuarioService.cadenaConexion,this.usuarioService.empresa)
-      .subscribe(
-        data => {
-          this.usuarioService.notificacionesAusentismo = data[0];
-        });
-    }
-
-
-
-
+    this.usuarioService.loadAllNotifications();
+  }
 }

@@ -73,6 +73,7 @@ export class InfoExperienciaComponent implements OnInit {
   cargarDatosIniciales(){
     this.cargarDatos();
     this.cargarExperienciaLaboral();  
+    this.cargarNotificaciones();
   }
 
   cargarDatos() {
@@ -172,4 +173,8 @@ export class InfoExperienciaComponent implements OnInit {
         })
     }
   }
+
+  cargarNotificaciones() {
+    this.usuarioServicio.loadAllNotifications();
+   }
 }

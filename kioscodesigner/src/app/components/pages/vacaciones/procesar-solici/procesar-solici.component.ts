@@ -355,19 +355,7 @@ export class ProcesarSoliciComponent implements OnInit {
   // }
 
   cargarNotificaciones() {
-    this.usuarioService.getNotifiaciones(this.usuarioService.usuario,'VACACION' , this.usuarioService.cadenaConexion,this.usuarioService.empresa)
-      .subscribe(
-        data => {
-          this.usuarioService.notificacionesVacaciones = data[0];
-          //console.log('cant Notificaciones vacas:', this.usuarioServicio.notificacionesVacaciones);
-          //console.log('cant Notificaciones vacas:', this.usuarioServicio.notificacionesVacaciones[0]);
-        });
-
-    this.usuarioService.getNotifiaciones(this.usuarioService.usuario,'AUSENTISMO' , this.usuarioService.cadenaConexion,this.usuarioService.empresa)
-      .subscribe(
-        data => {
-          this.usuarioService.notificacionesAusentismo = data[0];
-        });
+    this.usuarioService.loadAllNotifications();
   }
 
 

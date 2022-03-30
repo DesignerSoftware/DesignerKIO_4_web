@@ -39,7 +39,7 @@ export class UsuarioService {
   existeDocumentoAnexo : Array<string> = [];
   documentoSeleccionado = null;
   carnetSeleccionado : Array<string> = [];
-  listProverbios : Array<string> = [];
+  listProverbios : any = null;
   existefotoPerfil = null; 
   notificacionesVacaciones:number  = 0;
   notificacionesAusentismo: number= 0;
@@ -453,6 +453,29 @@ export class UsuarioService {
     });
   }
 
+  loadAllNotifications(){
+    //this.notificacionesVacaciones = nose; 
+    this.getNotifiaciones(this.usuario, 'VACACION', this.cadenaConexion, this.empresa)
+      .subscribe(
+        data => {
+          this.notificacionesVacaciones = data[0];
+          // console.log('cant Notificaciones vacas:', this.notificacionesVacaciones.length);
+          //console.log('cant Notificaciones vacas:', this.notificacionesVacaciones[0]);
+        });
+
+    this.getNotifiaciones(this.usuario, 'AUSENTISMO', this.cadenaConexion, this.empresa)
+      .subscribe(
+        data => {
+          this.notificacionesAusentismo = data[0];
+        });
+
+    this.getNotifiaciones(this.usuario, 'RRHH', this.cadenaConexion, this.empresa)
+      .subscribe(
+        data => {
+          this.notificacionesRh = data[0];
+        });
+  }
+
   getNotifiaciones(seudonimo: string, tipoNoti: string,cadena: string, nit: string){
     const url = `${environment.urlKioskoReportes}empleados/getNotificaciones`;
     ////console.log('url:' + url);
@@ -475,6 +498,20 @@ export class UsuarioService {
         cadena: cadena
       }
       });
+  }
+
+  getUltimosPagos(seudonimo: string, nit: string, cadena: string) {
+    //const url = `http://pc006:8082/wsreporte/webresources/vacacionesPendientes/consultarPeriodoMasAntiguo?documento=52384153`;
+    //const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesProvisionados?seudonimo=${seudonimo}&nitempresa=${nit}`;
+    const url = `${environment.urlKioskoReportes}empleados/ultimospagos`;
+    //console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        seudonimo: seudonimo,
+        nit: nit,
+        cadena: cadena
+      }
+    });
   }
 
   clear() {
@@ -514,5 +551,6 @@ export class UsuarioService {
     this.notificacionesAusentismo= 0;
     this.notificacionesRh = 0;
     this.existeDocumentoAnexo = [];
+    this.listProverbios = null;
   }
 }

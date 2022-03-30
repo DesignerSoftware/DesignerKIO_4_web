@@ -421,7 +421,7 @@ export class ReportarAusentismoComponent implements OnInit {
   enviarNovedad() {
     //console.log(" formulario valido", this.formulario.valid);
     //console.log("Valores: ", this.formulario.controls);
-    console.log('value adjunto: ' , this.formulario.get('anexo').value, ' dias: ', this.formulario.get('dias').value);    
+    //console.log('value adjunto: ' , this.formulario.get('anexo').value, ' dias: ', this.formulario.get('dias').value);    
     Object.values(this.formulario.controls).forEach((control) => {
       control.markAsTouched();
     });
@@ -438,6 +438,12 @@ export class ReportarAusentismoComponent implements OnInit {
       } else if (this.formulario.get('dias').value >= 2 && this.causasAusentismos[indexCausa].causa.codigo==="54") {
         swal.fire({
           title: "¡Ha solicitado mas de un dia familiar.!",
+          //text: 'Ha solicitado mas de un dia familiar.',
+          icon: "error",
+        });
+      } else if ( this.formulario.get('dias').value > 5 && this.causasAusentismos[indexCausa].causa.codigo==="36"){
+        swal.fire({
+          title: "¡No se pueden solicitar mas de 5 días según el artículo 57 del código sustantivo del trabajo adicionado por la ley 1280 de 2009.!",
           //text: 'Ha solicitado mas de un dia familiar.',
           icon: "error",
         });
