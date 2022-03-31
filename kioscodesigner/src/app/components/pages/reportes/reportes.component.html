@@ -33,9 +33,24 @@
             <div class="card-body">
                 <div class="d-flex flex-row">
                     <img [src]="imagenReporte(op['nombreruta']) || 'assets/images/reporte.png'" class="img-lg rounded img-fluid" alt="profile image" />
-                    <div class="ml-3 d-flex align-items-center">
-                        <h6>{{ op['descripcion'] || ''}}</h6>
+
+                        <!-- Alerta  -->
+                        <div class="notifyVA"
+                        *ngIf='( op.codigo == 22 ||  op.codigo == 2104 )'>
+                        <span class="heartbitVA "></span>
+                        
+                        </div>
+                    <!-- fin alerta -->
+
+                    <div class="ml-3 d-flex align-items-center row">
+                        <h6 class="">{{  op['descripcion'] || ''}} </h6> 
+                        <span *ngIf=' (op.codigo == 22) ||  (op.codigo == 2104)' 
+                            class="badge bg-danger notifyRedonVA text-white ">Nuevo
+                            </span>
                     </div>
+                    <!-- <div class="ml-3 d-flex align-items-center">
+                        <h6>{{ op['descripcion'] || ''}}</h6>
+                    </div> -->
                 </div>
             </div>
             <div class="card-footer text-right">
