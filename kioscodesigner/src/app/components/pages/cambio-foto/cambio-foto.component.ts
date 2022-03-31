@@ -46,7 +46,7 @@ export class CambioFotoComponent implements OnInit {
     this.usuarioService.setTokenJWT(sesion['JWT']);
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
+    // console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
     .subscribe(
       data => {

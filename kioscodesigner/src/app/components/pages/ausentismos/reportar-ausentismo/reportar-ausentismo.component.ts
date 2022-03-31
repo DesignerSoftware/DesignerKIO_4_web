@@ -596,17 +596,19 @@ export class ReportarAusentismoComponent implements OnInit {
   subirAnexo(nombreAnexo: string, secKioSoliciAusentismo: string) {
     const formData = new FormData();
     formData.append('fichero', this.formulario.get('anexo').value, nombreAnexo + '.pdf');
+    let cargueArchivo:boolean = false;
 
     this.http
       .post<any>(
         `${environment.urlKioskoReportes}ausentismos/cargarAnexoAusentismo?seudonimo=${this.usuarioService.usuario}&solicitud=${secKioSoliciAusentismo}&nit=${this.usuarioService.empresa}&cadena=${this.usuarioService.cadenaConexion}`, formData
       )
       .subscribe(
-        (data) => {
-          //console.log(data);
-        },
-        (error) => {
-          if (error.status === 200) {
+        (data:boolean) => {
+           console.log(data);
+           cargueArchivo= data;
+           if(data){
+            console.log('cargueArchivo ', cargueArchivo);
+            
             swal
               .fire({
                 icon: 'success',
@@ -615,28 +617,25 @@ export class ReportarAusentismoComponent implements OnInit {
                 timer: 1500
               })
               .then((result) => {
-                /* setTimeout(function(){
-                   swal.close();
-                   }, 2000);*/
-                //alert('hola');
                 this.enviarCorreoNovedad(secKioSoliciAusentismo);
-                //this.router.navigated = false;
-                //this.router.navigate([this.router.url]);
               });
-          } else if (error.status !== 200) {
-            swal
-              .fire({
-                icon: 'error',
-                title: 'Se ha presentado un error',
-                text:
-                  'No se ha podido cargar el archivo, por favor inténtalo de nuevo más tarde.',
-                showConfirmButton: true,
-              })
-              .then((result) => {
-                //this.router.navigated = false;
-                //this.router.navigateByUrl('/home');
-              });
-          }
+
+           }else{
+            
+              swal
+                .fire({
+                  icon: 'error',
+                  title: 'Se ha presentado un error',
+                  text:
+                    'No se ha podido cargar el archivo, por favor inténtalo de nuevo más tarde.',
+                  showConfirmButton: true,
+                })
+                .then((result) => {
+                  //this.router.navigated = false;
+                  //this.router.navigateByUrl('/home');
+                });
+           }
+
         }
       );
     //console.log(this.formulario.value);

@@ -11,6 +11,8 @@ export class OpcionesKioskosService {
 
   opcionesKios: any = [];
 
+  kiovigCIR : Array<string> = [];
+
   constructor(private http: HttpClient) { }
 
   getOpcionesKiosco(empresa: string, seudonimo: string, cadena: string) {
@@ -41,8 +43,21 @@ export class OpcionesKioskosService {
     });
   }
 
+  getKioVigenciaCIR(empresa: string, opcionkioskoapp: string, cadena: string) {
+
+    const url = `${environment.urlKioskoReportes}opcioneskioskosapp/kiovigenciasCIR`;
+    return this.http.get(url, {
+      params: {
+        nit: empresa,
+        opcionkioskoapp,
+        cadena
+      }
+    });
+  }
+
   clear() {
     this.opcionesKioskos = [];
+    this.kiovigCIR  = [];
   }
 
 }

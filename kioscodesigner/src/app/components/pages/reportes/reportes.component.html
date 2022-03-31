@@ -70,7 +70,7 @@
 
                         <div class="col-12 grid-margin" >
                             <form class="form-sample" [formGroup]="formulario" (ngSubmit)="enviar()">
-                                <div class="row" *ngIf="reporteServicio.codigoReporteSeleccionado != '2105'">
+                                <div class="row" *ngIf="reporteServicio.codigoReporteSeleccionado != '22' ">
                                     <div class="col-md-6" >
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Fecha desde:</label>
@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row" *ngIf="reporteServicio.codigoReporteSeleccionado == '2105'">
+                                <div class="row" *ngIf="reporteServicio.codigoReporteSeleccionado == '22'">
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-6 col-form-label">Seleccione Año del CIR:</label>
@@ -114,7 +114,7 @@
                                                 </small> -->
                                                 <select name="" id="" [(ngModel)]="year" formControlName="anoCIR" class="form-control form-control-sm">
                                                     <option  selected disabled>Seleccione un año</option>
-                                                    <option *ngFor="let a of anos" [ngValue]="a">{{a}}</option>
+                                                    <option *ngFor="let a of this.opcionesKioskosServicio.kiovigCIR; index as i" [value]="i">{{a.ano}}</option>
 
 
                                                 </select>

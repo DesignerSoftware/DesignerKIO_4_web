@@ -106,6 +106,9 @@
     .nombreApellido{
         display: none !important;
     }
+
+ 
+    
 }
 
 @media (max-width: 360px) {
@@ -120,6 +123,8 @@
     .nombreApellido{
         display: none !important;
     }
+  
+
 }
 
 @media (max-width: 342px) {
@@ -159,17 +164,38 @@
     .perfil-img{
        margin-left: auto !important;
     }
+
 }
-// @media (max-width: 433px){
-//     .contedidoPerfil{
-//        justify-content: center !important;
-//     }
-// }
+
+@media (max-width: 433px){
+
+}
 
 
 @media (min-width: 992px){
     .dropdown-menu{
         min-width: 23rem !important;
+    }
+
+    #minilogoR{
+        display: none !important;
+    }
+
+    #barraMIN{
+        display: none !important;
+    }
+
+
+}
+
+@media (max-width: 993px){
+  
+    #minilogoL{
+        display: none!important;
+    }
+
+    .menuPerfil{
+        margin: 0 auto 0 auto;
     }
 }
 
@@ -230,3 +256,20 @@ i.menu-icon:before{
     
 }
 
+.minilogoC{
+    background-color: transparent !important;
+
+}
+
+.minilogoC {
+    padding: 0;
+}
+
+.minilogoC a img{
+    margin-top: 15px !important;
+}
+
+#barraMIN{  border: none;
+    color: #fff;
+
+}

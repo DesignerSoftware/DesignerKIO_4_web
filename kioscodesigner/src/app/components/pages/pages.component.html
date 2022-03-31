@@ -1,26 +1,37 @@
 <div class="container-scroller">
   <!-- partial:../../partials/_navbar.html -->
   <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row default-layout-navbar navbar-dark">
-    <div class="text-center navbar-brand-wrapper  align-items-center justify-content-center">
+    <div class="text-center navbar-brand-wrapper  align-items-center justify-content-center">      
       <a class="navbar-brand brand-logo" routerLink="/home"><img loading="lazy"
           [src]="usuarioServicio.urlLogoEmpresa || 'assets/images/fotos_empleados/logodesigner-light-xl.png'"
           alt="logo" /></a>
-      <a class="navbar-brand brand-logo-mini miniLogo" routerLink="/home"><img [src]="urlLogoEmpresaMin" alt="logo" /></a>
+      <a class="navbar-brand brand-logo-mini miniLogo " id="minilogoL" routerLink="/home"><img [src]="urlLogoEmpresaMin"
+          alt="logo" /></a>
+      <!-- Boton pequeño cel INICIO-->
+      <button class="navbar-toggler navbar-toggler-right navbar-brand-wrapper   " id="barraMIN" type="button"
+        data-toggle="minimize" (click)="min1()">
+        <span class="fas fa-bars"></span>
+        <div class="notify"
+          *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0 )) 
+                 || ((this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0 ) )'>
+          <span class="heartbit "></span>
+          <span class="point"></span>
+        </div>
+      </button>
+      <!-- Boton pequeño cel  FIN-->
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-stretch"
       style="background:linear-gradient(85deg, #00223C, #0868B3);">
       <button class="navbar-toggler align-self-center" type="button" data-toggle="minimize" (click)="min()">
         <span class="fas fa-bars"></span>
       </button>
-
       <ul class=" navbar-nav navbar-nav-left" *ngFor='let opc of this.opcionesKioskosServicio.opcionesKios'>
         <!-- <li class="nav-item"> -->
-        <div 
+        <div
           *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0 )&&  opc.codigo == 30 ) || 
                     ((this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0 )&&  opc.codigo == 40 )  '>
           <div class="navbar-toggler align-self-center">
             <li>
-
               <div>
                 <a [routerLink]="['/', opc.nombreruta]" data-toggle="minimize">
                   <div>
@@ -30,19 +41,14 @@
                       <span class="point"></span>
                     </div>
                   </div>
-
                 </a>
               </div>
-
             </li>
           </div>
         </div>
-
         <!-- </li> -->
-
       </ul>
-
-      <ul class="navbar-nav navbar-nav-right ml-auto">
+      <ul class="navbar-nav navbar-nav-right ml-auto menuPerfil ">
         <app-navbar></app-navbar>
         <li class="nav-item nav-profile dropdown " style="border: none; margin-left: -25px;">
           <!-- <div class="profile-name">
@@ -53,57 +59,48 @@
               
             </p>
           </div> -->
-          
           <a class="nav-link dropdown-toggle " href="#" data-toggle="dropdown" id="profileDropdown"
             style="text-align: center">
             <img id='perfil' [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" />
-        <span class="nombreApellido">
-          {{usuarioServicio.nombreApellidoPersona | titlecase}} 
-
-        </span>
-
- 
-
+            <span class="nombreApellido">
+              {{usuarioServicio.nombreApellidoPersona | titlecase}}
+            </span>
           </a>
           <!-- <a class="navbar-toggler col-sm" href="#" data-toggle="dropdown" id="profileDropdown"
           style="text-align: center">
-
           <div class="profile-name">
             <p class="name">
               {{usuarioServicio.nombreApellidoPersona}} 
             </p>
           </div>
-
         </a> -->
-
-
-
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown " aria-labelledby="profileDropdown">
-            <a class="dropdown-item nombreApellidoDrm disabled d-flex flex-column nomCorreo" >
+            <a class="dropdown-item nombreApellidoDrm disabled d-flex flex-column nomCorreo">
               <!-- <i class="fas fa-user text-primary nombreApellidoDrm"></i> -->
               <div class="row perfil-foto text-left nombreApellidoDrm contedidoPerfil">
-                <div class=" col-3 col-sm-5 col-lg-3 mt-1 "> 
-                  
-                    <img id='perfil' class="nombreApellidoDrm perfil-img rounded d-block img-fluid  m-1" [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" />
-    
-                  
-                </div>
-               <div class=" col-9 col-sm-7 col-lg-9 pt-3  nombreApellidoDrm content-correo" >
-                <div class="text-left textoNombre nombreApellidoDrm ">
-                  <span class="nombreApellidoDrm p-2">
-                    
-                    {{usuarioServicio.nombreApellidoPersona | titlecase}} 
-                  </span> 
-                </div>
-                
-                <div class="pt-2" >
-                    <small class="nombreApellidoDrm textCorreo text-center p-2" >
-                      {{usuarioServicio.correo| slice:0:30}} 
-                    </small>
-                </div>
-              </div>
+                <div class=" col-3 col-sm-5 col-lg-3 mt-1 ">
 
-            </div>
+                  <img id='perfil' class="nombreApellidoDrm perfil-img rounded d-block img-fluid  m-1"
+                    [src]="url || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile" />
+
+
+                </div>
+                <div class=" col-9 col-sm-7 col-lg-9 pt-3  nombreApellidoDrm content-correo">
+                  <div class="text-left textoNombre nombreApellidoDrm ">
+                    <span class="nombreApellidoDrm p-2">
+
+                      {{usuarioServicio.nombreApellidoPersona | titlecase}}
+                    </span>
+                  </div>
+
+                  <div class="pt-2">
+                    <small class="nombreApellidoDrm textCorreo text-center p-2">
+                      {{usuarioServicio.correo | lowercase }}
+                    </small>
+                  </div>
+                </div>
+
+              </div>
             </a>
 
             <div class="dropdown-divider division nombreApellidoDrm"></div>
@@ -124,71 +121,10 @@
         </li>
 
       </ul>
-      <!-- <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" id="opc-home"
-        (click)="cambiarRuta(0)">
-        <span [class]="opcionesKioskosServicio.opcionesKioskos && opcionesKioskosServicio.opcionesKioskos.length>0 && opcionesKioskosServicio.opcionesKioskos[0] && 
-            opcionesKioskosServicio.opcionesKioskos[0]['icono'] || '' "></span>
-      </button>
-      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center " type="button" id="opc-datos"
-        (click)="cambiarRuta(1)">
-        <span
-          [class]="opcionesKioskosServicio.opcionesKioskos && opcionesKioskosServicio.opcionesKioskos.length>0 && this.opcionesKioskosServicio.opcionesKioskos[1]['icono'] || '' "
-          *ngIf="opcionesKioskosServicio.opcionesKioskos"></span>
-      </button> 
-       <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" id="opc-rep"
-        (click)="cambiarRuta(2)">
-        <span
-          [class]="opcionesKioskosServicio.opcionesKioskos && opcionesKioskosServicio.opcionesKioskos.length>0 && this.opcionesKioskosServicio.opcionesKioskos[2]['icono'] || '' ">SDF</span>
-      </button>  -->
-
-
-      <!-- <div class=" navbar-toggler navbar-toggler-right d-lg-none align-self-center" id="opc-vac" >
-            <div *ngFor='let opc of this.opcionesKioskosServicio.opcionesKios'  >
-              <div *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0 )&&  opc.codigo == 30) 
-                          || ((this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0 )&&  opc.codigo == 40 ) ' 
-                          class="nav-item">
-                  <div >
-                    <a   [routerLink]="['/', opc.nombreruta]"  data-toggle="minimize">
-                      <div>
-                        <i  [class]="opc.icono"  ></i>
-                          <div class="notify" >
-                            <span class="heartbit " ></span>
-                            <span class="point" ></span>
-                          </div>
-                      </div>
-                      
-                    </a>
-                  </div>
-              </div> -->
-      <!-- <div *ngIf='(this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0 )&&  opc.codigo == 40 ' >
-                <div >
-                  <a   [routerLink]="['/', opc.nombreruta]"  data-toggle="minimize">
-                    <div>
-                      <i  [class]="opc.icono"  ></i>
-                        <div class="notify" >
-                          <span class="heartbit " ></span>
-                          <span class="point" ></span>
-                        </div>
-                    </div>
-                    
-                  </a>
-                </div>
-            </div> -->
-      <!-- </div>
-          </div> -->
-
-
-      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center barras ml-auto" type="button"
-        data-toggle="offcanvas" (click)="min1()">
-        <span class="fas fa-bars"></span>
-        <div class="notify"
-          *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0 )) 
-                   || ((this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0 ) )'>
-          <span class="heartbit "></span>
-          <span class="point"></span>
-        </div>
-      </button>
-
+      <div class="text-center navbar-brand-wrapper minilogoC  " id="minilogoR">
+        <a class=" brand-logo-mini  navbar-nav-left " routerLink="/home"><img [src]="urlLogoEmpresaMin"
+            alt="logo" /></a>
+      </div>
     </div>
   </nav>
   <!-- partial -->

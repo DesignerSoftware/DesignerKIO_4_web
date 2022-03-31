@@ -19,14 +19,14 @@ export class ReportesService {
 
   generarReporte(reporte: string, envioCorreo: boolean, correo: string, descripcionReporte: string, codigoReporte: string, nit: string, cadena: string, usuario: string, grupo: string, urlKiosco: string) {
     const url = `${environment.urlKioskoReportes}reportes/generaReporte/${reporte}/${envioCorreo}/${correo}?descripcionReporte=${descripcionReporte}&codigoReporte=${codigoReporte}&nit=${nit}&cadena=${cadena}&usuario=${usuario}&grupo=${grupo}&urlKiosco=${urlKiosco}`;
-    console.log(url);
+    // console.log(url);
     return this.http.get(url, { responseType: 'blob' });
   }
 
   validaFechasCertingresos(fechaDesde: string, fechaHasta: string, cadena: string) {
     //onst url = `${environment.urlKioskoReportes}reportes/validarFechasCertingresos?fechadesde=${fechaDesde}&fechahasta=${fechaHasta}&cadena=${cadena}`;
     const url = `${environment.urlKioskoReportes}reportes/validarFechasCertingresos`;
-    console.log(url);
+    // console.log(url);
     return this.http.get(url, {
       params: {
         fechadesde: fechaDesde,

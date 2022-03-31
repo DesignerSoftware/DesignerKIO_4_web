@@ -99,7 +99,7 @@ export class PagesComponent implements OnInit {
           const nombrePersona = data[0][1];
           this.usuarioServicio.nombrePersona = nombrePersona.trim().split(' ', 1)+'';
           this.usuarioServicio.nombreApellidoPersona = nombrePersona.trim().split(' ', 1) +' '+data[0][2];
-          console.log('NombreApellido',this.usuarioServicio.nombreApellidoPersona);
+          // console.log('NombreApellido',this.usuarioServicio.nombreApellidoPersona);
           
           this.usuarioServicio.correo = data[0][12];
           if (this.usuarioServicio.correo.length > 30){

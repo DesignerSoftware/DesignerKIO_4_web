@@ -27,6 +27,18 @@
     display: none;
   }
 }
+
+@media (max-width: 767px) {
+  #x .statistics-item:not(:last-child) {
+   border-bottom: 1px solid #000 ;
+  
+  }
+  
+}
+
+
+
+
 .azul1 {
   background:linear-gradient(85deg,#002060, #007bff, #002060) !important;
 }
@@ -49,4 +61,17 @@
 
 .color-pro{
   background:linear-gradient(85deg, #00223C, #0868B3);
+}
+
+.info{
+  /* background-color: #F9EBEA !important; */
+  /* background-image: radial-gradient(circle at 60.51% 39.49%, #ffffff 0, #fffffd 16.67%, #fff5f3 33.33%, #f7e7e7 50%, #dfd9da 66.67%, #c9cdcd 83.33%, #b7c2c0 100%); */
+  /* background-image: radial-gradient(circle at 50% 50%, #ffffff 0, #e3ecff 50%, #c0d2f5 100%); */
+  background-image: radial-gradient(circle at 50% 50%, #ffffff 0, #e3ecff 50%, #c0d2f5 100%);
+  color: #000 !important;
+}
+
+.alertaS{
+  margin: -7px 0 -18px 0 ;
+  font-size: 14px;
 }

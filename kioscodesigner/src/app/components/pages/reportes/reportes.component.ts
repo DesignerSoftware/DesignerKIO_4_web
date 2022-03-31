@@ -28,7 +28,7 @@ export class ReportesComponent implements OnInit {
   nombreRuta: string='';
 
   constructor(
-    private opcionesKioskosServicio: OpcionesKioskosService,
+    public opcionesKioskosServicio: OpcionesKioskosService,
     private router: Router,
     private fb: FormBuilder,
     public usuarioServicio: UsuarioService,
@@ -98,7 +98,7 @@ export class ReportesComponent implements OnInit {
   }
 
   crearFormulario() {
-    console.log("crearFormulario()");
+    // console.log("crearFormulario()");
     this.formulario = this.fb.group({
       fechadesde: [, Validators.required],
       fechahasta: [, Validators.required],
@@ -155,7 +155,22 @@ export class ReportesComponent implements OnInit {
             "opciones filtradas reportes ",
             this.reporteServicio.opcionesReportes
           );*/
-          this.reporteServicio.opcionesReportes = this.reporteServicio.reportesEmpleado.concat(this.reporteServicio.reportesJefe)
+          
+          // console.log('opcionesReportes ' , this.reporteServicio.opcionesReportes);
+          // console.log('opcionesReportes descr ' , this.reporteServicio.opcionesReportes[1].descripcion);
+          
+          this.reporteServicio.reportesEmpleado= this.reporteServicio.reportesEmpleado.sort(function (a, b) {
+            if (a.descripcion > b.descripcion) {
+              return 1;
+            }
+            if (a.descripcion < b.descripcion) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          });
+          this.reporteServicio.opcionesReportes = this.reporteServicio.reportesEmpleado.concat(this.reporteServicio.reportesJefe);
+          // console.log('reportesEmpleado 2 ' , this.reporteServicio.reportesEmpleado);
           this.reporteServicio.numeroReporte = (this.reporteServicio.opcionesReportes.length - 1) - (this.reporteServicio.reportesJefe.length - 1) ;
           
           // console.log(this.reporteServicio.reporteHorasExtra);
@@ -202,6 +217,23 @@ export class ReportesComponent implements OnInit {
     this.reporteServicio.nombreReporteSeleccionado = this.reporteServicio.opcionesReportes[
       index
     ]["descripcion"];
+    // console.log('this.reporteServicio.codigoReporteSeleccionado ', this.reporteServicio.codigoReporteSeleccionado);
+    
+    this.vigenciasCIR();
+  }
+
+  // consumo de servicio KIOVIGENCIASCIR
+
+  vigenciasCIR(){
+    this.opcionesKioskosServicio
+      .getKioVigenciaCIR(this.usuarioServicio.empresa, this.reporteServicio.codigoReporteSeleccionado,this.usuarioServicio.cadenaConexion)
+      .subscribe((data: Array<string>) => {
+        
+        this.opcionesKioskosServicio.kiovigCIR = data;
+        // console.log('vigcir ',data);
+        // console.log('empresa ',this.usuarioServicio.empresa);      
+         
+      });
   }
 
   limpiarSeleccionado() {
@@ -210,7 +242,7 @@ export class ReportesComponent implements OnInit {
   }
 
   enviar() {
-    console.log(this.formulario);
+    // console.log(this.formulario);
     Object.values(this.formulario.controls).forEach((control) => {
       control.markAsTouched();
     });
@@ -311,20 +343,13 @@ export class ReportesComponent implements OnInit {
 
   cambioFechas(codigoReporte:string) {
     //console.log('codigoReporte '+codigoReporte);
-    
-
-      
     this.fechaDesde = this.formulario.get("fechadesde").value;
     const ultimoDia  =    moment(this.fechaDesde).endOf('month').format('YYYY-MM-DD');
     //  console.log('fecha desde '+this.fechaDesde ); 
     //  console.log('ultimo dia' +ultimoDia);
-
      this.formulario.get("fechahasta").setValue(ultimoDia);
     this.fechaHasta = this.formulario.get("fechahasta").value;
     // console.log(this.formulario.get("fechahasta").value);
-
-    
- 
   }
 
   actualizaParametros() {
@@ -356,12 +381,14 @@ export class ReportesComponent implements OnInit {
     }
        let fechadesde: string = null;
       let fechahasta: string = null;
-      let anocir: string = null; 
+      let anocir; 
       anocir = this.formulario.get("anoCIR").value
+      let ano = this.opcionesKioskosServicio.kiovigCIR[anocir]["ano"];
+     
       if (anocir != null) {
 
-        fechadesde = anocir+"-01-01";
-        fechahasta = anocir+"-12-31";
+        fechadesde = ano+"-01-01";
+        fechahasta = ano+"-12-31";
     
       } else {
         fechadesde = this.formulario.get("fechadesde").value;
@@ -413,19 +440,17 @@ export class ReportesComponent implements OnInit {
 
 /////////////////////////////////////////////////////////////////generar reporte 
   descargarReporte() {
-    
-    //console.log("cadenaReporte: ", this.usuarioServicio.cadenaConexion);
-    // console.log('añooooooooo',this.year);
-    let anocir: string = null; 
+    // let anocir: string = null; 
+    // anocir = this.formulario.get("anoCIR").value
+
+    let anocir; 
     anocir = this.formulario.get("anoCIR").value
-    if(this.reporteServicio.codigoReporteSeleccionado =='2105'){
-      if( anocir=='2019'){
-        this.nombreRuta=this.reporteServicio.reporteSeleccionado["nombreruta"]+anocir;
-      }else if(anocir=='2020'){
-        this.nombreRuta=this.reporteServicio.reporteSeleccionado["nombreruta"]+anocir;
-      }else if(anocir=='2021'){
-        this.nombreRuta=this.reporteServicio.reporteSeleccionado["nombreruta"]+anocir;
-      }
+    let anoArchivo = this.opcionesKioskosServicio.kiovigCIR[anocir]["anoArchivo"];
+    // console.log('anoArchivo', anoArchivo);
+    
+    if(this.reporteServicio.codigoReporteSeleccionado =='22'){
+      
+        this.nombreRuta=this.reporteServicio.reporteSeleccionado["nombreruta"]+anoArchivo;
     }else{
       this.fechaDesde = this.formulario.get("fechadesde").value;
       this.fechaHasta = this.formulario.get("fechahasta").value;
