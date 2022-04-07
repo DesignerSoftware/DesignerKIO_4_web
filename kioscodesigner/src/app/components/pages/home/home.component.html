@@ -265,34 +265,38 @@
     </div>
   </div>
 
-  <div class="col-lg-6 container" style="margin-top: 40px;">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title" style="margin-bottom: 5px;">Neto de pago últimos 6 meses </h4>
-        <div class="chart-container" style="text-align: center;">
-          <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
-            [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
-            [plugins]="lineChartPlugins">
-          </canvas>
+  <div class="col-12 row">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 40px;">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title" style="margin-bottom: 5px;">Días vacaciones según subtipo</h4>
+          <div class="chart-container" style="text-align: center;">
+            <canvas baseChart [data]="polarAreaChartData" [chartType]="polarAreaChartType" [labels]="polarAreaChartLabels"
+              [legend]="polarAreaChartLegend" [options]="polarAreaChartOptions" [colors]="polarAreaChartColors">
+            </canvas>
+          </div>
+          <div id="c3-bar-chart"></div>
         </div>
-        <div id="c3-bar-chart"></div>
       </div>
     </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 40px;" *ngIf="lineChartData.length >0">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title" style="margin-bottom: 5px;">Neto de pago últimos 6 meses </h4>
+          <div class="chart-container" style="text-align: center;">
+            <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+              [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
+              [plugins]="lineChartPlugins"> 
+            </canvas>
+          </div>
+          <div id="c3-bar-chart"></div>
+        </div>
+      </div>
+    </div>
+  
+    
   </div>
 
-  <div class="col-lg-6 container" style="margin-top: 40px;">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title" style="margin-bottom: 5px;">Días vacaciones según subtipo</h4>
-        <div class="chart-container" style="text-align: center;">
-          <canvas baseChart [data]="polarAreaChartData" [chartType]="polarAreaChartType" [labels]="polarAreaChartLabels"
-            [legend]="polarAreaChartLegend" [options]="polarAreaChartOptions" [colors]="polarAreaChartColors">
-          </canvas>
-        </div>
-        <div id="c3-bar-chart"></div>
-      </div>
-    </div>
-  </div>
   <div class="row, text-center" id="div" style="margin-top: 25px;">
     <p>Informar corrección de datos:
       <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"

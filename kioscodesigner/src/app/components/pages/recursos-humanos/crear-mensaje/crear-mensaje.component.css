@@ -204,6 +204,11 @@ input #file-upload-button {
     padding: 0rem !important;
 }
 
+.correo {
+    margin: 0 auto;
+    padding-bottom: 10px;    
+}
+
 @media (max-width:760px) {
     .expandir {
         /*content: attr(data-phonetext);*/

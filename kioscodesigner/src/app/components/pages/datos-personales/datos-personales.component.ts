@@ -145,10 +145,13 @@ export class DatosPersonalesComponent implements OnInit {
 
 
   FactorRHp(n) {
+    //console.log('FactorRHp: ', n);
     let resultado;
-    if (n != 'N') { // true
+    if (n == null || n == 'null' || n == '') { // true
+      resultado = 'NO APLICA';
+    } else if (n != 'N') {
       resultado = 'POSITIVO';
-    } else {
+    }else {
       resultado = 'NEGATIVO';
     }
     return resultado;
@@ -211,9 +214,10 @@ export class DatosPersonalesComponent implements OnInit {
               });
               const newBlob = new Blob([res], { type: "application/pdf" });
               let fileUrl = window.URL.createObjectURL(newBlob); // add 290920
-              if (window.navigator.msSaveOrOpenBlob) {
-                //add 290920
-                window.navigator.msSaveOrOpenBlob(
+              let nav = (window.navigator as any);
+              if (nav.msSaveOrOpenBlob) {
+                // add 290920
+                nav.msSaveOrOpenBlob(
                   newBlob,
                   fileUrl.split(":")[1] + ".pdf"
                 );
@@ -391,9 +395,10 @@ export class DatosPersonalesComponent implements OnInit {
   
                       //if (window.navigator && window.navigator.msSaveOrOpenBlob) { 290920
                       //window.navigator.msSaveOrOpenBlob(newBlob);
-                      if (window.navigator.msSaveOrOpenBlob) {
+                      let nav = (window.navigator as any);
+                      if (nav.msSaveOrOpenBlob) {
                         // add 290920
-                        window.navigator.msSaveOrOpenBlob(
+                        nav.msSaveOrOpenBlob(
                           newBlob,
                           fileUrl.split(":")[1] + ".pdf"
                         );

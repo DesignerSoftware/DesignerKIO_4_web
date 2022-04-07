@@ -33,14 +33,30 @@ export class RecursosHumanosService {
   }
 
   crearMensaje(token: string, seudonimo: string, nit: string, fechainicio: string, fechafin: string, titulo: string,
-    mensaje: string, anexoadjunto: string, cadena: string, extenciondjunto: string ) {
-    let url = `${environment.urlKioskoReportes}rrhh/crearMensajeRh?seudonimo=${seudonimo}&nitempresa=${nit}&`
+    mensaje: string, anexoadjunto: string, cadena: string, extenciondjunto: string, correo: string, urlkiosko: string ) {
+    let url = `${environment.urlKioskoReportes}rrhh/crearMensajeRh`;
+    /*?seudonimo=${seudonimo}&nitempresa=${nit}&`
     + `fechainicio=${fechainicio}&fechafin=${fechafin}&titulo=${titulo}&`
-    + `mensaje=${mensaje}&anexoadjunto=${anexoadjunto}&cadena=${cadena}&extenciondjunto=${extenciondjunto}`;
+    + `mensaje=${mensaje}&anexoadjunto=${anexoadjunto}&cadena=${cadena}&extenciondjunto=${extenciondjunto}`
+    + `&correo=${correo}`;*/
     //console.log('url:' + url);
     ////console.log('url recibida:'+urlKiosco)
     ////console.log('grupo recibid:'+grupoEmpr)
-    return this.http.post(url, []
+    return this.http.post(url, "", {
+      params: {
+        seudonimo: seudonimo,
+        nitempresa: nit,
+        fechainicio: fechainicio,
+        fechafin: fechafin,
+        titulo: titulo,
+        mensaje: mensaje,
+        anexoadjunto: anexoadjunto,
+        cadena: cadena,
+        extenciondjunto: extenciondjunto,
+        correo: correo,
+        url: urlkiosko
+      }
+    }
       /*{
       headers: new HttpHeaders({
         Authorization: token

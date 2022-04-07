@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
               .subscribe((data) => {
                 //console.log('cadenasKioskos form Registro', data);
                 this.cadenasApp = data;
-                //console.log('cadenas: ', data)
+                console.log('cadenas: ', data)
                 this.usuarioService.cadenaConexion = data[0][4];
                 //console.log('Cadena: ', this.usuarioService.cadenaConexion);
                 //console.log('length: ' + this.cadenasApp.length);

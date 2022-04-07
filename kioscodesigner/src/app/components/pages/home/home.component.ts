@@ -87,7 +87,13 @@ export class HomeComponent implements OnInit {
         fontSize: 10,
         usePointStyle: true,
       },
-    } };
+    },options: {
+      scales: {
+          y: {
+              display: false
+          }
+      }
+   }};
 
   public lineChartColors: Color[] = [
     {
@@ -342,22 +348,25 @@ export class HomeComponent implements OnInit {
     this.usuarioServicio.getUltimosPagos(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
       .subscribe(
         data => {
-          //console.log('getUltimosPagos: ', data);
+          console.log('getUltimosPagos: ', data);
           let temp: any = data;
           let tempDatos: any = [];
           let tempLabel: any = [];
+          let tempChartLabels: any = [];
           for (let i = 0; i < temp.length; i++) {
             //this.lineChartData.push({ data: temp[i][9]});
             //this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));
-            tempDatos.push(parseInt(temp[i][10]));
-            tempLabel.push(temp[i][9]);
-            this.lineChartLabels.push(temp[i][4]);
+            tempDatos.push(parseInt(temp[i][3]));
+            tempLabel.push(temp[i][2]);
+            tempChartLabels.push(temp[i][1]);
+            this.lineChartLabels.push(temp[i][1]);
           }
           //console.log('lineChartData3',this.lineChartData);
           //this.lineChartData = [{ data: tempDatos, label: 'Neto de Nómina'}];
           this.lineChartData = [{ data: tempDatos, label: 'Neto de Nómina'}];
+          //this.lineChartLabels.push(tempChartLabels);
           //console.log('lineChartData1',tempDatos);
-          //console.log('lineChartData2',this.lineChartData);
+          console.log('lineChartData2',this.lineChartData);
           //console.log('lineChartLabels ',  this.lineChartLabels);
           //console.log('lineChartLabels.length ', this.lineChartLabels.length);
           

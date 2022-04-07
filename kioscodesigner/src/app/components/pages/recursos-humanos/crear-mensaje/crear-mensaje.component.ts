@@ -23,6 +23,7 @@ export class CrearMensajeComponent implements OnInit {
   msjNovEmpleDetalle = null;
   nomArchivo = null;
   formato = "";
+  url = "";
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +55,8 @@ export class CrearMensajeComponent implements OnInit {
       descripcion: [, Validators.required],
       fechainicio: [, Validators.required],
       fechafin: [, Validators.required],
-      anexo: [null, []]
+      anexo: [null, []],
+      enviocorreo: [false]
     });
   }
 
@@ -95,9 +97,9 @@ export class CrearMensajeComponent implements OnInit {
     Object.values(this.formulario.controls).forEach((control) => {
       control.markAsTouched();
     });
-
+    //console.log('formulario ', this.formulario);
     this.formato = '';
-    
+    let correo = 'N';
     if (this.formulario.valid) {
       let incluyeAnexo = 'N';
       if (this.formulario.get('anexo').value != null && this.formulario.get('anexo').value != "") {
@@ -110,6 +112,10 @@ export class CrearMensajeComponent implements OnInit {
           this.formato = '.pdf';
         }       
       }
+      if (this.formulario.get('enviocorreo').value == true) {
+        correo  = 'S';
+      }
+      this.url =  this.usuarioService.getUrl() + '/' + this.usuarioService.grupoEmpresarial;
       swal.fire({
         title: "Enviando la solicitud al sistema, por favor espere...",
         onBeforeOpen: () => {
@@ -124,7 +130,9 @@ export class CrearMensajeComponent implements OnInit {
             this.formulario.get('descripcion').value,
             incluyeAnexo,
             this.usuarioService.cadenaConexion,
-            this.formato)
+            this.formato,
+            correo,
+            this.url)
             .subscribe(
               data => {
                 //console.log('rta: ', data);
