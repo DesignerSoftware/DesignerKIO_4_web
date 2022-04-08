@@ -38,13 +38,14 @@
                   <th>Fecha Inicio </th>
                   <th>Fecha Fin</th>
                   <th>Estado </th>
+                  <th>Reenviar Correo</th>
                   <th>Editar</th>
                   <th>Eliminar</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngIf="!mensajeCosulatdos || mensajeCosulatdos==null || mensajeCosulatdos.length==0">
-                  <td colspan="6">No hay solicitudes enviadas.</td>
+                  <td colspan="7">No hay solicitudes enviadas.</td>
                 </tr>
                 <tr
                   *ngFor="let solic of mensajeCosulatdos | paginate: {  itemsPerPage: 5, currentPage: p, id: 'second' } ; index as i  ">
@@ -52,6 +53,11 @@
                   <td>{{solic['fechainicio'] || 'N/A' }}</td>
                   <td>{{solic['fechafin'] || 'N/A' }}</td>
                   <td>{{solic['estado'] || 'N/A' }}</td>
+                  <td>
+                    <a (click)="resendEmail(i)" *ngIf="mensajeCosulatdos">
+                      <i class="fas fa-redo text-info"></i>
+                    </a>
+                  </td>
                   <td>
                     <a (click)="detalleSolicitud(i)" *ngIf="mensajeCosulatdos">
                       <i class="fas fa-pencil-alt text-info"></i>

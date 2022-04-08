@@ -104,6 +104,24 @@ export class RecursosHumanosService {
     return this.http.get(url, { responseType: 'blob' });
   }
 
+  getResendEmail(token: string, seudonimo: string, nit: string, titulo: string,
+    mensaje: string, cadena: string, urlkiosko: string) {
+    // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
+    //const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opcionesMenu?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
+    const url = `${environment.urlKioskoReportes}rrhh/reenviarcorreo`;
+    //console.log(url);
+    return this.http.get(url, { 
+      params: {
+        seudonimo: seudonimo,
+        nitempresa: nit,
+        titulo: titulo,
+        mensaje: mensaje,
+        cadena: cadena,
+        url: urlkiosko
+      }
+    });
+  }
+
   clear() {
     this.mensajes = [];
   }

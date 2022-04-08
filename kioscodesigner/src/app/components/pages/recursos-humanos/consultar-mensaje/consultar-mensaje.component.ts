@@ -24,6 +24,7 @@ export class ConsultarMensajeComponent implements OnInit {
   anexo = null;
   solicitudSeleccionada = null;
   mensajeSeleccionado = null;
+  url = '';
 
   mensajeTitulo = '';
   mensajeMensaje = '';
@@ -353,6 +354,67 @@ export class ConsultarMensajeComponent implements OnInit {
         icon: "error",
       });
     }
+  }
+
+  resendEmail(index: number){
+    this.limpiarMensaje();
+    this.mesajeSeleccionado(index);
+    this.completarMensaje();
+    this.url =  this.usuarioService.getUrl() + '/' + this.usuarioService.grupoEmpresarial;
+    swal.fire({
+      title: '¿Desea Enviar Correo del Comunicado Selecionado?.',
+      text: '¿Desea continuar?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        swal.fire({
+          title: "Procesando solicitud, por favor espere...",
+          onBeforeOpen: () => {
+            swal.showLoading();
+            this.recursosHumanosService.getResendEmail(
+              this.usuarioService.tokenJWT,
+              this.usuarioService.usuario,
+              this.usuarioService.empresa,
+              this.mensajeTitulo,
+              this.mensajeMensaje,
+              this.usuarioService.cadenaConexion,
+              this.url)
+              .subscribe(
+                (data) => {
+                  if (data["correoEnviado"]) {
+                    swal
+                      .fire({
+                        icon: "success",
+                        title:
+                          "Se ha enviado correctamente el comunicado",
+                        showConfirmButton: true,
+                      })
+                      .then((res) => {
+                        $("#exampleModal").modal("hide");
+                        this.router.navigate(['/mensajesrh']);
+                      });
+                  } else {
+                    swal
+                      .fire({
+                        icon: "error",
+                        title: data["mensaje"],
+                        showConfirmButton: true,
+                      })
+                      .then((res) => {
+
+                      });
+                  }
+                });
+          },
+          allowOutsideClick: () => !swal.isLoading(),
+        });
+      }
+    });
   }
 
   eliminarMensaje(index: number) {
