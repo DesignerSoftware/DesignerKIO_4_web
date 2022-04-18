@@ -282,7 +282,7 @@
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 40px;" *ngIf="lineChartData.length >0">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title" style="margin-bottom: 5px;">Neto de pago últimos 6 meses </h4>
+          <h4 class="card-title" style="margin-bottom: 5px;">Neto de pago últimos 6 meses (en millones)</h4>
           <div class="chart-container" style="text-align: center;">
             <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
               [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"

@@ -348,25 +348,30 @@ export class HomeComponent implements OnInit {
     this.usuarioServicio.getUltimosPagos(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
       .subscribe(
         data => {
-          console.log('getUltimosPagos: ', data);
+          // console.log('getUltimosPagos: ', data);
           let temp: any = data;
           let tempDatos: any = [];
           let tempLabel: any = [];
+          let temNumeroDec: any =[];
           let tempChartLabels: any = [];
           for (let i = 0; i < temp.length; i++) {
             //this.lineChartData.push({ data: temp[i][9]});
             //this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));
-            tempDatos.push(parseInt(temp[i][3]));
+            tempDatos.push(parseInt(temp[i][3])/1000000)
+             temNumeroDec = tempDatos.map(a => a.toFixed(3))  ;
             tempLabel.push(temp[i][2]);
-            tempChartLabels.push(temp[i][1]);
+            tempChartLabels.push(temp[i][3]);
             this.lineChartLabels.push(temp[i][1]);
+
+            // console.log('temNumeroDec', temNumeroDec);
+            
           }
           //console.log('lineChartData3',this.lineChartData);
           //this.lineChartData = [{ data: tempDatos, label: 'Neto de Nómina'}];
-          this.lineChartData = [{ data: tempDatos, label: 'Neto de Nómina'}];
+          this.lineChartData = [{ data: temNumeroDec , label: 'Neto de Nómina'}];
           //this.lineChartLabels.push(tempChartLabels);
-          //console.log('lineChartData1',tempDatos);
-          console.log('lineChartData2',this.lineChartData);
+          // console.log('lineChartData1',this.lineChartLabels);
+          // console.log('lineChartData2',this.lineChartData);
           //console.log('lineChartLabels ',  this.lineChartLabels);
           //console.log('lineChartLabels.length ', this.lineChartLabels.length);
           

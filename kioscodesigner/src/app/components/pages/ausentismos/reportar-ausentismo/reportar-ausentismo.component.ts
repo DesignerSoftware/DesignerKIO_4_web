@@ -687,11 +687,17 @@ export class ReportarAusentismoComponent implements OnInit {
   }
 
   formatoddmmyyyy(fecha) {
-    let anio = fecha.substring(0, 4);
-    let mes = fecha.substring(5, 7);
-    let dia = fecha.substring(8, 11);
-    let ensamble = dia + "/" + mes + "/" + anio;
-    return ensamble;
+    // let anio = fecha.substring(0, 4);
+    // let mes = fecha.substring(5, 7);
+    // let dia = fecha.substring(8, 11);
+    // let ensamble = dia + "/" + mes + "/" + anio;
+    // console.log('ensamble ',ensamble );
+     //return ensamble;
+     //var stringvalue = momentVariable.format('L');
+     // console.log(' stringvalue ',momentVariable); // outputs 2018-08-25  
+     //return stringvalue;
+     var momentVariable = moment(fecha).format('DD/MM/YYYY');
+    return momentVariable;
   }
 
   formatommddyyyy(fecha) {

@@ -127,11 +127,13 @@ export class SidebarComponent implements OnInit {
     this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
       .subscribe(
         data => {
-          //console.log(data);
+          console.log(data);
           this.fotoPerfil = data['result'];
+          console.log('resulrt ',this.fotoPerfil );
+          
           //console.log('documento: ' + this.fotoPerfil);
           document.getElementById('fotoPerfil').setAttribute('src',
-            `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`);
+            `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`);
         }
       );
   }

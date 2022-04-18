@@ -101,8 +101,8 @@ export class ProcesarSoliciComponent implements OnInit {
       title: '¿Desea aprobar la solicitud?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
+      confirmButtonColor: '#3085d6' ,
+      cancelButtonColor: '#d33',
       confirmButtonText: 'Aprobar',
       cancelButtonText: 'Cerrar'
     }).then((result) => {

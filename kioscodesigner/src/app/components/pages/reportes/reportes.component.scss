@@ -22,7 +22,11 @@
   
   }
   
-  
+  @media (max-width: 576px) {
+    .imgRep{
+      display: none;
+    }
+  }
   
   .notifyRedonVA{
     border-radius: 30px;

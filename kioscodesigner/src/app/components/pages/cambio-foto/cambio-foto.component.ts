@@ -27,6 +27,8 @@ export class CambioFotoComponent implements OnInit {
   @Input() urlFotoPerfil: string; // recibe valor de pages.component
   @Output() cambio = new EventEmitter(); // emite a pages.component
 
+  formato:string;
+
   constructor(private usuarioService: UsuarioService, private cadenasKioskos: CadenaskioskosappService, private fb: FormBuilder, private fileUploadService: ManejoArchivosService,
               private http: HttpClient, private router: Router) {
       //this.cargarFotoActual();
@@ -79,7 +81,7 @@ export class CambioFotoComponent implements OnInit {
         this.fotoPerfil = data['result'];
         //console.log('documento: ' + this.fotoPerfil);
         this.usuarioService.documento=this.fotoPerfil;
-        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&empresa=${this.usuarioService.empresa}`;
+        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&empresa=${this.usuarioService.empresa}`;
         /* document.getElementById("imgPrevia").setAttribute("src", 
         `http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`); */
       }
@@ -97,7 +99,8 @@ export class CambioFotoComponent implements OnInit {
       const file = event.target.files[0];
       console.log(file);
       this.formulario.get('profile').setValue(file);
-      if (file.type === 'image/jpeg' ) {
+      if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' ) {
+        this.formato=file.type;
           //console.log('Es .jpg');
           // cargar foto previa
           if (event.target.files) {
@@ -137,7 +140,7 @@ export class CambioFotoComponent implements OnInit {
     const formData = new FormData();
     const nombreFoto: any = this.fotoPerfil;
     //console.log(nombreFoto);
-    formData.append('fichero', this.formulario.get('profile').value, nombreFoto + '.jpg');
+    formData.append('fichero', this.formulario.get('profile').value,this.usuarioService.empresa+'_'+this.usuarioService.documento + '.'+this.formato.slice(6));
 
     this.http
       .post<any>(

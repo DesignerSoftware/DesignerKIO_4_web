@@ -176,7 +176,7 @@
       
 
       <p class="card-description" *ngIf="this.usuarioServicio.empresa != '830056149'"  > <!--Se crea validacion para que el cliente CI2 no me aparezca-->
-        Telefonos
+        Teléfonos
       </p>
 
       <hr *ngIf="this.usuarioServicio.empresa != '830056149'" >
@@ -184,18 +184,18 @@
         <table class="table table-hover" style="text-align: center;">
           <thead style="background: #00223C; color: white;">
             <tr id="tbltelefonos">
-              <th>Tipo de telefono</th>
+              <th>Tipo de teléfono</th>
               <th>Número de contacto</th>
             </tr>
           </thead>
           <tbody>
-            <td *ngIf="!usuarioServicio.telefonosEmpleado">No hay telefónos registrados</td>
+            <!-- <td *ngIf="!usuarioServicio.telefonosEmpleado">No hay teléfonos registrados</td> -->
             <tr *ngIf="usuarioServicio.telefonosEmpleado<=0 && usuarioServicio.telefonosEmpleado==null">
               <td colspan="3">Cargando...</td>
             </tr>
             <tr
               *ngIf="!usuarioServicio.telefonosEmpleado || usuarioServicio.telefonosEmpleado==null || usuarioServicio.telefonosEmpleado.length==0">
-              <td colspan="3">No hay telefonos asociados...</td>
+              <td colspan="3">No hay teléfonos asociados...</td>
             </tr>
             <tr *ngFor="let tel of usuarioServicio.telefonosEmpleado">
               <td *ngIf="tel">{{tel[0]||''}}</td>

@@ -44,8 +44,9 @@
 
       <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
         <div class="text-center">
-          <p>Seleccione un archivo .jpg (<b>mismas dimensiones de ancho y alto</b>)</p>
-          <input type="file" name="profile" class="form-control" (change)="onFileSelect($event)"  accept="jpeg, .jpg" autofocus />
+          <!-- <p>Seleccione un archivo .jpg, .png o .jpeg (<b>mismas dimensiones de ancho y alto</b>)</p> -->
+          <label for="formFile" class="form-label">Seleccione un archivo .jpg, .png o .jpeg (<b>mismas dimensiones de ancho y alto</b>)</label>
+          <input type="file" name="profile" class="form-control" (change)="onFileSelect($event)"  accept=".jpg, .png" autofocus />
         </div>
         <div class="text-center">
           <small class="text-danger mt-2">
@@ -53,7 +54,7 @@
           </small>
          </div>
         <div class="text-center mt-2">
-          <button type="submit" class="btn btn-primary" [disabled]="!habilitaBtnCargar">Subir Foto</button>
+          <button type="submit" class="btn btn-primary mb-2" [disabled]="!habilitaBtnCargar">Subir Foto</button>
         </div>
       </form>
 
