@@ -360,7 +360,7 @@ export class ConsultarMensajeComponent implements OnInit {
     this.limpiarMensaje();
     this.mesajeSeleccionado(index);
     this.completarMensaje();
-    this.url =  this.usuarioService.getUrl() + '/' + this.usuarioService.grupoEmpresarial;
+    this.url =  this.usuarioService.getUrl() + '/#/login/' + this.usuarioService.grupoEmpresarial;
     swal.fire({
       title: '¿Desea Enviar Correo del Comunicado Selecionado?.',
       text: '¿Desea continuar?',

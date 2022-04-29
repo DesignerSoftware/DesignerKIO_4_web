@@ -115,7 +115,7 @@ export class CrearMensajeComponent implements OnInit {
       if (this.formulario.get('enviocorreo').value == true) {
         correo  = 'S';
       }
-      this.url =  this.usuarioService.getUrl() + '/' + this.usuarioService.grupoEmpresarial;
+      this.url =  this.usuarioService.getUrl() + '/#/login/' + this.usuarioService.grupoEmpresarial;
       swal.fire({
         title: "Enviando la solicitud al sistema, por favor espere...",
         onBeforeOpen: () => {
