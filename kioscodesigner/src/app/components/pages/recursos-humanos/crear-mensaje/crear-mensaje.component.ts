@@ -69,7 +69,8 @@ export class CrearMensajeComponent implements OnInit {
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
     //console.log('session token localstorage: ', sesion['JWT']);
     //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
-    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'], this.usuarioService.urlKioscoDomain)
+    //this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'], this.usuarioService.urlKioscoDomain)
+    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
       .subscribe(
         data => {
           //console.log('getInfoUsuario', data);

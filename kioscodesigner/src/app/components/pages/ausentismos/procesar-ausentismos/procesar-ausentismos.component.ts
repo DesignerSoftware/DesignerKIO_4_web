@@ -55,8 +55,9 @@ export class ProcesarAusentismosComponent implements OnInit {
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
-    this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'],this.usuarioService.urlKioscoDomain)
+    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
+    //this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'],this.usuarioService.urlKioscoDomain)
+    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
     .subscribe(
       data => {
         //console.log('getInfoUsuario', data);
