@@ -29,6 +29,8 @@ export class ConsultarMensajeComponent implements OnInit {
 
   _searchTerm = '';
   direccion = 'DESC';
+  arrow = "down";
+  orderSelect = '';
   
   mensajeTitulo = '';
   mensajeMensaje = '';
@@ -139,7 +141,7 @@ export class ConsultarMensajeComponent implements OnInit {
         'N'
       )
       .subscribe((data) => {
-        console.log('mensajeCosulatdos ', data);
+        //console.log('mensajeCosulatdos ', data);
         this.mensajeCosulatdosFilter = data;
         this.mensajeCosulatdos = data;
         //this.ordenarAsc();
@@ -532,10 +534,14 @@ export class ConsultarMensajeComponent implements OnInit {
   }
 
   ordenar(atributo: string){
+    this.orderSelect = atributo;
+    console.log('orderSelect: ', this.orderSelect);
     this.direccion = this.direccion === 'ASC' ? 'DESC' : 'ASC'    
     if (this.direccion=='ASC') {
+      this.arrow = 'down';
       this.ordenarAsc(atributo);      
     }else {
+      this.arrow = 'up';
       this.ordenarDesc(atributo);
     }
   }

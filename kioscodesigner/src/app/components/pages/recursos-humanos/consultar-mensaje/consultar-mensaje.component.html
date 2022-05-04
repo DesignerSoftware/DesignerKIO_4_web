@@ -34,10 +34,10 @@
             <table class="table table-hover" style="text-align: center;">
               <thead class="" style="background: #00223C; color: white;">
                 <tr id="tblfamiliares">
-                  <th (click)='ordenar("titulo")'>Titulo</th>
-                  <th (click)='ordenar("fechainicio")'>Fecha Inicio </th>
-                  <th (click)='ordenar("fechafin")'>Fecha Fin</th>
-                  <th (click)='ordenar("titulo")'>estado </th>
+                  <th (click)='ordenar("titulo")'>Titulo <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'titulo'"></i></th>
+                  <th (click)='ordenar("fechainicio")'>Fecha Inicio <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechainicio'"></i></th>
+                  <th (click)='ordenar("fechafin")'>Fecha Fin<i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechafin'"></i></th>
+                  <th (click)='ordenar("estado")'>estado <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'estado'"></i></th>
                   <th>Reenviar Correo</th>
                   <th>Editar</th>
                   <th>Eliminar</th>
