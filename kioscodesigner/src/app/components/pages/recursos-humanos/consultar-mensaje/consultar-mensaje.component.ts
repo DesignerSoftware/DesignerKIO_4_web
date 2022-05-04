@@ -18,6 +18,7 @@ export class ConsultarMensajeComponent implements OnInit {
 
   formulario: FormGroup;
   mensajeCosulatdos = null;
+  mensajeCosulatdosFilter = null;
   public dataFilt: any = "";
   public p: number = 1;
   solicitudes = null;
@@ -26,6 +27,9 @@ export class ConsultarMensajeComponent implements OnInit {
   mensajeSeleccionado = null;
   url = '';
 
+  _searchTerm = '';
+  direccion = 'DESC';
+  
   mensajeTitulo = '';
   mensajeMensaje = '';
   mensajeFechaInicio = '';
@@ -135,8 +139,10 @@ export class ConsultarMensajeComponent implements OnInit {
         'N'
       )
       .subscribe((data) => {
-        //console.log('mensajeCosulatdos ', data);
+        console.log('mensajeCosulatdos ', data);
+        this.mensajeCosulatdosFilter = data;
         this.mensajeCosulatdos = data;
+        //this.ordenarAsc();
       });
   }
 
@@ -524,4 +530,57 @@ export class ConsultarMensajeComponent implements OnInit {
   cargarNotificaciones() {
     this.usuarioService.loadAllNotifications();
   }
+
+  ordenar(atributo: string){
+    this.direccion = this.direccion === 'ASC' ? 'DESC' : 'ASC'    
+    if (this.direccion=='ASC') {
+      this.ordenarAsc(atributo);      
+    }else {
+      this.ordenarDesc(atributo);
+    }
+  }
+
+  ordenarAsc(atributo: string){
+    this.mensajeCosulatdos = this.mensajeCosulatdos.sort(function (a, b) {
+      let atrTemp = atributo
+      if (a[atrTemp] > b[atrTemp]) {
+        return 1;
+      }
+      if (a[atrTemp] < b[atrTemp]) {
+        return -1;
+      }
+      return 0; // a must be equal to b
+    });      
+  }
+  ordenarDesc(atributo: string){
+    this.mensajeCosulatdos = this.mensajeCosulatdos.sort(function (a, b) {
+      let atrTemp = atributo
+      if (a[atrTemp] < b[atrTemp]) {
+        return 1;
+      }
+      if (a[atrTemp] > b[atrTemp]) {
+        return -1;
+      }
+      return 0; // a must be equal to b
+    });   
+  }
+
+  get searchTerm(): string {
+    return this._searchTerm;
+  }
+
+  set searchTerm(val: string) {
+    this._searchTerm = val;
+    this.mensajeCosulatdos = this.filter(val);
+  }
+
+  filter(v: string) {
+    return this.mensajeCosulatdosFilter.filter(x => x.titulo?.toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x.descripcion.toString()?.toLowerCase().indexOf(v.toLowerCase()) !== -1 
+      || x.estado?.toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x.fechainicio?.toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x.fechafin?.toLowerCase().indexOf(v.toLowerCase()) !== -1
+    );
+  }
+
 }
