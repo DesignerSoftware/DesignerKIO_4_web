@@ -29,8 +29,8 @@ export class ConsultarMensajeComponent implements OnInit {
 
   _searchTerm = '';
   direccion = 'DESC';
-  arrow = "down";
-  orderSelect = '';
+  arrow = "up";
+  orderSelect = 'fechacreacion1';
   
   mensajeTitulo = '';
   mensajeMensaje = '';
@@ -45,6 +45,8 @@ export class ConsultarMensajeComponent implements OnInit {
   msjValidArchivoAnexo = '';
   nomArchivo = null;
   formato = "";
+
+  prueba1 = [new Date('04/21/2022'), new Date('03/25/2022')];
 
   constructor(
     private fb: FormBuilder,
@@ -141,8 +143,15 @@ export class ConsultarMensajeComponent implements OnInit {
         'N'
       )
       .subscribe((data) => {
-        //console.log('mensajeCosulatdos ', data);
+        console.log('mensajeCosulatdos ', data);
         this.mensajeCosulatdosFilter = data;
+        for (let i = 0; i < this.mensajeCosulatdosFilter.length; i++) {
+          this.mensajeCosulatdosFilter[i].fechacreacion1 = new Date(data[i].fechacreacion1);  
+          this.mensajeCosulatdosFilter[i].fechafin1 = new Date(data[i].fechafin1);  
+          this.mensajeCosulatdosFilter[i].fechainicio1 = new Date(data[i].fechainicio1);  
+        }
+        //console.log('mensajeCosulatdosFilter: ',this.mensajeCosulatdosFilter);
+        
         this.mensajeCosulatdos = data;
         //this.ordenarAsc();
       });
@@ -319,10 +328,10 @@ export class ConsultarMensajeComponent implements OnInit {
             this.mensajeEstado)
             .subscribe(
               data => {
-                console.log('rta: ', data);
+                //console.log('rta: ', data);
                 if (data["NovedadModificada"]) {
                   if (incluyeAnexo == 'S') {
-                    console.log('Novedad reportada incluye anexo');
+                    //console.log('Novedad reportada incluye anexo');
                     this.subirAnexo(data["anexo"]);
                   }
                   else {
@@ -535,7 +544,7 @@ export class ConsultarMensajeComponent implements OnInit {
 
   ordenar(atributo: string){
     this.orderSelect = atributo;
-    console.log('orderSelect: ', this.orderSelect);
+    //console.log('orderSelect: ', this.orderSelect);
     this.direccion = this.direccion === 'ASC' ? 'DESC' : 'ASC'    
     if (this.direccion=='ASC') {
       this.arrow = 'down';
@@ -547,6 +556,17 @@ export class ConsultarMensajeComponent implements OnInit {
   }
 
   ordenarAsc(atributo: string){
+    this.prueba1 = this.prueba1.sort(function (a, b) {
+      if (a> b) {
+        return 1;
+      }
+      if (a < b) {
+        return -1;
+      }
+      return 0; // a must be equal to b
+    });      
+    //console.log('prueba1: ' , this.prueba1);
+    
     this.mensajeCosulatdos = this.mensajeCosulatdos.sort(function (a, b) {
       let atrTemp = atributo
       if (a[atrTemp] > b[atrTemp]) {

@@ -35,9 +35,10 @@
               <thead class="" style="background: #00223C; color: white;">
                 <tr id="tblfamiliares">
                   <th (click)='ordenar("titulo")'>Titulo <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'titulo'"></i></th>
-                  <th (click)='ordenar("fechainicio")'>Fecha Inicio <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechainicio'"></i></th>
-                  <th (click)='ordenar("fechafin")'>Fecha Fin<i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechafin'"></i></th>
-                  <th (click)='ordenar("estado")'>estado <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'estado'"></i></th>
+                  <th (click)='ordenar("fechacreacion1")'>Fecha Creación <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechacreacion1'"></i></th>
+                  <th (click)='ordenar("fechainicio1")'>Fecha Inicio <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechainicio1'"></i></th>
+                  <th (click)='ordenar("fechafin1")'>Fecha Fin<i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechafin1'"></i></th>
+                  <th (click)='ordenar("estado")'>Estado <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'estado'"></i></th>
                   <th>Reenviar Correo</th>
                   <th>Editar</th>
                   <th>Eliminar</th>
@@ -50,6 +51,7 @@
                 <tr
                   *ngFor="let solic of mensajeCosulatdos | paginate: {  itemsPerPage: 5, currentPage: p, id: 'second' } ; index as i  ">
                   <th>{{solic['titulo'] || 'N/A' }}</th>
+                  <td>{{solic['fechacreacion'] || 'N/A' }}</td>
                   <td>{{solic['fechainicio'] || 'N/A' }}</td>
                   <td>{{solic['fechafin'] || 'N/A' }}</td>
                   <td>{{solic['estado'] || 'N/A' }}</td>

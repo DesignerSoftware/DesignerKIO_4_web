@@ -57,6 +57,10 @@ input #file-upload-button {
     padding: 0rem !important;
 }
 
+#tblfamiliares th:hover {
+    cursor: pointer;
+}
+
 /*.inputFileModificado {
     position: relative;
     padding: 10px;
