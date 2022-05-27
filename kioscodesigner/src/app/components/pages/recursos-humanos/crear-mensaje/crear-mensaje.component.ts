@@ -147,7 +147,7 @@ export class CrearMensajeComponent implements OnInit {
                       .fire({
                         icon: "success",
                         title:
-                          "Se ha creado correctamente el mensaje",
+                          data["mensaje"],
                         showConfirmButton: true,
                       })
                       .then((res) => {
@@ -280,7 +280,7 @@ export class CrearMensajeComponent implements OnInit {
     let valid = false;
     let sizeArchivo = (this.formulario.get('anexo').value.size / 1048576);
     let sizeArchivo2 = parseFloat(parseFloat(sizeArchivo.toString()).toFixed(2));
-    if (sizeArchivo2 <= 5) {
+    if (sizeArchivo2 <= 2.5) {
       valid = true;
       //console.log('El anexo no supera los 5 MB');
     }
