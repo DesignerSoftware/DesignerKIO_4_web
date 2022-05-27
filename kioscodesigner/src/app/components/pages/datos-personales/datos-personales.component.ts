@@ -114,12 +114,21 @@ export class DatosPersonalesComponent implements OnInit {
 
   cargarTelefonosEmpleado() {
    //console.log(this.usuarioServicio.cadenaConexion);
-    if (this.usuarioServicio.telefonosEmpleado == null) {
+    if (this.usuarioServicio.telefonosEmpleado.length ==0) {
+      let vacio : Array<string>=[''];
       this.usuarioServicio.getTelefonosEmpleado(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
         .subscribe(
-          data => {
-            this.usuarioServicio.telefonosEmpleado = data;
-            //console.log('telefonos', this.usuarioServicio.telefonosEmpleado);
+          (data :Array<string>) => {
+            if (data.length > 0){
+              this.usuarioServicio.telefonosEmpleado = data;
+// console.log('this.usuarioServicio.telefonosEmpleado ',this.usuarioServicio.telefonosEmpleado);
+
+            }else{
+
+               this.usuarioServicio.telefonosEmpleado.push(vacio[0]);
+            }
+            
+            // console.log('telefonos', this.usuarioServicio.telefonosEmpleado);
           }
         );
     }
@@ -338,7 +347,8 @@ export class DatosPersonalesComponent implements OnInit {
   descargarCarnet() {
     //console.log(this.usuarioServicio.datosPersonales[0][17])
     //console.log("empresa ", this.usuarioServicio.empresa)
-    //console.log(this.usuarioServicio.carnetSeleccionado[0]["nombreruta"]);    
+    //console.log(this.usuarioServicio.carnetSeleccionado[0]["nombreruta"]);   
+
     this.cargarFotoActual();
     if (!this.usuarioServicio.existefotoPerfil) {
       swal
@@ -414,7 +424,7 @@ export class DatosPersonalesComponent implements OnInit {
                       link.href = data;
                       let f = new Date();
                       link.download =
-                        this.reporteServicio.reporteSeleccionado["nombreruta"] +
+                      fileUrl+
                         "_" +
                         this.usuarioServicio.usuario +
                         "_" +
@@ -470,9 +480,9 @@ export class DatosPersonalesComponent implements OnInit {
     this.usuarioServicio.getValidaFoto(this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa)
       .subscribe(
         data => {
-          //console.log('data: ' , data);
+          // console.log('data: ' , data);
           this.usuarioServicio.existefotoPerfil = data;
-          //console.log(this.usuarioServicio,existefotoPerfil);
+          // console.log(this.usuarioServicio.existefotoPerfil);
         }
       );
   }

@@ -190,11 +190,11 @@
           </thead>
           <tbody>
             <!-- <td *ngIf="!usuarioServicio.telefonosEmpleado">No hay teléfonos registrados</td> -->
-            <tr *ngIf="usuarioServicio.telefonosEmpleado<=0 && usuarioServicio.telefonosEmpleado==null">
+            <tr *ngIf="usuarioServicio.telefonosEmpleado.length <=0 && usuarioServicio.telefonosEmpleado==null  ">
               <td colspan="3">Cargando...</td>
             </tr>
             <tr
-              *ngIf="!usuarioServicio.telefonosEmpleado || usuarioServicio.telefonosEmpleado==null || usuarioServicio.telefonosEmpleado.length==0">
+              *ngIf="!usuarioServicio.telefonosEmpleado || usuarioServicio.telefonosEmpleado==null || usuarioServicio.telefonosEmpleado[0]==''  ">
               <td colspan="3">No hay teléfonos asociados...</td>
             </tr>
             <tr *ngFor="let tel of usuarioServicio.telefonosEmpleado">

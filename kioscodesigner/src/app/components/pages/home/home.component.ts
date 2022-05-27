@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
+import { ReportesService } from 'src/app/services/reportes.service';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +28,10 @@ export class HomeComponent implements OnInit {
   public totalDiasVacacionesSubtipo = null;
   formulario: FormGroup;
   today: number = Date.now();
+  prima: String;      //provisiones
+  cesantias: String;    //provisiones
+  interCesantias: String;   //provisiones
+  vacaciones: String;   //provisiones
 
   public polarAreaChartOptions: ChartOptions = {
     responsive: true,
@@ -120,7 +125,7 @@ export class HomeComponent implements OnInit {
   public polarAreaLegend = true;
 
   constructor(private fb: FormBuilder, public usuarioServicio: UsuarioService, private router: Router, private cadenasKioskos: CadenaskioskosappService,
-    private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService) {
+    private opcionesKioskosService: OpcionesKioskosService, private vacacionesService: VacacionesService, private reporteServicio: ReportesService) {
     if (this.usuarioServicio.empresa == '') {
 
     }
@@ -187,6 +192,7 @@ export class HomeComponent implements OnInit {
     this.getProverbios();
     this.cargarNotificaciones();
     this.cargarUltimosPagos();
+    this.cargarProvisiones();
   }
 
   consultarDatosGraficas() {
@@ -344,6 +350,8 @@ export class HomeComponent implements OnInit {
     this.usuarioServicio.loadAllNotifications();
    }
 
+   
+
    cargarUltimosPagos() {
     this.usuarioServicio.getUltimosPagos(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
       .subscribe(
@@ -357,8 +365,9 @@ export class HomeComponent implements OnInit {
           for (let i = 0; i < temp.length; i++) {
             //this.lineChartData.push({ data: temp[i][9]});
             //this.polarAreaChartData.push(parseInt(diasEnv[0][2], 0));
-            tempDatos.push(parseInt(temp[i][3])/1000000)
+            tempDatos.push(parseInt(temp[i][3])/1000000);
              temNumeroDec = tempDatos.map(a => a.toFixed(3))  ;
+            
             tempLabel.push(temp[i][2]);
             tempChartLabels.push(temp[i][3]);
             this.lineChartLabels.push(temp[i][1]);
@@ -377,4 +386,114 @@ export class HomeComponent implements OnInit {
           
         });
    }
+
+   cargarProvisiones(){
+     this.usuarioServicio.getProvisiones(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
+     .subscribe(
+       (data :Array<string>) =>{
+        //  console.log(data);
+         
+         this.usuarioServicio.provisiones=data;
+         this.prima= this.usuarioServicio.provisiones[2][1];
+         this.cesantias= this.usuarioServicio.provisiones[0][1];
+         this.interCesantias= this.usuarioServicio.provisiones[1][1];
+         this.vacaciones= this.usuarioServicio.provisiones[3][1];
+       }
+     )
+   }
+
+   descargarReporte() {
+
+    let nombreArchivo='kioCertificacionProvisiones';
+    let envioCorreo= false
+ 
+    /*console.log(
+      "this.usuarioServicio.secuenciaEmpleado: " +
+        this.usuarioServicio.secuenciaEmpleado
+    );*/
+    swal.fire({
+      title: "Generando reporte, por favor espere...",
+      onBeforeOpen: () => {
+        swal.showLoading();
+        //console.log("descargarReporte");
+        this.reporteServicio
+          .generarReporteprovisiones(
+            
+            nombreArchivo,
+            this.usuarioServicio.empresa,
+            this.usuarioServicio.cadenaConexion,
+            this.usuarioServicio.usuario,
+            //this.correo,
+          )
+          .subscribe(
+            (res) => {
+              //console.log(res);
+              swal.fire({
+                icon: "success",
+                title:
+                  "Reporte generado exitosamente, se descargará en un momento",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              const newBlob = new Blob([res], { type: "application/pdf" });
+              let fileUrl = window.URL.createObjectURL(newBlob); // add 290920
+
+              //if (window.navigator && window.navigator.msSaveOrOpenBlob) { 290920
+              //window.navigator.msSaveOrOpenBlob(newBlob);
+              let nav = (window.navigator as any);
+              if (nav.msSaveOrOpenBlob) {
+                // add 290920
+                nav.msSaveOrOpenBlob(
+                  newBlob,
+                  fileUrl.split(":")[1] + ".pdf"
+                );
+              } else {
+                window.open(fileUrl);
+              }
+              //return;
+              ///}
+              // For other browsers:
+              // Create a link pointing to the ObjectURL containing the blob.
+              const data = window.URL.createObjectURL(newBlob);
+              const link = document.createElement("a");
+              link.href = data;
+              let f = new Date();
+              link.download =
+              nombreArchivo+
+                "_" +
+                this.usuarioServicio.usuario +
+                "_" +
+                f.getTime() +
+                ".pdf";
+              // this is necessary as link.click() does not work on the latest firefox
+              link.dispatchEvent(
+                new MouseEvent("click", {
+                  bubbles: true,
+                  cancelable: true,
+                  view: window,
+                })
+              );
+
+              setTimeout(function () {
+                // For Firefox it is necessary to delay revoking the ObjectURL
+                window.URL.revokeObjectURL(data);
+              }, 100);
+            },
+            (error) => {
+              console.log(error);
+              swal.fire(
+                "Se ha presentado un error",
+                "Se presentó un error al generar el reporte, por favor intentelo de nuevo más tarde!",
+                "info"
+              );
+            }
+          );
+      },
+      allowOutsideClick: () => !swal.isLoading(),
+    });
+  }
+
+
+
+
 }

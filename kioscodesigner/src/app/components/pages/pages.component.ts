@@ -102,7 +102,7 @@ export class PagesComponent implements OnInit {
           // console.log('NombreApellido',this.usuarioServicio.nombreApellidoPersona);
           
           this.usuarioServicio.correo = data[0][12];
-          if (this.usuarioServicio.correo.length > 30){
+          if (this.usuarioServicio.correo?.length > 30){
             this.usuarioServicio.correo= this.usuarioServicio.correo.slice(0,30) +'...';
           }
         }
@@ -112,21 +112,23 @@ export class PagesComponent implements OnInit {
 
   cargaFoto() {
     //console.log('getDocumento');
-    this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
-    .subscribe(
-      data => {
-        //console.log(data);
-        this.fotoPerfil = data['result'];
-        //console.log('documento: ' + this.fotoPerfil);
-        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`;
-         // this.usuarioServicio.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`;
-         // document.getElementById('perfil').setAttribute('src', `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);
-      },
-      error => {
-        //console.log("Se ha presentado un error: "+error);
-        this.url = 'assets/images/fotos_empleados/sinfoto.jpg';
-      }
-    );
+    // this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
+    // .subscribe(
+    //   data => {
+    //     //console.log(data);
+    //     this.fotoPerfil = data['result'];
+    //     //console.log('documento: ' + this.fotoPerfil);
+    //     //this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`;
+    //     // this.usuarioServicio.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`;
+    //     // document.getElementById('perfil').setAttribute('src', `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);
+    //   },
+    //   error => {
+    //     //console.log("Se ha presentado un error: "+error);
+    //     this.url = 'assets/images/fotos_empleados/sinfoto.jpg';
+    //   }
+    //   );
+      this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFotoPerfil?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&nit=${this.usuarioServicio.empresa}`;
+         
   }
 
   cargaLogo() {

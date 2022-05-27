@@ -23,6 +23,12 @@ export class ReportesService {
     return this.http.get(url, { responseType: 'blob' });
   }
 
+  generarReporteprovisiones(reporte: string,nit: string, cadena: string, usuario: string ) {
+    const url = `${environment.urlKioskoReportes}reportes/generaReporteProvisiones/${reporte}/?&nit=${nit}&cadena=${cadena}&usuario=${usuario}`;
+    // console.log(url);
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
   validaFechasCertingresos(fechaDesde: string, fechaHasta: string, cadena: string) {
     //onst url = `${environment.urlKioskoReportes}reportes/validarFechasCertingresos?fechadesde=${fechaDesde}&fechahasta=${fechaHasta}&cadena=${cadena}`;
     const url = `${environment.urlKioskoReportes}reportes/validarFechasCertingresos`;

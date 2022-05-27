@@ -126,10 +126,9 @@ export class ProcesarAusentismosComponent implements OnInit {
 
   cargaFoto(documento: string) {
           this.fotoPerfil = documento;
-          //console.log('documento: ' + this.fotoPerfil);
-         /* document.getElementById('fotoPerfilEmpl').setAttribute('src',
-            `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`);*/
-            this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&empresa=${this.usuarioService.empresa}`;
+          
+          this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFotoPerfil?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.fotoPerfil}&nit=${this.usuarioService.empresa}`;
+
             return this.url;
   }
 

@@ -265,6 +265,89 @@
     </div>
   </div>
 
+  <!-- Prestaciones Sociales -->
+  <div *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
+    <hr class="my-4">
+    <div class="card ">
+        <div class="card-header azul1 text-pro">
+          Prestaciones Sociales Acumuladas
+        </div>
+    </div>
+
+      
+      <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mx-3"
+      *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
+        <!-- <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
+        *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0"> -->
+
+          <div class="card  col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres" >
+            <div class="card-header">
+              <p class="tituloPres">
+                Prima
+              </p>
+            </div>
+            <img class="card-img-top imgPres m-auto" src="https://www.nomina.com.co/images/images/kiosko/prima.png" alt=""   >
+            <div class="card-footer text-muted footerPres">
+              <h3>{{prima|| '0' }}</h3>
+              
+            </div>
+          </div>
+
+          <div class="card  col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres" >
+            <div class="card-header">
+              <p class="tituloPres">
+                Cesantías
+              </p>
+            </div>
+            <img class="card-img-top imgPres m-auto" src="https://www.nomina.com.co/images/images/kiosko/cochinito.png" alt=""   >
+            <div class="card-footer text-muted footerPres" >
+              <h3>{{cesantias || '0' }}</h3>
+              
+            </div>
+          </div>
+
+          <div class="card col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres" >
+            <div class="card-header">
+              <p class="tituloPres">
+                Intereses de Cesantías 
+              </p>
+            </div>
+            <img class="card-img-top imgPres m-auto" src="https://www.nomina.com.co/images/images/kiosko/intereses.png" alt=""   >
+            <div class="card-footer text-muted footerPres">
+              <h3>{{interCesantias || '0' }}</h3>
+            </div>
+          </div>
+
+          <div class="card  col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres" >
+            <div class="card-header">
+              <p class="tituloPres">
+                Vacaciones 
+              </p>
+            </div>
+            <img class="card-img-top imgPres m-auto" src="https://www.nomina.com.co/images/images/kiosko/vacaciones.png" alt=""   >
+            <div class="card-footer text-muted footerPres">
+              <h3>{{vacaciones|| '0' }}</h3>
+            </div>
+          </div>
+
+
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+            <button class="btn btn-primary
+            btn-icon-text" (click)="descargarReporte()">
+                <i class="fa fa-download
+                btn-icon-prepend"></i>
+                Reporte Prestaciones Sociales
+            </button>
+        </div>
+    </div>
+  </div>
+  <!-- Prestaciones Sociales -->
+
+
+  
+
   <div class="col-12 row">
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 40px;">
       <div class="card">

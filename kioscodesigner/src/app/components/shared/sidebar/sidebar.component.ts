@@ -14,7 +14,7 @@ import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.ser
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  @Input() urlFotoPerfil = 'assets/images/fotos_empleados/sinFoto.jpg'; // recibe valor de pages.component
+  @Input() urlFotoPerfil ; // recibe valor de pages.component
   opcionesKioskos: any;
   opcionesKioskosAntes: any;
   nombreUsuario;
@@ -70,7 +70,7 @@ export class SidebarComponent implements OnInit {
   cargarDatosIniciales() {
     this.cargarOpciones();
     this.cargarNotificaciones();
-    this.cargaFoto();
+    //this.cargaFoto();
   }
 
   /*cargarOpciones() {
@@ -122,21 +122,17 @@ export class SidebarComponent implements OnInit {
     this.usuarioServicio.loadAllNotifications();
   }
 
-  cargaFoto() {
-    //console.log('getDocumentoSidebar');
-    this.usuarioServicio.getDocumentoSeudonimo(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
-      .subscribe(
-        data => {
-          console.log(data);
-          this.fotoPerfil = data['result'];
-          console.log('resulrt ',this.fotoPerfil );
-          
-          //console.log('documento: ' + this.fotoPerfil);
-          document.getElementById('fotoPerfil').setAttribute('src',
-            `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`);
-        }
-      );
-  }
+
+
+  // cargaFoto() {
+  
+  //   console.log('cargar fotooooooooo');
+    
+  //         document.getElementById('fotoPerfil').setAttribute('src',
+  //           `${environment.urlKioskoReportes}conexioneskioskos/obtenerFotoPerfil?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`);
+  //    console.log('Foto cargada');
+     
+  // }
 
   logout() {
     //console.log('cerrar sesion');

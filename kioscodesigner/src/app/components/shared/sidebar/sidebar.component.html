@@ -24,7 +24,8 @@
                 <i [class]="opc.icono"></i>
                   <div class="notify" *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0)  &&  opc.codigo == 30 )
                                             || ((this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0)  &&  opc.codigo == 40)
-                                            || ((this.usuarioServicio.notificacionesRh != null && this.usuarioServicio.notificacionesRh != 0)  &&  opc.codigo == 09)'>
+                                            || ((this.usuarioServicio.notificacionesRh != null && this.usuarioServicio.notificacionesRh != 0)  &&  opc.codigo == 09)
+                                            || ((this.usuarioServicio.notificacionesRh != null && this.usuarioServicio.notificacionesRh != 0)  &&  opc.codigo == 35)'>
                     <span class="heartbit " ></span>
                     <span class="point" ></span>
                   </div>
@@ -37,6 +38,7 @@
               <span class="menu-title">{{opc.descripcion}}</span>
               <span *ngIf='(this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0)  &&  opc.codigo == 30' class="badge bg-danger notifyRedon text-white">{{this.usuarioServicio.notificacionesVacaciones}}</span>
               <span *ngIf='(this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0)  &&  opc.codigo == 40' class="badge bg-danger notifyRedon text-white">{{this.usuarioServicio.notificacionesAusentismo}}</span>
+              <span *ngIf='(this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0)  &&  opc.codigo == 35' class="badge bg-danger notifyRedon text-white">{{this.usuarioServicio.notificacionesAusentismo}}</span>
               <!-- <span *ngIf='(this.usuarioServicio.notificacionesRh != null && this.usuarioServicio.notificacionesRh != 0)  &&  opc.codigo == 09' class="badge bg-danger notifyRedon text-white">{{this.usuarioServicio.notificacionesRh}}</span> -->
 
             </a>

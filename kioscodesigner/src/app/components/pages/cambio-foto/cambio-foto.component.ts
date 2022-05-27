@@ -73,26 +73,12 @@ export class CambioFotoComponent implements OnInit {
   }
 
   cargarFotoActual() {
-    // this.url='http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/1032508864.jpg';
-    this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
-    .subscribe(
-      data => {
-        //console.log('foto actual: ' , data);
-        this.fotoPerfil = data['result'];
-        //console.log('documento: ' + this.fotoPerfil);
-        this.usuarioService.documento=this.fotoPerfil;
-        this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/${this.fotoPerfil}?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&empresa=${this.usuarioService.empresa}`;
-        /* document.getElementById("imgPrevia").setAttribute("src", 
-        `http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/${this.fotoPerfil}.jpg`); */
-      }
-    );
+   
+    this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFotoPerfil?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.usuarioService.usuario}&nit=${this.usuarioService.empresa}`;
+
   }
 
-  // crearFormulario() {
-  //   this.formulario = this.fb.group({
-  //     passActual: ['', Validators.required],
-  //   });
-  // }
+  
   onFileSelect(event) {
     if (event.target.files.length > 0) {
       console.log('archivo seleccionado');
@@ -126,25 +112,17 @@ export class CambioFotoComponent implements OnInit {
     }
   }
 
-/*  onSelectFile(e) {
-    if (e.target.files) {
-      var reader = new FileReader();
-      reader.readAsDataURL(e.target.files[0]);
-      reader.onload=(event: any)=>{
-        this.url = event.target.result;
-      }
-    }
-  }*/
+
 
   onSubmit() {
     const formData = new FormData();
     const nombreFoto: any = this.fotoPerfil;
-    //console.log(nombreFoto);
-    formData.append('fichero', this.formulario.get('profile').value,this.usuarioService.empresa+'_'+this.usuarioService.documento + '.'+this.formato.slice(6));
+    // console.log('this.usuarioService.usuario'+this.usuarioService.usuario);
+    formData.append('fichero', this.formulario.get('profile').value,this.usuarioService.empresa+'_'+this.usuarioService.usuario + '.'+this.formato.slice(6));
 
     this.http
       .post<any>(
-        `${environment.urlKioskoReportes}conexioneskioskos/cargarFoto?nit=${this.usuarioService.empresa}&cadena=${this.usuarioService.cadenaConexion}`, formData
+        `${environment.urlKioskoReportes}conexioneskioskos/cargarFoto?seudonimo=${this.usuarioService.usuario}&nit=${this.usuarioService.empresa}&cadena=${this.usuarioService.cadenaConexion}`, formData
       )
       .subscribe(
         (data) => {
@@ -217,15 +195,8 @@ handleFileInput(files: FileList) { // 10 sep
   //console.log(this.fileToUpload);
 }
 
-uploadFileToActivity() { // 10 sep
-  //console.log('envio');
-  /*this.fileUploadService.postFile(this.fileToUpload).subscribe(data => {
-    // do something, if upload success
-    }, error => {
-      console.log(error);
-    });*/
-    /*const fd = new FormData();
-    fd.append('file', this.fileToUpload, 'miarchivo.jpg');*/
+uploadFileToActivity() { 
+
   this.http.post(`${environment.urlKioskoReportes}conexioneskioskos/cargarFoto`, this.fileToUpload)
   .subscribe(
     (response) => console.log(response),
@@ -242,74 +213,6 @@ close() {
   console.log('close');
   this.cargarFotoActual();
 }
-  //eliminar la foto del usuario 
-  /*
-  fotoActual(){
-    this.usuarioService.getValidaFoto(this.usuarioService.usuario, this.usuarioService.cadenaConexion, this.usuarioService.empresa)
-      .subscribe(
-        data => {
-          console.log('data: ' , data);
-          this.usuarioService.existefotoPerfil = data;
-        }
-      );
-  }
-  eliminarFoto(){
-    if (!this.usuarioService.existefotoPerfil) {
-      swal
-        .fire({
-          icon: "error",
-          title: "Por favor actualice su foto",
-          text:"",
-          showConfirmButton: true,
-        })
-    } else {
-      swal.fire({
-        title: "Eliminando Foto, por favor espere...",
-        onBeforeOpen: () => {
-          swal.showLoading();
-          //console.log("descargarReporte");
-          this.usuarioService.getGenerarQR(
-            this.usuarioService.usuario,
-            this.usuarioService.telefonosEmpleado[0][0],
-            this.usuarioService.datosPersonales[0][12],
-            this.usuarioService.datosPersonales[0][20],
-            this.usuarioService.datosPersonales[0][17],
-            this.usuarioService.cadenaConexion,
-            this.usuarioService.empresa
-          )
-            .subscribe(
-              (data) => {
-                swal
-                .fire({
-                  icon: "success",
-                  title: "Su foto se ha eliminado correctamente",
-                  showConfirmButton: true,
-                })
-                .then((res) => {
-                  $("#staticBackdrop").modal("hide");
-                  this.formulario.get('mensaje').setValue('');
-                });
-              },
-              (error) => {
-                swal
-                  .fire({
-                    icon: "error",
-                    title: "Hubo un error al eliminar su foto",
-                    text:
-                      "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
-                    showConfirmButton: true,
-                  })
-                  .then((res) => {
-                    $("#staticBackdrop").modal("hide");
-                    this.formulario.get('mensaje').setValue('');
-                  });
-              }
-            );
-        },
-        allowOutsideClick: () => !swal.isLoading(),
-      });
-
-    }
-  }*/
+  
 
 }

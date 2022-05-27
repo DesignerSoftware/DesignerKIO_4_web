@@ -47,7 +47,7 @@
 }
 
 .proverb{
-  background: url('../../../../assets/images/fondoProverbio.jpg')no-repeat center ;
+  background: url('../../../../assets/images/fondoProverbio.jpg') no-repeat center ;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -74,4 +74,29 @@
 .alertaS{
   margin: -7px 0 -18px 0 ;
   font-size: 14px;
+}
+
+.tituloPres{
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: -5px;
+}
+
+.footerPres{
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: -10px !important;
+  color: #000 !important;
+}
+
+.imgPres{
+  border-radius: 50%;
+  width: 150px;
+  margin-bottom: 10px;
+}
+
+.c-pres{
+  width: 15rem !important;
+  padding: 0;
+  margin-top: 20px;
 }

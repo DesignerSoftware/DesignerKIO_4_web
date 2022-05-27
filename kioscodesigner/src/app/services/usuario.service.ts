@@ -25,7 +25,7 @@ export class UsuarioService {
   cadenaConexion=null;
   datosFamilia = null;
   datosPersonales = null;
-  telefonosEmpleado = null;
+  telefonosEmpleado:Array<string> =  [];
   datosContacto = null;
   correo = null;
   nombreContactoSoporte = '';
@@ -44,6 +44,7 @@ export class UsuarioService {
   notificacionesVacaciones:number  = 0;
   notificacionesAusentismo: number= 0;
   notificacionesRh: number = 0;
+  provisiones : Array<string> = [];
 
   urlKioscoDomain = "https://www.designer.com.co:8179";
   //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
@@ -429,14 +430,14 @@ export class UsuarioService {
       }
     });
   }
-  getValidaFoto(seudonimo: string, cadena: string, nitEmpresa: string){
-    const url = `${environment.urlKioskoReportes}empleados/exiteFoto`;
+  getValidaFoto(usuario: string, cadena: string, nitEmpresa: string){
+    const url = `${environment.urlKioskoReportes}empleados/existeFoto`;
     ////console.log(url);
     return this.http.get(url, {
       params: {
-        documento: seudonimo,
-        cadena: cadena,
-        nit: nitEmpresa
+        usuario: usuario,
+        nit: nitEmpresa,
+        cadena: cadena
       }
     });
   }
@@ -514,6 +515,33 @@ export class UsuarioService {
     });
   }
 
+  getProvisiones(seudonimo: string, nit: string, cadena: string) {
+    //const url = `http://pc006:8082/wsreporte/webresources/vacacionesPendientes/consultarPeriodoMasAntiguo?documento=52384153`;
+    //const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesProvisionados?seudonimo=${seudonimo}&nitempresa=${nit}`;
+    const url = `${environment.urlKioskoReportes}empleados/provisiones`;
+    //console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        cadena: cadena,
+        seudonimo: seudonimo,
+        nit: nit
+      }
+    });
+  }
+
+  getFotoPerfil(seudonimo: string, nit: string, cadena: string) {
+    
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFotoPerfil`;
+    //console.log('url:' + url);
+    return this.http.get(url, {
+      params: {
+        cadena: cadena,
+        usuario: seudonimo,
+        nit: nit
+      }
+    });
+  }
+
   clear() {
     this.isUserLoggedIn = null;
     this.usserLogged = null;
@@ -552,5 +580,6 @@ export class UsuarioService {
     this.notificacionesRh = 0;
     this.existeDocumentoAnexo = [];
     this.listProverbios = null;
+    this.provisiones = [];
   }
 }
