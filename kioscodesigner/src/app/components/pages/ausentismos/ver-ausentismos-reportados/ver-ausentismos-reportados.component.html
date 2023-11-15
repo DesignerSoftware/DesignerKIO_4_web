@@ -3,29 +3,33 @@
     Mis ausentismos
   </h3>
 </div>
-
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a [routerLink]="['/ausentismos']">Ausentismos</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Mis ausentismos</li>
+    <li class="breadcrumb-item">
+      <a [routerLink]="['/ausentismos']">
+        Ausentismos
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      Mis ausentismos
+    </li>
   </ol>
 </nav>
-
 <!-- partial -->
-
 <div class="row animated fadeIn slow">
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card animated fadeIn fast">
       <div class="card-body">
-        <p class="card-description">Solicitudes propias</p>
+        <p class="card-description">
+          Solicitudes propias
+        </p>
         <div class="col-sm-12">
           <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <!--<li class="nav-item active col-md-1"> 
-              <a class="nav-link" aria-disabled="true" role="tab" >&nbsp;</a>
-            </li>-->
             <li class="nav-item active col-md-2 col-sm-3">
               <a class="nav-link active" id="enviadas-tab" data-toggle="tab" href="#s-enviadas" role="tab"
-                aria-controls="s-enviadas" aria-selected="true">Enviadas</a>
+                aria-controls="s-enviadas" aria-selected="true">
+                Enviadas
+              </a>
             </li>
             <li class="nav-item col-md-2 col-sm-3">
               <a class="nav-link" id="aprobadas-tab" data-toggle="tab" href="#s-aprobadas" role="tab"
@@ -86,7 +90,7 @@
                     <td colspan="7">No hay solicitudes enviadas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesEnviadas | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
+                    *ngFor="let solic of solicitudesEnviadas | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
                     <td>
                       <a (click)="detalleSolicitud2('ENVIADO', i)" *ngIf="solicitudesEnviadas">
                         <i class="far fa-eye text-info"></i>
@@ -143,7 +147,7 @@
                     <td colspan="7">No hay solicitudes enviadas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesAprobadas | filterTable: dataFilt | paginate: { id: 'third', itemsPerPage: 5, currentPage: p2 }; index as i ">
+                    *ngFor="let solic of solicitudesAprobadas | paginate: { id: 'third', itemsPerPage: 5, currentPage: p2 }; index as i ">
                     <td>
                       <a (click)="detalleSolicitud('APROBADO', i)" *ngIf="solicitudesAprobadas">
                         <i class="far fa-eye text-info"></i>
@@ -154,14 +158,15 @@
                     <td *ngIf="solicitudesAprobadas">{{solic[2] || 'N/A' }}</td>
                     <td *ngIf="solicitudesAprobadas">{{solic[3] || 'N/A' }}</td>
                     <td *ngIf="solicitudesAprobadas">{{solic[7] || 'N/A' }}</td>
-                    <td *ngIf="solicitudesAprobadas">{{solic[4] || 'N/A' }}</td>                    
+                    <td *ngIf="solicitudesAprobadas">{{solic[4] || 'N/A' }}</td>
                     <td *ngIf="false">{{solic[9] || 'N/A' }}</td>
                   </tr>
                 </tbody>
               </table>
               <div class="col-md-12">
                 <pagination-controls (pageChange)="p2 = $event" id="third" style="text-align: center;"
-                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12">
+                </pagination-controls>
               </div>
             </div>
 
@@ -201,7 +206,7 @@
                     <td colspan="9">No hay solicitudes rechazadas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesRechazadas | filterTable: dataFilt | paginate: { id: 'fourth', itemsPerPage: 5, currentPage: p3 }; index as i ">
+                    *ngFor="let solic of solicitudesRechazadas | paginate: { id: 'fourth', itemsPerPage: 5, currentPage: p3 }; index as i ">
                     <td>
                       <a (click)="detalleSolicitud('RECHAZADO', i)" *ngIf="solicitudesRechazadas">
                         <i class="far fa-eye text-info"></i>
@@ -215,8 +220,6 @@
                     <td *ngIf="solicitudesRechazadas">{{solic[4] || 'N/A' }}</td>
                     <td *ngIf="false">{{solic[9] || 'N/A' }}</td>
                   </tr>
-
-
                 </tbody>
               </table>
               <div class="row">
@@ -264,7 +267,7 @@
                     <td colspan="7">No hay solicitudes liquidadas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesLiquidadas | filterTable: dataFilt | paginate: { id: 'fiveth', itemsPerPage: 5, currentPage: p4 }; index as i ">
+                    *ngFor="let solic of solicitudesLiquidadas | paginate: { id: 'fiveth', itemsPerPage: 5, currentPage: p4 }; index as i ">
                     <td>
                       <a (click)="detalleSolicitud('LIQUIDADO', i)" *ngIf="solicitudesLiquidadas">
                         <i class="far fa-eye text-info"></i>
@@ -321,12 +324,12 @@
                     <td colspan="7">No hay solicitudes canceladas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesCanceladas | filterTable: dataFilt | paginate: { id: 'sixth', itemsPerPage: 5, currentPage: p5 }; index as i  ">
+                    *ngFor="let solic of solicitudesCanceladas | paginate: { id: 'sixth', itemsPerPage: 5, currentPage: p5 }; index as i  ">
                     <td>
-                                  <a (click)="detalleSolicitud('CANCELADO', i)" *ngIf="solicitudesCanceladas">
-                                    <i class="far fa-eye text-info"></i>
-                                  </a>
-                                </td>
+                      <a (click)="detalleSolicitud('CANCELADO', i)" *ngIf="solicitudesCanceladas">
+                        <i class="far fa-eye text-info"></i>
+                      </a>
+                    </td>
                     <td *ngIf="solicitudesCanceladas">{{solic[0] || 'N/A' }}</td>
                     <td *ngIf="solicitudesCanceladas">{{solic[1] || 'N/A' }}</td>
                     <td *ngIf="solicitudesCanceladas">{{solic[2] || 'N/A' }}</td>
@@ -343,16 +346,14 @@
               </div>
             </div>
           </div>
-
-          
+        </div>
       </div>
     </div>
   </div>
 </div>
-</div>
 
-<div class="modal fade animated fadeIn slow" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+<div class="modal fade animated fadeIn slow" id="staticBackdrop2" data-backdrop="static" data-keyboard="false"
+  tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -366,63 +367,80 @@
           <tbody class="tabla">
             <tr>
               <th class="text-left">Fecha inicio ausentismo:</th>
-              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1] || 'N/A' }}</td>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1] || 'N/A' }}
+              </td>
             </tr>
             <tr>
               <th class="text-left">Fecha fin ausentismo:</th>
-              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[5] || 'N/A' }}</td>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[5] || 'N/A' }}
+              </td>
             </tr>
             <tr>
               <th class="text-left">Días:</th>
-              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[2] || 'N/A' }}</td>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[2] || 'N/A' }}
+              </td>
             </tr>
             <tr>
               <th class="text-left">Causa:</th>
-              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[7] || 'N/A' }}</td>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[7] || 'N/A' }}
+              </td>
             </tr>
             <tr>
               <th class="text-left">Tipo:</th>
-              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[8] || 'N/A' }}</td>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[8] || 'N/A' }}
+              </td>
             </tr>
             <tr>
               <th class="text-left">Clase:</th>
-              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[9] || 'N/A' }}</td>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[9] || 'N/A' }}
+              </td>
             </tr>
             <tr>
               <th class="text-left">Codigo:</th>
-              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[10] || 'N/A' }}</td>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[10] || 'N/A' }}
+              </td>
             </tr>
             <tr>
               <th class="text-left">Descripcion:</th>
-              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[11] || 'N/A' }}</td>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[11] || 'N/A' }}
+              </td>
             </tr>
             <tr>
               <th class="text-left">Prorroga:</th>
-              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12] || 'N/A' }}</td>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[12] || 'N/A' }}
+              </td>
             </tr>
             <tr>
               <th class="text-left">Jefe inmediato:</th>
-              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[13] || 'N/A' }}</td>
+              <td class="text-left tabladerecha" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[13] || 'N/A' }}
+              </td>
             </tr>
           </tbody>
         </table>
         <br>
         <div *ngIf="estadoSolicitudSeleccionada ==='' || estadoSolicitudSeleccionada !== null">
-          <div  class="row" *ngIf="anexoSeleccionado && anexoSeleccionado !== null && anexoSeleccionado !== ''">
+          <div class="row" *ngIf="anexoSeleccionado && anexoSeleccionado !== null && anexoSeleccionado !== ''">
             <div class="col-sm-12 col-12" id="btnDescargar">
-              <button type="button" class="btn btn-outline-dark" (click)="descargarArchivo()">DESCARGAR ANEXO
+              <button type="button" class="btn btn-outline-dark" (click)="descargarArchivo()">
+                DESCARGAR ANEXO
                 <i class="fas fa-download"></i>
               </button>
-              <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">Click para descargar
-                  documento anexo</small></p>
+              <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">
+                  Click para descargar documento anexo
+                </small>
+              </p>
             </div>
           </div>
-          <div  class="row" *ngIf="!anexoSeleccionado || anexoSeleccionado== null || anexoSeleccionado == ''">
+          <div class="row" *ngIf="!anexoSeleccionado || anexoSeleccionado== null || anexoSeleccionado == ''">
             <div class="col-sm-12 col-12" id="btnDescargar">
               <button type="button" class="btn btn-outline-dark" disabled (click)="descargarArchivo()">DESCARGAR ANEXO
                 <i class="fas fa-download"></i>
               </button>
-              <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">No se anexó un documento</small></p>
+              <p class="card-text" *ngIf="solicitudSeleccionada">
+                <small class="text-muted">
+                  No se anexó un documento
+                </small>
+              </p>
             </div>
           </div>
         </div>
@@ -431,13 +449,17 @@
           <h6 *ngIf="false">ACCIONES PERMITIDAS</h6><br>
           <div class="col-12">
             <div class="col-sm-12 col-12" id="btnCancelar">
-              <button type="button"  class="btn btn-outline-danger" (click)="cancelarEnvio()">CANCELAR SOLICITUD</button>
+              <button type="button" class="btn btn-outline-danger" (click)="cancelarEnvio()">
+                CANCELAR SOLICITUD
+              </button>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-light" data-dismiss="modal">
+          Cerrar
+        </button>
       </div>
     </div>
   </div>

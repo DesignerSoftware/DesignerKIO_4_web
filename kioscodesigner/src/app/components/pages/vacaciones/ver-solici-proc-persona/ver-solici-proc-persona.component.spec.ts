@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VerSoliciProcPersonaComponent } from './ver-solici-proc-persona.component';
 
@@ -6,14 +6,12 @@ describe('VerSoliciProcPersonaComponent', () => {
   let component: VerSoliciProcPersonaComponent;
   let fixture: ComponentFixture<VerSoliciProcPersonaComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [ VerSoliciProcPersonaComponent ]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(VerSoliciProcPersonaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

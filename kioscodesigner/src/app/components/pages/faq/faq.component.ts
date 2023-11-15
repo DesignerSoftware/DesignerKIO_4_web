@@ -4,14 +4,12 @@ import { KiopreguntasfrecuentesService } from 'src/app/services/kiopreguntasfrec
 @Component({
   selector: 'app-faq',
   templateUrl: './faq.component.html',
-  styleUrls: ['./faq.component.css']
+  styleUrls: ['./faq.component.scss']
 })
 export class FaqComponent implements OnInit {
 
   constructor(private kioPreguntasFrecuentes: KiopreguntasfrecuentesService ) { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
 }

@@ -4,63 +4,41 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Cambiar foto de perfil</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">
+          Cambiar foto de perfil
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body text-center">
-        <img [src]="url" width="150" height="150" style="width: 150px; height: 150px;" class="img-fluid" id="imgPrevia" alt="Imagen previa foto perfil">
-        <!-- <input type="file" (change)="onSelectFile($event)" class="btn-primary"> -->
+        <img [src]="url" width="150" height="150" style="width: 150px; height: 150px;" class="img-fluid" id="imgPrevia"
+          alt="Imagen previa foto perfil">
       </div>
-      <!--eliminar la foto del empleado -->
-      <!--<div class="text-center"  *ngIf="this.usuarioService.existefotoPerfil != false &&  this.usuarioService.existefotoPerfil != null" >
-        <input type="submit" class="btn btn-primary"value="Quitar Foto">
-        <br>
-      </div>
-      <br *ngIf="this.usuarioService.existefotoPerfil != false &&  this.usuarioService.existefotoPerfil != null">-->
-
-      <!-- <img [src]="imageToShow"
-        alt="Place image title"
-        *ngIf="!isImageLoading; else noImageFound">
-   <ng-template #noImageFound>
-        <img src="fallbackImage.png" alt="Fallbackimage">
-   </ng-template> -->
-
-
-      <!-- <form [formGroup]="formulario" (ngSubmit)="pruebaImagen">
-  <input type="file" name="fichero" formControlName="passActual" />
-  <input type="submit"/>
-</form> -->
-
-      <!-- <div class="form-group">
-  <label for="file">Choose File</label>
-  <input type="file"
-         id="file"
-         (change)="handleFileInput($event.target.files)">
-         <button (click)="uploadFileToActivity()">Enviar</button>
-</div> -->
-
-
       <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
         <div class="text-center">
-          <!-- <p>Seleccione un archivo .jpg, .png o .jpeg (<b>mismas dimensiones de ancho y alto</b>)</p> -->
-          <label for="formFile" class="form-label">Seleccione un archivo .jpg, .png o .jpeg (<b>mismas dimensiones de ancho y alto</b>)</label>
-          <input type="file" name="profile" class="form-control" (change)="onFileSelect($event)"  accept=".jpeg, .jpg, .png " autofocus />
+          <label for="formFile" class="form-label">
+            Seleccione un archivo .jpg, .png o .jpeg (
+            <b>
+              mismas dimensiones de ancho y alto
+            </b>
+            )
+          </label>
+          <input type="file" name="profile" class="form-control" (change)="onFileSelect($event)"
+            accept=".jpeg, .jpg, .png " autofocus />
         </div>
         <div class="text-center">
           <small class="text-danger mt-2">
             {{msjValidFotoPerfil}}
           </small>
-         </div>
+        </div>
         <div class="text-center mt-2">
-          <button type="submit" class="btn btn-primary mb-2" [disabled]="!habilitaBtnCargar">Subir Foto</button>
+          <button type="submit" class="btn btn-primary mb-2" [disabled]="!habilitaBtnCargar">
+            Subir Foto
+          </button>
         </div>
       </form>
-
       <div class="modal-footer">
-        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Guardar</button> -->
       </div>
     </div>
   </div>

@@ -1,0 +1,54 @@
+<!-- partial -->
+<!-- partial:../../partials/_sidebar.html -->
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <div class="nav-link">
+        <div class="profile-image">
+          <img [src]="urlFotoPerfil" id="fotoPerfil" alt="Foto perfil" />
+        </div>
+        <div class="profile-name">
+          <p class="name">
+            {{usuarioServicio.nombrePersona | titlecase }}
+          </p>
+          <p class="designation">
+          </p>
+        </div>
+      </div>
+    </li>
+
+    <li class="nav-item" *ngFor="let opc of opcionesKioskos" routerLinkActive="active">
+      <a class="nav-link" [routerLink]="['/', opc.nombreruta]" (click)="clic()" data-toggle="minimize"
+        (click)="minbody2()">
+        <div>
+          <i [class]="opc.icono"></i>
+          <div class="notify"
+            *ngIf='((this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0)  &&  opc.codigo == 30 )
+                                            || ((this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0)  &&  opc.codigo == 40)
+                                            || ((this.usuarioServicio.notificacionesRh != null && this.usuarioServicio.notificacionesRh != 0)  &&  opc.codigo == 09)
+                                            || ((this.usuarioServicio.notificacionesRh != null && this.usuarioServicio.notificacionesRh != 0)  &&  opc.codigo == 35)'>
+            <span class="heartbit "></span>
+            <span class="point"></span>
+          </div>
+          <!-- <div class="notify" *ngIf='(this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0)  &&  opc.codigo == 40'>
+                    <span class="heartbit " ></span>
+                    <span class="point" ></span>
+                  </div> -->
+        </div>
+
+        <span class="menu-title">{{opc.descripcion}}</span>
+        <span
+          *ngIf='(this.usuarioServicio.notificacionesVacaciones != null && this.usuarioServicio.notificacionesVacaciones != 0)  &&  opc.codigo == 30'
+          class="badge bg-danger notifyRedon text-white">{{this.usuarioServicio.notificacionesVacaciones}}</span>
+        <span
+          *ngIf='(this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0)  &&  opc.codigo == 40'
+          class="badge bg-danger notifyRedon text-white">{{this.usuarioServicio.notificacionesAusentismo}}</span>
+        <span
+          *ngIf='(this.usuarioServicio.notificacionesAusentismo != null && this.usuarioServicio.notificacionesAusentismo != 0)  &&  opc.codigo == 35'
+          class="badge bg-danger notifyRedon text-white">{{this.usuarioServicio.notificacionesAusentismo}}</span>
+        <!-- <span *ngIf='(this.usuarioServicio.notificacionesRh != null && this.usuarioServicio.notificacionesRh != 0)  &&  opc.codigo == 09' class="badge bg-danger notifyRedon text-white">{{this.usuarioServicio.notificacionesRh}}</span> -->
+
+      </a>
+    </li>
+  </ul>
+</nav>

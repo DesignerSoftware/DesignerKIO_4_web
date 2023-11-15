@@ -1,20 +1,17 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AusentismosService {
-
   opciones: any = [];
-  codigosAusentismos = null;
-  datosProrroga = null;
+  codigosAusentismos: any = null;
+  datosProrroga: any = null;
   SolicitudesJefe=null;
 
-
   constructor(public http: HttpClient) { }
-
   getCausasEmpresa(empresa: string, cadena: string) {
     // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
     //const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opcionesMenu?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;

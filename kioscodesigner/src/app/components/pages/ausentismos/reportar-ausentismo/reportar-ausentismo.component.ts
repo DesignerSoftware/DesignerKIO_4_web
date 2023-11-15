@@ -1,50 +1,58 @@
 import { HttpClient } from '@angular/common/http';
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AusentismosService } from 'src/app/services/ausentismos.service';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
+import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-reportar-ausentismo',
   templateUrl: './reportar-ausentismo.component.html',
-  styleUrls: ['./reportar-ausentismo.component.css']
+  styleUrls: ['./reportar-ausentismo.component.scss']
 })
 export class ReportarAusentismoComponent implements OnInit {
-  fileToUpload: File = null; // variable archivo seleccionado 
-  habilitaBtnCargar = false;
-  msjValidArchivoAnexo = '';
-  prorrogaSeleccionada = null;
-  cadenaProvisional = null;
-  public dataFilt: any = "";
-  public p: number = 1;
-  public p1: number = 1;
-  public autorizadorVacaciones = '...';
-  habilitaBtnCodDiag = false;
-  activaProrroga = false;
-  estadoNovEmple = null;
-  msjNovEmpleTitle = null;
-  msjNovEmpleDetalle = null;
-  nomArchivo = null;
+
+  formulario: FormGroup = {} as FormGroup;
+  formularioReporteNov: FormGroup = {} as FormGroup;
+  cadenaProvisional: any = null;
+  autorizadorVacaciones: string = '...';
+  causasAusentismos: any = null;
+  secCodDiagSelec: string = '';
+  prorrogaSeleccionada: any = null;
+  activaProrroga: boolean = false;
+  claseSelec: any = null;
+  tipoSelec: any = null;
+  habilitaBtnCodDiag: boolean = false;
+  estadoNovEmple: any = null;
+  msjNovEmpleTitle: string = '';
+  msjNovEmpleDetalle: string = '';
+  msjValidArchivoAnexo: string = '';
+  nomArchivo: any = null;
+  _dataFilt: string = '';
+  p1: number = 1;
+  codigosAusentismos: any = null;
+  codigosAusentismosFilt: any = null;
+  public configSecond: PaginationInstance = {
+    id: 'second',
+    itemsPerPage: 8,
+    currentPage: 1
+  };
+  loading: boolean = true;
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient, private router: Router,
-    private route: ActivatedRoute, public usuarioService: UsuarioService,
-     public ausentismosService: AusentismosService, private cadenasKioskos: CadenaskioskosappService,
-      ) { }
-  formulario: FormGroup;
-  formularioReporteNov: FormGroup;
-  causasAusentismos = null;
-  causaSelec = null;
-  claseSelec = null;
-  tipoSelec = null;
-  secCodDiagSelec = null;
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    public usuarioService: UsuarioService,
+    public ausentismosService: AusentismosService,
+    private cadenasKioskos: CadenaskioskosappService,
+  ) { }
 
   ngOnInit() {
     this.crearFormulario();
@@ -56,7 +64,6 @@ export class ReportarAusentismoComponent implements OnInit {
   }
 
   crearFormulario() {
-    //console.log("crearFormulario()");
     this.formulario = this.fb.group({
       fechainicio: [, Validators.required],
       fechainiciodt: [,],
@@ -78,28 +85,22 @@ export class ReportarAusentismoComponent implements OnInit {
     );
   }
 
-  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+  // obtener la información del usuario del localStorage y guardarla en el service
+  getInfoUsuario() {
     const sesion = this.usuarioService.getUserLoggedIn();
     this.usuarioService.setUsuario(sesion['usuario']);
     this.usuarioService.setEmpresa(sesion['empresa']);
     this.usuarioService.setTokenJWT(sesion['JWT']);
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
-    //console.log('session token localstorage: ', sesion['JWT']);
-    //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
-    //this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'], this.usuarioService.urlKioscoDomain)
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
       .subscribe(
-        data => {
-          //console.log('getInfoUsuario', data);
-          //console.log(sesion['grupo']);
+        (data: any) => {
           for (let i in data) {
             if (data[i][3] === sesion['grupo']) { // GRUPO
               const temp = data[i];
-              //console.log('cadena: ', temp[4]) // CADENA
               this.usuarioService.cadenaConexion = temp[4];
               this.cadenaProvisional = temp[4];
-              //console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
               this.cargarDatosIniciales();
             }
           }
@@ -122,39 +123,37 @@ export class ReportarAusentismoComponent implements OnInit {
         this.usuarioService.cadenaConexion
       )
       .subscribe(
-        (data) => {
-          //console.log('Autorizador vacaciones: ', data['resultado']);
+        (data: any) => {
           this.autorizadorVacaciones = data['resultado'];
         },
         (error) => {
-          //console.log("se ha presentado un error al consultar autorizador vacaciones: " + JSON.stringify(error.statusText));
         }
       );
   }
 
   getOpcionesDiagnosticos() {
-    if (!this.ausentismosService.codigosAusentismos || this.ausentismosService.codigosAusentismos == null) {
-      this.ausentismosService.getCodigosAusentismos(this.usuarioService.empresa, this.usuarioService.cadenaConexion)
-        .subscribe(
-          data => {
-            this.ausentismosService.codigosAusentismos = data;
-            //console.log(data);
-          }
-        )
-    }
+    //if (!this.ausentismosService.codigosAusentismos || this.ausentismosService.codigosAusentismos == null) {
+    this.ausentismosService.getCodigosAusentismos(this.usuarioService.empresa, this.usuarioService.cadenaConexion)
+      .subscribe(
+        (data: any) => {
+          this.codigosAusentismos = data;
+          this.ausentismosService.codigosAusentismos = data;
+        }
+      )
+    //}
+    console.log('Consulta codigos diagnostico.');
+    console.log(this.ausentismosService.codigosAusentismos);
+    console.log(this.codigosAusentismos);
   }
 
   getProrrogas() {
-    if (this.formulario.get('causa').value != null || this.formulario.get('causa').value != '') {
-      //console.log("entre a validar");
-      let indexCausa = this.formulario.get('causa').value;
+    if (this.formulario.get('causa')!.value != null || this.formulario.get('causa')!.value != '') {
+      let indexCausa = this.formulario.get('causa')!.value;
       let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
-      //console.log(secuenciaCausa)
-      this.ausentismosService.getProrroga(this.usuarioService.usuario, secuenciaCausa, this.formulario.get('fechainicio').value, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
+      this.ausentismosService.getProrroga(this.usuarioService.usuario, secuenciaCausa, this.formulario.get('fechainicio')!.value, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
         .subscribe(
-          data => {
+          (data: any) => {
             this.ausentismosService.datosProrroga = data;
-            //console.log(data);
           }
         )
     } else {
@@ -167,45 +166,28 @@ export class ReportarAusentismoComponent implements OnInit {
   }
 
   mostrarListaCod() {
-    //alert('Hola');
-    //document.getElementById('staticBackdropRA').style.display = 'block';
-    /*jQuery.noConflict();
-(function( $ ) {
-  $(function() {
-    // More code using $ as alias to jQuery
-    $('button').click(function(){
-        $('#exampleModal').modal('show');
-    });
-  });
-})(jQuery);*/
-
     try {
       $("#exampleModal").modal("show");
     } catch (error) {
-      //console.log('ERROR AL ABRIR VENTANA MODAL!!!: ' , error);
-      //document.getElementById('exampleModal').style.display = 'block';
     }
 
   }
 
   // Desplegar ventana para reportar información importante
   abrirModal() {
-    //console.log('Se desplego la venta amodal');
     $("#exampleModalRN").modal("show");
   }
 
   enviarReporteNovedad() {
-    //console.log('enviar', this.formularioReporteNov.controls);
     if (this.formularioReporteNov.valid) {
       swal.fire({
         title: "Enviando mensaje al área de nómina y RRHH, por favor espere...",
-        onBeforeOpen: () => {
+        willOpen: () => {
           swal.showLoading();
-          this.usuarioService.enviaCorreoNovedadRRHH(this.usuarioService.usuario, this.usuarioService.empresa, this.formularioReporteNov.get('mensaje').value,
+          this.usuarioService.enviaCorreoNovedadRRHH(this.usuarioService.usuario, this.usuarioService.empresa, this.formularioReporteNov.get('mensaje')!.value,
             'Solicitud de Corrección Jefe Inmediato', this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial, this.usuarioService.cadenaConexion)
             .subscribe(
               (data) => {
-                //console.log(data);
                 if (data) {
                   swal
                     .fire({
@@ -216,7 +198,7 @@ export class ReportarAusentismoComponent implements OnInit {
                     })
                     .then((res) => {
                       $("#exampleModalRN").modal("hide");
-                      this.formularioReporteNov.get('mensaje').setValue('');
+                      this.formularioReporteNov.get('mensaje')!.setValue('');
                     });
                 } else {
                   swal
@@ -228,7 +210,7 @@ export class ReportarAusentismoComponent implements OnInit {
                     })
                     .then((res) => {
                       $("#exampleModalRN").modal("hide");
-                      this.formularioReporteNov.get('mensaje').setValue('');
+                      this.formularioReporteNov.get('mensaje')!.setValue('');
                     });
                 }
               },
@@ -243,7 +225,7 @@ export class ReportarAusentismoComponent implements OnInit {
                   })
                   .then((res) => {
                     $("#exampleModalRN").modal("hide");
-                    this.formularioReporteNov.get('mensaje').setValue('');
+                    this.formularioReporteNov.get('mensaje')!.setValue('');
                   });
               }
             );
@@ -266,70 +248,57 @@ export class ReportarAusentismoComponent implements OnInit {
     $("#exampleModal").modal("hide");
   }
 
-  seleccionarCodDiag(secuencia, codigo, descripcion, index) {
-    this.formulario.get('codigo').setValue(codigo + " - " + descripcion);
+  seleccionarCodDiag(secuencia: string, codigo: string, descripcion: string, index: number) {
+    this.formulario.get('codigo')!.setValue(codigo + " - " + descripcion);
     this.secCodDiagSelec = secuencia;
-    //console.log('SecDiagnostico', this.secCodDiagSelec);
     this.ocultarListaCod();
   }
 
-  seleccionaPro(index) {
-    //console.log('cambio');
-    //console.log(this.ausentismosService.datosProrroga[index][0]);
-    this.formulario.get('fechainicio').setValue('');
-    this.prorrogaSeleccionada = this.ausentismosService.datosProrroga[index];
-    this.formulario.get('fechainicio').setValue(this.ausentismosService.datosProrroga[index][1]);
+  seleccionaPro(index: number) {
+    this.formulario.get('fechainicio')!.setValue('');
+    if (Array.isArray(this.ausentismosService.datosProrroga)) {
+      this.prorrogaSeleccionada = this.ausentismosService.datosProrroga[index];
+      this.formulario.get('fechainicio')!.setValue(this.ausentismosService.datosProrroga[index][1]);
+    }
     this.cargaFechaFin();
-   //console.log('this.prorrogaSeleccionada', this.ausentismosService.datosProrroga[index][1]);
-   //console.log('this.prorrogaSeleccionada', this.prorrogaSeleccionada);
-    //console.log(this.prorrogaSeleccionada);
   }
 
   quitarSeleccionPro() {
     this.prorrogaSeleccionada = null;
-    this.formulario.get('fechainicio').setValue('');
+    this.formulario.get('fechainicio')!.setValue('');
   }
 
   validarCheckProrroga() {
-   //console.log('cambio');
-    this.formulario.get('fechafin').setValue(null);
-    if (this.formulario.get('prorroga').value == false) {
+    this.formulario.get('fechafin')!.setValue(null);
+    if (this.formulario.get('prorroga')!.value == false) {
       this.quitarSeleccionPro();
     } else {
-      this.formulario.get('fechainicio').setValue('');
+      this.formulario.get('fechainicio')!.setValue('');
     }
   }
 
   /*Método que se ejecuta cuando se cambia la selección de la causa de ausentismo*/
-  cambioSeleccion() {
-    this.formulario.get('prorroga').setValue(false); // Quitar check de prorroga
+  cambioSeleccion(): void {
+    this.formulario.get('prorroga')!.setValue(false); // Quitar check de prorroga
     this.prorrogaSeleccionada = null; // Quitar la prorroga seleccionada
-    let secCausa = this.formulario.get('causa').value;
+    let secCausa = this.formulario.get('causa')!.value;
     this.activaProrroga = false;
-    //console.log('index', secCausa);
     this.claseSelec = this.causasAusentismos[secCausa].causa.clase.descripcion;
-    //console.log('clase ' + this.claseSelec);
     this.tipoSelec = this.causasAusentismos[secCausa].causa.clase.tipo.descripcion;
-    //console.log('tipo ' + this.tipoSelec);
     let descripcionCausa = this.causasAusentismos[secCausa].causa.descripcion;
-    //console.log('causa seleccinada', descripcionCausa);
     if (descripcionCausa.indexOf("ENFERMEDAD") > -1 || this.causasAusentismos[secCausa].causa.clase.tipo.descripcion.indexOf("INCAPACIDAD") > -1) {
-     //console.log('Selecciono alguna causa relacionada a una enfermedad o tipo incapacidad');
       this.habilitaBtnCodDiag = true;
     } else {
       this.habilitaBtnCodDiag = false;
     }
-
     this.cargaFechaFin();
-    //let clase = this.causasAusentismos;
-    //console.log(clase);
   }
 
   validaFechaNovedadEmpleadoXJefe() {
-    this.ausentismosService.getvalidaFechaNovedadEmpleadoXJefe(this.usuarioService.empresa, this.usuarioService.usuario, this.formulario.get('fechafin').value, this.usuarioService.cadenaConexion)
+    this.ausentismosService.getvalidaFechaNovedadEmpleadoXJefe(this.usuarioService.empresa, this.usuarioService.usuario,
+      this.formulario.get('fechafin')!.value, this.usuarioService.cadenaConexion)
       .subscribe(
-        data => {
-         //console.log(data);
+        (data: any) => {
           this.estadoNovEmple = data['valida'];
           if (this.estadoNovEmple == 'KSA') {
             this.msjNovEmpleTitle = '¡Rango de fechas no válido!';
@@ -346,9 +315,6 @@ export class ReportarAusentismoComponent implements OnInit {
             this.msjNovEmpleDetalle = '';
           }
           ;
-          /*console.log('impresive', this.ausentismoService.SolicitudesJefe);
-         //console.log<("Datos iniciales");
-          console.log(data);*/
         }
       );
   }
@@ -357,29 +323,24 @@ export class ReportarAusentismoComponent implements OnInit {
     this.ausentismosService.getCausasEmpresa(this.usuarioService.empresa, this.usuarioService.cadenaConexion)
       .subscribe(
         data => {
-         //console.log('causas', data);
           this.causasAusentismos = data;
         }
       )
   }
 
-  cargaFechaFin() {
-    this.formulario.get('fechafin').setValue('');
-    let indexCausa = this.formulario.get('causa').value;
+  cargaFechaFin(): void {
+    this.formulario.get('fechafin')!.setValue('');
+    let indexCausa = this.formulario.get('causa')!.value;
     let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
-    if (this.formulario.get('causa').value != '' && this.formulario.get('causa').value != null
-      && this.formulario.get('dias').value > 0 && this.formulario.get('dias').value != null
-      && this.formulario.get('fechainicio').value != null && this.formulario.get('fechainicio').value != '') {
-        //let d = new Date(this.formulario.get("fechainicio").value);
-     //console.log("fecha inicio ", new Date(this.formulario.get('fechainicio').value));
-     //console.log("fecha inicio2 ", this.formulario.get('fechainicio').value);
+    if (this.formulario.get('causa')!.value != '' && this.formulario.get('causa')!.value != null
+      && this.formulario.get('dias')!.value > 0 && this.formulario.get('dias')!.value != null
+      && this.formulario.get('fechainicio')!.value != null && this.formulario.get('fechainicio')!.value != '') {
       this.ausentismosService.getFechaFinAusentismo(this.usuarioService.tokenJWT, this.usuarioService.usuario, this.usuarioService.empresa,
-        this.formatoddmmyyyy(this.formulario.get('fechainicio').value), this.formulario.get('dias').value,
+        this.formatoddmmyyyy(this.formulario.get('fechainicio')!.value), this.formulario.get('dias')!.value,
         secuenciaCausa, this.usuarioService.cadenaConexion)
         .subscribe(
-          data => {
-           //console.log(data);
-            this.formulario.get('fechafin').setValue(data['fechafin']);
+          (data: any) => {
+            this.formulario.get('fechafin')!.setValue(data['fechafin']);
             this.asigFecha();
           }
         )
@@ -387,88 +348,83 @@ export class ReportarAusentismoComponent implements OnInit {
   }
 
   validaFecha() {
-    //console.log("validaFecha ", this.formulario.get("fechainicio").value);
     let fechaInicio = this.formatoddmmyyyy(
-      this.formulario.get("fechainicio").value
+      this.formulario.get("fechainicio")!.value
     );
-    //console.log("validaFecha parseada ", fechaInicio);
     this.ausentismosService
       .validaFechaInicioAusent(
         this.usuarioService.usuario,
         this.usuarioService.empresa,
         fechaInicio, this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log("validaFecha: ", data["valido"]);
-        //console.log(data);
+      .subscribe((data: any) => {
         if (data["valido"]) {
-          //this.actualizaCampos();
-          //console.log('estres')
           this.cargaFechaFin();
         } else {
-          this.formulario.get("fechainicio").setErrors({ noValido: true });
+          this.formulario.get("fechainicio")!.setErrors({ noValido: true });
           swal.fire({
             icon: "error",
             title: "¡Por favor verifique la fecha de inicio!",
             text: data["mensaje"],
             showConfirmButton: true,
           });
-          this.formulario.get("fechafin").setValue("");
+          this.formulario.get("fechafin")!.setValue("");
         }
       });
   }
 
-  
+
   enviarNovedad() {
-    //console.log(" formulario valido", this.formulario.valid);
-    //console.log("Valores: ", this.formulario.controls);
-    //console.log('value adjunto: ' , this.formulario.get('anexo').value, ' dias: ', this.formulario.get('dias').value);    
-    Object.values(this.formulario.controls).forEach((control) => {
+    Object.values(this.formulario.controls).forEach((control: any) => {
       control.markAsTouched();
     });
     this.validaFechaNovedadEmpleadoXJefe();
     if (this.formulario.valid) {
-      let indexCausa = this.formulario.get('causa').value;
+      let indexCausa = this.formulario.get('causa')!.value;
       console.log('codigoCausa', this.causasAusentismos[indexCausa].causa.codigo);
-      if (this.formulario.get('dias').value <= 0) {
+      if (this.formulario.get('dias')!.value <= 0) {
         swal.fire({
           title: "¡Valide la cantidad de días del ausentismo!",
           text: 'La cantidad mínima de días a reportar debe ser 1.',
           icon: "error"
         });
-      } else if (this.formulario.get('dias').value >= 2 && this.causasAusentismos[indexCausa].causa.codigo==="54") {
+      } else if (this.formulario.get('dias')!.value >= 2 && this.causasAusentismos[indexCausa].causa.codigo === "54") {
         swal.fire({
           title: "¡Ha solicitado mas de un dia familiar.!",
           //text: 'Ha solicitado mas de un dia familiar.',
           icon: "error",
         });
-      } else if ( this.formulario.get('dias').value > 5 && this.causasAusentismos[indexCausa].causa.codigo==="36"){
+      } else if (this.formulario.get('dias')!.value > 5 && this.causasAusentismos[indexCausa].causa.codigo === "36") {
         swal.fire({
           title: "¡No se pueden solicitar mas de 5 días según el artículo 57 del código sustantivo del trabajo adicionado por la ley 1280 de 2009.!",
           //text: 'Ha solicitado mas de un dia familiar.',
           icon: "error",
         });
-      } else if (this.formulario.get('prorroga').value && this.prorrogaSeleccionada == null) {
+      } else if (this.formulario.get('prorroga')!.value && this.prorrogaSeleccionada == null) {
         swal.fire({
           title: "¡Seleccione una prórroga!",
           text: 'Ha seleccionado que esta reportando un ausentismo con prórroga pero no ha indicado a cual hace referencia.',
           icon: "error",
         });
-      } else if ((this.formulario.get('anexo').value != null && this.formulario.get('anexo').value != '') && (!this.validaTipoArchivoAnexo() || !this.validaSizeAnexo())) {
+      } else if ((this.formulario.get('anexo')!.value != null && this.formulario.get('anexo')!.value != '') && (!this.validaTipoArchivoAnexo() || !this.validaSizeAnexo())) {
         if (!this.validaSizeAnexo()) {
           swal.fire('Tamaño de archivo demasiado grande', 'Por favor seleccione un archivo de máximo 5MB', 'error');
         } else if (!this.validaTipoArchivoAnexo()) {
           swal.fire('Tipo de archivo no válido', 'Por favor seleccione un archivo con extensión .pdf', 'error');
         }
-      } /*else if ((this.formulario.get('anexo').value == null || this.formulario.get('anexo').value == '') && this.formulario.get('dias').value > 2){
-        swal.fire({title: "Aviso",text: "Por favor anexa un documento soporte, debido a que la solicitud supera los dos días de ausentismo", icon: "warning"})
-      }*/ else if (this.formulario.valid) {
+      } else if (this.formulario.valid) {
         let html, foot;
-        if ( this.formulario.get('dias').value > 2 && this.causasAusentismos[indexCausa].causa.codigo!=="54"){
-          html ='Por favor hacer llegar al área de talento humano o área encargada los documentos físicos originales de la incapacidad e historia clínica debido a que su incapacidad supera los dos días de ausentismo.<br>'
+        if (this.formulario.get('dias')!.value > 2 && this.causasAusentismos[indexCausa].causa.codigo === "4" ) {
+          html = 'Por favor hacer llegar al área de talento humano o área encargada los documentos físicos originales de la incapacidad e historia clínica debido a que su incapacidad supera los dos días de ausentismo.<br>'
+          foot = '¿Esta seguro(a) de que desea enviar la novedad?';
+        } else if (this.formulario.get('dias')!.value > 1 && this.causasAusentismos[indexCausa].causa.codigo === "6" ) {
+          html = 'Por favor hacer llegar al área de talento humano o área encargada los documentos físicos originales de la incapacidad e historia clínica debido a que su incapacidad supera un día de ausentismo.<br>'
+          foot = '¿Esta seguro(a) de que desea enviar la novedad?';
+        } else if (this.causasAusentismos[indexCausa].causa.codigo === "5" ) {
+          html = 'Por favor hacer llegar al área de talento humano o área encargada los documentos físicos originales de la incapacidad e historia clínica.<br>'
           foot = '¿Esta seguro(a) de que desea enviar la novedad?';
         } else {
-          html ='¿Esta seguro(a) de que desea enviar la novedad?'
+          html = '¿Esta seguro(a) de que desea enviar la novedad?'
           foot = '';
         }
         swal
@@ -483,30 +439,21 @@ export class ReportarAusentismoComponent implements OnInit {
           })
           .then((result) => {
             if (result.value) {
-              //console.log("enviar solicitud");
-              /* console.log(
-                "ruta Kiosco: " + this.usuarioService.urlKioscoDomain
-              );
-              console.log(
-                "grupoEmpresarial: " + this.usuarioService.grupoEmpresarial
-              ); */
               let incluyeAnexo = 'N';
-              if (this.formulario.get('anexo').value != null && this.formulario.get('anexo').value != "") {
+              if (this.formulario.get('anexo')!.value != null && this.formulario.get('anexo')!.value != "") {
                 incluyeAnexo = 'S';
               }
-              //console.log('index', indexCausa);
               console.log('causasAusentismos', this.causasAusentismos);
               let secuenciaClase = this.causasAusentismos[indexCausa].causa.clase.secuencia;
               let secuenciaTipo = this.causasAusentismos[indexCausa].causa.clase.tipo.secuencia;
               let secuenciaCausa = this.causasAusentismos[indexCausa].causa.secuencia;
               let codCausa = this.causasAusentismos[indexCausa].causa.codigo;
-              let secuenciaProrroga = null;
-              //console.log('fecha de inicio ', this.formulario.get('fechainicio').value)
-              if (this.prorrogaSeleccionada && this.prorrogaSeleccionada != null && this.prorrogaSeleccionada != [] && this.formulario.get('prorroga')) {
+              let secuenciaProrroga: any = null;
+              if (this.prorrogaSeleccionada && this.prorrogaSeleccionada != null
+                //&& this.prorrogaSeleccionada != [] 
+                && this.formulario.get('prorroga')) {
                 secuenciaProrroga = this.prorrogaSeleccionada[0];
               }
-              //console.log('prorrogaSeleccionada', secuenciaProrroga);
-              //console.log('estado de mensaje ', this.estadoNovEmple);
               /* si la fecha de solicitud coincide con alguna novedad anterior */
               if (this.estadoNovEmple == 'KSA' || this.estadoNovEmple == 'SA' || this.estadoNovEmple == 'SV') {
                 swal.fire({
@@ -519,28 +466,27 @@ export class ReportarAusentismoComponent implements OnInit {
               } else {
                 swal.fire({
                   title: "Enviando la solicitud al sistema, por favor espere...",
-                  onBeforeOpen: () => {
+                  willOpen: () => {
                     swal.showLoading();
                     this.ausentismosService.crearNovedadAusentismo(
                       this.usuarioService.tokenJWT,
                       this.usuarioService.usuario,
                       this.usuarioService.empresa,
                       'ENVIADO',
-                      this.formatoddmmyyyy(this.formulario.get('fechainicio').value),
-                      this.formulario.get('fechafin').value,
-                      this.formulario.get('dias').value,
+                      this.formatoddmmyyyy(this.formulario.get('fechainicio')!.value),
+                      this.formulario.get('fechafin')!.value,
+                      this.formulario.get('dias')!.value,
                       secuenciaCausa, this.secCodDiagSelec,
                       secuenciaClase,
                       secuenciaTipo, secuenciaProrroga,
-                      this.formulario.get('observaciones').value,
+                      this.formulario.get('observaciones')!.value,
                       incluyeAnexo,
                       this.usuarioService.cadenaConexion,
                       this.usuarioService.urlKioscoDomain,
                       this.usuarioService.grupoEmpresarial,
                       codCausa)
                       .subscribe(
-                        data => {
-                         //console.log('rta: ', data);
+                        (data: any) => {
                           if (data["NovedadCreada"]) {
                             swal
                               .fire({
@@ -558,7 +504,7 @@ export class ReportarAusentismoComponent implements OnInit {
                                   this.subirAnexo(data["anexo"], data["solicitud"]);
                                 } else {
                                   //console.log('Novedad reportada NO incluye anexo');
-                                 //console.log('solicitud creada: ' + data["solicitud"])
+                                  //console.log('solicitud creada: ' + data["solicitud"])
                                   this.enviarCorreoNovedad(data["solicitud"]);
                                 }
 
@@ -584,7 +530,6 @@ export class ReportarAusentismoComponent implements OnInit {
           });
       }
     } else {
-      //console.log(this.formulario.controls);
       swal.fire({
         title: "¡Por favor valide el formulario!",
         text:
@@ -596,20 +541,18 @@ export class ReportarAusentismoComponent implements OnInit {
 
   subirAnexo(nombreAnexo: string, secKioSoliciAusentismo: string) {
     const formData = new FormData();
-    formData.append('fichero', this.formulario.get('anexo').value, nombreAnexo + '.pdf');
-    let cargueArchivo:boolean = false;
-
+    formData.append('fichero', this.formulario.get('anexo')!.value, nombreAnexo + '.pdf');
+    let cargueArchivo: boolean = false;
     this.http
       .post<any>(
         `${environment.urlKioskoReportes}ausentismos/cargarAnexoAusentismo?seudonimo=${this.usuarioService.usuario}&solicitud=${secKioSoliciAusentismo}&nit=${this.usuarioService.empresa}&cadena=${this.usuarioService.cadenaConexion}`, formData
       )
       .subscribe(
-        (data:boolean) => {
-           console.log(data);
-           cargueArchivo= data;
-           if(data){
+        (data: boolean) => {
+          console.log(data);
+          cargueArchivo = data;
+          if (data) {
             console.log('cargueArchivo ', cargueArchivo);
-            
             swal
               .fire({
                 icon: 'success',
@@ -620,40 +563,33 @@ export class ReportarAusentismoComponent implements OnInit {
               .then((result) => {
                 this.enviarCorreoNovedad(secKioSoliciAusentismo);
               });
-
-           }else{
-            
-              swal
-                .fire({
-                  icon: 'error',
-                  title: 'Se ha presentado un error',
-                  text:
-                    'No se ha podido cargar el archivo, por favor inténtalo de nuevo más tarde.',
-                  showConfirmButton: true,
-                })
-                .then((result) => {
-                  //this.router.navigated = false;
-                  //this.router.navigateByUrl('/home');
-                });
-           }
+          } else {
+            swal
+              .fire({
+                icon: 'error',
+                title: 'Se ha presentado un error',
+                text:
+                  'No se ha podido cargar el archivo, por favor inténtalo de nuevo más tarde.',
+                showConfirmButton: true,
+              })
+              .then((result) => {
+              });
+          }
 
         }
       );
-    //console.log(this.formulario.value);
   }
 
   enviarCorreoNovedad(secSoliciAusentismo: string) {
-    //console.log('grupoempresarial ', this.usuarioService.grupoEmpresarial);
-    //console.log('cadenaConexion', this.usuarioService.cadenaConexion);
     swal.fire({
       title: "Enviando la solicitud al sistema, por favor espere...",
-      onBeforeOpen: () => {
+      willOpen: () => {
         swal.showLoading();
         this.ausentismosService.enviarCorreoNuevaNovedad(
           this.usuarioService.usuario,
           this.usuarioService.empresa,
           secSoliciAusentismo,
-          this.formulario.get('observaciones').value,
+          this.formulario.get('observaciones')!.value,
           "Asunto prueba",
           this.usuarioService.urlKioscoDomain,
           this.usuarioService.grupoEmpresarial,
@@ -661,7 +597,6 @@ export class ReportarAusentismoComponent implements OnInit {
         )
           .subscribe(
             data => {
-              //console.log(data);
               if (data) {
                 swal.fire({
                   icon: 'success',
@@ -687,39 +622,24 @@ export class ReportarAusentismoComponent implements OnInit {
     });
   }
 
-  formatoddmmyyyy(fecha) {
-    // let anio = fecha.substring(0, 4);
-    // let mes = fecha.substring(5, 7);
-    // let dia = fecha.substring(8, 11);
-    // let ensamble = dia + "/" + mes + "/" + anio;
-    // console.log('ensamble ',ensamble );
-     //return ensamble;
-     //var stringvalue = momentVariable.format('L');
-     // console.log(' stringvalue ',momentVariable); // outputs 2018-08-25  
-     //return stringvalue;
-     var momentVariable = moment(fecha).format('DD/MM/YYYY');
+  formatoddmmyyyy(fecha: any) {
+    var momentVariable = moment(fecha).format('DD/MM/YYYY');
     return momentVariable;
   }
 
-  formatommddyyyy(fecha) {
-    //console.log(fecha);
+  formatommddyyyy(fecha: any) {
     var momentVariable = moment(fecha, 'DD/MM/YYYY');
     var stringvalue = momentVariable.format('YYYY-MM-DD');
-    //console.log(stringvalue); // outputs 2018-08-25  
     return stringvalue;
   }
 
-  onFileSelect(event) {
+  onFileSelect(event: any) {
     if (event.target.files.length > 0) {
-      //console.log('archivo seleccionado');
       const file = event.target.files[0];
-      //console.log(file);
-      this.formulario.get('anexo').setValue(file);
-      //console.log('Name File' + file.name);
+      this.formulario.get('anexo')!.setValue(file);
       if (this.validaTipoArchivoAnexo()) {
-        //console.log('Es .pdf');
         this.msjValidArchivoAnexo = '';
-        this.nomArchivo = this.formulario.get('anexo').value.name;
+        this.nomArchivo = this.formulario.get('anexo')!.value.name;
         if (!this.validaSizeAnexo()) {
           this.msjValidArchivoAnexo = 'El tamaño del archivo es demasiado grande. Seleccione un archivo de máximo 5MB.'
           swal.fire('Tamaño de archivo demasiado grande', 'Por favor seleccione un archivo de máximo 5MB', 'error');
@@ -741,11 +661,10 @@ export class ReportarAusentismoComponent implements OnInit {
   // Método que retorna true si el tamaño del archivo no supera los 5MB
   validaSizeAnexo() {
     let valid = false;
-    let sizeArchivo = (this.formulario.get('anexo').value.size / 1048576);
+    let sizeArchivo = (this.formulario.get('anexo')!.value.size / 1048576);
     let sizeArchivo2 = parseFloat(parseFloat(sizeArchivo.toString()).toFixed(2));
     if (sizeArchivo2 <= 5) {
       valid = true;
-      //console.log('El anexo no supera los 5 MB');
     }
     return valid;
   }
@@ -753,49 +672,75 @@ export class ReportarAusentismoComponent implements OnInit {
   // Método que retorna true si el archivo anexo corresponde a un pdf
   validaTipoArchivoAnexo() {
     let valid = false;
-    if (this.formulario.get('anexo').value.type == 'application/pdf') {
+    if (this.formulario.get('anexo')!.value.type == 'application/pdf') {
       valid = true;
-      //console.log('Es PDF');
     }
     return valid;
   }
 
   // Método que quitar  el archivo seleccionado del campo de anexo,
   quitarArchivoSeleccionado() {
-    //console.log('Quitar archivo seleccionado');
-    //var file=(<HTMLInputElement>document.getElementById('file'));
-    //file.value=null;
     this.msjValidArchivoAnexo = '';
-    this.formulario.get('anexo').setValue('');
+    this.formulario.get('anexo')!.setValue('');
     this.nomArchivo = null;
   }
   // 211019 dar formato a fecha 
   asigFecha() {
-    //console.log("mydate1()");
-    /*let d = new Date(this.formulario.get("fechainicio").value);
-    let dt = d.getDate();
-    let mn = d.getMonth();
-    mn++;
-    let yy = d.getFullYear();*/
-    //console.log("date ", d + " " + dt + " " + mn + " " + yy);
-    //let temp = dt + '/' + mn + '/' + yy;
-    //console.log('temp ', temp)
-    let datetemp = this.formatoddmmyyyy(this.formulario.get('fechainicio').value);
-    //console.log('fecha: ' , datetemp)
-    this.formulario.get("fechainiciodt").setValue(datetemp);
-    document.getElementById("fechainiciodt").hidden = false;
-    document.getElementById("fechainicio").hidden = true;
+    let datetemp = this.formatoddmmyyyy(this.formulario.get('fechainicio')!.value);
+    this.formulario.get("fechainiciodt")!.setValue(datetemp);
+    document.getElementById("fechainiciodt")!.hidden = false;
+    document.getElementById("fechainicio")!.hidden = true;
   }
 
   backDt() {
-    //console.log("prueba1()");
-    document.getElementById("fechainiciodt").hidden = true;
-    document.getElementById("fechainicio").hidden = false;
+    document.getElementById("fechainiciodt")!.hidden = true;
+    document.getElementById("fechainicio")!.hidden = false;
   }
 
   backText() {
-    //console.log("prueba2()");
-    document.getElementById("fechainiciodt").hidden = false;
-    document.getElementById("fechainicio").hidden = true;
+    document.getElementById("fechainiciodt")!.hidden = false;
+    document.getElementById("fechainicio")!.hidden = true;
+  }
+  onPageChange(pagina: number) {
+    //this.p1 = pagina;
+    this.configSecond.currentPage = pagina;
+  }
+
+  get dataFilt(): string {
+    return this._dataFilt;
+  }
+
+  set dataFilt(val: string) {
+    this._dataFilt = val;
+    this.codigosAusentismos = this.filter(val, 1);
+    //this.ausentismosService.codigosAusentismos = this.filter(val, 1);
+  }
+
+  filter(v: string, t: number) {
+    if (v === '') {
+      switch (t) {
+        case 1: {
+          this.getOpcionesDiagnosticos();
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+    switch (t) {
+      case 1: {
+        this.codigosAusentismosFilt = this.ausentismosService.codigosAusentismos;
+        break;
+      }
+      default: {
+        this.codigosAusentismosFilt = null;
+        break;
+      }
+    }
+    return this.codigosAusentismosFilt.filter((v1: any) => (v1[1].toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+    ||  v1[2].toString().toLowerCase().indexOf(v.toLowerCase()) !== -1)
+    );
+    
   }
 }

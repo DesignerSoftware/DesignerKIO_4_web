@@ -1,130 +1,75 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { VacacionesService } from 'src/app/services/vacaciones.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import * as pluginDataLabels from 'chartjs-plugin-datalabels';
-import { Label, Color, BaseChartDirective, SingleDataSet } from 'ng2-charts';
-import { Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import swal from 'sweetalert2';
-import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
-import { AusentismosService } from 'src/app/services/ausentismos.service';
+import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { AusentismosService } from 'src/app/services/ausentismos.service';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { VacacionesService } from 'src/app/services/vacaciones.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ver-ausentismos-reportados',
   templateUrl: './ver-ausentismos-reportados.component.html',
-  styleUrls: ['./ver-ausentismos-reportados.component.css']
+  styleUrls: ['./ver-ausentismos-reportados.component.scss']
 })
 export class VerAusentismosReportadosComponent implements OnInit {
-  solicitudesEnviadas = null;
+
+  solicitudSeleccionada: any;
+  anexoSeleccionado: any;
+  estadoSolicitudSeleccionada: any;
+  solicitudesEnviadas: any;
+  solicitudesLiquidadas: any;
+  solicitudesCanceladas: any;
+  solicitudesAprobadas: any;
+  solicitudesRechazadas: any;
+  tipoSolicitudSeleccionada: string = '';
+  indexSolicitudSeleccionada: number = 0;
   public dataFilt: any = "";
-  public p: number = 1;
   public p1: number = 1;
   public p2: number = 1;
   public p3: number = 1;
   public p4: number = 1;
   public p5: number = 1;
-  solicitudesAprobadas = null;
-  solicitudesRechazadas = null;
-  solicitudesLiquidadas = null;
-  solicitudesCanceladas = null;
-  anexoSeleccionado = null;
-  estadoSolicitudSeleccionada = null;
-  tipoSolicitudSeleccionada;
-  indexSolicitudSeleccionada;
-  solicitudSeleccionada;
-  public totalDiasVacacionesProv;
-  private countEventsSubscription$: Subscription;
-  private eventsOnChartLimit = 20;
 
   constructor(
-    private vacacionesService: VacacionesService,
+    //private vacacionesService: VacacionesService,
     private usuarioService: UsuarioService,
-    private router : Router,
-    private ausentismoService: AusentismosService, 
-    private cadenasKioskos: CadenaskioskosappService
-  ) {
-
-  }
+    private router: Router,
+    private ausentismoService: AusentismosService,
+    private cadenasKioskos: CadenaskioskosappService,
+    private sanitizer: DomSanitizer
+  ) { }
 
   ngOnInit() {
     if (this.usuarioService.cadenaConexion) {
       this.cargarDatosIniciales();
     } else {
       this.getInfoUsuario();
-    }    
-    //
-    // this.countEventsSubscription$ = this.vacacionesService
-    // .getServerSentEvent(`${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesProvisionados?seudonimo=${this.usuarioService.usuario}&nitempresa=${this.usuarioService.empresa}`)
-    // .subscribe(event => {
-    //   //let data = JSON.parse(event.);
-    //   this.pushEventToChartData(event);
-    //   //console.log(" Sirveeeee ",event)
-    // },
-    // error=>{
-    //   //console.log('errorrrrr', error);
-    // });
+    }
 
-    //
-
-    //   this.vacacionesService.getDiasVacacionesProvisionadas(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion )
-    //   .subscribe(
-    //     data => {
-
-    //       this.totalDiasVacacionesProv = event.data;
-    //       this.pushEventToChartData(data);
-    //       //console.log(" totalDiasVacacionesProv ", data);
-    //     }
-    //   );
   }
 
-  // private pushEventToChartData(event): void {
-  //   if (this.isChartDataFull(this.pieChartData, 20)) {
-  //     this.removeLastElementFromChartDataAndLabel();
-  //   }
-  //   this.pieChartData[0].data.push(event.count);
-  //   this.pieChartLabels.push(
-  //     this.getLabel(event)
-  //   );
-  // }
-  // private getLabel(event): string {
-  //   return `${event.window}`;
-  // }
-  // private removeLastElementFromChartDataAndLabel(): void {
-  //   this.pieChartData[0].data = this.pieChartData[0].data.slice(1);
-  //   this.pieChartLabels = this.pieChartLabels.slice(1);
-  // }
-  // private isChartDataFull(chartData: ChartDataSets[], limit: number): boolean {
-  //   return chartData[0].data.length >= limit;
-  // }
-
-  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+  // obtener la información del usuario del localStorage y guardarla en el service
+  getInfoUsuario() {
     const sesion = this.usuarioService.getUserLoggedIn();
     this.usuarioService.setUsuario(sesion['usuario']);
     this.usuarioService.setEmpresa(sesion['empresa']);
     this.usuarioService.setTokenJWT(sesion['JWT']);
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
-    //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
-    //this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'], this.usuarioService.urlKioscoDomain)
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
-    .subscribe(
-      data => {
-        //console.log('getInfoUsuario', data);
-        //console.log(sesion['grupo']);
-        for (let i in data) {
-          if (data[i][3] === sesion['grupo']) { // GRUPO
-          const temp = data[i];
-          //console.log('cadena: ', temp[4]) // CADENA
-          this.usuarioService.cadenaConexion=temp[4];
-          //console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
-          this.cargarDatosIniciales();
+      .subscribe(
+        (data: any) => {
+          for (let i in data) {
+            if (data[i][3] === sesion['grupo']) { // GRUPO
+              const temp = data[i];
+              this.usuarioService.cadenaConexion = temp[4];
+              this.cargarDatosIniciales();
+            }
           }
         }
-      }
-    );
-  }   
+      );
+  }
 
   cargarDatosIniciales() {
     if (
@@ -137,10 +82,8 @@ export class VerAusentismosReportadosComponent implements OnInit {
           this.usuarioService.empresa,
           this.usuarioService.cadenaConexion
         )
-        .subscribe((data) => {
-          //console.log(data["result"]);
+        .subscribe((data: any) => {
           this.usuarioService.documento = data["result"];
-          //console.log("ng OnInit:", this.usuarioService.documento);
           this.consultarSoliciXEstados();
         });
     } else {
@@ -156,7 +99,6 @@ export class VerAusentismosReportadosComponent implements OnInit {
     this.getSoliciCanceladas();
   }
 
-  
   getSoliciEnviadas() {
     this.ausentismoService
       .getSolicitudesXEstado(
@@ -164,7 +106,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
         this.usuarioService.empresa,
         "ENVIADO", this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         console.log("Datos iniciales");
         console.log(data);
         this.solicitudesEnviadas = data;
@@ -178,8 +120,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
         this.usuarioService.empresa,
         'AUTORIZADO', this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log(data);
+      .subscribe((data: any) => {
         this.solicitudesAprobadas = data;
       });
   }
@@ -191,8 +132,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
         this.usuarioService.empresa,
         'RECHAZADO', this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log(data);
+      .subscribe((data: any) => {
         this.solicitudesRechazadas = data;
       });
   }
@@ -204,8 +144,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
         this.usuarioService.empresa,
         'LIQUIDADO', this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log(data);
+      .subscribe((data: any) => {
         this.solicitudesLiquidadas = data;
       });
   }
@@ -217,213 +156,144 @@ export class VerAusentismosReportadosComponent implements OnInit {
         this.usuarioService.empresa,
         'CANCELADO', this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log(data);
+      .subscribe((data: any) => {
         this.solicitudesCanceladas = data;
       });
   }
 
-  // events char
-
-  // public randomize(): void {
-  //   // Only Change 3 values
-  //   this.pieChartData[0].data = [
-  //     Math.round(Math.random() * 100),
-  //     59,
-  //     80,
-  //     (Math.random() * 100),
-  //     56,
-  //     (Math.random() * 100),
-  //     40 ];
-  // }
-
-  // events pie
-
-  detalleSolicitud(tipoSolicitud: string, index: string) {
+  detalleSolicitud(tipoSolicitud: string, index: number) {
     this.tipoSolicitudSeleccionada = tipoSolicitud;
     this.indexSolicitudSeleccionada = index;
     this.estadoSolicitudSeleccionada = null;
-    //console.log("tipoSolicitud: " + tipoSolicitud);
-    //console.log("index seleccionado: " + index);
-    //console.log(this.estadoSolicitudSeleccionada);
     switch (tipoSolicitud) {
       case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
         this.anexoSeleccionado = this.solicitudesEnviadas[index][15];
-        this.estadoSolicitudSeleccionada =  this.solicitudesEnviadas[index][4];         
+        this.estadoSolicitudSeleccionada = this.solicitudesEnviadas[index][4];
         break;
       }
       case "APROBADO": {
         this.solicitudSeleccionada = this.solicitudesAprobadas[index];
         this.anexoSeleccionado = this.solicitudesAprobadas[index][15];
-        this.estadoSolicitudSeleccionada =  this.solicitudesAprobadas[index][4];         
+        this.estadoSolicitudSeleccionada = this.solicitudesAprobadas[index][4];
         break;
       }
       case "RECHAZADO": {
         this.solicitudSeleccionada = this.solicitudesRechazadas[index];
         this.anexoSeleccionado = this.solicitudesRechazadas[index][15];
-        this.estadoSolicitudSeleccionada =  this.solicitudesRechazadas[index][4];         
+        this.estadoSolicitudSeleccionada = this.solicitudesRechazadas[index][4];
         break;
       }
       case "LIQUIDADO": {
         this.solicitudSeleccionada = this.solicitudesLiquidadas[index];
         this.anexoSeleccionado = this.solicitudesLiquidadas[index][15];
-        this.estadoSolicitudSeleccionada =  this.solicitudesLiquidadas[index][4];         
+        this.estadoSolicitudSeleccionada = this.solicitudesLiquidadas[index][4];
         break;
       }
       case "CANCELADO": {
         this.solicitudSeleccionada = this.solicitudesCanceladas[index];
         this.anexoSeleccionado = this.solicitudesCanceladas[index][15];
-        this.estadoSolicitudSeleccionada =  this.solicitudesCanceladas[index][4];         
+        this.estadoSolicitudSeleccionada = this.solicitudesCanceladas[index][4];
         break;
       }
-      /*default: {
-        //this.solicitudSeleccionada = null;
-      }*/
-      
     }
     $("#staticBackdrop2").modal("show");
-    document.getElementById('staticBackdrop2').style.display = 'block';
+    document.getElementById('staticBackdrop2')!.style.display = 'block';
   }
 
-  detalleSolicitud2(tipoSolicitud: string, index: string) {
+  detalleSolicitud2(tipoSolicitud: string, index: number) {
     this.tipoSolicitudSeleccionada = tipoSolicitud;
     this.indexSolicitudSeleccionada = index;
-    //console.log("tipoSolicitud: " + tipoSolicitud);
-    //console.log("index seleccionado: " + index);
-    //console.log(this.estadoSolicitudSeleccionada);
     switch (tipoSolicitud) {
       case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
         this.anexoSeleccionado = this.solicitudesEnviadas[index][15];
-        this.estadoSolicitudSeleccionada =  this.solicitudesEnviadas[index][4];
+        this.estadoSolicitudSeleccionada = this.solicitudesEnviadas[index][4];
         break;
       }
     }
     console.log(this.estadoSolicitudSeleccionada);
     $("#staticBackdrop3").modal("show");
     $("#staticBackdrop2").modal("show");
-    document.getElementById('staticBackdrop2').style.display = 'block';
+    document.getElementById('staticBackdrop2')!.style.display = 'block';
   }
 
   cancelarEnvio() {
     let cancelado;
-    swal
-      .fire({
-        title: "¿Está seguro que desea cancelar la novedad de ausentismo?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Cancelar",
-        cancelButtonText: "Cerrar",
-      })
+    swal.fire({
+      title: "¿Está seguro que desea cancelar la novedad de ausentismo?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Cancelar",
+      cancelButtonText: "Cerrar",
+    })
       .then((result) => {
         if (result.isConfirmed) {
-          /*this.ausentismoService
-            .setNuevoEstadoSolicio(
-              this.usuarioService.usuario,
-              this.usuarioService.empresa,
-              this.usuarioService.cadenaConexion,
-              "CANCELADO",
-              this.solicitudSeleccionada[10],
-              null,
-              this.usuarioService.urlKioscoDomain,
-              this.usuarioService.grupoEmpresarial
-            )
-            .subscribe((data) => {
-              cancelado = data.toString();
-              //console.log("diasRecha", data);
-              if (data) {
-                swal
-                  .fire({
-                    title: "Cancelada!",
-                    text: "Su solicitud enviada ha sido cancelada. ",
-                    icon: "success",
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: "Ok",
-                  })
-                  .then((result2) => {
-                    if (result2.isConfirmed) {
-                      this.reloadPage();
-                    }
-                  });
-              } else {
-                swal.fire(
-                  "Ha habido un problema!",
-                  "Su solicitud enviada no ha podido ser cancelada.",
-                  "error"
-                );
-              }
-            });*/
-
-
-            swal.fire({
-              title: "Enviando la novedad al sistema, por favor espere...",
-              onBeforeOpen: () => {
-                swal.showLoading();
-          this.ausentismoService
-            .setNuevoEstadoSolicio(
-              this.usuarioService.usuario,
-              this.usuarioService.empresa,
-              this.usuarioService.cadenaConexion,
-              "CANCELADO",
-              this.solicitudSeleccionada[1],
-              this.solicitudSeleccionada[14],
-              null,
-              this.usuarioService.urlKioscoDomain,
-              this.usuarioService.grupoEmpresarial
-            )
-            .subscribe(
-                    (data) => {
-                      //console.log(data);
-                      if (data) {
-                        $('#staticBackdrop3').modal('hide');                        
-                        swal
-                          .fire({
-                            icon: "success",
-                            title:
-                              "Reporte de ausentismo cancelado exitosamente",
-                            showConfirmButton: true,
-                          })
-                          .then((res) => {
-                            $("#staticBackdrop2").modal("hide");
-                            this.router.navigate(["/ausentismos"]);
-                          });
-                      } else {
-                        swal
-                          .fire({
-                            icon: "error",
-                            title: 'Ha ocurrido un error al cancelar la solicitud.',
-                            text: 'Por favor inténtelo de nuevo más tarde. Si el problema persiste contáctese con el área de nómina y recursos humanos de su empresa.',
-                            showConfirmButton: true,
-                          })
-                          .then((res) => {
-                            //this.router.navigate(["/vacaciones"]);
-                            $("#staticBackdrop2").modal("hide");
-                            this.reloadPage();
-                          });
-                      }
-                    },
-                    (error) => {
+          swal.fire({
+            title: "Enviando la novedad al sistema, por favor espere...",
+            willOpen: () => {
+              swal.showLoading();
+              this.ausentismoService
+                .setNuevoEstadoSolicio(
+                  this.usuarioService.usuario,
+                  this.usuarioService.empresa,
+                  this.usuarioService.cadenaConexion,
+                  "CANCELADO",
+                  this.solicitudSeleccionada[1],
+                  this.solicitudSeleccionada[14],
+                  '',
+                  this.usuarioService.urlKioscoDomain,
+                  this.usuarioService.grupoEmpresarial
+                )
+                .subscribe(
+                  (data) => {
+                    if (data) {
+                      $('#staticBackdrop3').modal('hide');
                       swal
                         .fire({
-                          icon: 'error',
-                          title: 'Ha ocurrido un error al reportar la novedad',
-                          text:
-                            'Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.',
+                          icon: "success",
+                          title:
+                            "Reporte de ausentismo cancelado exitosamente",
                           showConfirmButton: true,
                         })
                         .then((res) => {
-                          //this.router.navigate(["/vacaciones"]);
+                          $("#staticBackdrop2").modal("hide");
+                          this.router.navigate(["/ausentismos"]);
+                        });
+                    } else {
+                      swal
+                        .fire({
+                          icon: "error",
+                          title: 'Ha ocurrido un error al cancelar la solicitud.',
+                          text: 'Por favor inténtelo de nuevo más tarde. Si el problema persiste contáctese con el área de nómina y recursos humanos de su empresa.',
+                          showConfirmButton: true,
+                        })
+                        .then((res) => {
                           $("#staticBackdrop2").modal("hide");
                           this.reloadPage();
                         });
                     }
-                  );
-              },
-              allowOutsideClick: () => !swal.isLoading(),
-            });
+                  },
+                  (error) => {
+                    swal
+                      .fire({
+                        icon: 'error',
+                        title: 'Ha ocurrido un error al reportar la novedad',
+                        text:
+                          'Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.',
+                        showConfirmButton: true,
+                      })
+                      .then((res) => {
+                        $("#staticBackdrop2").modal("hide");
+                        this.reloadPage();
+                      });
+                  }
+                );
+            },
+            allowOutsideClick: () => !swal.isLoading(),
+          });
 
         }
       });
@@ -432,32 +302,22 @@ export class VerAusentismosReportadosComponent implements OnInit {
     console.log("cadenaReporte: ", this.usuarioService.cadenaConexion);
     console.log(
       "this.usuarioService.secuenciaEmpleado: " +
-        this.usuarioService.secuenciaEmpleado
+      this.usuarioService.secuenciaEmpleado
     );
     swal.fire({
       title: "Descargando documento, por favor espere...",
-      onBeforeOpen: () => {
+      willOpen: () => {
         swal.showLoading();
         console.log("descargarReporte");
         this.ausentismoService
           .getAnexoAusentismo(
-            //this.reporteServicio.reporteSeleccionado["nombreruta"],
-            //this.usuarioService.secuenciaEmpleado,
-            //this.formulario.get("enviocorreo").value,
-            //this.usuarioService.correo,
-            //this.correo,
-            //this.reporteServicio.reporteSeleccionado["descripcion"],
-            //this.reporteServicio.codigoReporteSeleccionado,
             this.anexoSeleccionado,
             this.usuarioService.empresa,
             this.usuarioService.cadenaConexion
-            //this.usuarioService.usuario,
-            //this.usuarioService.grupoEmpresarial,
-            //this.usuarioService.urlKioscoDomain
           )
           .subscribe(
             (res) => {
-              console.log("ejemplo 1 : ",res);
+              console.log("ejemplo 1 : ", res);
               swal.fire({
                 icon: "success",
                 title:
@@ -466,26 +326,13 @@ export class VerAusentismosReportadosComponent implements OnInit {
                 timer: 1500,
               });
               const newBlob = new Blob([res], { type: "application/pdf" });
-              let fileUrl = window.URL.createObjectURL(newBlob); // add 290920
-
-              //if (window.navigator && window.navigator.msSaveOrOpenBlob) { 290920
-              //window.navigator.msSaveOrOpenBlob(newBlob);
-              if (window.navigator.msSaveOrOpenBlob) {
-                // add 290920
-                window.navigator.msSaveOrOpenBlob(
-                  newBlob,
-                  fileUrl.split(":")[1] + ".pdf"
-                );
-              } else {
-                window.open(fileUrl);
-              }
-              //return;
-              ///}
+              // add 200929
+              let fileUrl = window.URL.createObjectURL(newBlob);
+              let fileUrlSS = this.sanitizer.bypassSecurityTrustUrl(fileUrl);
               // For other browsers:
               // Create a link pointing to the ObjectURL containing the blob.
-              const data = window.URL.createObjectURL(newBlob);
               const link = document.createElement("a");
-              link.href = data;
+              link.href = fileUrl;
               let f = new Date();
               link.download =
                 //this.reporteServicio.reporteSeleccionado["nombreruta"] +
@@ -506,10 +353,10 @@ export class VerAusentismosReportadosComponent implements OnInit {
 
               setTimeout(function () {
                 // For Firefox it is necessary to delay revoking the ObjectURL
-                window.URL.revokeObjectURL(data);
+                window.URL.revokeObjectURL(fileUrl);
               }, 100);
             },
-            (error) => {
+            (error: any) => {
               console.log(error);
               swal.fire(
                 "Se ha presentado un error",
@@ -524,9 +371,7 @@ export class VerAusentismosReportadosComponent implements OnInit {
   }
 
   reloadPage() {
-    //this.ngOnInit();
     this.router.navigate(['/ausentismos']);
   }
 
-  
 }

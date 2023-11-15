@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OpcionesKioskosService {
+
   opcionesKioskos: any = [];
 
   opcionesKios: any = [];
 
-  kiovigCIR : Array<string> = [];
+  //kiovigCIR : Array<string> = [];
+  kiovigCIR : any = null;
 
   constructor(private http: HttpClient) { }
-
   getOpcionesKiosco(empresa: string, seudonimo: string, cadena: string) {
     // const url = `${environment.urlKioskoReportes}opcioneskioskos/${empresa}?seudonimo=${seudonimo}`;
     //const url = `${environment.urlKioskoReportes}opcioneskioskosapp/opciones?seudonimo=${seudonimo}&nitempresa=${empresa}&cadena=${cadena}`;
@@ -59,5 +59,4 @@ export class OpcionesKioskosService {
     this.opcionesKioskos = [];
     this.kiovigCIR  = [];
   }
-
 }

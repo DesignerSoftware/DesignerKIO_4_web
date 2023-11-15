@@ -1,542 +1,581 @@
 <div class="page-header animated fadeIn fast">
-  <h3 class="page-title">
-    Reportar ausentismo
-  </h3>
+    <h3 class="page-title">
+        Reportar ausentismo
+    </h3>
 </div>
 
 <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a [routerLink]="['/ausentismos']">Ausentismos</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Reportar Ausentismo</li>
-  </ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a [routerLink]="['/ausentismos']">
+                Ausentismos
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Reportar Ausentismo
+        </li>
+    </ol>
 </nav>
-
-
-
-
-
 <div class="container animated fadeIn fast">
-  <!-- <form> -->
+    <!-- <form> -->
+    <div class="card">
+        <div class="col-12 grid-margin p-5">
+            <h4 class="card-title">
+                <i class="fas fa-stethoscope"></i>
+                Reportar Ausentismo
+            </h4>
+            <p class="card-description">
+                Por favor diligencie los siguientes campos del formulario con la información de su ausentismo a
+                reportar.
+            </p>
 
-
-  <div class="card">
-
-    <div class="col-12 grid-margin p-5">
-      <h4 class="card-title">
-        <i class="fas fa-stethoscope"></i>
-        Reportar Ausentismo
-      </h4>
-
-      <p class="card-description">
-        Por favor diligencie los siguientes campos del formulario con la información de su ausentismo a reportar.
-      </p>
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="container mb-4" style="margin-left: auto;">
-            <label class="col-sm-12 col-form-label" style="text-align: center;">La persona a cargo de autorizar sus
-              ausentismos es: <b style="color: #00223C;">{{autorizadorVacaciones}}</b></label>
-          </div>
-        </div>
-      </div>
-
-      <form class="form-sample mt-1" [formGroup]="formulario" (ngSubmit)="enviarNovedad()">
-        <div class="row">
-          <div class="col-md-6">
-            <p class="text-danger" style="font-size: x-small">* Campos obligatorios</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label" for="causa">Causa: <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
-                <select class="form-control" formControlName="causa" id="causa" (change)="cambioSeleccion()"
-                  title="Seleccione la causa del ausentismo">
-                  <option [value]="i" *ngFor="let c of causasAusentismos; index as i">{{c.causa.descripcion}}</option>
-                </select>
-                <small class="text-danger"
-                  *ngIf="formulario.get('causa').errors?.required && formulario.get('causa').touched">
-                  Seleccione la causa del ausentismo.
-                </small>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6" *ngIf="false">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Tipo:</label>
-              <div class="col-sm-9">
-                <input type="hidden" class="form-control form-control-sm" formControlName="tipo" [value]="tipoSelec"
-                  title="Tipo de ausentismo" readonly="true" />
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6" *ngIf="false">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Clase:</label>
-              <div class="col-sm-9">
-                <input type="hidden" class="form-control form-control-sm" formControlName="clase" [value]="claseSelec"
-                  title="Clase de ausentismo" readonly="true" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label" for="codDiag">Cód. diagnóstico:</label>
-              <div class="col-sm-9">
-                <div class="input-group mb-3">
-                  <input id="codDiag" type="text" class="form-control form-control-sm"
-                    title="El código de diagnóstico hace referencia al código de enfermedad médico, antes de seleccionarlo debe elegir la causa del ausentismo."
-                    [placeholder]="!this.habilitaBtnCodDiag ? 'NO APLICA': 'Sin seleccionar'" disabled
-                    formControlName="codigo" aria-label="Recipient's username" aria-describedby="button-addon2">
-                  <button class="btn btn-primary" type="button" id="button-addon2" (click)="mostrarListaCod()"
-                    [attr.disabled]="!habilitaBtnCodDiag ? true : null">
-                    <span class="texto_responsive" data-desktoptext="Mostrar Codigo" data-tablettext="Mostrar Codigo"
-                      data-phonetext=""></span>
-                    <i class="expandir fas fa-external-link-alt" data-phonetext=""></i>
-                    <!--Mostrar códigos-->
-                  </button>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="container mb-4" style="margin-left: auto;">
+                        <label class="col-sm-12 col-form-label" style="text-align: center;">
+                            La persona a cargo de autorizar sus ausentismos es:
+                            <b style="color: #00223C;">
+                                {{autorizadorVacaciones}}
+                            </b>
+                        </label>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
+
+            <form class="form-sample mt-1" [formGroup]="formulario" (ngSubmit)="enviarNovedad()">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="text-danger" style="font-size: x-small">
+                            * Campos obligatorios
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="causa">
+                                Causa:
+                                <b class="text-danger">*</b>
+                            </label>
+                            <div class="col-sm-9">
+                                <select class="form-control" formControlName="causa" id="causa"
+                                    (change)="cambioSeleccion()" title="Seleccione la causa del ausentismo">
+                                    <option [value]="i" *ngFor="let c of causasAusentismos; index as i">
+                                        {{c.causa.descripcion}}
+                                    </option>
+                                </select>
+                                <small class="text-danger"
+                                    *ngIf="formulario.get('causa')!.errors && formulario.get('causa')!.touched">
+                                    Seleccione la causa del ausentismo.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" *ngIf="false">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">
+                                Tipo:
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="hidden" class="form-control form-control-sm" formControlName="tipo"
+                                    [value]="tipoSelec" title="Tipo de ausentismo" readonly="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" *ngIf="false">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">
+                                Clase:
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="hidden" class="form-control form-control-sm" formControlName="clase"
+                                    [value]="claseSelec" title="Clase de ausentismo" readonly="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="codDiag">
+                                Cód. diagnóstico:
+                            </label>
+                            <div class="col-sm-9">
+                                <div class="input-group mb-3">
+                                    <input id="codDiag" type="text" class="form-control form-control-sm"
+                                        title="El código de diagnóstico hace referencia al código de enfermedad médico, antes de seleccionarlo debe elegir la causa del ausentismo."
+                                        [placeholder]="!this.habilitaBtnCodDiag ? 'NO APLICA': 'Sin seleccionar'"
+                                        [disabled]="true" formControlName="codigo" aria-label="Recipient's username"
+                                        aria-describedby="button-addon2">
+                                    <button class="btn btn-primary" type="button" id="button-addon2"
+                                        (click)="mostrarListaCod()" [attr.disabled]="!habilitaBtnCodDiag ? true : null">
+                                        <span class="texto_responsive" data-desktoptext="Mostrar Codigo"
+                                            data-tablettext="Mostrar Codigo" data-phonetext=""></span>
+                                        <i class="expandir fas fa-external-link-alt" data-phonetext=""></i>
+                                        <!--Mostrar códigos-->
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-12 col-form-label">
+                                Días:
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-sm-9 col-12">
+                                <input type="number" class="form-control form-control-sm" formControlName="dias"
+                                    title="Digite el número de días de la novedad de ausentismo." min="1"
+                                    (keyup)="cargaFechaFin()" (change)="cargaFechaFin()" />
+                                <small class="text-danger"
+                                    *ngIf="formulario.get('dias')!.errors && formulario.get('dias')!.touched">
+                                    Seleccione la cantidad de días del ausentismo.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">
+                                Fecha inicio ausentismo:
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-sm-7">
+                                <input type="date" class="form-control form-control-sm" formControlName="fechainicio"
+                                    id="fechainicio" title="Seleccione el día que inicia el ausentismo"
+                                    (change)="validaFecha();"
+                                    [attr.readonly]="this.formulario.get('prorroga')!.value ? true : null" hidden />
+                                <input type="text" class="form-control form-control-sm" (mouseover)="backDt();"
+                                    (click)="backDt();" id="fechainiciodt" formControlName="fechainiciodt"
+                                    title="Seleccione el día que inicia el ausentismo"
+                                    [attr.readonly]="this.formulario.get('prorroga')!.value ? true : null" />
+                                <small class="text-danger" *ngIf="formulario.get('fechainicio')!.errors 
+                                && formulario.get('fechainicio')!.touched 
+                                && !this.formulario.get('prorroga')!.value">
+                                    Seleccione la fecha de inicio del ausentismo.
+                                </small>
+                                <small class="text-danger" *ngIf="formulario.get('fechainicio')!.errors 
+                                && formulario.get('fechainicio')!.touched 
+                                && this.formulario.get('prorroga')!.value">
+                                    Seleccione la prorroga para calcular la fecha de inicio de su ausentismo.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">
+                                Fecha fin ausentismo:
+                            </label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control form-control-sm" formControlName="fechafin"
+                                    readonly="true"
+                                    title="Fecha en la que finaliza el ausentismo, este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 form-group">
+                        <div class="">
+                            <input type="checkbox" id="exampleCheck1" formControlName="prorroga"
+                                [(ngModel)]="activaProrroga" (change)="validarCheckProrroga()">
+                            <label class="form-check-label" style="margin-left: 5px; margin-bottom: 0px !important;"
+                                for="exampleCheck1"
+                                title="Seleccione este campo si el ausentismo que está reportando es prórroga">
+                                ¿Es prórroga de otra incapacidad?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <p>
+                    <a *ngIf="(!prorrogaSeleccionada || prorrogaSeleccionada==null) && this.formulario.get('prorroga')!.value==true"
+                        class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button"
+                        aria-expanded="false" (click)="getProrrogas()" aria-controls="multiCollapseExample1">
+                        Seleccionar Prórroga
+                    </a>
+                </p>
+                <div class="row collapse multi-collapse" id="multiCollapseExample1"
+                    *ngIf="(!prorrogaSeleccionada || prorrogaSeleccionada==null) && this.formulario.get('prorroga')!.value==true">
+                    <div class="card card-body table-responsive">
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Causa</th>
+                                        <th scope="col">Código</th>
+                                        <th scope="col">Diagnóstico</th>
+                                        <th scope="col">Fecha inicial</th>
+                                        <th scope="col">Fecha final</th>
+                                        <th scope="col">Días</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngIf="!ausentismosService.datosProrroga || ausentismosService.datosProrroga==null || ausentismosService.datosProrroga.length==0">
+                                        <th colspan="6" style="text-align: center;">
+                                            No tienes novedades de ausentismo procesadas con la causa seleccionada
+                                        </th>
+                                    </tr>
+                                    <tr *ngFor="let prorroga of ausentismosService.datosProrroga; index as i">
+                                        <td *ngIf="prorroga"> {{prorroga[2] || 'N/A' }} </td>
+                                        <td *ngIf="prorroga"> {{prorroga[3] || 'N/A' }} </td>
+                                        <td *ngIf="prorroga"> {{prorroga[4] || 'N/A' }} </td>
+                                        <td *ngIf="prorroga"> {{prorroga[5] || 'N/A' }} </td>
+                                        <td *ngIf="prorroga"> {{prorroga[6] || 'N/A' }} </td>
+                                        <td *ngIf="prorroga"> {{prorroga[7] || 'N/A' }} </td>
+                                        <td *ngIf="prorroga">
+                                            <a class="btn btn-primary" (click)="seleccionaPro(i)">
+                                                Seleccionar
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-body table-responsive" *ngIf="prorrogaSeleccionada || prorrogaSeleccionada!=null">
+                    <h5 style="color: #008f39">
+                        Prórroga Seleccionada: 
+                    </h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Causa</th>
+                                <th scope="col">Código</th>
+                                <th scope="col">Diagnóstico</th>
+                                <th scope="col">Fecha inicial</th>
+                                <th scope="col">Fecha final</th>
+                                <th scope="col">Días</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[2] || 'N/A' }} </td>
+                                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[3] || 'N/A' }} </td>
+                                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[4] || 'N/A' }} </td>
+                                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[5] || 'N/A' }} </td>
+                                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[6] || 'N/A' }} </td>
+                                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[7] || 'N/A' }} </td>
+                                <td><button class="btn btn-danger" (click)="quitarSeleccionPro()">
+                                    Quitar selección
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">
+                        Observaciones:
+                    </label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"
+                        formControlName="observaciones"
+                        title="Digite alguna observación o información adicional respecto a su ausentismo.">
+                    </textarea>
+                </div>
+
+                <div class="form-group" *ngIf="false">
+                    <label>
+                        Documento anexo
+                    </label>
+                    <input type="file" name="img[]" class="file-upload-default" id="fileno" max-size="2000"
+                        accept="application/pdf" (change)="onFileSelect($event)">
+                    <div class="input-group col-xs-12">
+                        <input type="text" class="form-control file-upload-info" disabled
+                            placeholder="Seleccione un archivo PDF">
+                        <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-primary" type="button">
+                                Seleccionar
+                            </button>
+                        </span>
+                    </div>
+                    <div class="text-center">
+                        <small class="text-danger mt-2">
+                            {{msjValidArchivoAnexo}}
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="false">
+                    <div class="row">
+                        <label for="formFileLg" class="form-label col-sm-4 col-12 col-md-4">
+                            Documento anexo:
+                        </label>
+                        <button type="button" class="btn btn-link quitar col-sm-8 col-12 col-md-8"
+                            *ngIf="formulario.get('anexo')!.value" (click)="quitarArchivoSeleccionado()">
+                            <small class=" float-right">
+                                Quitar archivo seleccionado
+                            </small>
+                        </button>
+                        <input class="form-control form-control-lg botonfile col-sm-12 col-12 col-md-12" type="file"
+                            id="file" max-size="5000" accept="application/pdf" (change)="onFileSelect($event)">
+                    </div>
+                    <!--<div class="filemini">-->
+                    <div *ngIf="nomArchivo == null" class="col-sm-12 col-12 col-md-12">
+                        <div class="inputFileModificado ">
+                            <input class="inputFileOculto" name="input1" type="file" id="file" max-size="5000"
+                                accept="application/pdf" (change)="onFileSelect($event)">
+                            <div class="inputParaMostrar">
+                                <i class="fas fa-paperclip"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="nomArchivo !== null ">
+                        <div class="inputFileModificado">
+                            <div class="inputParaMostrar adjunto">
+                                <i class="fas fa-paperclip"></i>
+                                <p class="">&nbsp;{{nomArchivo}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--</div>-->
+                    <div>
+                        <small class="text-danger mt-2">
+                            {{msjValidArchivoAnexo}}
+                        </small>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="false">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <div>
+                                <label for="formFileLg" class="form-label">
+                                    Documento anexo:
+                                </label>
+                                <input class="form-control form-control-lg" type="file" id="file" max-size="5000"
+                                    accept="application/pdf" (change)="onFileSelect($event)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="false">
+                    <div class="col-md-2">
+                        <label class="form-label form-control-sm ">
+                            Documento anexo:
+                        </label>
+                    </div>
+                    <div class="col-md-10">
+                        <input class=" anexo" id="formFile" type="file" formControlName="anexo">
+                    </div>
+                </div>
+
+
+                <div class="row" *ngIf="true">
+                    <div class="col-md-6  col-xs-12 col-sm-12 col-12">
+                        <table>
+                            <thead>
+                                <th></th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                <td>
+                                    <i class="fas fa-times-circle" *ngIf="nomArchivo == null"></i>
+                                    <i class="fas fa-check-circle " *ngIf="nomArchivo !== null"></i>
+                                </td>
+                                <td>
+                                    <p class="anexoP" *ngIf="nomArchivo == null">Anexar un archivo</p>
+                                    <p class="anexoP" *ngIf="nomArchivo !== null">&nbsp;{{nomArchivo}}</p>
+                                </td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6  col-xs-12 col-sm-12 col-12 ">
+                        <div class="botonAnexos" *ngIf="nomArchivo == null">
+                            <div class="file-select btn btn-outline-light puntero btn-lg float-left" id="src-file1">
+                                <input type="file" class="puntero" name="src-file1" aria-label="Archivo"
+                                    style="height: 52px; width: 230px;" id="file" max-size="5000"
+                                    accept="application/pdf" (change)="onFileSelect($event)">
+                            </div>
+                        </div>
+                        <div class="botonAnexos" *ngIf="nomArchivo !== null">
+                            <button type="button" class="btn btn-outline-danger btn-lg float-left"
+                                (click)="quitarArchivoSeleccionado()">Borrar</button>
+                        </div>
+                    </div>
+                    <div>
+                        <small class="text-danger mt-2">
+                            {{msjValidArchivoAnexo}}
+                        </small>
+                    </div>
+                </div>
+
+
+                <div class="row botones">
+                    <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
+                        <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">
+                            Enviar Novedad
+                        </button>
+                    </div>
+
+                    <div class="col-sm-6 col-12" id="btnCancelar">
+                        <button type="button" class="btn btn-outline-primary btn-lg" style="width: 200px;"
+                            [routerLink]="['/ausentismos']">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+            <!--- </form> --->
         </div>
-
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group row">
-              <label class="col-sm-3 col-12 col-form-label">Días: <span class="text-danger">*</span></label>
-              <div class="col-sm-9 col-12">
-                <input type="number" class="form-control form-control-sm" formControlName="dias"
-                  title="Digite el número de días de la novedad de ausentismo." min="1" (keyup)="cargaFechaFin()"
-                  (change)="cargaFechaFin()" />
-                <small class="text-danger"
-                  *ngIf="formulario.get('dias').errors?.required && formulario.get('dias').touched">
-                  Seleccione la cantidad de días del ausentismo.
-                </small>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-5">
-            <div class="form-group row">
-              <label class="col-sm-5 col-form-label">Fecha inicio ausentismo: <span class="text-danger">*</span></label>
-              <div class="col-sm-7">
-                <input type="date" class="form-control form-control-sm" formControlName="fechainicio" id="fechainicio"
-                  title="Seleccione el día que inicia el ausentismo" (change)="validaFecha();" 
-                  [attr.readonly]="this.formulario.get('prorroga').value ? true : null" hidden />
-                <input type="text" class="form-control form-control-sm" (mouseover)="backDt();" (click)="backDt();" id="fechainiciodt" formControlName="fechainiciodt"
-                  title="Seleccione el día que inicia el ausentismo" 
-                  [attr.readonly]="this.formulario.get('prorroga').value ? true : null" />
-                <small class="text-danger"
-                  *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched && !this.formulario.get('prorroga').value">
-                  Seleccione la fecha de inicio del ausentismo.
-                </small>
-                <small class="text-danger"
-                  *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched && this.formulario.get('prorroga').value">
-                  Seleccione la prorroga para calcular la fecha de inicio de su ausentismo.
-                </small>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group row">
-              <label class="col-sm-5 col-form-label">Fecha fin ausentismo:</label>
-              <div class="col-sm-7">
-                <input type="text" class="form-control form-control-sm" formControlName="fechafin" readonly="true"
-                  title="Fecha en la que finaliza el ausentismo, este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-        <div class="row">
-          <div class="col-12 form-group">
-            <div class="">
-              <input type="checkbox" id="exampleCheck1" formControlName="prorroga" [(ngModel)]="activaProrroga"
-                (change)="validarCheckProrroga()">
-              <label class="form-check-label" style="margin-left: 5px; margin-bottom: 0px !important;"
-                for="exampleCheck1" title="Seleccione este campo si el ausentismo que está reportando es prórroga">¿Es
-                prórroga de otra incapacidad?</label>
-            </div>
-          </div>
-        </div>
-
-        <p>
-          <a *ngIf="(!prorrogaSeleccionada || prorrogaSeleccionada==null) && this.formulario.get('prorroga').value==true"
-            class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button"
-            aria-expanded="false" (click)="getProrrogas()" aria-controls="multiCollapseExample1">Seleccionar
-            Prórroga</a>
-        </p>
-        <div class="row collapse multi-collapse" id="multiCollapseExample1"
-          *ngIf="(!prorrogaSeleccionada || prorrogaSeleccionada==null) && this.formulario.get('prorroga').value==true">
-          <div class="card card-body table-responsive">
-            <div>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Causa</th>
-                    <th scope="col">Código</th>
-                    <th scope="col">Diagnóstico</th>
-                    <th scope="col">Fecha inicial</th>
-                    <th scope="col">Fecha final</th>
-                    <th scope="col">Días</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngIf="!ausentismosService.datosProrroga || ausentismosService.datosProrroga==null || ausentismosService.datosProrroga.length==0">
-                    <th colspan="6" style="text-align: center;">No tienes novedades de ausentismo procesadas con la
-                      causa seleccionada</th>
-                  </tr>
-                  <tr *ngFor="let prorroga of ausentismosService.datosProrroga; index as i">
-                    <td *ngIf="prorroga"> {{prorroga[2] || 'N/A' }} </td>
-                    <td *ngIf="prorroga"> {{prorroga[3] || 'N/A' }} </td>
-                    <td *ngIf="prorroga"> {{prorroga[4] || 'N/A' }} </td>
-                    <td *ngIf="prorroga"> {{prorroga[5] || 'N/A' }} </td>
-                    <td *ngIf="prorroga"> {{prorroga[6] || 'N/A' }} </td>
-                    <td *ngIf="prorroga"> {{prorroga[7] || 'N/A' }} </td>
-                    <td *ngIf="prorroga"><a class="btn btn-primary" (click)="seleccionaPro(i)">Seleccionar</a></td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div class="card card-body table-responsive" *ngIf="prorrogaSeleccionada || prorrogaSeleccionada!=null">
-          <h5 style="color: #008f39">Prórroga Seleccionada: </h5>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Causa</th>
-                <th scope="col">Código</th>
-                <th scope="col">Diagnóstico</th>
-                <th scope="col">Fecha inicial</th>
-                <th scope="col">Fecha final</th>
-                <th scope="col">Días</th>
-              </tr>
-            </thead>
-            <tbody>
-
-              <tr>
-                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[2] || 'N/A' }} </td>
-                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[3] || 'N/A' }} </td>
-                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[4] || 'N/A' }} </td>
-                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[5] || 'N/A' }} </td>
-                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[6] || 'N/A' }} </td>
-                <td *ngIf="prorrogaSeleccionada"> {{prorrogaSeleccionada[7] || 'N/A' }} </td>
-                <td><button class="btn btn-danger" (click)="quitarSeleccionPro()">Quitar selección</button></td>
-
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-        <br>
-
-        <div class="form-group">
-          <label for="exampleFormControlTextarea1">Observaciones:</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName="observaciones"
-            title="Digite alguna observación o información adicional respecto a su ausentismo."></textarea>
-        </div>
-
-        <div class="form-group" *ngIf="false">
-          <label>Documento anexo</label>
-          <input type="file" name="img[]" class="file-upload-default" id="fileno" max-size="2000"
-            accept="application/pdf" (change)="onFileSelect($event)">
-          <div class="input-group col-xs-12">
-            <input type="text" class="form-control file-upload-info" disabled placeholder="Seleccione un archivo PDF">
-            <span class="input-group-append">
-              <button class="file-upload-browse btn btn-primary" type="button">Seleccionar</button>
-            </span>
-          </div>
-          <div class="text-center">
-            <small class="text-danger mt-2">
-              {{msjValidArchivoAnexo}}
-            </small>
-          </div>
-        </div>
-
-        <div class="form-group" *ngIf="false">
-          <div class="row">
-            <label for="formFileLg" class="form-label col-sm-4 col-12 col-md-4">Documento anexo:</label>
-            <button type="button" class="btn btn-link quitar col-sm-8 col-12 col-md-8"
-              *ngIf="formulario.get('anexo').value" (click)="quitarArchivoSeleccionado()"><small
-                class=" float-right">Quitar archivo seleccionado</small></button>
-            <input class="form-control form-control-lg botonfile col-sm-12 col-12 col-md-12" type="file" id="file"
-              max-size="5000" accept="application/pdf" (change)="onFileSelect($event)">
-          </div>
-          <!--<div class="filemini">-->
-          <div *ngIf="nomArchivo == null" class="col-sm-12 col-12 col-md-12">
-            <div class="inputFileModificado ">
-              <input class="inputFileOculto" name="input1" type="file" id="file" max-size="5000"
-                accept="application/pdf" (change)="onFileSelect($event)">
-              <div class="inputParaMostrar">
-                <i class="fas fa-paperclip"></i>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="nomArchivo !== null ">
-            <div class="inputFileModificado">
-              <div class="inputParaMostrar adjunto">
-                <i class="fas fa-paperclip"></i>
-                <p class="">&nbsp;{{nomArchivo}}</p>
-              </div>
-            </div>
-          </div>
-          <!--</div>-->
-          <div>
-            <small class="text-danger mt-2">
-              {{msjValidArchivoAnexo}}
-            </small>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="false">
-          <div class="col-md-12">
-            <div class="form-group row">
-              <div>
-                <label for="formFileLg" class="form-label">Documento anexo:</label>
-                <input class="form-control form-control-lg" type="file" id="file" max-size="5000"
-                  accept="application/pdf" (change)="onFileSelect($event)">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="false">
-          <div class="col-md-2">
-            <label class="form-label form-control-sm ">Documento anexo:</label>
-          </div>
-          <div class="col-md-10">
-            <input class=" anexo" id="formFile" type="file" formControlName="anexo">
-          </div>
-        </div>
-
-
-        <div class="row" *ngIf="true">
-          <div class="col-md-6  col-xs-12 col-sm-12 col-12">
-            <table>
-              <thead>
-                <th></th>
-                <th></th>
-              </thead>
-              <tbody>
-                <td>
-                  <i class="fas fa-times-circle" *ngIf="nomArchivo == null"></i>
-                  <i class="fas fa-check-circle " *ngIf="nomArchivo !== null"></i>
-                </td>
-                <td>
-                  <p class="anexoP" *ngIf="nomArchivo == null">Anexar un archivo</p>
-                  <p class="anexoP" *ngIf="nomArchivo !== null">&nbsp;{{nomArchivo}}</p>
-                </td>
-              </tbody>
-            </table>
-          </div>
-          <div class="col-md-6  col-xs-12 col-sm-12 col-12 ">
-            <div class="botonAnexos" *ngIf="nomArchivo == null">
-              <div class="file-select btn btn-outline-light puntero btn-lg float-left" id="src-file1">
-                <input type="file" class="puntero" name="src-file1" aria-label="Archivo"
-                  style="height: 52px; width: 230px;" id="file" max-size="5000" accept="application/pdf"
-                  (change)="onFileSelect($event)">
-              </div>
-            </div>
-            <div class="botonAnexos" *ngIf="nomArchivo !== null">
-              <button type="button" class="btn btn-outline-danger btn-lg float-left"
-                (click)="quitarArchivoSeleccionado()">Borrar</button>
-            </div>
-          </div>
-          <!--<div class="col-md-3 col-xs-5 col-sm-12 col-12 ">
-            
-          </div>-->
-          <!--<div *ngIf="nomArchivo == null" class="col-sm-12 col-12 col-md-12">
-            <div class="inputFileModificado ">
-              <input class="inputFileOculto" name="input1" type="file" id="file" max-size="5000"
-                accept="application/pdf" (change)="onFileSelect($event)">
-              <div class="inputParaMostrar">
-                <i class="fas fa-paperclip"></i>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="nomArchivo !== null ">
-            <button type="button" class="btn btn-link quitar col-sm-8 col-12 col-md-8 inputParaMostrarArchivo"
-              *ngIf="formulario.get('anexo').value" (click)="quitarArchivoSeleccionado()"><small
-                class=" float-right">Quitar archivo seleccionado</small></button>
-            <div class="inputFileModificado">
-              <div class="inputParaMostrar adjunto" *ngIf="nomArchivo == null">
-                <i class="fas fa-paperclip"></i>
-                <p class="">&nbsp;{{nomArchivo}}</p>
-              </div>
-            </div>
-          </div>-->
-          <!--</div>-->
-          <div>
-            <small class="text-danger mt-2">
-              {{msjValidArchivoAnexo}}
-            </small>
-          </div>
-        </div>
-
-
-        <div class="row botones">
-          <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
-            <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Enviar Novedad</button>
-          </div>
-
-          <div class="col-sm-6 col-12" id="btnCancelar">
-            <button type="button" class="btn btn-outline-primary btn-lg" style="width: 200px;"
-              [routerLink]="['/ausentismos']">Cancelar</button>
-          </div>
-        </div>
-
-      </form>
-
-      <!--- </form> --->
     </div>
-  </div>
 
 
-  <div class="row, text-center" id="div" style="margin-top: 20px;">
-    <p>Informar corrección de jefe:
-      <button class="btn btn-primary btn-sm" (click)="abrirModal()">CLIC AQUI</button>
-    </p>
-  </div>
+    <div class="row, text-center" id="div" style="margin-top: 20px;">
+        <p>
+            Informar corrección de jefe:
+            <button class="btn btn-primary btn-sm" (click)="abrirModal()">
+                CLIC AQUI
+            </button>
+        </p>
+    </div>
 
 </div>
 
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalRN" tabindex="-1" aria-labelledby="exampleModalLabelRN" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabelRN">Informar inconsistencias de información</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form [formGroup]="formularioReporteNov" novalidate (ngSubmit)="enviarReporteNovedad()">
-        <div class="modal-body">
-          <div class="mb-3">
-            <p><b>Estimado usuario:</b></p>
-            <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta
-              será enviada al contacto de nómina y RRHH {{usuarioService.nombreContactoSoporte||''}} </p>
-            <textarea class="form-control" id="exampleFormControlTextareaEJ" rows="3" maxlength="1000"
-              formControlName="mensaje"></textarea>
-            <p class="float-right"><small>Máx. 1000 carácteres.</small></p>
-          </div>
-        </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelRN">
+                    Informar inconsistencias de información
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="formularioReporteNov" novalidate (ngSubmit)="enviarReporteNovedad()">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <p>
+                            <b>
+                                Estimado usuario:
+                            </b>
+                        </p>
+                        <p>
+                            Por favor digite la observación sobre la información que considera que se debe corregir, ésta
+                            será enviada al contacto de nómina y RRHH {{usuarioService.nombreContactoSoporte||''}} 
+                        </p>
+                        <textarea class="form-control" id="exampleFormControlTextareaEJ" rows="3" maxlength="1000"
+                            formControlName="mensaje"></textarea>
+                        <p class="float-right">
+                            <small>
+                                Máx. 1000 carácteres.
+                            </small>
+                        </p>
+                    </div>
+                </div>
 
-        <div class="modal-footer">
-          <button class="btn btn-primary">Enviar reporte</button>
+                <div class="modal-footer">
+                    <button class="btn btn-primary">
+                        Enviar reporte
+                    </button>
+                </div>
+            </form>
         </div>
-      </form>
     </div>
-  </div>
 </div>
 
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content container">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Códigos de diagnóstico</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content container">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Códigos de diagnóstico
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Seleccione el código de ausentismo relacionado a su incapacidad: 
+                </p>
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt"
+                        placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon2">
+                    <span class="input-group-text" id="basic-addon2">
+                        Filtrar
+                    </span>
+                </div>
 
-        <p>Seleccione el código de ausentismo relacionado a su incapacidad: </p>
+                <div class="table-responsive">
+                    <table class="table table-hover" style="text-align: center;">
+                        <thead style="background: #00223C; color: white;">
+                            <tr id="tblfamiliares">
+                                <th>Código</th>
+                                <th>Descripción</th>
+                                <th><span class="texto_responsive" data-desktoptext="Seleccionar"
+                                        data-tablettext="Seleccionar" data-phonetext="">
+                                    </span>
+                                    <i class="expandir fas fa-check" data-phonetext=""></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--
+                            <tr *ngIf="!codigosAusentismos || codigosAusentismos != null ||  codigosAusentismos.length==0 ">
+                                <td colspan="6">
+                                    Cargando códigos de ausentismo...
+                                </td>
+                            </tr>
+                        -->
+                            <tr *ngIf=" !codigosAusentismos || codigosAusentismos.length == 0 ">
+                                <td colspan="6">
+                                    No hay códigos de ausentismos disponibles.
+                                </td>
+                            </tr>`
+                            <tr
+                                *ngFor="let solic of codigosAusentismos | paginate: configSecond ; index as i  ">
+                                <td>{{solic[1]}}</td>
+                                <td>{{solic[2]}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary"
+                                        (click)="seleccionarCodDiag(solic[0], solic[1], solic[2], i)">
+                                        <span class="texto_responsive" data-desktoptext="Seleccionar"
+                                            data-tablettext="Seleccionar" data-phonetext="">
+                                        </span>
+                                        <i class="expandir far fa-hand-pointer" data-phonetext="">
+                                        </i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
 
-        <div class="input-group mb-3 ">
-          <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
-            aria-label="Buscar..." aria-describedby="basic-addon2">
-          <span class="input-group-text" id="basic-addon2">Filtrar</span>
+                    </table>
+                    <div class="col-md-12">
+                        <div class="spinner" [ngClass]="{'hidden': !loading } "></div>
+                        <pagination-controls id="second" (pageChange)="onPageChange($event)" style="text-align: center;"
+                            class="col-sm-12" previousLabel="Anterior" nextLabel="Siguiente" [responsive]="true">
+                        </pagination-controls>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
         </div>
-
-        <div class="table-responsive">
-          <table class="table table-hover" style="text-align: center;">
-            <thead style="background: #00223C; color: white;">
-              <tr id="tblfamiliares">
-                <th>Código</th>
-                <th>Descripción</th>
-                <th><span class="texto_responsive" data-desktoptext="Seleccionar" data-tablettext="Seleccionar"
-                    data-phonetext=""></span>
-                  <i class="expandir fas fa-check" data-phonetext=""></i>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngIf="ausentismosService.codigosAusentismos==null">
-                <td colspan="6">Cargando códigos de ausentismo...</td>
-              </tr>
-              <tr
-                *ngIf="!ausentismosService.codigosAusentismos || (ausentismosService.codigosAusentismos!=null && ausentismosService.codigosAusentismos.length==0)">
-                <td colspan="6">No hay solicitudes enviadas.</td>
-              </tr>
-              <tr
-                *ngFor="let solic of ausentismosService.codigosAusentismos | filterTable: dataFilt | paginate: {  itemsPerPage: 8, currentPage: p1, id: 'second' } ; index as i  ">
-                <td>{{solic[1]}}</td>
-                <td>{{solic[2]}}</td>
-                <td><button type="button" class="btn btn-primary"
-                    (click)="seleccionarCodDiag(solic[0], solic[1], solic[2], i)">
-                    <span class="texto_responsive" data-desktoptext="Seleccionar" data-tablettext="Seleccionar"
-                      data-phonetext=""></span>
-                    <i class="expandir far fa-hand-pointer" data-phonetext=""></i>
-                  </button></td>
-              </tr>
-            </tbody>
-
-          </table>
-          <div class="col-md-12">
-            <pagination-controls (pageChange)="p1 = $event" id="second" style="text-align: center;" class="col-sm-12"
-              previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
     </div>
-  </div>
-  <!-- Cierre Modal -->
-
-  <!-- Modal -->
-  <!--<div class="modal fade" id="staticBackdropRA" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabelRA">Informar inconsistencias de información</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <form [formGroup]="formularioReporteNov" novalidate (ngSubmit)="enviarReporteNovedad()">
-      <div class="modal-body">
-          <div class="mb-3">
-            <b>Estimado usuario:</b>
-              <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta 
-                será enviada al contacto de nómina y RRHH {{usuarioService.nombreContactoSoporte||''}} </p>
-            <textarea class="form-control" id="exampleFormControlTextareaRA" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
-            <p class="float-right"><small>Máx. 1000 carácteres.</small></p>
-          </div>
-
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-primary">Enviar reporte</button>
-      </div>
-    </form>
-    </div>
-  </div>
-</div>-->
-  <!----fin modal-->
+    <!-- Cierre Modal -->

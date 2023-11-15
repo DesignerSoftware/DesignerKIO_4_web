@@ -7,48 +7,65 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [routerLink]="['/ausentismos']">Ausentismos</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{reporteSeleccionado && reporteSeleccionado['descripcion'] || ''}}</li>
+        <li class="breadcrumb-item active" aria-current="page">
+            {{reporteSeleccionado && reporteSeleccionado['descripcion'] || ''}}
+        </li>
     </ol>
 </nav>
-<div class="col-md-12 col-sm-12 grid-margin stretch-card animated fadeIn fast" *ngIf="ausentismosService.opciones.length==0">
+<div class="col-md-12 col-sm-12 grid-margin stretch-card animated fadeIn fast"
+    *ngIf="ausentismosService.opciones.length==0">
     <div class="loader-demo-box" style="border: 0px !important;">
-      <div class="dot-opacity-loader">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+        <div class="dot-opacity-loader">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
 </div>
 
-<p *ngIf="!reporteSeleccionado && ausentismosService.opciones && ausentismosService.opciones.length!=0 && ausentismosService.opciones">Seleccione la opción que desea realizar.</p>
-<p *ngIf="ausentismosService.opciones && ausentismosService.opciones && !ausentismosService.opciones">No hay opciones habilitadas.</p>
-<div class="row animated fadeIn fast" *ngIf="ausentismosService.opciones && ausentismosService.opciones.length>0 && !reporteSeleccionado">
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card" *ngFor="let op of ausentismosService.opciones; index as i">
+<p *ngIf="!reporteSeleccionado 
+&& ausentismosService.opciones 
+&& ausentismosService.opciones.length!=0 
+&& ausentismosService.opciones">
+    Seleccione la opción que desea realizar.
+</p>
+<p *ngIf="ausentismosService.opciones 
+&& ausentismosService.opciones 
+&& !ausentismosService.opciones">
+    No hay opciones habilitadas.
+</p>
+<div class="row animated fadeIn fast"
+    *ngIf="ausentismosService.opciones && ausentismosService.opciones.length>0 && !reporteSeleccionado">
+    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card"
+        *ngFor="let op of ausentismosService.opciones; index as i">
         <div class="card" id="divReportes">
             <div class="card-body">
                 <div class="d-flex flex-row">
-                    <img [src]="imagenAusentismos(op['descripcion'])"
-                        class="img-lg rounded img-fluid" alt="profile image" />
+                    <img [src]="imagenAusentismos(op['descripcion'])" class="img-lg rounded img-fluid"
+                        alt="profile image" />
 
-                <!-- Alerta  -->
+                    <!-- Alerta  -->
                     <div class="notifyVA"
-                    *ngIf='((usuarioServicio.notificacionesAusentismo != null && usuarioServicio.notificacionesAusentismo != 0) &&  op.codigo == 43 )'>
-                    <span class="heartbitVA "></span>
-                   
-                  </div>
-                <!-- fin alerta -->
+                        *ngIf='((usuarioServicio.notificacionesAusentismo != null && usuarioServicio.notificacionesAusentismo != 0) &&  op.codigo == 43 )'>
+                        <span class="heartbitVA "></span>
+
+                    </div>
+                    <!-- fin alerta -->
                     <div class="ml-3 d-flex align-items-center row">
-                        <h6>{{  op['descripcion'] || ''}}</h6>
-                        <span *ngIf='(usuarioServicio.notificacionesAusentismo != null && usuarioServicio.notificacionesAusentismo != 0)  &&  op.codigo == 43' 
-                            class="badge bg-danger notifyRedonVA text-white ">{{usuarioServicio.notificacionesAusentismo}} pendientes
-                         </span>
+                        <h6>{{ op['descripcion'] || ''}}</h6>
+                        <span
+                            *ngIf='(usuarioServicio.notificacionesAusentismo != null && usuarioServicio.notificacionesAusentismo != 0)  &&  op.codigo == 43'
+                            class="badge bg-danger notifyRedonVA text-white ">
+                            {{usuarioServicio.notificacionesAusentismo}} pendientes
+                        </span>
                     </div>
                 </div>
             </div>
             <div class="card-footer text-right">
-                <button type="button" class="btn btn-outline-primary"
-                    (click)="seleccionarReporte(i)">Seleccionar</button>
+                <button type="button" class="btn btn-outline-primary" (click)="seleccionarReporte(i)">
+                    Seleccionar
+                </button>
             </div>
-        </div>        
-    </div>    
+        </div>
+    </div>
 </div>

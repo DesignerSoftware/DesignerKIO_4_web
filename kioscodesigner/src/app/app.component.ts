@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { CadenaskioskosappService } from './services/cadenaskioskosapp.service';
 import { UsuarioService } from './services/usuario.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -12,35 +12,36 @@ export class AppComponent {
   title = 'kioscodesigner';
 
   constructor(private usuarioServicio: UsuarioService, private cadenasKioskos: CadenaskioskosappService) {
-    //console.log('constructor');
+    console.log('constructor AppComponent');
     //this.getInfoUsuario();
   }
 
   ngOnInit() {
-    //console.log('appcomponent');
   }
 
-  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+  // obtener la información del usuario del localStorage y guardarla en el service
+  getInfoUsuario() {
     const sesion = this.usuarioServicio.getUserLoggedIn();
     this.usuarioServicio.setUsuario(sesion['usuario']);
     this.usuarioServicio.setEmpresa(sesion['empresa']);
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'], environment.urlKiosko)
-    .subscribe(
-      data => {
-        //console.log('getInfoUsuario', data);
-        //console.log(sesion['grupo']);
-        for (let i in data) {
-          if (data[i][3] === sesion['grupo']) { // GRUPO
-          const temp = data[i];
-          // //console.log('cadena: ', temp[4]) // CADENA
-          this.usuarioServicio.cadenaConexion=temp[4];
+      .subscribe(
+        data => {
+          if (Array.isArray(data)) {
+            var val1 = Object.values(data);
+            val1.forEach((v1) => {
+              if (Array.isArray(v1)) {
+                var val2 = Object.values(v1);
+                if (val2[3] === sesion['grupo']) { // GRUPO
+                  this.usuarioServicio.cadenaConexion = val2[4]; // CADENA
+                }
+              }
+            });
           }
         }
-      }
-    );
+      );
   }
 }

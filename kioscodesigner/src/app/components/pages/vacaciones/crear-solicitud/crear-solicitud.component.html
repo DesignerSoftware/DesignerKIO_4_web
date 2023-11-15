@@ -1,5 +1,3 @@
-
-
 <div class="page-header animated fadeIn fast">
   <h3 class="page-title">
     Crear solicitud
@@ -12,16 +10,14 @@
     <li class="breadcrumb-item active" aria-current="page">Crear Solicitud</li>
   </ol>
 </nav>
-<!-- <div class="alert alert-warning" role="alert">
-  Esta página está en construcción
-</div> -->
 <br>
 <div class="container animated fadeIn fast">
   <div class="row grid-margin">
     <div class="col-12 col-sm-6 col-md-9 col-xs-6">
       <div class="card card-statistics">
         <div class="card-body">
-          <div class="d-flex flex-column flex-md-row align-items-center justify-content-between animated fadeIn fast contentEstadisticas">
+          <div
+            class="d-flex flex-column flex-md-row align-items-center justify-content-between animated fadeIn fast contentEstadisticas">
             <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12">
               <p>
                 <i class="icon-sm fa fa-calendar mr-2"></i>
@@ -34,208 +30,192 @@
                 <i class="icon-sm fas fa-child mr-2"></i>
                 Días disfrutados
               </p>
-              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[1][2] || '0'}}</h2>            
-              <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2>            
+              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[1][2] || '0'}}</h2>
+              <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2>
             </div>
             <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12">
               <p>
                 <i class="icon-sm fas fa-money-bill"></i>
                 Días en dinero
               </p>
-              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[0][2] || '0'}}</h2> 
-              <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2> 
+              <h2 *ngIf="totalDiasVacacionesSubtipo">{{totalDiasVacacionesSubtipo[0][2] || '0'}}</h2>
+              <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2>
             </div>
             <div class="col-lg-3 col-sm-12 col-md-3 col-12">
               <p>
                 <i class="icon-sm far fa-calendar-plus"></i>
                 Total días
               </p>
-              <h2 *ngIf="totalDiasVacacionesSubtipo">{{sumaDias(totalDiasVacacionesSubtipo[2][2], totalDiasVacacionesProv)}}</h2> 
-              <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2> 
+              <h2 *ngIf="totalDiasVacacionesSubtipo">{{sumaDias(totalDiasVacacionesSubtipo[2][2],
+                totalDiasVacacionesProv)}}</h2>
+              <h2 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h2>
             </div>
 
           </div>
         </div>
       </div>
     </div>
-  <div class="col-12 col-sm-6 col-md-3 col-xs-6">
-    <div class="card-body" style="padding-top: 0px;" id="cardTable">
-      <div class="d-flex flex-column flex-md-row align-items-center justify-content-between" id="contentTable">
-        <div class="statistics-item">
-  
-          <table class="table table-responsive" id="tablaperiodosDias"
-            style="overflow-y: scroll; height: 120px; background-color: white;">
-            <tr style="font-size: 13px;">
-              <th>Periodos disponibles</th>
-              <th>Días</th>
-            </tr>
-            <tr *ngIf="!periodosPendientes">
-              <td colspan="2">No hay periodos disponibles</td>
-            </tr>
-            <tr *ngFor="let va of periodosPendientes">
-              <td>{{va[5]}}</td>
-              <td>{{va[1]}}</td>
-            </tr>
-          </table>
-  
+    <div class="col-12 col-sm-6 col-md-3 col-xs-6">
+      <div class="card-body" style="padding-top: 0px;" id="cardTable">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between" id="contentTable">
+          <div class="statistics-item">
+
+            <table class="table table-responsive" id="tablaperiodosDias"
+              style="overflow-y: scroll; height: 120px; background-color: white;">
+              <tr style="font-size: 13px;">
+                <th>Periodos disponibles</th>
+                <th>Días</th>
+              </tr>
+              <tr *ngIf="!periodosPendientes">
+                <td colspan="2">No hay periodos disponibles</td>
+              </tr>
+              <tr *ngFor="let va of periodosPendientes">
+                <td>{{va[5]}}</td>
+                <td>{{va[1]}}</td>
+              </tr>
+            </table>
+
+          </div>
+
         </div>
-  
       </div>
     </div>
   </div>
-
-  </div>
-
-
-
-
-
   <hr>
-
-
   <!-- <form> -->
-
-
-<div class="card">
-
-  <div class="col-12 grid-margin p-5">
-    <h4 class="card-title">
-      <i class="fas fa-umbrella"></i>
-      Solicitar vacaciones</h4>
+  <div class="card">
+    <div class="col-12 grid-margin p-5">
+      <h4 class="card-title">
+        <i class="fas fa-umbrella"></i>
+        Solicitar vacaciones
+      </h4>
       <p class="card-description">
         Por favor diligencie los campos fecha de inicio de vacaciones y cantidad de días para realizar su solicitud.
       </p>
-    <form class="form-sample mt-2" [formGroup]="formulario" (ngSubmit)="enviarSolicitud()">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="container mb-4" style="margin-left: auto;">
-            <label class="col-sm-12 col-form-label" style="text-align: center;">La persona a cargo de autorizar sus vacaciones es: <b style="color: #00223C;">{{autorizadorVacaciones}}</b></label> 
-          </div>
-        </div>
-      </div>      
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label">Tipo Vacación:</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control
-                      form-control-sm" formControlName="tipo" readonly="true" 
-                      title="Por este módulo sólo se pueden solicitar vacaciones en tiempo, para solicitar vacaciones en disfrute por favor consultelo con el área de nómina."
-                      />
+      <form class="form-sample mt-2" [formGroup]="formulario" (ngSubmit)="enviarSolicitud()">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="container mb-4" style="margin-left: auto;">
+              <label class="col-sm-12 col-form-label" style="text-align: center;">La persona a cargo de autorizar sus
+                vacaciones es: <b style="color: #00223C;">{{autorizadorVacaciones}}</b></label>
             </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label">Fecha inicio:</label>
-            <div class="col-sm-9">
-              <input type="date" class="form-control form-control-sm" title="Seleccione la fecha de inicio de las vacaciones" 
-              formControlName="fechainicio" (change)="validaFecha();" id="fechainicio" hidden/>
-              <input type="text" class="form-control form-control-sm" (mouseover)="backDt();" (click)="backDt();" id="fechainiciodt" formControlName="fechainiciodt"
-                  title="Seleccione el día que inicia el ausentismo" placeholder="dd/mm/yyyy"/>
-              <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.required
-                      && formulario.get('fechainicio').touched">
-                     Seleccione la fecha de inicio de vacaciones
-              </small>
-              <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.noValido
-                      && formulario.get('fechainicio').touched">
-                     {{mensajeValidacionFechaInicio}}
-              </small>
-            </div>
-
-
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label">Periodo:</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control
-                    form-control-sm" formControlName="periodo" [value]="ultimoPeriodo || 'Consultando...'" readonly="true"
-                    title="Periodo más antiguo." />
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Tipo Vacación:</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control
+                        form-control-sm" formControlName="tipo" readonly="true"
+                  title="Por este módulo sólo se pueden solicitar vacaciones en tiempo, para solicitar vacaciones en disfrute por favor consultelo con el área de nómina." />
+              </div>
             </div>
           </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Fecha inicio:</label>
+              <div class="col-sm-9">
+                <input type="date" class="form-control form-control-sm"
+                  title="Seleccione la fecha de inicio de las vacaciones" formControlName="fechainicio"
+                  (change)="validaFecha();" id="fechainicio" hidden />
+                <input type="text" class="form-control form-control-sm" (mouseover)="backDt();" (click)="backDt();"
+                  id="fechainiciodt" formControlName="fechainiciodt" title="Seleccione el día que inicia el ausentismo"
+                  placeholder="dd/mm/yyyy" />
+                <small class="text-danger" *ngIf="formulario.get('fechainicio')!.errors
+                        && formulario.get('fechainicio')!.touched">
+                  Seleccione la fecha de inicio de vacaciones
+                </small>
+                <small class="text-danger" *ngIf="formulario.get('fechainicio')!.errors
+                        && formulario.get('fechainicio')!.touched">
+                  {{mensajeValidacionFechaInicio}}
+                </small>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label">Días:</label>
-            <div class="col-sm-9">
-              <select class="form-control" formControlName="dias" (change)="validaFecha()" title="Seleccione el número de días de vacaciones a solicitar">
-                <option value="" *ngIf="array.length<=0 && diasUltimoPeriodo==null" selected="true">Cargando...</option>
-                <option value="" *ngIf="array.length>0" selected="true">Seleccione días a solicitar</option>
-                <option [value]="d" *ngFor="let d of array">{{d}}</option>
-              </select>
-              <small class="text-danger" *ngIf="formulario.get('dias').errors?.required
-              && formulario.get('dias').touched && diasUltimoPeriodo!=null">
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Periodo:</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control
+                      form-control-sm" formControlName="periodo" [value]="ultimoPeriodo || 'Consultando...'"
+                  readonly="true" title="Periodo más antiguo." />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Días:</label>
+              <div class="col-sm-9">
+                <select class="form-control" formControlName="dias" (change)="validaFecha()"
+                  title="Seleccione el número de días de vacaciones a solicitar">
+                  <option value="" *ngIf="array.length<=0 && diasUltimoPeriodo==null" selected="true">Cargando...
+                  </option>
+                  <option value="" *ngIf="array.length>0" selected="true">Seleccione días a solicitar</option>
+                  <option [value]="d" *ngFor="let d of array">{{d}}</option>
+                </select>
+                <small class="text-danger" *ngIf="formulario.get('dias')!.errors
+                && formulario.get('dias')!.touched && diasUltimoPeriodo!=null">
                   Seleccione el número de días de vacaciones a solicitar
-              </small>
-              <small class="text-danger" *ngIf="formulario.get('dias').errors?.noDiasDispo">
+                </small>
+                <small class="text-danger" *ngIf="formulario.get('dias')!.errors">
                   No tiene días disponibles.
-              </small>
-            </div>
-
-
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label">Fecha fin de disfrute:</label>
-            <div class="col-sm-9">
-              <!--<input type="date" class="form-control
-                  form-control-sm" formControlName="fechafin" value="xx/xx/xxxx" readonly="true" title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" -->
-                  <input type="text" class="form-control
-                  form-control-sm" formControlName="fechafin" readonly="true" placeholder="dd/mm/yyyy"
-                  title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina"> 
+                </small>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label">Fecha regreso a laborar:</label>
-            <div class="col-sm-9">
-              <!--<input type="date" class="form-control form-control-sm" formControlName="fecharegreso" readonly="true"
-               title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />-->
-               <input type="text" class="form-control form-control-sm"
-               formControlName="fecharegreso" readonly="true" placeholder="dd/mm/yyyy"
-               title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Fecha fin de disfrute:</label>
+              <div class="col-sm-9">
+                <!--<input type="date" class="form-control
+                    form-control-sm" formControlName="fechafin" value="xx/xx/xxxx" readonly="true" title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" -->
+                <input type="text" class="form-control
+                    form-control-sm" formControlName="fechafin" readonly="true" placeholder="dd/mm/yyyy"
+                  title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina">
+              </div>
             </div>
-
-
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Fecha regreso a laborar:</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" formControlName="fecharegreso" readonly="true"
+                  placeholder="dd/mm/yyyy"
+                  title="Este campo se calcula automáticamente, si presenta alguna inconsistencia por favor consultelo con el área de nómina" />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
-          <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Enviar solicitud</button>
+        <div class="row">
+          <div class="col-sm-6 col-12" style="text-align: right;" id="btnEnviar">
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Enviar solicitud</button>
+          </div>
+          <div class="col-sm-6 col-12" id="btnCancelar">
+            <button type="button" class="btn btn-outline-primary btn-lg" style="width: 200px;"
+              [routerLink]="['/vacaciones']">Cancelar</button>
+          </div>
         </div>
-
-        <div class="col-sm-6 col-12" id="btnCancelar">
-          <button type="button" class="btn btn-outline-primary btn-lg" style="width: 200px;" [routerLink]="['/vacaciones']">Cancelar</button>
-        </div>
-      </div>
-
-    </form>
-
- <!--- </form> --->
+      </form>
+      <!--- </form> --->
+    </div>
+  </div>
+  <div class="row, text-center" id="div" style="margin-top: 20px;">
+    <p>Informar corrección de autorizador de vacaciones:
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        (click)="abrirModal()">CLIC AQUI</button>
+    </p>
   </div>
 </div>
-<div class="row, text-center" id="div" style="margin-top: 20px;">
-  <p>Informar corrección de autorizador de vacaciones:
-    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
-</div>
-
-</div>
-
-
 <!-- Modal -->
-<div class="modal fade" id="staticBackdropEJ" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdropEJ" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -244,23 +224,21 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
       <form [formGroup]="formularioReporteNov" novalidate (ngSubmit)="enviarReporteNovedad()">
-      <div class="modal-body">
+        <div class="modal-body">
           <div class="mb-3">
             <p><b>Estimado usuario:</b></p>
-              <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta 
-                será enviada al contacto de nómina y RRHH {{usuarioService.nombreContactoSoporte||''}} </p>
-            <textarea class="form-control" id="exampleFormControlTextareaEJ" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
+            <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta
+              será enviada al contacto de nómina y RRHH {{usuarioService.nombreContactoSoporte||''}} </p>
+            <textarea class="form-control" id="exampleFormControlTextareaEJ" rows="3" maxlength="1000"
+              formControlName="mensaje"></textarea>
             <p class="float-right"><small>Máx. 1000 carácteres.</small></p>
           </div>
-
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-primary">Enviar reporte</button>
-      </div>
-    </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Enviar reporte</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

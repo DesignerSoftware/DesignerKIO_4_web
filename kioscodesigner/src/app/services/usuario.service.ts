@@ -1,58 +1,59 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+import { DatosIngreso } from '../components/modelo/datos-ingreso';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
-  public isUserLoggedIn=false;
-  public usserLogged;
-  secuenciaEmpleado = null;
-  nombrePersona = 'Bienvenido';
-  nombreApellidoPersona ='Bienvenido';
-  datos;
-  usuario=null;
-  empresa=null;
-  tokenJWT;
-  urlLogoEmpresa;
-  urlLogoEmpresaDarkXl;
-  urlLogoEmpresaMin;
-  grupoEmpresarial=null;
-  documento=null;
-  //cadenaConexion='wsreportePU';
-  cadenaConexion=null;
-  datosFamilia = null;
-  datosPersonales = null;
-  telefonosEmpleado:Array<string> =  [];
-  datosContacto = null;
-  correo = null;
-  nombreContactoSoporte = '';
-  correoContactoSoporte = '';
-  datosEstudios = null;
-  datosEstudiosNF = null;
-  datosExperienciaLab = null;
-  urlActiva = null;
-  tipoUsuario = null;
-  documentosAnexos = null;
-  existeDocumentoAnexo : Array<string> = [];
-  documentoSeleccionado = null;
-  carnetSeleccionado : Array<string> = [];
-  listProverbios : any = null;
-  existefotoPerfil = null; 
-  notificacionesVacaciones:number  = 0;
-  notificacionesAusentismo: number= 0;
+  public isUserLoggedIn = false;
+  public usserLogged: string = '';
+  secuenciaEmpleado: number = 0;
+  nombrePersona: string = 'Bienvenido';
+  nombreApellidoPersona: string = 'Bienvenido';
+  datos: any = null;
+  usuario: string = '';
+  empresa: string = '';
+  tokenJWT: string = '';
+  urlLogoEmpresa: string = '';
+  urlLogoEmpresaDarkXl: string = '';
+  urlLogoEmpresaMin: string = '';
+  grupoEmpresarial: string = '';
+  documento: any = null;
+  cadenaConexion: string = '';
+  datosFamilia: any = null;
+  datosPersonales: any = null;
+  telefonosEmpleado: Array<string> = [];
+  datosContacto: any = null;
+  correo: string = '';
+  nombreContactoSoporte: string = '';
+  correoContactoSoporte: string = '';
+  datosEstudios: any = null;
+  datosEstudiosNF: any = null;
+  datosExperienciaLab: any = null;
+  urlActiva: string = '';
+  tipoUsuario: any = null;
+  documentosAnexos: any = null;
+  existeDocumentoAnexo: Array<string> = [];
+  documentoSeleccionado: any = null;
+  //carnetSeleccionado: Array<string> = [];
+  carnetSeleccionado: any = [];
+  listProverbios: any = null;
+  existefotoPerfil: any = null;
+  notificacionesVacaciones: number = 0;
+  notificacionesAusentismo: number = 0;
   notificacionesRh: number = 0;
-  provisiones : Array<string> = [];
+  provisiones: Array<string> = [];
 
-  urlKioscoDomain = "https://www.designer.com.co:8179";
-  //public url = 'http://www.nominadesigner.co:8080/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg';
-  //public url = `https://www.designer.com.co:8178/wsreporte/webresources/conexioneskioskos/obtenerFoto/sinFoto.jpg?cadena=${this.cadenaConexion}`;
+  urlKioscoDomain: string = '';
   public url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFoto/sinFoto.jpg?usuario=${this.usuario}&empresa=${this.empresa}&cadena=${this.cadenaConexion}`;
-   
+
   constructor(private http: HttpClient) {
-    this.isUserLoggedIn =  false;
+    this.isUserLoggedIn = false;
   }
 
   setUserLoggedIn(usuario: string) {
@@ -62,9 +63,15 @@ export class UsuarioService {
   }
 
   getUserLoggedIn() {
-    const obj: any = JSON.parse(localStorage.getItem('currentUser')) ;
-    //console.log('getUserLoggedIn()', obj);
-    return JSON.parse(localStorage.getItem('currentUser'));
+    console.log('currentUser');
+    var currentUser: any = localStorage.getItem('currentUser');
+    console.log('currentUser: ' + currentUser);
+    var jCurrentUser: any;
+    if (currentUser !== null) {
+      jCurrentUser = JSON.parse(localStorage.getItem('currentUser') || '');
+    }
+    console.log('jCurrentUser: ' + jCurrentUser);
+    return jCurrentUser;
   }
 
   setUsuario(usuario: string) {
@@ -79,29 +86,25 @@ export class UsuarioService {
     this.tokenJWT = token;
   }
 
-  setGrupo(grupo: string){
-    this.grupoEmpresarial=grupo;
+  setGrupo(grupo: string) {
+    this.grupoEmpresarial = grupo;
   }
 
-  setUrlKiosco(url: string){
-    this.urlKioscoDomain=url;
+  setUrlKiosco(url: string) {
+    this.urlKioscoDomain = url;
   }
 
-  getUrl(){
+  getUrl() {
     return environment.urlKiosko;
   }
 
-  getUrlws(){
+  getUrlws() {
     return environment.urlKioskoReportes;
   }
 
   getDatosUsuario(usuario: string, nit: string, cadena: string) {
     const obj: any = this.getUserLoggedIn;
-    // const url = 'http://localhost:8080/wsjavanov5/jcmouse/restapi/restKiosco/getDatosEmpleadoNit/' + usuario + '/' + nit;
-    //const url = `${environment.urlKioskoReportes}empleados/datosEmpleadoNit/${usuario}/${nit}?cadena=${cadena}`;
-    //const url = `${environment.urlKioskoReportes}empleados/datosEmpleadoNit/${usuario}/${nit}?cadena=${cadena}`;
     const url = `${environment.urlKioskoReportes}empleados/datosEmpleadoNit/${usuario}/${nit}`;
-    ////console.log('url:' + url);
     return this.http.get(url, {
       params: {
         cadena
@@ -111,11 +114,7 @@ export class UsuarioService {
 
   getDatosUsuarioFamilia(usuario: string, nit: string, cadena: string) {
     const obj: any = this.getUserLoggedIn;
-    // const url = 'http://localhost:8080/wsjavanov5/jcmouse/restapi/restKiosco/getDatosFamiliaEmpleado/' + usuario + '/' + nit;
-    //const url = `${environment.urlKioskoReportes}empleados/datosFamiliaEmpleado/${usuario}/${nit}?cadena=${cadena}`;
-    //const url = `${environment.urlKioskoReportes}empleados/datosFamiliaEmpleado/${usuario}/${nit}?cadena=${cadena}`;
     const url = `${environment.urlKioskoReportes}empleados/datosFamiliaEmpleado/${usuario}/${nit}`;
-    ////console.log('url:' + url);
     return this.http.get(url, {
       params: {
         cadena
@@ -125,25 +124,19 @@ export class UsuarioService {
 
   getDatosExpLabEmpleado(usuario: string, nit: string, cadena: string) {
     const obj: any = this.getUserLoggedIn;
-    //const url = `${environment.urlKioskoReportes}empleados/datosExperienciaLab/?empleado=${usuario}&nit=${nit}&cadena=${cadena}`;
-    //const url = `${environment.urlKioskoReportes}empleados/datosExperienciaLab/?empleado=${usuario}&nit=${nit}&cadena=${cadena}`;
     const url = `${environment.urlKioskoReportes}empleados/datosExperienciaLab`;
-    ////console.log('url:' + url);
     return this.http.get(url, {
       params: {
-        empleado: usuario, 
+        empleado: usuario,
         nit: nit,
         cadena: cadena
       }
     });
-  }  
+  }
 
   getDatosUsuarioCadena(usuario: string, nit: string, cadena: string) {
     const obj: any = this.getUserLoggedIn;
-    // const url = 'http://localhost:8080/wsjavanov5/jcmouse/restapi/restKiosco/getDatosEmpleadoNit/' + usuario + '/' + nit;
-    //const url = `${environment.urlKioskoReportes}empleados/datosEmpleadoNit/${usuario}/${nit}?cadena=${cadena}`;
     const url = `${environment.urlKioskoReportes}empleados/datosEmpleadoNit/${usuario}/${nit}`;
-    ////console.log('url:' + url);
     return this.http.get(url, {
       params: {
         cadena: cadena
@@ -151,59 +144,62 @@ export class UsuarioService {
     });
   }
 
-  getTelefonosEmpleado(usuario: string, nit: string, cadena: string){
-    //const url = `${environment.urlKioskoReportes}empleados/telefonosEmpleadoNit?usuario=${usuario}&nit=${nit}&cadena=${cadena}`;
+  getTelefonosEmpleado(usuario: string, nit: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}empleados/telefonosEmpleadoNit`;
-    ////console.log('url:' + url);
     return this.http.get(url, {
       params: {
         usuario: usuario,
         nit: nit,
         cadena: cadena
       }
-    });    
-  }  
-
-  isAutenticado() {
-    if (this.getUserLoggedIn () != null) {
-      //console.log('estoy autenticado');
-      return true;
-    }
+    });
   }
 
-  /*getSecuenciaEmpl(codEmpleado: string) {
-    //const url = `${environment.urlKioskoDesigner}empleados/` + codEmpleado;
-    // const url = `${environment.urlKioskoDesigner}empleados/` + codEmpleado;
-    const url = `${environment.urlKioskoReportes}empleados/${codEmpleado}`;
-    //console.log(url);
-    return this.http.get(url);
-  }*/
+  isAutenticado(): boolean {
+    if (this.getUserLoggedIn() != null) {
+      return true;
+    }
+    return false;
+  }
 
   actualizaParametrosReportes(codigoEmp: string, nitEmpresa: string, fechadesde: string, fechahasta: string, enviocorreo: boolean, dirigidoa: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}conexioneskioskos/updateFechas` +
-    `?usuario=${codigoEmp}&nitEmpresa=${nitEmpresa}&fechadesde=${fechadesde}&fechahasta=${fechahasta}&enviocorreo=${enviocorreo}&dirigidoa=${dirigidoa}&cadena=${cadena}`;
-    //console.log(url);
+      `?usuario=${codigoEmp}&nitEmpresa=${nitEmpresa}&fechadesde=${fechadesde}&fechahasta=${fechahasta}&enviocorreo=${enviocorreo}&dirigidoa=${dirigidoa}&cadena=${cadena}`;
     return this.http.post(url, {});
   }
 
   validarIngresoKioscoSeudonimo(seudonimo: string, password: string, nit: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}conexioneskioskos/validarIngresoSeudonimoKiosco`;
-    //console.log(url);
-    /*//console.log(
-      `${environment.urlKioskoReportes}conexioneskioskos/validarIngresoSeudonimoKiosco?usuario=${seudonimo}&clave=${password}&nitEmpresa=${nit}`);*/
-    return this.http.get(url,
-    {params: {
-      usuario: seudonimo,
-      clave: password,
-      nitEmpresa: nit,
-      cadena: cadena
-    }});
+    return this.http.get<DatosIngreso>(url,
+      {
+        params: {
+          usuario: seudonimo,
+          clave: password,
+          nitEmpresa: nit,
+          cadena: cadena
+        }
+      }).pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+  //Extraido del manual de Angular.
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
   validarSeudonimoClaveNit(seudonimo: string, clave: string, nitEmpresa: string, cadena: string) {
-    // const url = `${environment.urlKioskoDesigner}restKiosco/validarUsuarioSeudonimoRegistrado?usuario=${seudonimo}&clave=${clave}&nitEmpresa=${nitEmpresa}`;
     const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarUsuarioSeudonimoRegistrado`;
-    //console.log(url);
     return this.http.get(url, {
       params: {
         usuario: seudonimo,
@@ -215,10 +211,7 @@ export class UsuarioService {
   }
 
   generarTokenLogin(usuario: string, clave: string, empresa: string, cadena: string, grupo: string) { // recibe seudonimo, clave y nit de empresa
-    // const url =`${environment.urlKioskoDesigner}restKiosco/jwt/${usuario}/${clave}/${empresa}`;
-    // const url =`${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwt/${usuario}/${clave}/${empresa}`;
-    const url =`${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwt`;
-    //console.log(url);
+    const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwt`;
     return this.http.get(url, {
       params: {
         usuario,
@@ -231,10 +224,7 @@ export class UsuarioService {
   }
 
   getParametros(usuario: string, empresa: string, cadena: string) {
-    //const url = `${environment.urlKioskoReportes}conexioneskioskos/parametros?usuario=${usuario}&nitEmpresa=${empresa}&cadena=${cadena}`;
     const url = `${environment.urlKioskoReportes}conexioneskioskos/parametros`;
-    //const url = `${environment.urlKioskoReportes}conexioneskioskos/parametros`;
-    ////console.log(url);
     return this.http.get(url,
       {
         params: {
@@ -246,26 +236,19 @@ export class UsuarioService {
   }
 
   consultarCorreoConexioneskioskos(usuario: string, empresa: string, cadena: string) {
-    // const url = `${environment.urlKioskoDesigner}restKiosco/correoconexioneskioskos/${usuario}/${empresa}`;
-    //const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/correoconexioneskioskos/${usuario}/${empresa}`;
     const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/correoconexioneskioskos/${usuario}/${empresa}?cadena=${cadena}`;
-    //console.log(url);
     return this.http.get(url);
   }
 
   // actualizar clave conexioneskioskos:
   actualizaClave(usuario: string, nit: string, clave: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}conexioneskioskos/updateClave?usuario=${usuario}&nitEmpresa=${nit}&clave=${clave}&cadena=${cadena}`;
-    //console.log(url);
     return this.http.post(url, {});
   }
 
   generaClaveAleatoria(usuario: string, nit: string, cadena: string) {
-    // const url = `${environment.urlKioskoDesigner}restKiosco/generarClave?usuario=${usuario}&nit=${nit}`;
-    //const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/generarClave?usuario=${usuario}&nit=${nit}`;
     const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/generarClave`;
-    //console.log(url);
-    return this.http.get(url, 
+    return this.http.get(url,
       {
         params: {
           usuario: usuario,
@@ -275,30 +258,20 @@ export class UsuarioService {
       });
   }
 
-  validaToken(jwt: string, cadena: string) { 
-    //const url = `${environment.urlKioskoDesigner}restKiosco/validarJWTActivarCuenta?jwt=${jwt}`;
+  validaToken(jwt: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarJWTActivarCuenta?jwt=${jwt}&cadena=${cadena}`;
-    //const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarJWTActivarCuenta`;
     console.log(url);
-    return this.http.get(url/*,
-      {
-        params: {
-          jwt: jwt, cadena: cadena
-        }
-      }*/);
+    return this.http.get(url);
   }
 
   cambiaEstadoUsuario(seudonimo: string, nitEmpresa: string, activo: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}conexioneskioskos/cambioEstadoUsuario?seudonimo=${seudonimo}&nitEmpresa=${nitEmpresa}&activo=${activo}&cadena=${cadena}`;
-    ////console.log(url);
     return this.http.post(url, {});
   }
 
   // valida si esta registrado en conexioneskioskos por empleado y nitempresa, corregir para que sea por persona
   validaUsuarioYNitEmpresaRegistrado(usuario: string, nitEmpresa: string, cadena: string) {
-    // const url = `${environment.urlKioskoDesigner}restKiosco/validarUsuarioRegistrado/${usuario}/${nitEmpresa}`;
     const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/validarUsuarioRegistrado/${usuario}/${nitEmpresa}`;
-    ////console.log(url);
     return this.http.get(url, {
       params: {
         cadena
@@ -306,31 +279,20 @@ export class UsuarioService {
     });
   }
 
-  /*getEmpresas() {
-    const url = `${environment.urlKioskoReportes}restKiosco/empresas`;
-    //console.log(url);
-    return this.http.get(url);
-  }*/
-
-  getDocumentoSeudonimo(seudonimo: string, nit: string, cadena: string) { // requiere el seudonimo y el nit de la empresa para retornar el documento asociado
-    // const url = `${environment.urlKioskoDesigner}restKiosco/documentoconexioneskioskos?seudonimo=${seudonimo}&nit=${nit}`;
-    //const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/documentoconexioneskioskos?seudonimo=${seudonimo}&nit=${nit}`;
+  // requiere el seudonimo y el nit de la empresa para retornar el documento asociado
+  getDocumentoSeudonimo(seudonimo: string, nit: string, cadena: string) { 
     const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/documentoconexioneskioskos`;
-    //console.log(url);
     return this.http.get(url, {
-        params: {
-          seudonimo: seudonimo,
-          nit: nit,
-          cadena: cadena
-        }
-      });
+      params: {
+        seudonimo: seudonimo,
+        nit: nit,
+        cadena: cadena
+      }
+    });
   }
 
-  getLogoEmpresa(nit: string, cadena: string) { 
-    // const url = `${environment.urlKioskoDesigner}restKiosco/logoEmpresa/${nit}`;
-    //const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/logoEmpresa/${nit}?cadena=${cadena}`;
+  getLogoEmpresa(nit: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/logoEmpresa/${nit}`;
-    ////console.log(url);
     return this.http.get(url, {
       params: {
         cadena
@@ -338,28 +300,20 @@ export class UsuarioService {
     });
   }
 
-  inactivaToken(jwt: string, nit: string, cadena: string) { // recibe token y cambia estado a N
-    //const url = `${environment.urlKioskoReportes}conexioneskioskos/inactivaToken?jwt=${jwt}`;
+  // recibe token y cambia estado a N
+  inactivaToken(jwt: string, nit: string, cadena: string) { 
     const url = `${environment.urlKioskoReportes}conexioneskioskos/inactivaToken?nit=${nit}&cadena=${cadena}&jwt=${jwt}`;
-    ////console.log('cadena recibida: ', cadena);
-    ////console.log('jwt: ', jwt);
-    ////console.log('nit: ', nit);
-    ////console.log(url);
     return this.http.post(url, {});
   }
 
-// inactivo todos los tokens de un mismo tipo
+  // inactivo todos los tokens de un mismo tipo
   inactivaTokensTipo(tipo: string, usuario: string, nitEmpresa: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}conexioneskioskos/inactivaTokensTipo?tipo=${tipo}&seudonimo=${usuario}&nit=${nitEmpresa}&cadena=${cadena}`;
-    ////console.log(url);
     return this.http.post(url, {});
   }
 
-  enviaCorreoNovedadRRHH(seudonimo: string, nit: string, novedad: string, asunto: string, urlKiosco: string, grupo: string, cadena: string ) { 
-    // const url = `${environment.urlKioskoDesigner}restKiosco/logoEmpresa/${nit}`;
-    //const url = `${environment.urlKioskoReportes}empleados/enviaReporteInfoRRHH?seudonimo=${seudonimo}&nitempresa=${nit}&observacion=${novedad}&grupo=${grupo}&urlKiosco=${urlKiosco}`;
+  enviaCorreoNovedadRRHH(seudonimo: string, nit: string, novedad: string, asunto: string, urlKiosco: string, grupo: string, cadena: string) {
     const url = `${environment.urlKioskoReportes}empleados/enviaReporteInfoRRHH`;
-    //console.log(url);
     return this.http.get(url, {
       params: {
         seudonimo: seudonimo,
@@ -371,12 +325,10 @@ export class UsuarioService {
         cadena: cadena
       }
     });
-  }  
+  }
 
   getEducacionesNoFormales(usuario: string, cadena: string, nitEmpresa: string) {
-    //const url = `${environment.urlKioskoReportes}empleados/educacionesNoFormales?usuario=${usuario}&cadena=${cadena}&empresa=${nitEmpresa}`;
     const url = `${environment.urlKioskoReportes}empleados/educacionesNoFormales`;
-    ////console.log('url:' + url);
     return this.http.get(url, {
       params: {
         usuario,
@@ -387,9 +339,7 @@ export class UsuarioService {
   }
 
   getEducacionesFormales(usuario: string, cadena: string, nitEmpresa: string) {
-    //const url = `${environment.urlKioskoReportes}empleados/educacionesFormales?usuario=${usuario}&cadena=${cadena}&empresa=${nitEmpresa}`;
     const url = `${environment.urlKioskoReportes}empleados/educacionesFormales`;
-    ////console.log('url:' + url);
     return this.http.get(url, {
       params: {
         usuario,
@@ -397,11 +347,9 @@ export class UsuarioService {
         empresa: nitEmpresa
       }
     });
-  } 
+  }
   getObtenerAnexosDocumentos(usuario: string, cadena: string, nitEmpresa: string) {
-    //const url = `${environment.urlKioskoReportes}empleados/educacionesFormales?usuario=${usuario}&cadena=${cadena}&empresa=${nitEmpresa}`;
     const url = `${environment.urlKioskoReportes}empleados/obtenerAnexosDocumentos`;
-    ////console.log('url:' + url);
     return this.http.get(url, {
       params: {
         empleado: usuario,
@@ -409,15 +357,13 @@ export class UsuarioService {
         empresa: nitEmpresa
       }
     });
-  }   
-  getDescargarArchivo(usuario: string, cadena: string, nitEmpresa: string, anexo: string){
+  }
+  getDescargarArchivo(usuario: string, cadena: string, nitEmpresa: string, anexo: string) {
     const url = `${environment.urlKioskoReportes}empleados/decargarAnexo?usuario=${usuario}&cadena=${cadena}&empresa=${nitEmpresa}&anexo=${anexo}`;
-    ////console.log(url);
     return this.http.get(url, { responseType: 'blob' });
   }
-  getGenerarQR(seudonimo: string,celular: string,correo: string,cargo: string,empresa: string, cadena: string, nitEmpresa: string){
+  getGenerarQR(seudonimo: string, celular: string, correo: string, cargo: string, empresa: string, cadena: string, nitEmpresa: string) {
     const url = `${environment.urlKioskoReportes}empleados/generaQR`;
-    ////console.log(url);
     return this.http.get(url, {
       params: {
         documento: seudonimo,
@@ -430,9 +376,8 @@ export class UsuarioService {
       }
     });
   }
-  getValidaFoto(usuario: string, cadena: string, nitEmpresa: string){
+  getValidaFoto(usuario: string, cadena: string, nitEmpresa: string) {
     const url = `${environment.urlKioskoReportes}empleados/existeFoto`;
-    ////console.log(url);
     return this.http.get(url, {
       params: {
         usuario: usuario,
@@ -442,9 +387,8 @@ export class UsuarioService {
     });
   }
   /*para eliminar la foto del usuario*/
-  getEliminarFoto(seudonimo: string, cadena: string, nitEmpresa: string){
+  getEliminarFoto(seudonimo: string, cadena: string, nitEmpresa: string) {
     const url = `${environment.urlKioskoReportes}empleados/eliminarFoto`;
-    ////console.log(url);
     return this.http.get(url, {
       params: {
         documento: seudonimo,
@@ -454,58 +398,57 @@ export class UsuarioService {
     });
   }
 
-  loadAllNotifications(){
-    //this.notificacionesVacaciones = nose; 
+  loadAllNotifications() {
+    var dato = null;
     this.getNotifiaciones(this.usuario, 'VACACION', this.cadenaConexion, this.empresa)
       .subscribe(
         data => {
-          this.notificacionesVacaciones = data[0];
-          // console.log('cant Notificaciones vacas:', this.notificacionesVacaciones.length);
-          //console.log('cant Notificaciones vacas:', this.notificacionesVacaciones[0]);
+          if (Array.isArray(data)) {
+            this.notificacionesVacaciones = data[0];
+          }
         });
 
     this.getNotifiaciones(this.usuario, 'AUSENTISMO', this.cadenaConexion, this.empresa)
       .subscribe(
         data => {
-          this.notificacionesAusentismo = data[0];
+          if (Array.isArray(data)) {
+            this.notificacionesAusentismo = data[0];
+          }
         });
 
     this.getNotifiaciones(this.usuario, 'RRHH', this.cadenaConexion, this.empresa)
       .subscribe(
         data => {
-          this.notificacionesRh = data[0];
+          if (Array.isArray(data)) {
+            this.notificacionesRh = data[0];
+          }
         });
   }
 
-  getNotifiaciones(seudonimo: string, tipoNoti: string,cadena: string, nit: string){
+  getNotifiaciones(seudonimo: string, tipoNoti: string, cadena: string, nit: string) {
     const url = `${environment.urlKioskoReportes}empleados/getNotificaciones`;
-    ////console.log('url:' + url);
-    return this.http.get(url,{
+    return this.http.get(url, {
       params: {
         usuario: seudonimo,
         tipoNotificacion: tipoNoti,
         empresa: nit,
         cadena: cadena
       }
-      });
+    });
   }
 
-  getProverbios(cadena: string, nit: string){
+  getProverbios(cadena: string, nit: string) {
     const url = `${environment.urlKioskoReportes}empleados/proverbios`;
-    //console.log('url:' + url);
-    return this.http.get(url,{
+    return this.http.get(url, {
       params: {
         nit: nit,
         cadena: cadena
       }
-      });
+    });
   }
 
   getUltimosPagos(seudonimo: string, nit: string, cadena: string) {
-    //const url = `http://pc006:8082/wsreporte/webresources/vacacionesPendientes/consultarPeriodoMasAntiguo?documento=52384153`;
-    //const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesProvisionados?seudonimo=${seudonimo}&nitempresa=${nit}`;
     const url = `${environment.urlKioskoReportes}empleados/ultimospagos`;
-    //console.log('url:' + url);
     return this.http.get(url, {
       params: {
         seudonimo: seudonimo,
@@ -516,10 +459,7 @@ export class UsuarioService {
   }
 
   getProvisiones(seudonimo: string, nit: string, cadena: string) {
-    //const url = `http://pc006:8082/wsreporte/webresources/vacacionesPendientes/consultarPeriodoMasAntiguo?documento=52384153`;
-    //const url = `${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesProvisionados?seudonimo=${seudonimo}&nitempresa=${nit}`;
     const url = `${environment.urlKioskoReportes}empleados/provisiones`;
-    //console.log('url:' + url);
     return this.http.get(url, {
       params: {
         cadena: cadena,
@@ -530,9 +470,8 @@ export class UsuarioService {
   }
 
   getFotoPerfil(seudonimo: string, nit: string, cadena: string) {
-    
+
     const url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFotoPerfil`;
-    //console.log('url:' + url);
     return this.http.get(url, {
       params: {
         cadena: cadena,
@@ -543,40 +482,39 @@ export class UsuarioService {
   }
 
   clear() {
-    this.isUserLoggedIn = null;
-    this.usserLogged = null;
-    this.secuenciaEmpleado = null;
+    this.isUserLoggedIn = false;
+    this.usserLogged = '';
+    this.secuenciaEmpleado = 0;
     this.nombrePersona = 'Bienvenido';
     this.nombreApellidoPersona = 'Bienvenido';
     this.datos = null;
-    this.usuario = null;
-    this.empresa = null;
-    this.tokenJWT = null;
-    this.urlLogoEmpresa = null;
-    this.urlLogoEmpresaDarkXl = null;
-    this.urlLogoEmpresaMin = null;
-    this.grupoEmpresarial = null;
+    this.usuario = '';
+    this.empresa = '';
+    this.tokenJWT = '';
+    this.urlLogoEmpresa = '';
+    this.urlLogoEmpresaDarkXl = '';
+    this.urlLogoEmpresaMin = '';
+    this.grupoEmpresarial = '';
     this.documento = null;
-    //this.cadenaConexion = 'wsreportePU';
     this.datosPersonales = null;
     this.datosFamilia = null;
-    this.telefonosEmpleado = null;
-    this.urlKioscoDomain= null;
+    this.telefonosEmpleado = [];
+    this.urlKioscoDomain = '';
     this.datosContacto = null;
-    this.correo = null;
-    this.nombreContactoSoporte='';
-    this.correoContactoSoporte='';
+    this.correo = '';
+    this.nombreContactoSoporte = '';
+    this.correoContactoSoporte = '';
     this.datosEstudios = null;
     this.datosEstudiosNF = null;
     this.datosExperienciaLab = null;
-    this.urlActiva = null;
+    this.urlActiva = '';
     this.tipoUsuario = null;
     this.documentosAnexos = null;
     this.documentoSeleccionado = null;
     this.carnetSeleccionado = [];
     this.existefotoPerfil = null;
     this.notificacionesVacaciones = 0;
-    this.notificacionesAusentismo= 0;
+    this.notificacionesAusentismo = 0;
     this.notificacionesRh = 0;
     this.existeDocumentoAnexo = [];
     this.listProverbios = null;

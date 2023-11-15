@@ -1,0 +1,264 @@
+.anexo {
+    padding: 10px !important;
+    border: 0px !important;
+    background-color: white !important;
+}
+
+.botonAnexos {
+    text-align: center !important;
+}
+
+.anexo+label {
+    color: #c39f77;
+}
+
+#formFileLg2 {
+    background: blue;
+}
+
+#formFileLg2 ::before {
+    background-color: black;
+}
+
+#formFileLg2 ::after {
+    background-color: green;
+}
+
+input #file-upload-button {
+    background: blue !important;
+}
+
+.custom-input-file {
+    background-color: #941B80;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 0 auto 0;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+}
+
+.quitar {
+    padding: 0 !important;
+}
+
+.texto_responsive:before {
+    content: attr(data-desktoptext);
+    display: block;
+}
+
+.expandir {
+    content: attr(data-phonetext);
+    display: none;
+}
+
+.file-select, .puntero {
+    padding: 0rem !important;
+}
+
+/*
+.inputFileModificado {
+    position: relative;
+    padding: 10px;
+    display: none;
+}
+
+.inputFileOculto {
+    position: relative;
+    text-align: right;
+    -moz-opacity: 0;
+    opacity: 0;
+    display: none;
+    /*z-index: 2;       
+}
+*/
+
+/*
+.inputParaMostrar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /*z-index: 1;
+    margin: 10px 0 10px 0;
+    display: none;    
+}
+.inputFileModificado input {
+    border: 5px;
+    padding: 10px;
+    width: 100%;
+    display: none;    
+}
+
+.botonfile{
+    display: block; 
+}
+  
+  @media (max-width:900px) {
+      .texto_responsive:before {
+          content: attr(data-tablettext);
+          display: block;
+      }
+      .expandir {
+*/
+/*
+display: none;
+    }
+  }
+*/
+
+.inputFileModificado input {
+    border: 5px #000 solid;
+    width: 400px;
+    height: 20px;
+    padding-left: 5px;
+    padding-top: 2px;
+    margin-right: -95px;
+    display: none;
+}
+
+.inputFileModificado {
+    position: relative;
+    display: none;
+    /*margin-bottom: 20px;*/
+}
+
+.inputFileOculto {
+    position: relative;
+    text-align: right;
+    -moz-opacity: 0;
+    opacity: 0;
+    z-index: 2;
+    display: none;
+}
+
+.inputParaMostrar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /*width: 600px;*/
+    z-index: 1;
+    display: none;
+}
+
+.inputParaMostrarArchivo {
+    display: none;
+}
+
+.adjunto {
+    margin-bottom: 30px;
+}
+
+.adjunto i {
+    float: left;
+}
+
+.adjunto p {
+    float: left;
+    word-break: break-all;
+}
+
+.botones {
+    margin-top: 70px;
+}
+
+.anexoP {
+    margin-bottom: 0rem !important;
+    padding: 1rem;
+    word-break: break-all;
+}
+
+
+.file-select {
+    position: relative;
+    display: inline-block;
+}
+
+.file-select::before {
+    /*background-color: #00223c !important;*/
+    /*color: white;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    content: 'Adjuntar Archivo';
+    /* testo por defecto */
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.file-select input[type="file"] {
+    opacity: 0;
+    width: 200px;
+    height: 32px;
+    display: inline-block;
+}
+
+#src-file1::before {
+    content: 'Adjuntar Archivo';
+}
+
+.file-select:hover, .puntero:hover {
+    cursor: pointer;
+    padding: 0rem !important;
+}
+
+.correo {
+    margin: 0 auto;
+    padding-bottom: 10px;    
+}
+
+@media (max-width:760px) {
+    .expandir {
+        /*content: attr(data-phonetext);*/
+        display: block;
+    }
+    .texto_responsive:before {
+        display: none;
+    }
+    .inputFileModificado {
+        display: block;
+        padding-top: 10px;
+    }
+    .inputFileOculto {
+        display: block;
+        /*z-index: 2;       */
+    }
+    /*  */
+    .inputParaMostrar {
+        display: block;
+    }
+    .inputParaMostrarArchivo {
+        display: block;
+    }
+    .inputFileModificado input {
+        display: block;
+    }
+    .botonfile {
+        display: none;
+    }
+    .row button small {
+        float: left !important;
+        margin-left: 10px;
+    }
+}
+
+@media(max-width: 575px) {
+    #btnEnviar, #btnCancelar {
+        text-align: center !important;
+    }
+    #btnCancelar {
+        margin-top: 5px;
+    }
+}
+
+@media(max-width: 350px) {}
+
+/*-----------------*/
+#src-file1{
+    color: rgb(124, 124, 124) !important;
+    border-color: rgb(124, 124, 124) !important;
+}

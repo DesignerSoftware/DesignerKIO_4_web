@@ -1,40 +1,39 @@
-import swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { UsuarioService } from 'src/app/services/usuario.service';
-import { AusentismosService } from 'src/app/services/ausentismos.service';
-import { environment } from 'src/environments/environment';
-import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
-import {Observable} from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { AusentismosService } from 'src/app/services/ausentismos.service';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { environment } from 'src/environments/environment';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-procesar-ausentismos',
   templateUrl: './procesar-ausentismos.component.html',
-  styleUrls: ['./procesar-ausentismos.component.css']
+  styleUrls: ['./procesar-ausentismos.component.scss']
 })
 export class ProcesarAusentismosComponent implements OnInit {
-  public dataFilt: any = "";
-  public p: number = 1;
+
+  formulario: FormGroup = this.fb.group({
+    motivo: [''],
+  });
+  estadoNovEmple: any = null;
+  msjNovEmple: string = '';
+  solicitudSeleccionada: any = null;
+  anexoSeleccionado: any = null;
+  fotoPerfil: any;
+  url: string = '/assets/images/fotos_empleados/sinFoto.jpg';
   public p1: number = 1;
-  formulario: FormGroup;
-  solicitudSeleccionada = null;
-  fotoPerfil;
-  url ='assets/images/fotos_empleados/sinFoto.jpg';
-  myControl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
-  anexoSeleccionado = null;
-  estadoNovEmple = null;
-  msjNovEmple = null;
-  
-  constructor( 
-    public usuarioServicio: UsuarioService, 
+
+  constructor(
+    public usuarioServicio: UsuarioService,
     private cadenasKioskos: CadenaskioskosappService,
-    private usuarioService: UsuarioService, 
+    private usuarioService: UsuarioService,
     private router: Router,
-    public ausentismoService: AusentismosService, 
-    private fb: FormBuilder) {
+    public ausentismoService: AusentismosService,
+    private fb: FormBuilder,
+    private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
@@ -48,76 +47,66 @@ export class ProcesarAusentismosComponent implements OnInit {
       motivo: [''],
     })
   }
-  getInfoUsuario(){
+  getInfoUsuario() {
     const sesion = this.usuarioServicio.getUserLoggedIn();
     this.usuarioServicio.setUsuario(sesion['usuario']);
     this.usuarioServicio.setEmpresa(sesion['empresa']);
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
-    //this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'],this.usuarioService.urlKioscoDomain)
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
-    .subscribe(
-      data => {
-        //console.log('getInfoUsuario', data);
-        //console.log(sesion['grupo']);
-        for (let i in data) {
-          if (data[i][3] === sesion['grupo']) { // GRUPO
-          const temp = data[i];
-          //console.log('cadena: ', temp[4]) // CADENA
-          this.usuarioServicio.cadenaConexion=temp[4];
-          //console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
-          this.cargarDatosIniciales();
+      .subscribe(
+        (data: any) => {
+          for (let i in data) {
+            if (data[i][3] === sesion['grupo']) { // GRUPO
+              const temp = data[i];
+              this.usuarioServicio.cadenaConexion = temp[4];
+              this.cargarDatosIniciales();
+            }
           }
         }
-      }
-    );
+      );
   }
-  cargarDatosIniciales(){
+  cargarDatosIniciales() {
     this.cargarDatosSolicitudesProcesadas();
-  }  
+  }
 
 
   cargarDatosSolicitudesProcesadas() {
     if (this.ausentismoService.SolicitudesJefe == null) {
       this.ausentismoService.getSoliciAusentSinProcesarJefe(this.usuarioService.empresa, this.usuarioService.usuario, 'ENVIADO', this.usuarioService.cadenaConexion)
         .subscribe(
-          data => {
+          (data: any) => {
             this.ausentismoService.SolicitudesJefe = data;
-            /*console.log('impresive', this.ausentismoService.SolicitudesJefe);
-            console.log("Datos iniciales");
-            console.log(data);*/            
           }
         );
     }
   }
 
-  validaFechaNovedadEmpleadoXJefe(seudonimo: string, fecha: string){
+  validaFechaNovedadEmpleadoXJefe(seudonimo: string, fecha: string) {
     this.ausentismoService.getvalidaFechaNovedadEmpleadoXJefe(this.usuarioService.empresa, seudonimo, fecha, this.usuarioService.cadenaConexion)
-        .subscribe(
-          data => {
-            console.log(data);
-            this.estadoNovEmple=data['valida'];
-            if(this.estadoNovEmple== 'SA'){
-              this.msjNovEmple = 'La fecha de ausentismo coincide con otra novedad de ausentismo';
-            } else if (this.estadoNovEmple== 'SV'){
-              this.msjNovEmple = 'La fecha de ausentismo coincide con una novedad de vacaciones';
-            } else {
-              this.msjNovEmple = '';
-            }
-            ;
-            /*console.log('impresive', this.ausentismoService.SolicitudesJefe);
-            console.log("Datos iniciales");
-            console.log(data);*/            
+      .subscribe(
+        (data: any) => {
+          console.log(data);
+          this.estadoNovEmple = data['valida'];
+          if (this.estadoNovEmple == 'SA') {
+            this.msjNovEmple = 'La fecha de ausentismo coincide con otra novedad de ausentismo';
+          } else if (this.estadoNovEmple == 'SV') {
+            this.msjNovEmple = 'La fecha de ausentismo coincide con una novedad de vacaciones';
+          } else {
+            this.msjNovEmple = '';
           }
-        );
+          ;
+        }
+      );
   }
 
-  detalleSolicitud(index: string) {
-    this.solicitudSeleccionada = this.ausentismoService.SolicitudesJefe[index];
-    this.anexoSeleccionado = this.ausentismoService.SolicitudesJefe[index][21];    
-    this.validaFechaNovedadEmpleadoXJefe(this.ausentismoService.SolicitudesJefe[index][22],this.ausentismoService.SolicitudesJefe[index][4]);
+  detalleSolicitud(index: number) {
+    if (Array.isArray(this.ausentismoService.SolicitudesJefe)) {
+      this.solicitudSeleccionada = this.ausentismoService.SolicitudesJefe[index];
+      this.anexoSeleccionado = this.ausentismoService.SolicitudesJefe[index][21];
+      this.validaFechaNovedadEmpleadoXJefe(this.ausentismoService.SolicitudesJefe[index][22], this.ausentismoService.SolicitudesJefe[index][4]);
+    }
   }
 
   navigate() {
@@ -125,15 +114,15 @@ export class ProcesarAusentismosComponent implements OnInit {
   }
 
   cargaFoto(documento: string) {
-          this.fotoPerfil = documento;
-          
-          this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFotoPerfil?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.fotoPerfil}&nit=${this.usuarioService.empresa}`;
+    this.fotoPerfil = documento;
 
-            return this.url;
+    this.url = `${environment.urlKioskoReportes}conexioneskioskos/obtenerFotoPerfil?cadena=${this.usuarioService.cadenaConexion}&usuario=${this.fotoPerfil}&nit=${this.usuarioService.empresa}`;
+
+    return this.url;
   }
 
   aprobarEnvio() {
-    console.log('Motivo: '+this.formulario.get('motivo').value);
+    console.log('Motivo: ' + this.formulario.get('motivo')!.value);
     let aprobado;
     swal.fire({
       title: '¿Desea aprobar la solicitud?',
@@ -146,8 +135,7 @@ export class ProcesarAusentismosComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         // informa que la solicitud ya tiene novedades de nomina en ese rango de fechas 
-        if(this.estadoNovEmple=='SV'){
-          //console.log('Entre a validar aprobarEnvio()');
+        if (this.estadoNovEmple == 'SV') {
           swal.fire({
             title: this.msjNovEmple,
             text: '¿Desea continuar?',
@@ -158,20 +146,20 @@ export class ProcesarAusentismosComponent implements OnInit {
             confirmButtonText: 'Si',
             cancelButtonText: 'No'
           }).then((result) => {
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
               swal.fire({
                 title: "Procesando solicitud, por favor espere...",
-                onBeforeOpen: () => {
+                willOpen: () => {
                   swal.showLoading();
                   this.ausentismoService.setNuevoEstadoSolicio(
-                    this.usuarioService.usuario, 
-                    this.usuarioService.empresa, 
+                    this.usuarioService.usuario,
+                    this.usuarioService.empresa,
                     this.usuarioService.cadenaConexion,
-                    'AUTORIZADO', 
-                    this.solicitudSeleccionada[4] ,
-                    this.solicitudSeleccionada[20], 
-                    null, 
-                    this.usuarioService.urlKioscoDomain, 
+                    'AUTORIZADO',
+                    this.solicitudSeleccionada[4],
+                    this.solicitudSeleccionada[20],
+                    '',
+                    this.usuarioService.urlKioscoDomain,
                     this.usuarioService.grupoEmpresarial)
                     .subscribe(
                       (data) => {
@@ -188,7 +176,7 @@ export class ProcesarAusentismosComponent implements OnInit {
                               $("#exampleModalCenter").modal("hide");
                               this.cargarNotificaciones();
                               this.reloadPage();
-                              
+
                             });
                         } else {
                           swal
@@ -196,28 +184,27 @@ export class ProcesarAusentismosComponent implements OnInit {
                               icon: "error",
                               title: "Ha ocurrido un error al autorizar la solicitud",
                               text:
-                              "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                                "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
                               showConfirmButton: true,
                             })
                             .then((res) => {
                               $("#exampleModalCenter").modal("hide");
-                              this.reloadPage();                        
+                              this.reloadPage();
                             });
                         }
                       },
                       (error) => {
-                        swal
-                          .fire({
-                            icon: "error",
-                            title: "Ha ocurrido un error al autorizar la solicitud",
-                            text:
-                              "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
-                            showConfirmButton: true,
-                          })
+                        swal.fire({
+                          icon: "error",
+                          title: "Ha ocurrido un error al autorizar la solicitud",
+                          text:
+                            "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                          showConfirmButton: true,
+                        })
                           .then((res) => {
                             $("#exampleModalCenter").modal("hide");
                             this.cargarNotificaciones();
-                            this.reloadPage();                     
+                            this.reloadPage();
                           });
                       }
                     );
@@ -226,85 +213,39 @@ export class ProcesarAusentismosComponent implements OnInit {
               });
             }
           });
-        
-        } else {
-          /*this.ausentismoService.setNuevoEstadoSolicio(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion,
-            'AUTORIZADO', this.solicitudSeleccionada[18], null, this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial)
-            .subscribe(
-              data => {
-                aprobado = data.toString();
-                console.log('Envio aprobado', data);
-                if (data) {
-                  swal
-                    .fire({
-                      title: "Aprobada!",
-                      text: "La solicitud ha sido Aprobada. ",
-                      icon: "success",
-                      confirmButtonColor: "#3085d6",
-                      confirmButtonText: "Ok",
-                    })
-                    .then((result2) => {
-                      if (result2.isConfirmed) {
-                        $("#exampleModalCenter").modal("hide");
-                        this.reloadPage();
-                      }
-                    });
-                } else {
-                  swal.fire(
-                    "Ha ocurrido un problema!",
-                    "La solicitud  no ha podido ser aprobada.",
-                    "error"
-                  );
-                }
-              }
-            );*/
 
-            swal.fire({
-              title: "Procesando solicitud, por favor espere...",
-              onBeforeOpen: () => {
-                swal.showLoading();
-                this.ausentismoService.setNuevoEstadoSolicio(
-                  this.usuarioService.usuario, 
-                  this.usuarioService.empresa, 
-                  this.usuarioService.cadenaConexion,
-                  'AUTORIZADO', 
-                  this.solicitudSeleccionada[4] ,
-                  this.solicitudSeleccionada[20], 
-                  null, 
-                  this.usuarioService.urlKioscoDomain, 
-                  this.usuarioService.grupoEmpresarial)
-                  .subscribe(
-                    (data) => {
-                      console.log(data);
-                      if (data) {
-                        swal
-                          .fire({
-                            icon: "success",
-                            title:
-                              "¡La solicitud de ausentismo ha sido autorizada exitosamente!",
-                            showConfirmButton: true,
-                          })
-                          .then((res) => {
-                            $("#exampleModalCenter").modal("hide");
-                            this.cargarNotificaciones();
-                            this.reloadPage();
-                          });
-                      } else {
-                        swal
-                          .fire({
-                            icon: "error",
-                            title: "Ha ocurrido un error al autorizar la solicitud",
-                            text:
-                            "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
-                            showConfirmButton: true,
-                          })
-                          .then((res) => {
-                            $("#exampleModalCenter").modal("hide");
-                            this.reloadPage();                        
-                          });
-                      }
-                    },
-                    (error) => {
+        } else {
+          swal.fire({
+            title: "Procesando solicitud, por favor espere...",
+            willOpen: () => {
+              swal.showLoading();
+              this.ausentismoService.setNuevoEstadoSolicio(
+                this.usuarioService.usuario,
+                this.usuarioService.empresa,
+                this.usuarioService.cadenaConexion,
+                'AUTORIZADO',
+                this.solicitudSeleccionada[4],
+                this.solicitudSeleccionada[20],
+                '',
+                this.usuarioService.urlKioscoDomain,
+                this.usuarioService.grupoEmpresarial)
+                .subscribe(
+                  (data) => {
+                    console.log(data);
+                    if (data) {
+                      swal
+                        .fire({
+                          icon: "success",
+                          title:
+                            "¡La solicitud de ausentismo ha sido autorizada exitosamente!",
+                          showConfirmButton: true,
+                        })
+                        .then((res) => {
+                          $("#exampleModalCenter").modal("hide");
+                          this.cargarNotificaciones();
+                          this.reloadPage();
+                        });
+                    } else {
                       swal
                         .fire({
                           icon: "error",
@@ -315,26 +256,39 @@ export class ProcesarAusentismosComponent implements OnInit {
                         })
                         .then((res) => {
                           $("#exampleModalCenter").modal("hide");
-                          this.reloadPage();                     
+                          this.reloadPage();
                         });
                     }
-                  );
-              },
-              allowOutsideClick: () => !swal.isLoading(),
-            });
+                  },
+                  (error) => {
+                    swal
+                      .fire({
+                        icon: "error",
+                        title: "Ha ocurrido un error al autorizar la solicitud",
+                        text:
+                          "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                        showConfirmButton: true,
+                      })
+                      .then((res) => {
+                        $("#exampleModalCenter").modal("hide");
+                        this.reloadPage();
+                      });
+                  }
+                );
+            },
+            allowOutsideClick: () => !swal.isLoading(),
+          });
 
         }
       }
     });
-               
-      }
 
+  }
 
   reloadPage() {
     this.ausentismoService.SolicitudesJefe = null;
     this.navigate();
   }
-
 
   rechazarEnvio() {
     let rechazado
@@ -348,154 +302,103 @@ export class ProcesarAusentismosComponent implements OnInit {
       cancelButtonText: 'Cerrar'
     }).then((result) => {
       if (result.isConfirmed) {
-        /*this.ausentismoService
-          .setNuevoEstadoSolicio(
-            this.usuarioService.usuario,
-            this.usuarioService.empresa,
-            this.usuarioService.cadenaConexion,
-            "RECHAZADO",
-            this.solicitudSeleccionada[18],
-            this.formulario.get("motivo").value,
-            this.usuarioService.urlKioscoDomain,
-            this.usuarioService.grupoEmpresarial
-          )
-          .subscribe((data) => {
-            rechazado = data.toString();
-            console.log("enviaoRechazado", data);
-            if (data) {
-              swal
-                .fire({
-                  title: "Rechazada!",
-                  text: "La solicitud ha sido rechazada. ",
-                  icon: "success",
-                  confirmButtonColor: "#3085d6",
-                  confirmButtonText: "Ok",
-                })
-                .then((result2) => {
-                  if (result2.isConfirmed) {
-                    this.reloadPage();
-                    $("#exampleModalCenter").modal("hide");
-                  }
-                });
-            } else {
-              swal.fire(
-                "Ha ocurrido un problema",
-                "La solicitud no ha podido ser Rechazada.",
-                "error"
-              );
-            }
-          });*/
-
-
-      if (this.formulario.get('motivo').value=='') {
-        swal.fire({
-          title: 'Por favor especifique el motivo por el que rechaza la solicitud',
-          icon: 'warning',
-          showConfirmButton: true
-        });
-
-      } else {
-        swal.fire({
-          title: "Enviando la solicitud al sistema, por favor espere...",
-          onBeforeOpen: () => {
-            swal.showLoading();
-            this.ausentismoService
-            .setNuevoEstadoSolicio(
-              this.usuarioService.usuario,
-              this.usuarioService.empresa,
-              this.usuarioService.cadenaConexion,
-              'RECHAZADO',
-              this.solicitudSeleccionada[4],
-              this.solicitudSeleccionada[20],
-              this.formulario.get('motivo').value,
-              this.usuarioService.urlKioscoDomain,
-              this.usuarioService.grupoEmpresarial
-            )
-            .subscribe(
-                (data) => {
-                  console.log('solicitud rechazada:', data);
-                  if (data) {
-                    swal
-                      .fire({
-                        icon: "success",
-                        title:
-                          "Solicitud de ausentismo rechazada exitosamente",
-                        showConfirmButton: true,
-                      })
-                      .then((res) => {
-                        $("#exampleModalCenter").modal("hide");
-                        this.cargarNotificaciones();
-                        this.reloadPage();
-                      });
-                  } else {
+        if (this.formulario.get('motivo')!.value == '') {
+          swal.fire({
+            title: 'Por favor especifique el motivo por el que rechaza la solicitud',
+            icon: 'warning',
+            showConfirmButton: true
+          });
+        } else {
+          swal.fire({
+            title: "Enviando la solicitud al sistema, por favor espere...",
+            willOpen: () => {
+              swal.showLoading();
+              this.ausentismoService
+                .setNuevoEstadoSolicio(
+                  this.usuarioService.usuario,
+                  this.usuarioService.empresa,
+                  this.usuarioService.cadenaConexion,
+                  'RECHAZADO',
+                  this.solicitudSeleccionada[4],
+                  this.solicitudSeleccionada[20],
+                  this.formulario.get('motivo')!.value,
+                  this.usuarioService.urlKioscoDomain,
+                  this.usuarioService.grupoEmpresarial
+                )
+                .subscribe(
+                  (data) => {
+                    console.log('solicitud rechazada:', data);
+                    if (data) {
+                      swal
+                        .fire({
+                          icon: "success",
+                          title:
+                            "Solicitud de ausentismo rechazada exitosamente",
+                          showConfirmButton: true,
+                        })
+                        .then((res) => {
+                          $("#exampleModalCenter").modal("hide");
+                          this.cargarNotificaciones();
+                          this.reloadPage();
+                        });
+                    } else {
+                      swal
+                        .fire({
+                          icon: "error",
+                          title: data["mensaje"],
+                          showConfirmButton: true,
+                        })
+                        .then((res) => {
+                          $("#exampleModalCenter").modal("hide");
+                          this.reloadPage();
+                        });
+                    }
+                  },
+                  (error) => {
                     swal
                       .fire({
                         icon: "error",
-                        title: data["mensaje"],
+                        title: "Ha ocurrido un error al rechazar la solicitud",
+                        text:
+                          "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
                         showConfirmButton: true,
                       })
                       .then((res) => {
                         $("#exampleModalCenter").modal("hide");
-                        this.reloadPage();                        
+                        this.reloadPage();
                       });
                   }
-                },
-                (error) => {
-                  swal
-                    .fire({
-                      icon: "error",
-                      title: "Ha ocurrido un error al rechazar la solicitud",
-                      text:
-                        "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
-                      showConfirmButton: true,
-                    })
-                    .then((res) => {
-                      $("#exampleModalCenter").modal("hide");
-                      this.reloadPage();                      });
-                }
-              );
-          },
-          allowOutsideClick: () => !swal.isLoading(),
-        });
-      }
+                );
+            },
+            allowOutsideClick: () => !swal.isLoading(),
+          });
+        }
 
 
       }
 
     })
-
   }
 
   descargarArchivo() {
     console.log("cadenaReporte: ", this.usuarioServicio.cadenaConexion);
     console.log(
       "this.usuarioServicio.secuenciaEmpleado: " +
-        this.usuarioServicio.secuenciaEmpleado
+      this.usuarioServicio.secuenciaEmpleado
     );
     swal.fire({
       title: "Descargando reporte, por favor espere...",
-      onBeforeOpen: () => {
+      willOpen: () => {
         swal.showLoading();
         console.log("descargarReporte");
         this.ausentismoService
           .getAnexoAusentismo(
-            //this.reporteServicio.reporteSeleccionado["nombreruta"],
-            //this.usuarioServicio.secuenciaEmpleado,
-            //this.formulario.get("enviocorreo").value,
-            //this.usuarioServicio.correo,
-            //this.correo,
-            //this.reporteServicio.reporteSeleccionado["descripcion"],
-            //this.reporteServicio.codigoReporteSeleccionado,
             this.anexoSeleccionado,
             this.usuarioServicio.empresa,
             this.usuarioServicio.cadenaConexion
-            //this.usuarioServicio.usuario,
-            //this.usuarioServicio.grupoEmpresarial,
-            //this.usuarioServicio.urlKioscoDomain
           )
           .subscribe(
             (res) => {
-              //console.log("ejemplo 1 : ",res);
               swal.fire({
                 icon: "success",
                 title:
@@ -505,35 +408,17 @@ export class ProcesarAusentismosComponent implements OnInit {
               });
               const newBlob = new Blob([res], { type: "application/pdf" });
               let fileUrl = window.URL.createObjectURL(newBlob); // add 290920
-
-              //if (window.navigator && window.navigator.msSaveOrOpenBlob) { 290920
-              //window.navigator.msSaveOrOpenBlob(newBlob);
-              if (window.navigator.msSaveOrOpenBlob) {
-                // add 290920
-                window.navigator.msSaveOrOpenBlob(
-                  newBlob,
-                  fileUrl.split(":")[1] + ".pdf"
-                );
-              } else {
-                window.open(fileUrl);
-              }
-              //return;
-              ///}
-              // For other browsers:
-              // Create a link pointing to the ObjectURL containing the blob.
-              const data = window.URL.createObjectURL(newBlob);
+              let fileUrlSS = this.sanitizer.bypassSecurityTrustUrl(fileUrl);
               const link = document.createElement("a");
-              link.href = data;
+              link.href = fileUrl;
               let f = new Date();
               link.download =
-                //this.reporteServicio.reporteSeleccionado["nombreruta"] +
                 this.anexoSeleccionado +
                 "_" +
                 this.usuarioServicio.usuario +
                 "_" +
                 f.getTime() +
                 ".pdf";
-              // this is necessary as link.click() does not work on the latest firefox
               link.dispatchEvent(
                 new MouseEvent("click", {
                   bubbles: true,
@@ -541,10 +426,9 @@ export class ProcesarAusentismosComponent implements OnInit {
                   view: window,
                 })
               );
-
               setTimeout(function () {
                 // For Firefox it is necessary to delay revoking the ObjectURL
-                window.URL.revokeObjectURL(data);
+                window.URL.revokeObjectURL(fileUrl);
               }, 100);
             },
             (error) => {
@@ -560,7 +444,7 @@ export class ProcesarAusentismosComponent implements OnInit {
       allowOutsideClick: () => !swal.isLoading(),
     });
   }
-  descargarArchivo1(){
+  descargarArchivo1() {
     swal.fire({
       title: '¡Botón para descargar arhivos!',
       text: "",
@@ -572,4 +456,5 @@ export class ProcesarAusentismosComponent implements OnInit {
   cargarNotificaciones() {
     this.usuarioService.loadAllNotifications();
   }
+
 }

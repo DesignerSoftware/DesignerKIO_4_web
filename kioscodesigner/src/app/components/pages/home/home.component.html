@@ -1,38 +1,39 @@
 <div class="jumbotron text-center animated fadeIn slow" style="padding-bottom: 30px;">
-
-  <h1 class="display-4">Módulo de autoconsulta Kiosco</h1>
+  <h1 class="display-4">
+    Módulo de autoconsulta Kiosco
+  </h1>
   <br>
-  <h5 class="card-title text-muted" style="margin: 0px;">Desde aquí podrás acceder de manera fácil y rápida a tu
-    información de nómina y personal.</h5>
+  <h5 class="card-title text-muted" style="margin: 0px;">
+    Desde aquí podrás acceder de manera fácil y rápida a tu información de nómina y personal.
+  </h5>
   <br>
-  <p class="lead animated fadeIn slow"><img loading="lazy"
-      [src]="usuarioServicio.urlLogoEmpresaDarkXl || 'assets/images/fotos_empleados/logodesigner-dark-xl.png'"
-      class="img-fluid" id="img-logo"></p>
-
+  <p class="lead animated fadeIn slow">
+    <img loading="lazy"
+      [src]="usuarioServicio.urlLogoEmpresaDarkXl || '/assets/images/fotos_empleados/logodesigner-dark-xl.png'"
+      class="img-fluid" id="img-logo">
+  </p>
   <!-- Proverbios -->
-  <div *ngIf="this.usuarioServicio.listProverbios!=null && this.usuarioServicio.listProverbios!='' && this.usuarioServicio.listProverbios!=0">
+  <div
+    *ngIf="this.usuarioServicio.listProverbios!=null && this.usuarioServicio.listProverbios!='' && this.usuarioServicio.listProverbios!=0">
     <hr class="my-4">
     <div class="card proverb">
       <div class="card-header azul1 text-pro">
         Recuerda
       </div>
       <div class="card-body">
-        <h1 class="display-4">Buen día!</h1>
+        <h1 class="display-4">
+          Buen día!
+        </h1>
         <p class="lead"> <i>"{{this.usuarioServicio.listProverbios["mensaje"] || '...'}}"</i> </p>
         <p class="lead"> <i> {{this.usuarioServicio.listProverbios["autor"] || '...'}}.</i></p>
       </div>
       <div class="card-footer text-muted azul1 text-pro">
-        {{today | date:'fullDate' | titlecase}}
+        {{today | titlecase}}
       </div>
     </div>
   </div>
   <!-- fin de proverbios -->
-   <hr class="my-4">
-
-  <!-- <p class="card-description text-muted">
-    Datos de interes
-  </p>
-  <hr>  -->
+  <hr class="my-4">
   <div class="row grid-margin"
     *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
     <div class="col-12">
@@ -51,7 +52,8 @@
               </p>
               <h6
                 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-                {{usuarioServicio.datosPersonales[0][18] || '...'}}</h6>
+                {{usuarioServicio.datosPersonales[0][18] || '...'}}
+              </h6>
             </div>
             <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
               *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
@@ -61,7 +63,8 @@
               </p>
               <h6
                 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-                {{usuarioServicio.datosPersonales[0][19] || '...'}}</h6>
+                {{usuarioServicio.datosPersonales[0][19] || '...'}}
+              </h6>
             </div>
             <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
               *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
@@ -71,7 +74,8 @@
               </p>
               <h6
                 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-                {{usuarioServicio.datosPersonales[0][20] || '...'}}</h6>
+                {{usuarioServicio.datosPersonales[0][20] || '...'}}
+              </h6>
             </div>
             <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
               *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
@@ -81,14 +85,14 @@
               </p>
               <h6
                 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-                {{usuarioServicio.datosPersonales[0][17] || 'SIN AFILIACIÓN'}}</h6>
+                {{usuarioServicio.datosPersonales[0][17] || 'SIN AFILIACIÓN'}}
+              </h6>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
   <div class="row grid-margin" *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null">
     <div class="col-12">
       <div class="card card-statistics " id="x">
@@ -106,7 +110,8 @@
               </p>
               <h6
                 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-                {{usuarioServicio.datosPersonales[0][26] || 'SIN AFILIACIÓN'}}</h6>
+                {{usuarioServicio.datosPersonales[0][26] || 'SIN AFILIACIÓN'}}
+              </h6>
             </div>
             <div class="statistics-item "
               *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
@@ -116,7 +121,8 @@
               </p>
               <h6
                 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-                {{usuarioServicio.datosPersonales[0][27] || 'SIN AFILIACIÓN'}}</h6>
+                {{usuarioServicio.datosPersonales[0][27] || 'SIN AFILIACIÓN'}}
+              </h6>
             </div>
             <div class="statistics-item "
               *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
@@ -126,7 +132,8 @@
               </p>
               <h6
                 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-                {{usuarioServicio.datosPersonales[0][28] || 'SIN AFILIACIÓN'}}</h6>
+                {{usuarioServicio.datosPersonales[0][28] || 'SIN AFILIACIÓN'}}
+              </h6>
             </div>
             <div class="statistics-item"
               *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
@@ -136,7 +143,8 @@
               </p>
               <h6
                 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-                {{usuarioServicio.datosPersonales[0][29] || 'SIN AFILIACIÓN'}}</h6>
+                {{usuarioServicio.datosPersonales[0][29] || 'SIN AFILIACIÓN'}}
+              </h6>
             </div>
             <br>
             <div class="statistics-item "
@@ -147,67 +155,32 @@
               </p>
               <h6
                 *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-                {{usuarioServicio.datosPersonales[0][30] || 'SIN AFILIACIÓN'}}</h6>
+                {{usuarioServicio.datosPersonales[0][30] || 'SIN AFILIACIÓN'}}
+              </h6>
             </div>
           </div>
+          <!--
           <hr>
           <div class="d-flex align-items-center align-items-center justify-content-center alertaS">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/> </svg>
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
+              <use xlink:href="#info-fill" />
+            </svg>
             <div class="ml-2">
-                Consulte los aportes realizados a su seguridad social:   <a href="https://www.aportesenlinea.com/Autoservicio/CertificadoAportes.aspx" target="_blank"> Aquí</a>.
-        
+              Consulte los aportes realizados a su seguridad social: 
+              <a href="https://www.aportesenlinea.com/Autoservicio/CertificadoAportes.aspx" target="_blank"> Aquí</a>.
             </div>
-
           </div>
+-->
         </div>
-       
-
       </div>
     </div>
   </div>
-
-
-
-  <!-- <div class="grid-margin card card-statistics" >
-    <div class="card-body azul1 ">
-      
-        Recuerda
-
-    </div>
-   
-  </div> -->
-
-  <!-- <div class="card grid-margin">
-
-    <div class="card-body">
-      Consulte los aportes realizados a su seguridad social:  -->
-  <!-- <a href="https://www.aportesenlinea.com/Autoservicio/CertificadoAportes.aspx" target="_blank"> https://www.aportesenlinea.com/Autoservicio/CertificadoAportes.aspx</a> -->
-  <!-- </div>
-    
- 
-
-  </div> -->
-
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
       <path
         d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
     </symbol>
   </svg>
-
-  <!-- <div class="alert alert-primary d-flex align-items-center justify-content-center " role="alert">
-
-    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
-      <use xlink:href="#info-fill" />
-    </svg>
-    <div class="ml-2">
-      Consulte los aportes realizados a su seguridad social: <a
-        href="https://www.aportesenlinea.com/Autoservicio/CertificadoAportes.aspx" target="_blank"> Aquí</a>.
-
-    </div>
-  </div> -->
-
-
   <div class="row grid-margin">
     <div class="col-12">
       <div class="card card-statistics azul1" id="x">
@@ -222,7 +195,9 @@
                 <i class="icon-sm fa fa-calendar mr-2"></i>
                 Días provisionados
               </p>
-              <h3>{{totalDiasVacacionesProv || '0'}}</h3>
+              <h3>
+                {{totalDiasVacacionesProv || '0'}}
+              </h3>
             </div>
             <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
               *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
@@ -232,8 +207,11 @@
               </p>
               <h3
                 *ngIf="totalDiasVacacionesSubtipo && totalDiasVacacionesSubtipo!=null && totalDiasVacacionesSubtipo.length!=0">
-                {{totalDiasVacacionesSubtipo[1][2] || '0'}}</h3>
-              <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
+                {{totalDiasVacacionesSubtipo[1][2] || '0'}}
+              </h3>
+              <h3 *ngIf="!totalDiasVacacionesSubtipo">
+                {{'...'}}
+              </h3>
             </div>
             <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
               *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0 && totalDiasVacacionesSubtipo">
@@ -243,8 +221,11 @@
               </p>
               <h3
                 *ngIf="totalDiasVacacionesSubtipo && totalDiasVacacionesSubtipo!=null && totalDiasVacacionesSubtipo.length!=0">
-                {{totalDiasVacacionesSubtipo[0][2] || '0'}}</h3>
-              <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
+                {{totalDiasVacacionesSubtipo[0][2] || '0'}}
+              </h3>
+              <h3 *ngIf="!totalDiasVacacionesSubtipo">
+                {{'...'}}
+              </h3>
             </div>
             <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
               *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
@@ -256,7 +237,9 @@
                 *ngIf="totalDiasVacacionesSubtipo && totalDiasVacacionesSubtipo!=null && totalDiasVacacionesSubtipo.length!=0">
                 {{sumaDias(totalDiasVacacionesSubtipo[2][2],totalDiasVacacionesProv) || '0'}}
               </h3>
-              <h3 *ngIf="!totalDiasVacacionesSubtipo">{{'...'}}</h3>
+              <h3 *ngIf="!totalDiasVacacionesSubtipo">
+                {{'...'}}
+              </h3>
             </div>
 
           </div>
@@ -264,132 +247,129 @@
       </div>
     </div>
   </div>
-
   <!-- Prestaciones Sociales -->
   <div *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
     <hr class="my-4">
     <div class="card ">
-        <div class="card-header azul1 text-pro">
-          Prestaciones Sociales Acumuladas
-        </div>
-    </div>
-
-      
-      <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mx-3"
-      *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
-        <!-- <div class="statistics-item col-lg-3 col-sm-12 col-md-3 col-12"
-        *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0"> -->
-
-          <div class="card  col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres" >
-            <div class="card-header">
-              <p class="tituloPres">
-                Prima
-              </p>
-            </div>
-            <img class="card-img-top imgPres m-auto" src="https://www.nomina.com.co/images/images/kiosko/prima.png" alt=""   >
-            <div class="card-footer text-muted footerPres">
-              <h3>{{prima|| '0' }}</h3>
-              
-            </div>
-          </div>
-
-          <div class="card  col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres" >
-            <div class="card-header">
-              <p class="tituloPres">
-                Cesantías
-              </p>
-            </div>
-            <img class="card-img-top imgPres m-auto" src="https://www.nomina.com.co/images/images/kiosko/cochinito.png" alt=""   >
-            <div class="card-footer text-muted footerPres" >
-              <h3>{{cesantias || '0' }}</h3>
-              
-            </div>
-          </div>
-
-          <div class="card col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres" >
-            <div class="card-header">
-              <p class="tituloPres">
-                Intereses de Cesantías 
-              </p>
-            </div>
-            <img class="card-img-top imgPres m-auto" src="https://www.nomina.com.co/images/images/kiosko/intereses.png" alt=""   >
-            <div class="card-footer text-muted footerPres">
-              <h3>{{interCesantias || '0' }}</h3>
-            </div>
-          </div>
-
-          <div class="card  col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres" >
-            <div class="card-header">
-              <p class="tituloPres">
-                Vacaciones 
-              </p>
-            </div>
-            <img class="card-img-top imgPres m-auto" src="https://www.nomina.com.co/images/images/kiosko/vacaciones.png" alt=""   >
-            <div class="card-footer text-muted footerPres">
-              <h3>{{vacaciones|| '0' }}</h3>
-            </div>
-          </div>
-
-
+      <div class="card-header azul1 text-pro">
+        Prestaciones Sociales Acumuladas
       </div>
-      <div class="row mt-3">
-        <div class="col-12">
-            <button class="btn btn-primary
-            btn-icon-text" (click)="descargarReporte()">
-                <i class="fa fa-download
-                btn-icon-prepend"></i>
-                Reporte Prestaciones Sociales
-            </button>
+    </div>
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mx-3"
+      *ngIf="usuarioServicio.datosPersonales && usuarioServicio.datosPersonales!=null && usuarioServicio.datosPersonales.length!=0">
+      <div class="card  col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres">
+        <div class="card-header">
+          <p class="tituloPres">
+            Prima <br/>
+            &nbsp;
+          </p>
         </div>
+        <img class="card-img-top imgPres m-auto" src="/assets/images/prima.png" alt="">
+        <div class="card-footer text-muted footerPres">
+          <h3>
+            {{prima|| '0' }}
+          </h3>
+        </div>
+      </div>
+      <div class="card  col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres">
+        <div class="card-header">
+          <p class="tituloPres">
+            Cesantías <br/>
+            &nbsp;
+          </p>
+        </div>
+        <img class="card-img-top imgPres m-auto" src="/assets/images/cochinito.png"
+          alt="">
+        <div class="card-footer text-muted footerPres">
+          <h3>{{cesantias || '0' }}</h3>
+
+        </div>
+      </div>
+
+      <div class="card col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres">
+        <div class="card-header">
+          <p class="tituloPres">
+            Intereses de Cesantías
+          </p>
+        </div>
+        <img class="card-img-top imgPres m-auto" src="/assets/images/intereses.png"
+          alt="">
+        <div class="card-footer text-muted footerPres">
+          <h3>{{interCesantias || '0' }}</h3>
+        </div>
+      </div>
+
+      <div class="card  col-lg-3 col-sm-12 col-md-3 col-12 mx-1 c-pres">
+        <div class="card-header">
+          <p class="tituloPres">
+            Vacaciones <br/>
+            &nbsp;
+          </p>
+        </div>
+        <img class="card-img-top imgPres m-auto" src="/assets/images/vacaciones.png"
+          alt="">
+        <div class="card-footer text-muted footerPres">
+          <h3>{{vacaciones|| '0' }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <button class="btn btn-primary
+            btn-icon-text" (click)="descargarReporte()">
+          <i class="fa fa-download
+                btn-icon-prepend"></i>
+          Reporte Prestaciones Sociales
+        </button>
+      </div>
     </div>
   </div>
   <!-- Prestaciones Sociales -->
-
-
-  
-
   <div class="col-12 row">
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 40px;">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 40px;"
+    *ngIf="polarAreaChartData.datasets[0].data.length >3" >
       <div class="card">
         <div class="card-body">
           <h4 class="card-title" style="margin-bottom: 5px;">Días vacaciones según subtipo</h4>
           <div class="chart-container" style="text-align: center;">
-            <canvas baseChart [data]="polarAreaChartData" [chartType]="polarAreaChartType" [labels]="polarAreaChartLabels"
-              [legend]="polarAreaChartLegend" [options]="polarAreaChartOptions" [colors]="polarAreaChartColors">
+            <canvas id="graficaVacPolar" baseChart class="chart" [data]="polarAreaChartData" [type]="polarAreaChartType"
+              [labels]="polarAreaChartLabels" [legend]="polarAreaChartLegend" [options]="polarAreaChartOptions">
             </canvas>
           </div>
           <div id="c3-bar-chart"></div>
         </div>
       </div>
     </div>
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 40px;" *ngIf="lineChartData.length >0">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 40px;"
+      *ngIf="lineChartData.datasets[0].data.length >0">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title" style="margin-bottom: 5px;">Neto de pago últimos 6 meses (en millones)</h4>
           <div class="chart-container" style="text-align: center;">
-            <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
-              [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
-              [plugins]="lineChartPlugins"> 
+            <canvas baseChart class="chart" [data]="lineChartData" [options]="lineChartOptions"
+              [legend]="lineChartLegend" [type]="lineChartType" [labels]="lineChartLabels">
             </canvas>
           </div>
           <div id="c3-bar-chart"></div>
         </div>
       </div>
     </div>
-  
-    
   </div>
-
   <div class="row, text-center" id="div" style="margin-top: 25px;">
-    <p>Informar corrección de datos:
+    <p>
+      Informar corrección de datos:
       <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
-        (click)="abrirModal()">CLIC AQUI</button>
+        (click)="abrirModal()">
+        CLIC AQUI
+      </button>
     </p>
   </div>
 </div>
 <footer class="footer">
   <div class="d-sm-flex justify-content-center text-center">
-    <span class="text-muted text-center">Copyright © 2022. Todos los derechos reservados.</span>
+    <span class="text-muted text-center">
+      Copyright © 2023. Todos los derechos reservados.
+    </span>
   </div>
 </footer>
 
@@ -399,7 +379,9 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Informar inconsistencias de información</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">
+          Informar inconsistencias de información
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -408,18 +390,28 @@
       <form [formGroup]="formulario" novalidate (ngSubmit)="enviarReporteNovedad()">
         <div class="modal-body">
           <div class="mb-3">
-            <p><b>Estimado usuario:</b></p>
-            <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta
-              será enviada al contacto de nómina y RRHH {{usuarioServicio.nombreContactoSoporte||''}} </p>
+            <p>
+              <b>
+                Estimado usuario:
+              </b>
+            </p>
+            <p>
+              Por favor digite la observación sobre la información que considera que se debe corregir, ésta
+              será enviada al contacto de Gestión Humana {{usuarioServicio.nombreContactoSoporte||''}} 
+            </p>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000"
               formControlName="mensaje"></textarea>
-            <p class="float-right"><small>Máx. 1000 carácteres.</small></p>
+            <p class="float-right"><small>
+              Máx. 1000 carácteres.
+            </small></p>
           </div>
 
         </div>
 
         <div class="modal-footer">
-          <button class="btn btn-primary">Enviar reporte</button>
+          <button class="btn btn-primary">
+            Enviar reporte
+          </button>
         </div>
       </form>
     </div>

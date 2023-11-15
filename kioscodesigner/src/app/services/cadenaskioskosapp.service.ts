@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +26,4 @@ export class CadenaskioskosappService {
     //console.log(url);
     return this.http.get(url);
   }  
-
 }

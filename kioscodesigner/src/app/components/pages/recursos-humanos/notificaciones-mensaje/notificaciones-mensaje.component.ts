@@ -1,69 +1,68 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RecursosHumanosService } from 'src/app/services/recursoshumanos.service';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { OpcionesKioskosService } from 'src/app/services/opciones-kioskos.service';
+import { RecursosHumanosService } from 'src/app/services/recursoshumanos.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-notificaciones-mensaje',
   templateUrl: './notificaciones-mensaje.component.html',
-  styleUrls: ['./notificaciones-mensaje.component.css']
+  styleUrls: ['./notificaciones-mensaje.component.scss']
 })
 export class NotificacionesMensajeComponent implements OnInit {
 
-    fotoCargada = "";
+  fotoCargada: string = "";
   mensajeRh: any = [];
-  //opciones: any = [];
-  reporteSeleccionado = null;
-  codigoReporteSeleccionado = null;
+  reporteSeleccionado: any = null;
+  codigoReporteSeleccionado: any = null;
 
-  constructor(private opcionesKioskosServicio: OpcionesKioskosService, public usuarioServicio: UsuarioService,
-    private router: Router, public recursosHumanosService: RecursosHumanosService, private cadenasKioskos: CadenaskioskosappService
-  ) {
-    //this.opcioneskioskoG = this.opcionesKioskosServicio.getopciones(this.empresa);
-    //console.log(this.opcioneskioskoG);
-  }
+  constructor(private opcionesKioskosServicio: OpcionesKioskosService,
+    public usuarioServicio: UsuarioService,
+    private router: Router,
+    public recursosHumanosService: RecursosHumanosService,
+    private cadenasKioskos: CadenaskioskosappService
+  ) { }
 
   ngOnInit() {
-    //console.log(this.usuarioServicio.cadenaConexion);
     if (this.usuarioServicio.cadenaConexion) {
       this.getMensajesRrHh();
     } else {
       this.getInfoUsuario();
-    }   
+    }
   }
 
-  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+  // obtener la información del usuario del localStorage y guardarla en el service
+  getInfoUsuario() {
     const sesion = this.usuarioServicio.getUserLoggedIn();
     this.usuarioServicio.setUsuario(sesion['usuario']);
     this.usuarioServicio.setEmpresa(sesion['empresa']);
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
-    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'],sesion['empresa'])
-    .subscribe(
-      data => {
-        ////console.log('getInfoUsuario', data);
-        ////console.log(sesion['grupo']);
-        for (let i in data) {
-          if (data[i][3] === sesion['grupo']) { // GRUPO
-          const temp = data[i];
-          //console.log('cadena: ', temp[4]) // CADENA
-          this.usuarioServicio.cadenaConexion=temp[4];
-          //console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
-          this.cargarDatosIniciales();
+    this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
+      .subscribe(
+        data => {
+          if (Array.isArray(data)) {
+            var val1 = Object.values(data);
+            val1.forEach((v1) => {
+              if (Array.isArray(v1)) {
+                var val2 = Object.values(v1);
+                if (val2[3] === sesion['grupo']) { // GRUPO
+                  this.usuarioServicio.cadenaConexion = val2[4]; // CADENA
+                  this.cargarDatosIniciales();
+                }
+              }
+            });
           }
         }
-      }
-    );
-  }  
+      );
+  }
 
-  cargarDatosIniciales(){
+  cargarDatosIniciales() {
     this.getMensajesRrHh();
-  } 
+  }
 
   getMensajesRrHh() {
     this.recursosHumanosService
@@ -73,13 +72,10 @@ export class NotificacionesMensajeComponent implements OnInit {
         'S'
       )
       .subscribe((data) => {
-        //console.log('getMensajesRrHh', data);
         this.mensajeRh = data;
       });
   }
 
-
-  
   //RRHH
   cargaFoto(numero: number) {
     let formatoCargado = this.mensajeRh[numero]['formato'];
@@ -89,18 +85,14 @@ export class NotificacionesMensajeComponent implements OnInit {
       fotoCargada = 'img_pdf.png'
     }
     let urltemp = `${url}rrhh/obtenerFotoMsj/${fotoCargada}?cadena=${this.usuarioServicio.cadenaConexion}&usuario=${this.usuarioServicio.usuario}&empresa=${this.usuarioServicio.empresa}`;
-    //console.log('urltemp',urltemp);
     return urltemp;
   }
+
   descargarArchivo(numero: number) {
-    //console.log("cadenaReporte: ", this.usuarioServicio.cadenaConexion);
-    /*console.log(
-      "this.usuarioServicio.secuenciaEmpleado: " +
-        this.usuarioServicio.secuenciaEmpleado
-    );*/
+
     swal.fire({
       title: "Descargando reporte, por favor espere...",
-      onBeforeOpen: () => {
+      willOpen: () => {
         swal.showLoading();
         //console.log("descargarReporte");
         this.recursosHumanosService
@@ -111,7 +103,6 @@ export class NotificacionesMensajeComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              //console.log("ejemplo 1 : ",res);
               swal.fire({
                 icon: "success",
                 title:
@@ -120,13 +111,9 @@ export class NotificacionesMensajeComponent implements OnInit {
                 timer: 1500,
               });
               const newBlob = new Blob([res], { type: "application/pdf" });
-              let fileUrl = window.URL.createObjectURL(newBlob); // add 290920
-
-              //if (window.navigator && window.navigator.msSaveOrOpenBlob) { 290920
-              //window.navigator.msSaveOrOpenBlob(newBlob);
+              let fileUrl = window.URL.createObjectURL(newBlob);
               let nav = (window.navigator as any);
               if (nav.msSaveOrOpenBlob) {
-                // add 290920
                 nav.msSaveOrOpenBlob(
                   newBlob,
                   fileUrl.split(":")[1] + ".pdf"
@@ -134,23 +121,17 @@ export class NotificacionesMensajeComponent implements OnInit {
               } else {
                 window.open(fileUrl);
               }
-              //return;
-              ///}
-              // For other browsers:
-              // Create a link pointing to the ObjectURL containing the blob.
               const data = window.URL.createObjectURL(newBlob);
               const link = document.createElement("a");
               link.href = data;
               let f = new Date();
               link.download =
-                //this.reporteServicio.reporteSeleccionado["nombreruta"] +
                 this.mensajeRh[numero]['nombreadjunto'] +
                 "_" +
                 this.usuarioServicio.usuario +
                 "_" +
                 f.getTime() +
                 ".pdf";
-              // this is necessary as link.click() does not work on the latest firefox
               link.dispatchEvent(
                 new MouseEvent("click", {
                   bubbles: true,
@@ -165,7 +146,6 @@ export class NotificacionesMensajeComponent implements OnInit {
               }, 100);
             },
             (error) => {
-              //console.log(error);
               swal.fire(
                 "Se ha presentado un error",
                 "Se presentó un error al generar el reporte, por favor intentelo de nuevo más tarde!",

@@ -3,13 +3,12 @@
         Reportes
     </h3>
 </div>
-
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [routerLink]="['/reportes']" (click)="limpiarSeleccionado()">Reportes</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{reporteServicio.reporteSeleccionado &&
             reporteServicio.reporteSeleccionado['descripcion'] || ''}}</li>
-</ol>
+    </ol>
 </nav>
 <div class="col-md-12 col-sm-12 grid-margin stretch-card"
     *ngIf="reporteServicio.reportesEmpleado && reporteServicio.reportesEmpleado.length==0">
@@ -21,10 +20,10 @@
         </div>
     </div>
 </div>
-
 <p
     *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.reportesEmpleado && reporteServicio.reportesEmpleado.length!=0">
-    Seleccione el reporte que desea generar</p>
+    Seleccione el reporte que desea generar
+</p>
 <div class="row animated fadeIn fast"
     *ngIf="reporteServicio.reportesEmpleado && reporteServicio.reportesEmpleado.length>0 && !reporteServicio.reporteSeleccionado">
     <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card"
@@ -32,25 +31,21 @@
         <div class="card" id="divReportes">
             <div class="card-body">
                 <div class="d-flex flex-row">
-                    <img [src]="imagenReporte(op['nombreruta']) || 'assets/images/reporte.png'" class="img-lg rounded img-fluid" alt="profile image" />
-
-                        <!-- Alerta  -->
-                        <div class="notifyVA"
-                        *ngIf='( op.codigo == 22 ||  op.codigo == 2104 )'>
+                    <img [src]="imagenReporte(op['nombreruta']) || 'assets/images/reporte.png'"
+                        class="img-lg rounded img-fluid" alt="profile image" />
+                    <!-- Alerta  -->
+                    <div class="notifyVA" *ngIf='( op.codigo == 22 ||  op.codigo == 2104 )'>
                         <span class="heartbitVA "></span>
-                        
-                        </div>
-                    <!-- fin alerta -->
 
-                    <div class="ml-3 d-flex align-items-center row">
-                        <h6 class="">{{  op['descripcion'] || ''}} </h6> 
-                        <span *ngIf=' (op.codigo == 22) ||  (op.codigo == 2104)' 
-                            class="badge bg-danger notifyRedonVA text-white ">Nuevo
-                            </span>
                     </div>
-                    <!-- <div class="ml-3 d-flex align-items-center">
-                        <h6>{{ op['descripcion'] || ''}}</h6>
-                    </div> -->
+                    <!-- fin alerta -->
+                    <div class="ml-3 d-flex align-items-center row">
+                        <h6 class="">{{ op['descripcion'] || ''}} </h6>
+                        <span *ngIf=' (op.codigo == 22) ||  (op.codigo == 2104)'
+                            class="badge bg-danger notifyRedonVA text-white ">
+                            Nuevo
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="card-footer text-right">
@@ -60,7 +55,6 @@
         </div>
     </div>
 </div>
-
 <div class="row"
     *ngIf="reporteServicio.reportesEmpleado && reporteServicio.reporteSeleccionado!=null && reporteServicio.reporteSeleccionado!=[]">
     <div class="col-md-12 grid-margin stretch-card">
@@ -71,29 +65,32 @@
                     <i class="fas fa-file-pdf"></i>
                     Generar Reporte - {{reporteServicio.reporteSeleccionado['descripcion'] || ''}}
                 </h5>
-
                 <div class="row">
                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2" id="div-img-rep">
                         <img src="assets/images/reporte.png" class="img-fluid imgRep">
                     </div>
                     <div class="col-12 col-xl-10 col-lg-10 col-sm-10 col-md-10">
                         <div id="divm"></div>
-
-                        <h6 style="font-weight: bold;"><img id="img-rep" src="assets/images/reporte.png" height="30px">
-                            Información del reporte</h6>
+                        <h6 style="font-weight: bold;">
+                            <img id="img-rep" src="assets/images/reporte.png" height="30px">
+                            Información del reporte
+                        </h6>
                         <p class="text-justify">{{reporteServicio.reporteSeleccionado['ayuda'] || ''}}</p>
 
-                        <div class="col-12 grid-margin" >
+                        <div class="col-12 grid-margin">
                             <form class="form-sample" [formGroup]="formulario" (ngSubmit)="enviar()">
                                 <div class="row" *ngIf="reporteServicio.codigoReporteSeleccionado != '22' ">
-                                    <div class="col-md-6" >
+                                    <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Fecha desde:</label>
                                             <div class="col-sm-9">
-                                                <input type="date" [value]="fechaDesdeCal | date: 'yyyy-MM-dd'" (change)=cambioFechas(reporteServicio.codigoReporteSeleccionado) id='fechaDesde'
-                                                 class="form-control form-control-sm" formControlName="fechadesde" title="Seleccione la fecha desde cuando va a generar el reporte"/>
-                                                <small class="text-danger" *ngIf="formulario.get('fechadesde').errors?.required
-                                                && this.formulario.get('fechadesde').touched">
+                                                <input type="date" [value]="fechaDesdeCal | date: 'yyyy-MM-dd'"
+                                                    (change)=cambioFechas(reporteServicio.codigoReporteSeleccionado)
+                                                    id='fechaDesde' class="form-control form-control-sm"
+                                                    formControlName="fechadesde"
+                                                    title="Seleccione la fecha desde cuando va a generar el reporte" />
+                                                <small class="text-danger" *ngIf="formulario.get('fechadesde')!.errors
+                                                && this.formulario.get('fechadesde')!.touched">
                                                     Seleccione una fecha válida
                                                 </small>
                                             </div>
@@ -104,9 +101,10 @@
                                             <label class="col-sm-3 col-form-label">Fecha hasta:</label>
                                             <div class="col-sm-9">
                                                 <input type="date" [value]="fechaHastaCal | date: 'yyyy-MM-dd'"
-                                                class="form-control form-control-sm" formControlName="fechahasta" title="Seleccione la fecha hasta cuando va a generar el reporte" />
-                                                <small class="text-danger" *ngIf="formulario.get('fechahasta').errors?.required
-                                                && formulario.get('fechahasta').touched">
+                                                    class="form-control form-control-sm" formControlName="fechahasta"
+                                                    title="Seleccione la fecha hasta cuando va a generar el reporte" />
+                                                <small class="text-danger" *ngIf="formulario.get('fechahasta')!.errors
+                                                && formulario.get('fechahasta')!.touched">
                                                     Seleccione una fecha válida
                                                 </small>
                                             </div>
@@ -115,66 +113,46 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row" *ngIf="reporteServicio.codigoReporteSeleccionado == '22'">
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-6 col-form-label">Seleccione Año del CIR:</label>
                                             <div class="col-sm-6">
-                                                <!-- <input type="date" [value]="fechaDesde | date: 'yyyy'"  id='fechaDesde'
-                                                 class="form-control form-control-sm" formControlName="fechadesde" title="Seleccione la fecha desde cuando va a generar el reporte"/>
-                                                <small class="text-danger" *ngIf="formulario.get('fechadesde').errors?.required
-                                                && this.formulario.get('fechadesde').touched">
-                                                    Seleccione una fecha válida
-                                                </small> -->
-                                                <select name="" id="" [(ngModel)]="year" formControlName="anoCIR" class="form-control form-control-sm">
-                                                    <option  selected disabled>Seleccione un año</option>
-                                                    <option *ngFor="let a of this.opcionesKioskosServicio.kiovigCIR; index as i" [value]="i">{{a.ano}}</option>
-
-
+                                                <select name="" id="" [(ngModel)]="year" formControlName="anoCIR"
+                                                    class="form-control form-control-sm">
+                                                    <option selected disabled>Seleccione un año</option>
+                                                    <option
+                                                        *ngFor="let a of this.opcionesKioskosServicio.kiovigCIR; index as i"
+                                                        [value]="i">{{a.ano}}</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    
                                 </div>
-
                                 <div class="row">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="customCheck1"
                                             formControlName="enviocorreo">
-                                        <label class="custom-control-label" for="customCheck1">¿Desea enviar el reporte
-                                            a su correo {{usuarioServicio.correo}}?</label>
+                                        <label class="custom-control-label" for="customCheck1">
+                                            ¿Desea enviar el reporte a su correo {{correo}}?
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top: 2%;"
                                     *ngIf="reporteServicio.reporteSeleccionado && reporteServicio.reporteSeleccionado['reqDestino']=='S'">
                                     <div class="col">
                                         <div class="form-group row">
-                                            <label class="col-12 col-md-6 col-lg-3 col-xl-3 col-form-label">¿A quién va
-                                                dirigida la certificación?:</label>
+                                            <label class="col-12 col-md-6 col-lg-3 col-xl-3 col-form-label">
+                                                ¿A quién va dirigida la certificación?:
+                                            </label>
                                             <div class="col-12 col-md-6 col-lg-6 col-xl-5">
                                                 <input type="text" class="form-control form-control-sm"
                                                     formControlName="dirigidoa" />
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <br>
-                                <!-- <div class="row">
-                                    <div class="col-6">
-                                        <button type="submit" class="btn btn-primary
-                                        btn-icon-text">
-                                            <i class="fa fa-download
-                                            btn-icon-prepend"></i>
-                                            Descargar Reporte
-                                        </button>
-                                    </div>
-                                </div> -->
-                           
-                               
-                                
                                 <div class="row">
                                     <div class="col-6">
                                         <button type="submit" class="btn btn-primary
@@ -185,35 +163,28 @@
                                         </button>
                                     </div>
                                 </div>
-
                             </form>
-
-
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<div *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.reportesJefe && reporteServicio.reportesJefe.length!==0">
+<div
+    *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.reportesJefe && reporteServicio.reportesJefe.length!==0">
     <div class="page-header animated fadeIn fast">
         <h3 class="page-title">
             Reportes Jefe
         </h3>
     </div>
-
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a [routerLink]="['/reportes']" (click)="limpiarSeleccionado()">Reportes</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/reportes']" (click)="limpiarSeleccionado()">Reportes</a>
+            </li>
             <li class="breadcrumb-item active" aria-current="page">{{reporteServicio.reporteSeleccionado &&
                 reporteServicio.reporteSeleccionado['descripcion'] || ''}}</li>
-    </ol>
+        </ol>
     </nav>
     <div class="col-md-12 col-sm-12 grid-margin stretch-card"
         *ngIf="reporteServicio.reportesJefe && reporteServicio.reportesJefe.length==0">
@@ -225,10 +196,10 @@
             </div>
         </div>
     </div>
-
     <p
         *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.reportesJefe && reporteServicio.reportesJefe.length!==0">
-        Seleccione el reporte que desea generar</p>
+        Seleccione el reporte que desea generar
+    </p>
     <div class="row animated fadeIn fast"
         *ngIf="!reporteServicio.reporteSeleccionado && reporteServicio.reportesJefe && reporteServicio.reportesJefe.length!==0">
         <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card"
@@ -236,7 +207,8 @@
             <div class="card" id="divReportes">
                 <div class="card-body">
                     <div class="d-flex flex-row">
-                        <img [src]="imagenReporte(rhe['nombreruta']) || 'assets/images/reporte.png'" class="img-lg rounded img-fluid" alt="profile image" />
+                        <img [src]="imagenReporte(rhe['nombreruta']) || 'assets/images/reporte.png'"
+                            class="img-lg rounded img-fluid" alt="profile image" />
                         <div class="ml-3 d-flex align-items-center">
                             <h6>{{ rhe['descripcion'] || ''}}</h6>
                         </div>

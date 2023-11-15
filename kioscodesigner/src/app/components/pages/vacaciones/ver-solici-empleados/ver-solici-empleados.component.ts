@@ -1,71 +1,70 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { VacacionesService } from 'src/app/services/vacaciones.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import * as pluginDataLabels from 'chartjs-plugin-datalabels';
-import { Label, Color, BaseChartDirective, SingleDataSet } from 'ng2-charts';
-import { Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import swal from 'sweetalert2';
+import { Component, OnInit } from '@angular/core';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
-
-
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { VacacionesService } from 'src/app/services/vacaciones.service';
+import swal from 'sweetalert2';
 
 @Component({
-  selector: "app-ver-solici-empleados",
-  templateUrl: "./ver-solici-empleados.component.html",
-  styleUrls: ["./ver-solici-empleados.component.css"],
+  selector: 'app-ver-solici-empleados',
+  templateUrl: './ver-solici-empleados.component.html',
+  styleUrls: ['./ver-solici-empleados.component.scss']
 })
 export class VerSoliciEmpleadosComponent implements OnInit {
-  solicitudesEnviadas = null;
-  public dataFilt: any = "";
-  public p: number = 1;
-  public p1: number = 1;
-  public p2: number = 1;
-  public p3: number = 1;
-  public p4: number = 1;
-  public p5: number = 1;
-  solicitudesAprobadas = null;
-  solicitudesRechazadas = null;
-  solicitudesLiquidadas = null;
-  solicitudesCanceladas = null;
-  tipoSolicitudSeleccionada;
-  indexSolicitudSeleccionada;
-  solicitudSeleccionada;
-  public totalDiasVacacionesProv;
-  private countEventsSubscription$: Subscription;
-  private eventsOnChartLimit = 20;
-  /////////////////////Pie////////////////
-  public pieChartOptions: ChartOptions = {
-    responsive: true,
-    maintainAspectRatio: true,
-    aspectRatio: 1,
-    devicePixelRatio: 5,
-    legend: {
-      fullWidth: true,
-      position: "top",
-      align: "start",
-      labels: {
-        padding: 7,
-        fontSize: 10,
-        usePointStyle: true,
-      },
-    },
-    plugins: {},
-  };
 
-  public pieChartLabels: Label[] = [
-    ["Días provisionados"],
-    ["Días en dinero"],
-    ["Días disfrutados"],
-    "Días liquidados",
+  _dataFiltLiq: string = '';
+  _dataFiltEnv: string = '';
+  _dataFiltApr: string = '';
+  _dataFiltRech: string = '';
+  _dataFiltCan: string = '';
+  dataFilt: string = '';
+  p: number = 1;
+  p1: number = 1;
+  p2: number = 1;
+  p3: number = 1;
+  p4: number = 1;
+  p5: number = 1;
+  solicitudesEnviadas: any = null;
+  solicitudesAprobadas: any = null;
+  solicitudesRechazadas: any = null;
+  solicitudesLiquidadas: any = null;
+  solicitudesCanceladas: any = null;
+  tipoSolicitudSeleccionada: any;
+  indexSolicitudSeleccionada: any;
+  solicitudSeleccionada: any;
+  solicitudesFiltradas: any = null;
+  //public totalDiasVacacionesProv: any;
+  //private countEventsSubscription$: Subscription;
+  //private eventsOnChartLimit = 20;
+
+  //Inicio estructuras para la grafica pie
+  pieChartType: ChartType = 'pie';
+  pieChartLegend = true;
+  pieChartPlugins = [];
+  pieChartLabels: any = ['Días provisionados',
+    'Días en dinero',
+    'Días disfrutados',
+    'Días liquidados'
   ];
-  public pieChartData: number[] = [];
-
-  public pieChartType: ChartType = "pie";
-  public pieChartLegend = true;
-
-  public pieChartPlugins = [{}];
+  public pieChartData: ChartData<'pie', number[], string | string[]> = {
+    labels: ['Días provisionados',
+      'Días en dinero',
+      'Días disfrutados',
+      'Días liquidados'
+    ],
+    datasets: [{
+      data: []
+    }]
+  };
+  pieChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+      },
+    }
+  };
   public pieChartColors = [
     {
       backgroundColor: [
@@ -90,77 +89,30 @@ export class VerSoliciEmpleadosComponent implements OnInit {
       this.cargarDatosIniciales();
     } else {
       this.getInfoUsuario();
-    }    
-    //
-    // this.countEventsSubscription$ = this.vacacionesService
-    // .getServerSentEvent(`${environment.urlKioskoReportes}vacacionesPendientes/consultarDiasVacacionesProvisionados?seudonimo=${this.usuarioService.usuario}&nitempresa=${this.usuarioService.empresa}`)
-    // .subscribe(event => {
-    //   //let data = JSON.parse(event.);
-    //   this.pushEventToChartData(event);
-    //   //console.log(" Sirveeeee ",event)
-    // },
-    // error=>{
-    //   //console.log('errorrrrr', error);
-    // });
-
-    //
-
-    //   this.vacacionesService.getDiasVacacionesProvisionadas(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion )
-    //   .subscribe(
-    //     data => {
-
-    //       this.totalDiasVacacionesProv = event.data;
-    //       this.pushEventToChartData(data);
-    //       //console.log(" totalDiasVacacionesProv ", data);
-    //     }
-    //   );
+    }
   }
 
-  // private pushEventToChartData(event): void {
-  //   if (this.isChartDataFull(this.pieChartData, 20)) {
-  //     this.removeLastElementFromChartDataAndLabel();
-  //   }
-  //   this.pieChartData[0].data.push(event.count);
-  //   this.pieChartLabels.push(
-  //     this.getLabel(event)
-  //   );
-  // }
-  // private getLabel(event): string {
-  //   return `${event.window}`;
-  // }
-  // private removeLastElementFromChartDataAndLabel(): void {
-  //   this.pieChartData[0].data = this.pieChartData[0].data.slice(1);
-  //   this.pieChartLabels = this.pieChartLabels.slice(1);
-  // }
-  // private isChartDataFull(chartData: ChartDataSets[], limit: number): boolean {
-  //   return chartData[0].data.length >= limit;
-  // }
-
-  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+  // obtener la información del usuario del localStorage y guardarla en el service
+  getInfoUsuario() {
     const sesion = this.usuarioService.getUserLoggedIn();
     this.usuarioService.setUsuario(sesion['usuario']);
     this.usuarioService.setEmpresa(sesion['empresa']);
     this.usuarioService.setTokenJWT(sesion['JWT']);
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
-    //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
-    .subscribe(
-      data => {
-        //console.log('getInfoUsuario', data);
-        //console.log(sesion['grupo']);
-        for (let i in data) {
-          if (data[i][3] === sesion['grupo']) { // GRUPO
-          const temp = data[i];
-          //console.log('cadena: ', temp[4]) // CADENA
-          this.usuarioService.cadenaConexion=temp[4];
-          //console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
-          this.cargarDatosIniciales();
+      .subscribe(
+        (data: any) => {
+          for (let i in data) {
+            if (data[i][3] === sesion['grupo']) { // GRUPO
+              const temp = data[i];
+              this.usuarioService.cadenaConexion = temp[4];
+              this.cargarDatosIniciales();
+            }
           }
         }
-      }
-    );
-  }   
+      );
+  }
 
   cargarDatosIniciales() {
     // dias provisionados
@@ -171,11 +123,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         this.usuarioService.empresa,
         this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         diasProv = data.toString();
-        //console.log("diasProv", data);
-
-        this.pieChartData.push(parseInt(diasProv, 0));
+        this.pieChartData.datasets[0].data.push(parseInt(diasProv, 0));
       });
 
     // dias Enviados
@@ -185,12 +135,11 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         this.usuarioService.usuario,
         this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         let diasEnv = data;
-        //console.log("DiasEnv", data);        
-        this.pieChartData.push(parseInt(diasEnv[0][2], 0));
-        this.pieChartData.push(parseInt(diasEnv[1][2], 0));
-        this.pieChartData.push(parseInt(diasEnv[2][2], 0));
+        this.pieChartData.datasets[0].data.push(parseInt(diasEnv[0][2], 0));
+        this.pieChartData.datasets[0].data.push(parseInt(diasEnv[1][2], 0));
+        this.pieChartData.datasets[0].data.push(parseInt(diasEnv[2][2], 0));
       });
 
     if (
@@ -203,10 +152,8 @@ export class VerSoliciEmpleadosComponent implements OnInit {
           this.usuarioService.empresa,
           this.usuarioService.cadenaConexion
         )
-        .subscribe((data) => {
-          //console.log(data["result"]);
+        .subscribe((data: any) => {
           this.usuarioService.documento = data["result"];
-          //console.log("ng OnInit:", this.usuarioService.documento);
           this.consultarSoliciXEstados();
         });
     } else {
@@ -222,11 +169,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     this.getSoliciCanceladas();
   }
 
-  detalleSolicitud(tipoSolicitud: string, index: string) {
+  detalleSolicitud(tipoSolicitud: string, index: number) {
     this.tipoSolicitudSeleccionada = tipoSolicitud;
     this.indexSolicitudSeleccionada = index;
-    //console.log("tipoSolicitud: " + tipoSolicitud);
-    //console.log("index seleccionado: " + index);
     switch (tipoSolicitud) {
       case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
@@ -248,12 +193,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         this.solicitudSeleccionada = this.solicitudesCanceladas[index];
         break;
       }
-      /*default: {
-        //this.solicitudSeleccionada = null;
-      }*/
     }
     $("#staticBackdrop2").modal("show");
-    document.getElementById('staticBackdrop2').style.display = 'block';
+    document.getElementById('staticBackdrop2')!.style.display = 'block';
   }
 
   getSoliciEnviadas() {
@@ -263,9 +205,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         this.usuarioService.empresa,
         "ENVIADO", this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log("Datos iniciales");
-        //console.log(data);
+      .subscribe((data: any) => {
         this.solicitudesEnviadas = data;
       });
   }
@@ -277,8 +217,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         this.usuarioService.empresa,
         'AUTORIZADO', this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log(data);
+      .subscribe((data: any) => {
         this.solicitudesAprobadas = data;
       });
   }
@@ -290,8 +229,7 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         this.usuarioService.empresa,
         'RECHAZADO', this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log(data);
+      .subscribe((data: any) => {
         this.solicitudesRechazadas = data;
       });
   }
@@ -303,9 +241,9 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         this.usuarioService.empresa,
         'LIQUIDADO', this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log(data);
+      .subscribe((data: any) => {
         this.solicitudesLiquidadas = data;
+        this.solicitudesFiltradas = data;
       });
   }
 
@@ -316,25 +254,10 @@ export class VerSoliciEmpleadosComponent implements OnInit {
         this.usuarioService.empresa,
         'CANCELADO', this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log(data);
+      .subscribe((data: any) => {
         this.solicitudesCanceladas = data;
       });
   }
-
-  // events char
-
-  // public randomize(): void {
-  //   // Only Change 3 values
-  //   this.pieChartData[0].data = [
-  //     Math.round(Math.random() * 100),
-  //     59,
-  //     80,
-  //     (Math.random() * 100),
-  //     56,
-  //     (Math.random() * 100),
-  //     40 ];
-  // }
 
   // events pie
   public chartClicked({
@@ -344,7 +267,6 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     event: MouseEvent;
     active: {}[];
   }): void {
-    //console.log(event, active);
   }
 
   public chartHovered({
@@ -354,84 +276,18 @@ export class VerSoliciEmpleadosComponent implements OnInit {
     event: MouseEvent;
     active: {}[];
   }): void {
-    //console.log(event, active);
-  }
-
-  changeLabels(): void {
-    const words = [
-      "hen",
-      "variable",
-      "embryo",
-      "instal",
-      "pleasant",
-      "physical",
-      "bomber",
-      "army",
-      "add",
-      "film",
-      "conductor",
-      "comfortable",
-      "flourish",
-      "establish",
-      "circumstance",
-      "chimney",
-      "crack",
-      "hall",
-      "energy",
-      "treat",
-      "window",
-      "shareholder",
-      "division",
-      "disk",
-      "temptation",
-      "chord",
-      "left",
-      "hospital",
-      "beef",
-      "patrol",
-      "satisfied",
-      "academy",
-      "acceptance",
-      "ivory",
-      "aquarium",
-      "building",
-      "store",
-      "replace",
-      "language",
-      "redeem",
-      "honest",
-      "intention",
-      "silk",
-      "opera",
-      "sleep",
-      "innocent",
-      "ignore",
-      "suite",
-      "applaud",
-      "funny",
-    ];
-    const randomWord = () => words[Math.trunc(Math.random() * words.length)];
-    this.pieChartLabels = Array.apply(null, { length: 4 }).map((_) =>
-      randomWord()
-    );
   }
 
   removeSlice(): void {
-    this.pieChartLabels.pop();
-    this.pieChartData.pop();
+    this.pieChartData.labels?.pop();
+    this.pieChartData.datasets[0].data.pop();
     this.pieChartColors[0].backgroundColor.pop();
+    this.pieChartLabels.pop();
   }
 
-  changeLegendPosition(): void {
-    this.pieChartOptions.legend.position =
-      this.pieChartOptions.legend.position === "left" ? "top" : "left";
-  }
-
-  detalleSolicitud2(tipoSolicitud: string, index: string) {
+  detalleSolicitud2(tipoSolicitud: string, index: number) {
     this.tipoSolicitudSeleccionada = tipoSolicitud;
     this.indexSolicitudSeleccionada = index;
-    //console.log("tipoSolicitud: " + tipoSolicitud);
-    //console.log("index seleccionado: " + index);
     switch (tipoSolicitud) {
       case "ENVIADO": {
         this.solicitudSeleccionada = this.solicitudesEnviadas[index];
@@ -455,111 +311,70 @@ export class VerSoliciEmpleadosComponent implements OnInit {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          /*this.vacacionesService
-            .setNuevoEstadoSolicio(
-              this.usuarioService.usuario,
-              this.usuarioService.empresa,
-              this.usuarioService.cadenaConexion,
-              "CANCELADO",
-              this.solicitudSeleccionada[10],
-              null,
-              this.usuarioService.urlKioscoDomain,
-              this.usuarioService.grupoEmpresarial
-            )
-            .subscribe((data) => {
-              cancelado = data.toString();
-              //console.log("diasRecha", data);
-              if (data) {
-                swal
-                  .fire({
-                    title: "Cancelada!",
-                    text: "Su solicitud enviada ha sido cancelada. ",
-                    icon: "success",
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: "Ok",
-                  })
-                  .then((result2) => {
-                    if (result2.isConfirmed) {
-                      this.reloadPage();
-                    }
-                  });
-              } else {
-                swal.fire(
-                  "Ha habido un problema!",
-                  "Su solicitud enviada no ha podido ser cancelada.",
-                  "error"
-                );
-              }
-            });*/
-
-
-            swal.fire({
-              title: "Enviando la solicitud al sistema, por favor espere...",
-              onBeforeOpen: () => {
-                swal.showLoading();
-          this.vacacionesService
-            .setNuevoEstadoSolicio(
-              this.usuarioService.usuario,
-              this.usuarioService.empresa,
-              this.usuarioService.cadenaConexion,
-              "CANCELADO",
-              this.solicitudSeleccionada[10],
-              null,
-              this.usuarioService.urlKioscoDomain,
-              this.usuarioService.grupoEmpresarial,
-              this.solicitudSeleccionada[4],
-              this.solicitudSeleccionada[13],
-              this.solicitudSeleccionada[14],
-              this.solicitudSeleccionada[15]
-            )
-            .subscribe(
-                    (data) => {
-                      //console.log(data);
-                      if (data) {
-                        $('#staticBackdrop3').modal('hide');                        
-                        swal
-                          .fire({
-                            icon: "success",
-                            title:
-                              "Solicitud de vacaciones cancelada exitosamente",
-                            showConfirmButton: true,
-                          })
-                          .then((res) => {
-                            //this.router.navigate(["/vacaciones"]);
-                            this.reloadPage();
-                          });
-                      } else {
-                        swal
-                          .fire({
-                            icon: "error",
-                            title: 'Ha ocurrido un error al cancelar la solicitud.',
-                            text: 'Por favor inténtelo de nuevo más tarde. Si el problema persiste contáctese con el área de nómina y recursos humanos de su empresa.',
-                            showConfirmButton: true,
-                          })
-                          .then((res) => {
-                            //this.router.navigate(["/vacaciones"]);
-                            this.reloadPage();
-                          });
-                      }
-                    },
-                    (error) => {
+          swal.fire({
+            title: "Enviando la solicitud al sistema, por favor espere...",
+            willOpen: () => {
+              swal.showLoading();
+              this.vacacionesService
+                .setNuevoEstadoSolicio(
+                  this.usuarioService.usuario,
+                  this.usuarioService.empresa,
+                  this.usuarioService.cadenaConexion,
+                  "CANCELADO",
+                  this.solicitudSeleccionada[10],
+                  '',
+                  this.usuarioService.urlKioscoDomain,
+                  this.usuarioService.grupoEmpresarial,
+                  this.solicitudSeleccionada[4],
+                  this.solicitudSeleccionada[13],
+                  this.solicitudSeleccionada[14],
+                  this.solicitudSeleccionada[15]
+                )
+                .subscribe(
+                  (data: any) => {
+                    //console.log(data);
+                    if (data) {
+                      $('#staticBackdrop3').modal('hide');
                       swal
                         .fire({
-                          icon: 'error',
-                          title: 'Ha ocurrido un error al crear la solicitud',
-                          text:
-                            'Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.',
+                          icon: "success",
+                          title:
+                            "Solicitud de vacaciones cancelada exitosamente",
                           showConfirmButton: true,
                         })
                         .then((res) => {
-                          //this.router.navigate(["/vacaciones"]);
+                          this.reloadPage();
+                        });
+                    } else {
+                      swal
+                        .fire({
+                          icon: "error",
+                          title: 'Ha ocurrido un error al cancelar la solicitud.',
+                          text: 'Por favor inténtelo de nuevo más tarde. Si el problema persiste contáctese con el área de nómina y recursos humanos de su empresa.',
+                          showConfirmButton: true,
+                        })
+                        .then((res) => {
                           this.reloadPage();
                         });
                     }
-                  );
-              },
-              allowOutsideClick: () => !swal.isLoading(),
-            });
+                  },
+                  (error) => {
+                    swal
+                      .fire({
+                        icon: 'error',
+                        title: 'Ha ocurrido un error al crear la solicitud',
+                        text:
+                          'Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.',
+                        showConfirmButton: true,
+                      })
+                      .then((res) => {
+                        this.reloadPage();
+                      });
+                  }
+                );
+            },
+            allowOutsideClick: () => !swal.isLoading(),
+          });
 
         }
       });
@@ -567,5 +382,113 @@ export class VerSoliciEmpleadosComponent implements OnInit {
 
   reloadPage() {
     this.ngOnInit();
+  }
+
+  get dataFiltLiq(): string {
+    return this._dataFiltLiq;
+  }
+
+  set dataFiltLiq(val: string) {
+    this._dataFiltLiq = val;
+    this.solicitudesLiquidadas = this.filter(val, 1);
+  }
+
+  get dataFiltEnv(): string {
+    return this._dataFiltEnv;
+  }
+
+  set dataFiltEnv(val: string) {
+    this._dataFiltEnv = val;
+    this.solicitudesEnviadas = this.filter(val, 2);
+  }
+
+  get dataFiltApr(): string {
+    return this._dataFiltApr;
+  }
+
+  set dataFiltApr(val: string) {
+    this._dataFiltApr = val;
+    this.solicitudesAprobadas = this.filter(val, 3);
+  }
+
+  get dataFiltRech(): string {
+    return this._dataFiltRech;
+  }
+
+  set dataFiltRech(val: string) {
+    this._dataFiltRech = val;
+    this.solicitudesRechazadas = this.filter(val, 4);
+  }
+
+  get dataFiltCan(): string {
+    return this._dataFiltCan;
+  }
+
+  set dataFiltCan(val: string) {
+    this._dataFiltCan = val;
+    this.solicitudesCanceladas = this.filter(val, 5);
+  }
+
+  filter(v: string, t: number) {
+    if (v === '') {
+      switch (t) {
+        case 1: {
+          this.getSoliciLiquidadas();
+          break;
+        }
+        case 2: {
+          this.getSoliciEnviadas();
+          break;
+        }
+        case 3: {
+          this.getSoliciAprobadas();
+          break;
+        }
+        case 4: {
+          this.getSoliciRechazadas();
+          break;
+        }
+        case 5: {
+          this.getSoliciCanceladas();
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+    switch (t) {
+      case 1: {
+        this.solicitudesFiltradas = this.solicitudesLiquidadas;
+        break;
+      }
+      case 2: {
+        this.solicitudesFiltradas = this.solicitudesEnviadas;
+        break;
+      }
+      case 3: {
+        this.solicitudesFiltradas = this.solicitudesAprobadas;
+        break;
+      }
+      case 4: {
+        this.solicitudesFiltradas = this.solicitudesRechazadas;
+        break;
+      }
+      case 5: {
+        this.solicitudesFiltradas = this.solicitudesCanceladas;
+        break;
+      }
+      default: {
+        this.solicitudesFiltradas = null;
+        break;
+      }
+    }
+    return this.solicitudesFiltradas.filter((x: any) => x[0]?.toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x[1]?.toString()?.toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x[2]?.toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x[3]?.toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x[4]?.toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+      //|| x[9]?.toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+    );
   }
 }

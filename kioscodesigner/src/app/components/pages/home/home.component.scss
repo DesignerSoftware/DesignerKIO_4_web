@@ -1,0 +1,99 @@
+@media (max-width: 500px) {
+    #img-logo {
+      width: 200px;
+    }
+  }
+  
+  @media (max-width: 841px) {
+    #contentEstadisticas {
+      text-align: center;
+    }
+  }
+  @media (min-width: 768px) {
+    .card.card-statistics .statistics-item:before {
+      position: initial !important;
+      content: "";
+      right: 25%;
+      top: 15px;
+      height: calc(100% - 30px);
+      background: rgba(255, 255, 255, 0.2);
+      width: 1px;
+    }
+    .rtl .card.card-statistics .statistics-item:before {
+      right: auto;
+      left: 25%;
+    }
+    .card.card-statistics .statistics-item:last-child:before {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    #x .statistics-item:not(:last-child) {
+     border-bottom: 1px solid #000 ;
+    
+    }
+    
+  }
+  
+  .azul1 {
+    background:linear-gradient(85deg,#002060, #007bff, #002060) !important;
+  }
+  .azul2 {
+    background:linear-gradient(85deg,#007bff, #002060, #007bff) !important;
+  }
+  
+  .proverb{
+    background: url('../../../../assets/images/fondoProverbio.jpg') no-repeat center ;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    /* width: 100% !important; */
+  }
+  
+  .text-pro{
+    color: #fff !important;
+  }
+  
+  .color-pro{
+    background:linear-gradient(85deg, #00223C, #0868B3);
+  }
+  
+  .info{
+    /* background-color: #F9EBEA !important; */
+    /* background-image: radial-gradient(circle at 60.51% 39.49%, #ffffff 0, #fffffd 16.67%, #fff5f3 33.33%, #f7e7e7 50%, #dfd9da 66.67%, #c9cdcd 83.33%, #b7c2c0 100%); */
+    /* background-image: radial-gradient(circle at 50% 50%, #ffffff 0, #e3ecff 50%, #c0d2f5 100%); */
+    background-image: radial-gradient(circle at 50% 50%, #ffffff 0, #e3ecff 50%, #c0d2f5 100%);
+    color: #000 !important;
+  }
+  
+  .alertaS{
+    margin: -7px 0 -18px 0 ;
+    font-size: 14px;
+  }
+  
+  .tituloPres{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: -5px;
+  }
+  
+  .footerPres{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: -10px !important;
+    color: #000 !important;
+  }
+  
+  .imgPres{
+    border-radius: 50%;
+    width: 150px;
+    margin-bottom: 10px;
+  }
+  
+  .c-pres{
+    width: 15rem !important;
+    padding: 0;
+    margin-top: 20px;
+  }

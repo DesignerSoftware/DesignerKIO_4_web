@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AusentismosService } from 'src/app/services/ausentismos.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import swal from 'sweetalert2';
@@ -6,87 +7,60 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-ausentismos-procesados',
   templateUrl: './ausentismos-procesados.component.html',
-  styleUrls: ['./ausentismos-procesados.component.css']
+  styleUrls: ['./ausentismos-procesados.component.scss']
 })
 export class AusentismosProcesadosComponent implements OnInit {
-  solicitudesProcesadas = null;
-  solicitudSeleccionada = null;
-  anexoSeleccionado = null;
+
+  solicitudesProcesadas: any = null;
+  solicitudSeleccionada: any = null;
+  anexoSeleccionado: any = null;
   public p8: number = 1;
   public dataFilt: any = "";
 
-  constructor(private ausentismosService: AusentismosService, private usuarioService: UsuarioService) { 
+  constructor(private ausentismosService: AusentismosService,
+    private usuarioService: UsuarioService,
+    private sanitizer: DomSanitizer) {
 
     if (this.usuarioService.documento == null || this.usuarioService.documento.lenght === 0) {
       this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
-      .subscribe(
-        data => {
-          //console.log(data['result']);
-          this.usuarioService.documento = data['result'];
-          //console.log('ng OnInit:', this.usuarioService.documento);
-          this.obtenerSolicitudes();
-        }
-      );
+        .subscribe(
+          (data: any) => {
+            this.usuarioService.documento = data['result'];
+            this.obtenerSolicitudes();
+          }
+        );
     } else {
       this.obtenerSolicitudes();
     }
   };
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  obtenerSolicitudes(){
+  obtenerSolicitudes() {
     this.ausentismosService.getSolicitudesXEmpleadoJefe(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
-    .subscribe(
-      data => {
-        this.solicitudesProcesadas = data;
-        //console.log('ausentismos', this.solicitudesProcesadas);
-      }
-    );
+      .subscribe(
+        (data: any) => {
+          this.solicitudesProcesadas = data;
+        }
+      );
   }
-  
 
-  detalleSolicitud(tipoSolicitud: string, index: string) {
+  detalleSolicitud(tipoSolicitud: string, index: number) {
     this.solicitudSeleccionada = this.solicitudesProcesadas[index];
-    this.anexoSeleccionado = this.solicitudesProcesadas[index][17];    
-    /*this.tipoSolicitudSeleccionada = tipoSolicitud;
-    this.indexSolicitudSeleccionada = index;
-    //console.log('tipoSolicitud: ' + tipoSolicitud);
-    //console.log('index seleccionado: ' + index);
-    switch(tipoSolicitud) {
-      case 'ENVIADO': {
-        this.solicitudSeleccionada = this.solicitudesEnviadas[index];
-        break;
-      }
-      case 'APROBADO': {
-        this.solicitudSeleccionada = this.solicitudesAprobadas[index];
-        break;
-      }
-      case 'RECHAZADO': {
-        this.solicitudSeleccionada = this.solicitudesRechazadas[index];
-        break;
-      }
-      case 'LIQUIDADO': {
-        this.solicitudSeleccionada = this.solicitudesLiquidadas[index];
-        break;
-      }
-      case 'CANCELADO': {
-        this.solicitudSeleccionada = this.solicitudesCanceladas[index];
-        break;
-      }
-
-    }*/
+    this.anexoSeleccionado = this.solicitudesProcesadas[index][17];
     $('#staticBackdrop3').modal('show');
   }
+
   descargarArchivo() {
     console.log("cadenaReporte: ", this.usuarioService.cadenaConexion);
     console.log(
       "this.usuarioServicio.secuenciaEmpleado: " +
-        this.usuarioService.secuenciaEmpleado
+      this.usuarioService.secuenciaEmpleado
     );
     swal.fire({
       title: "Descargando reporte, por favor espere...",
-      onBeforeOpen: () => {
+      willOpen: () => {
         swal.showLoading();
         console.log("descargarReporte");
         this.ausentismosService
@@ -97,7 +71,6 @@ export class AusentismosProcesadosComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              //console.log("ejemplo 1 : ",res);
               swal.fire({
                 icon: "success",
                 title:
@@ -107,35 +80,17 @@ export class AusentismosProcesadosComponent implements OnInit {
               });
               const newBlob = new Blob([res], { type: "application/pdf" });
               let fileUrl = window.URL.createObjectURL(newBlob); // add 290920
-
-              //if (window.navigator && window.navigator.msSaveOrOpenBlob) { 290920
-              //window.navigator.msSaveOrOpenBlob(newBlob);
-              if (window.navigator.msSaveOrOpenBlob) {
-                // add 290920
-                window.navigator.msSaveOrOpenBlob(
-                  newBlob,
-                  fileUrl.split(":")[1] + ".pdf"
-                );
-              } else {
-                window.open(fileUrl);
-              }
-              //return;
-              ///}
-              // For other browsers:
-              // Create a link pointing to the ObjectURL containing the blob.
-              const data = window.URL.createObjectURL(newBlob);
+              let fileUrlSS = this.sanitizer.bypassSecurityTrustUrl(fileUrl);
               const link = document.createElement("a");
-              link.href = data;
+              link.href = fileUrl;
               let f = new Date();
               link.download =
-                //this.reporteServicio.reporteSeleccionado["nombreruta"] +
                 this.anexoSeleccionado +
                 "_" +
                 this.usuarioService.usuario +
                 "_" +
                 f.getTime() +
                 ".pdf";
-              // this is necessary as link.click() does not work on the latest firefox
               link.dispatchEvent(
                 new MouseEvent("click", {
                   bubbles: true,
@@ -146,7 +101,7 @@ export class AusentismosProcesadosComponent implements OnInit {
 
               setTimeout(function () {
                 // For Firefox it is necessary to delay revoking the ObjectURL
-                window.URL.revokeObjectURL(data);
+                window.URL.revokeObjectURL(fileUrl);
               }, 100);
             },
             (error) => {

@@ -6,8 +6,14 @@
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Mis solicitudes</li>
+    <li class="breadcrumb-item">
+      <a [routerLink]="['/vacaciones']">
+        Vacaciones
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      Mis solicitudes
+    </li>
   </ol>
 </nav>
 
@@ -16,33 +22,47 @@
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card animated fadeIn fast">
       <div class="card-body">
-        <p class="card-description">Solicitudes propias</p>
+        <p class="card-description">
+          Solicitudes propias
+        </p>
         <div class="col-sm-12">
           <ul class="nav nav-tabs" role="tablist">
 
             <li class="nav-item active col-md-2 col-sm-3">
               <a class="nav-link active" id="enviadas-tab" data-toggle="tab" href="#s-enviadas" role="tab"
-                aria-controls="s-enviadas" aria-selected="true">Enviadas</a>
+                aria-controls="s-enviadas" aria-selected="true">
+                Enviadas
+              </a>
             </li>
             <li class="nav-item col-md-2 col-sm-3">
               <a class="nav-link" id="aprobadas-tab" data-toggle="tab" href="#s-aprobadas" role="tab"
-                aria-controls="s-aprobadas" aria-selected="false">Aprobadas</a>
+                aria-controls="s-aprobadas" aria-selected="false">
+                Aprobadas
+              </a>
             </li>
             <li class="nav-item col-md-2 col-sm-3">
               <a class="nav-link" id="rechazadas-tab" data-toggle="tab" href="#s-rechazadas" role="tab"
-                aria-controls="s-rechazadas" aria-selected="false">Rechazadas</a>
+                aria-controls="s-rechazadas" aria-selected="false">
+                Rechazadas
+              </a>
             </li>
             <li class="nav-item col-md-2 col-sm-3">
               <a class="nav-link" id="liquidadas-tab" data-toggle="tab" href="#s-liquidadas" role="tab"
-                aria-controls="s-liquidadas" aria-selected="false">Liquidadas</a>
+                aria-controls="s-liquidadas" aria-selected="false">
+                Liquidadas
+              </a>
             </li>
             <li class="nav-item col-md-2 col-sm-3">
               <a class="nav-link" id="canceladas-tab" data-toggle="tab" href="#s-canceladas" role="tab"
-                aria-controls="s-canceladas" aria-selected="false">Canceladas</a>
+                aria-controls="s-canceladas" aria-selected="false">
+                Canceladas
+              </a>
             </li>
             <li class="nav-item col-md-2 col-sm-3">
               <a class="nav-link" id="graficos-tab" data-toggle="tab" href="#s-graficos" role="tab"
-                aria-controls="s-graficos" aria-selected="false">Gráficos</a>
+                aria-controls="s-graficos" aria-selected="false">
+                Gráficos
+              </a>
             </li>
 
           </ul>
@@ -56,13 +76,15 @@
               <br>
 
             </div>
-            <p>En este apartado se puede observar las solicitudes que se han enviado pero no han sido procesadas por el
-              jefe.
+            <p>
+              En este apartado se puede observar las solicitudes que se han enviado pero no han sido procesadas por el jefe.
             </p>
             <div class="input-group mb-3 ">
-              <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+              <input type="text" class="form-control" name="dataFiltEnv" [(ngModel)]="dataFiltEnv" placeholder="Buscar..."
                 aria-label="Buscar..." aria-describedby="basic-addon2">
-              <span class="input-group-text" id="basic-addon2">Filtrar</span>
+              <span class="input-group-text" id="basic-addon2">
+                Filtrar
+              </span>
             </div>
 
             <div class="table-responsive">
@@ -84,7 +106,7 @@
                     <td colspan="6">No hay solicitudes enviadas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesEnviadas | filterTable: dataFilt | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
+                    *ngFor="let solic of solicitudesEnviadas | paginate: {  itemsPerPage: 5, currentPage: p1, id: 'second' } ; index as i  ">
                     <td>
                       <a (click)="detalleSolicitud2('ENVIADO', i)" *ngIf="solicitudesEnviadas">
                         <i class="far fa-eye text-info"></i>
@@ -102,7 +124,8 @@
               </table>
               <div class="col-md-12">
                 <pagination-controls (pageChange)="p1 = $event" id="second" style="text-align: center;"
-                  class="col-sm-12" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+                  class="col-sm-12" previousLabel="Anterior" nextLabel="Siguiente">
+                </pagination-controls>
               </div>
             </div>
           </div>
@@ -114,12 +137,15 @@
               </h3>
               <br>
             </div>
-            <p>En este apartado se puede observar las solicitudes que ya han sido aprobadas por el jefe.
+            <p>
+              En este apartado se puede observar las solicitudes que ya han sido aprobadas por el jefe.
             </p>
             <div class="input-group mb-3 ">
-              <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+              <input type="text" class="form-control" name="dataFiltApr" [(ngModel)]="dataFiltApr" placeholder="Buscar..."
                 aria-label="Buscar..." aria-describedby="basic-addon2">
-              <span class="input-group-text" id="basic-addon2">Filtrar</span>
+              <span class="input-group-text" id="basic-addon2">
+                Filtrar
+              </span>
             </div>
             <div class="table-responsive">
               <table class="table table-hover" style="text-align: center;">
@@ -136,10 +162,10 @@
                 </thead>
                 <tbody>
                   <tr *ngIf="!solicitudesAprobadas || solicitudesAprobadas==null || solicitudesAprobadas.length==0">
-                    <td colspan="7">No hay solicitudes enviadas.</td>
+                    <td colspan="7">No hay solicitudes aprobadas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesAprobadas | filterTable: dataFilt | paginate: { id: 'third', itemsPerPage: 5, currentPage: p2 }; index as i ">
+                    *ngFor="let solic of solicitudesAprobadas | paginate: { id: 'third', itemsPerPage: 5, currentPage: p2 }; index as i ">
                     <td>
                       <a (click)="detalleSolicitud('APROBADO', i)" *ngIf="solicitudesAprobadas">
                         <i class="far fa-eye text-info"></i>
@@ -156,7 +182,8 @@
               </table>
               <div class="col-md-12">
                 <pagination-controls (pageChange)="p2 = $event" id="third" style="text-align: center;"
-                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12">
+                </pagination-controls>
               </div>
             </div>
 
@@ -170,10 +197,11 @@
               <br>
 
             </div>
-            <p>En este apartado se puede observar las solicitudes en estado rechazado.
+            <p>
+              En este apartado se puede observar las solicitudes en estado rechazado.
             </p>
             <div class="input-group mb-3 ">
-              <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+              <input type="text" class="form-control" name="dataFiltRech" [(ngModel)]="dataFiltRech" placeholder="Buscar..."
                 aria-label="Buscar..." aria-describedby="basic-addon2">
               <span class="input-group-text" id="basic-addon2">Filtrar</span>
             </div>
@@ -197,7 +225,7 @@
                     <td colspan="8">No hay solicitudes rechazadas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesRechazadas | filterTable: dataFilt | paginate: { id: 'fourth', itemsPerPage: 5, currentPage: p3 }; index as i ">
+                    *ngFor="let solic of solicitudesRechazadas | paginate: { id: 'fourth', itemsPerPage: 5, currentPage: p3 }; index as i ">
                     <td>
                       <a (click)="detalleSolicitud('RECHAZADO', i)" *ngIf="solicitudesRechazadas">
                         <i class="far fa-eye text-info"></i>
@@ -218,7 +246,8 @@
               <div class="row">
                 <div class="col-md-12">
                   <pagination-controls (pageChange)="p3 = $event" id="fourth" style="text-align: center;"
-                    previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+                    previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12">
+                  </pagination-controls>
                 </div>
               </div>
             </div>
@@ -237,9 +266,11 @@
             <p>En este apartado se puede observar las solicitudes en estado liquidado.
             </p>
             <div class="input-group mb-3 ">
-              <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+              <input type="text" class="form-control" name="dataFiltLiq" [(ngModel)]="dataFiltLiq" placeholder="Buscar..."
                 aria-label="Buscar..." aria-describedby="basic-addon2">
-              <span class="input-group-text" id="basic-addon2">Filtrar</span>
+              <span class="input-group-text" id="basic-addon2">
+                Filtrar
+              </span>
             </div>
             <div class="table-responsive">
               <table class="table table-hover" style="text-align: center;">
@@ -259,7 +290,7 @@
                     <td colspan="7">No hay solicitudes liquidadas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesLiquidadas | filterTable: dataFilt | paginate: { id: 'fiveth', itemsPerPage: 5, currentPage: p4 }; index as i ">
+                    *ngFor="let solic of solicitudesLiquidadas | paginate: { id: 'fiveth', itemsPerPage: 5, currentPage: p4 }; index as i ">
                     <td>
                       <a (click)="detalleSolicitud('LIQUIDADO', i)" *ngIf="solicitudesLiquidadas">
                         <i class="far fa-eye text-info"></i>
@@ -276,7 +307,8 @@
               </table>
               <div class="col-md-12">
                 <pagination-controls (pageChange)="p4 = $event" id="fiveth" style="text-align: center;"
-                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12">
+                </pagination-controls>
               </div>
             </div>
           </div>
@@ -289,12 +321,15 @@
               <br>
 
             </div>
-            <p>En este apartado se puede observar las solicitudes en estado cancelado.
+            <p>
+              En este apartado se puede observar las solicitudes en estado cancelado.
             </p>
             <div class="input-group mb-3 ">
-              <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
+              <input type="text" class="form-control" name="dataFiltCan" [(ngModel)]="dataFiltCan" placeholder="Buscar..."
                 aria-label="Buscar..." aria-describedby="basic-addon2">
-              <span class="input-group-text" id="basic-addon2">Filtrar</span>
+              <span class="input-group-text" id="basic-addon2">
+                Filtrar
+              </span>
             </div>
             <div class="table-responsive">
               <table class="table table-hover" style="text-align: center;">
@@ -314,12 +349,12 @@
                     <td colspan="7">No hay solicitudes canceladas.</td>
                   </tr>
                   <tr
-                    *ngFor="let solic of solicitudesCanceladas | filterTable: dataFilt | paginate: { id: 'sixth', itemsPerPage: 5, currentPage: p5 }; index as i  ">
+                    *ngFor="let solic of solicitudesCanceladas | paginate: { id: 'sixth', itemsPerPage: 5, currentPage: p5 }; index as i  ">
                     <td>
-                                  <a (click)="detalleSolicitud('CANCELADO', i)" *ngIf="solicitudesCanceladas">
-                                    <i class="far fa-eye text-info"></i>
-                                  </a>
-                                </td>
+                      <a (click)="detalleSolicitud('CANCELADO', i)" *ngIf="solicitudesCanceladas">
+                        <i class="far fa-eye text-info"></i>
+                      </a>
+                    </td>
                     <td *ngIf="solicitudesCanceladas">{{solic[0]}}</td>
                     <td *ngIf="solicitudesCanceladas">{{solic[1]}}</td>
                     <td *ngIf="solicitudesCanceladas">{{solic[2]}}</td>
@@ -331,7 +366,8 @@
               </table>
               <div class="col-md-12">
                 <pagination-controls (pageChange)="p5 = $event" id="sixth" style="text-align: center;"
-                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12"></pagination-controls>
+                  previousLabel="Anterior" nextLabel="Siguiente" class="col-sm-12">
+                </pagination-controls>
               </div>
             </div>
           </div>
@@ -343,36 +379,40 @@
               <h3 class="page-title">
                 Gráficos Estadísticos
               </h3>
-              <br>            
-          </div>
-          <p>En este apartado se puede apreciar las solicitudes según el estado mediante gráficos estadísticos.
-          </p>                       
+              <br>
+            </div>
+            <p>En este apartado se puede apreciar las solicitudes según el estado mediante gráficos estadísticos.
+            </p>
             <div class="col-lg-8 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title" style="margin-bottom: 5px;">Días vacaciones según subtipo</h4>
+                  <h4 class="card-title" style="margin-bottom: 5px;">
+                    Días vacaciones según subtipo
+                  </h4>
                   <div class="chart-container" style="text-align: center;">
-                    <canvas baseChart [data]="pieChartData" [chartType]="pieChartType" [labels]="pieChartLabels"
-                      [legend]="pieChartLegend" [options]="pieChartOptions" [plugins]="pieChartPlugins"
-                      [colors]="pieChartColors">
+                    <canvas baseChart class="chart" [data]="pieChartData" [type]="pieChartType"
+                      [labels]="pieChartLabels" [legend]="pieChartLegend" [options]="pieChartOptions"
+                      [plugins]="pieChartPlugins">
                     </canvas>
                   </div>
                 </div>
-              </div>              
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-</div>
 
-<div class="modal fade animated fadeIn slow" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+<div class="modal fade animated fadeIn slow" id="staticBackdrop2" data-backdrop="static" data-keyboard="false"
+  tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel2">DETALLE DE LA SOLICITUD</h5>
+        <h5 class="modal-title" id="staticBackdropLabel2">
+          DETALLE DE LA SOLICITUD
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -410,12 +450,14 @@
   </div>
 </div>
 
-<div class="modal fade animated fadeIn slow" id="staticBackdrop3" data-backdrop="static" data-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+<div class="modal fade animated fadeIn slow" id="staticBackdrop3" data-backdrop="static" data-keyboard="false"
+  tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel3">DETALLE DE LA SOLICITUD</h5>
+        <h5 class="modal-title" id="staticBackdropLabel3">
+          DETALLE DE LA SOLICITUD
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -446,16 +488,23 @@
           </tbody>
         </table>
         <hr>
-        <h6 *ngIf="false">ACCIONES PERMITIDAS</h6><br>
+        <h6 *ngIf="false">
+          ACCIONES PERMITIDAS
+        </h6>
+        <br>
         <div class="col-12">
           <div class="col-sm-12 col-12" id="btnCancelar">
-            <button type="button"  class="btn btn-outline-danger" (click)="cancelarEnvio()">CANCELAR SOLICITUD</button>
+            <button type="button" class="btn btn-outline-danger" (click)="cancelarEnvio()">
+              CANCELAR SOLICITUD
+            </button>
           </div>
         </div>
       </div>
       <div class="modal-footer">
 
-        <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-light" data-dismiss="modal">
+          Cerrar
+        </button>
 
       </div>
 

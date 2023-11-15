@@ -1,104 +1,101 @@
 <div class="page-header animated fadeIn slow">
-    <h3 class="page-title">
-      Procesar solicitudes pendientes <span class="badge badge-info" *ngIf="false">3</span>
-    </h3>
-  </div>
-  
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Procesar solicitudes</li>
-    </ol>
-  </nav>
-  
-  <div class="container">
-    <br>
-    <p *ngIf="vacacionesService.SolicitudesJefe && vacacionesService.SolicitudesJefe.length<=0" class="text-center">
-      No hay solicitudes pendientes por procesar.</p>
-    <div class="card-deck" id="" *ngIf="vacacionesService.SolicitudesJefe && vacacionesService.SolicitudesJefe!=null">
-      <div class="card card1" *ngFor="let op of vacacionesService.SolicitudesJefe; index as i"
-        style="text-align: center;">
-        <div class="card-body card_hover">
-          <img id="fotoPerfilEmpl" [src]="cargaFoto(op[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile"
-            alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
-          <br>
-          <br>
-          <h6 class="card-title text-muted" *ngIf="vacacionesService.SolicitudesJefe">{{op[1]}}</h6>
-          <h6 class="text-muted" *ngIf="vacacionesService.SolicitudesJefe">{{op[0]}}</h6>
-          <hr>
-          <p class="card-text">Fecha inicio Vacaciones: {{op[4]}}</p>
-          <p>Fecha fin vacaciones: {{op[12]}}</p>
-          <p>Fecha regreso a laborar: {{op[13]}}</p>
-          <p>Días: {{op[14]}}</p>
-          <button (click)="detalleSolicitud(i)" type="button" class="btn btn-outline-primary" data-toggle="modal"
-            data-target="#exampleModalCenter" *ngIf="vacacionesService.SolicitudesJefe">PROCESAR</button>
-  
-          <p class="card-text" style="margin-top: 5px;"><small class="text-muted">Ultima modificación {{op[5]}}</small>
-          </p>
-        </div>
+  <h3 class="page-title">
+    Procesar solicitudes pendientes <span class="badge badge-info" *ngIf="false">3</span>
+  </h3>
+</div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/vacaciones']">Vacaciones</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Procesar solicitudes</li>
+  </ol>
+</nav>
+
+<div class="container">
+  <br>
+  <p *ngIf="vacacionesService.SolicitudesJefe " class="text-center">
+    No hay solicitudes pendientes por procesar.</p>
+  <div class="card-deck" id="" *ngIf="vacacionesService.SolicitudesJefe && vacacionesService.SolicitudesJefe!=null">
+    <div class="card card1" *ngFor="let op of vacacionesService.SolicitudesJefe; index as i"
+      style="text-align: center;">
+      <div class="card-body card_hover">
+        <img id="fotoPerfilEmpl" [src]="cargaFoto(op[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="profile"
+          alt="..." style=" width: 70px; height: 70px; border-radius: 50%;">
+        <br>
+        <br>
+        <h6 class="card-title text-muted" *ngIf="vacacionesService.SolicitudesJefe">{{op[1]}}</h6>
+        <h6 class="text-muted" *ngIf="vacacionesService.SolicitudesJefe">{{op[0]}}</h6>
+        <hr>
+        <p class="card-text">Fecha inicio Vacaciones: {{op[4]}}</p>
+        <p>Fecha fin vacaciones: {{op[12]}}</p>
+        <p>Fecha regreso a laborar: {{op[13]}}</p>
+        <p>Días: {{op[14]}}</p>
+        <button (click)="detalleSolicitud(i)" type="button" class="btn btn-outline-primary" data-toggle="modal"
+          data-target="#exampleModalCenter" *ngIf="vacacionesService.SolicitudesJefe">PROCESAR</button>
+
+        <p class="card-text" style="margin-top: 5px;"><small class="text-muted">Ultima modificación {{op[5]}}</small>
+        </p>
       </div>
-  
-  
-  
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Procesar solicitud</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body animated fadeIn slow">
-              <div class="card" style="text-align: center;">
-                <div class="card-body">
-                  <img id="fotoPerfil2" *ngIf="solicitudSeleccionada"
-                    [src]="cargaFoto(solicitudSeleccionada[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="..."
-                    style=" width: 70px; height: 70px; border-radius: 50%;">
-                  <h6 class="card-title text-muted " *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]}}</h6>
-                  <h6 class="text-muted" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0]}}</h6>
-                  <hr>
-                  <p class="card-text" *ngIf="solicitudSeleccionada">Fecha inicio Vacaciones: {{solicitudSeleccionada[4]}}
-                  </p>
-                  <p *ngIf="solicitudSeleccionada">Fecha fin vacaciones: {{solicitudSeleccionada[12]}}</p>
-                  <p *ngIf="solicitudSeleccionada">Fecha regreso a laborar: {{solicitudSeleccionada[13]}}</p>
-                  <p *ngIf="solicitudSeleccionada">Días: {{solicitudSeleccionada[14]}}</p>
-                  <p *ngIf="solicitudSeleccionada">Periodo: {{solicitudSeleccionada[15]}}</p>
-                  <p *ngIf="solicitudSeleccionada ">Jefe inmediato: {{solicitudSeleccionada[16]}} </p>
-                  <p *ngIf="solicitudSeleccionada !=null">Fecha pago: {{solicitudSeleccionada[17]}}</p>
-                  <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">Fecha solicitud:
-                      {{solicitudSeleccionada[3]}}</small></p>
-                  <hr>
-                  <h6 *ngIf="false">ACCIONES PERMITIDAS</h6><br>
-                  <form [formGroup]="formulario">
-                    <p>Motivo:</p>
-                    <textarea id="form7" class="md-textarea form-control" rows="3" cols="12" formControlName="motivo"
-                      placeholder="Este campo es obligatorio para el caso de que rechace la solicitud."></textarea>
-                    <br>
-                    <div class="row">
-                      <div class="col-sm-6 col-12" id="btnEnviar">
-                        <button type="button" class="btn btn-outline-primary" (click)="aprobarEnvio()"
-                          style="width: 122px;" data-toggle="modal" data-target="#exampleModalCenter">APROBAR</button>
-                      </div>
-                      <div class="col-sm-6 col-12" id="btnCancelar">
-                        <button type="button" style="width: 122px;" (click)="rechazarEnvio()"
-                          class="btn btn-outline-danger">RECHAZAR</button>
-                      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Procesar solicitud</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body animated fadeIn slow">
+            <div class="card" style="text-align: center;">
+              <div class="card-body">
+                <img id="fotoPerfil2" *ngIf="solicitudSeleccionada"
+                  [src]="cargaFoto(solicitudSeleccionada[0]) || 'assets/images/fotos_empleados/sinFoto.jpg'" alt="..."
+                  style=" width: 70px; height: 70px; border-radius: 50%;">
+                <h6 class="card-title text-muted " *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[1]}}</h6>
+                <h6 class="text-muted" *ngIf="solicitudSeleccionada">{{solicitudSeleccionada[0]}}</h6>
+                <hr>
+                <p class="card-text" *ngIf="solicitudSeleccionada">Fecha inicio Vacaciones: {{solicitudSeleccionada[4]}}
+                </p>
+                <p *ngIf="solicitudSeleccionada">Fecha fin vacaciones: {{solicitudSeleccionada[12]}}</p>
+                <p *ngIf="solicitudSeleccionada">Fecha regreso a laborar: {{solicitudSeleccionada[13]}}</p>
+                <p *ngIf="solicitudSeleccionada">Días: {{solicitudSeleccionada[14]}}</p>
+                <p *ngIf="solicitudSeleccionada">Periodo: {{solicitudSeleccionada[15]}}</p>
+                <p *ngIf="solicitudSeleccionada ">Jefe inmediato: {{solicitudSeleccionada[16]}} </p>
+                <p *ngIf="solicitudSeleccionada !=null">Fecha pago: {{solicitudSeleccionada[17]}}</p>
+                <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">Fecha solicitud:
+                    {{solicitudSeleccionada[3]}}</small></p>
+                <hr>
+                <h6 *ngIf="false">ACCIONES PERMITIDAS</h6><br>
+                <form [formGroup]="formulario">
+                  <p>Motivo:</p>
+                  <textarea id="form7" class="md-textarea form-control" rows="3" cols="12" formControlName="motivo"
+                    placeholder="Este campo es obligatorio para el caso de que rechace la solicitud."></textarea>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-6 col-12" id="btnEnviar">
+                      <button type="button" class="btn btn-outline-primary" (click)="aprobarEnvio()"
+                        style="width: 122px;" data-toggle="modal" data-target="#exampleModalCenter">APROBAR</button>
                     </div>
-  
-                  </form>
-                </div>
+                    <div class="col-sm-6 col-12" id="btnCancelar">
+                      <button type="button" style="width: 122px;" (click)="rechazarEnvio()"
+                        class="btn btn-outline-danger">RECHAZAR</button>
+                    </div>
+                  </div>
+
+                </form>
               </div>
             </div>
-            <div class="modal-footer">
-  
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-  
-            </div>
+          </div>
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
           </div>
         </div>
       </div>
-  
     </div>
+  </div>
+</div>

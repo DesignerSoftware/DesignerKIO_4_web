@@ -1,229 +1,296 @@
 <div class="page-header animated fadeIn slow">
-  <h3 class="page-title">
-    Comunicados
-  </h3>
+    <h3 class="page-title">
+        Comunicados
+    </h3>
 </div>
 
 <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a [routerLink]="['/recursoshumanos']">Recursos Humanos</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Consultar Comunicados</li>
-  </ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a [routerLink]="['/recursoshumanos']">
+                Recursos Humanos
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Consultar Comunicados
+        </li>
+    </ol>
 </nav>
 
 <!-- partial -->
 
 <div class="row animated fadeIn slow">
-  <div class="col-md-12 grid-margin stretch-card">
-    <div class="card animated fadeIn fast">
-      <div class="card-body">
-        <div class="" id="" role="">
-          <div class="page-header">
-            <h3 class="page-title">
-              Comunicados Creados
-            </h3>
-            <br>
-          </div>
-          <div class="input-group mb-3 ">
-            <input type="text" class="form-control" name="searchTerm" [(ngModel)]="searchTerm" placeholder="Buscar..."
-              aria-label="Buscar..." aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">Filtrar</span>
-          </div>
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card animated fadeIn fast">
+            <div class="card-body">
+                <div class="" id="" role="">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            Comunicados Creados
+                        </h3>
+                        <br>
+                    </div>
+                    <div class="input-group mb-3 ">
+                        <input type="text" class="form-control" name="searchTerm" [(ngModel)]="searchTerm"
+                            placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon2">
+                        <span class="input-group-text" id="basic-addon2">
+                            Filtrar
+                        </span>
+                    </div>
 
-          <div class="table-responsive">
-            <table class="table table-hover" style="text-align: center;">
-              <thead class="" style="background: #00223C; color: white;">
-                <tr id="tblfamiliares">
-                  <th (click)='ordenar("titulo")'>Titulo <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'titulo'"></i></th>
-                  <th (click)='ordenar("fechacreacion1")'>Fecha Creación <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechacreacion1'"></i></th>
-                  <th (click)='ordenar("fechainicio1")'>Fecha Inicio <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechainicio1'"></i></th>
-                  <th (click)='ordenar("fechafin1")'>Fecha Fin<i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechafin1'"></i></th>
-                  <th (click)='ordenar("estado")'>Estado <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'estado'"></i></th>
-                  <th>Reenviar Correo</th>
-                  <th>Editar</th>
-                  <th>Eliminar</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngIf="!mensajeCosulatdos || mensajeCosulatdos==null || mensajeCosulatdos.length==0">
-                  <td colspan="7">No hay solicitudes enviadas.</td>
-                </tr>
-                <tr
-                  *ngFor="let solic of mensajeCosulatdos | paginate: {  itemsPerPage: 5, currentPage: p, id: 'second' } ; index as i  ">
-                  <th>{{solic['titulo'] || 'N/A' }}</th>
-                  <td>{{solic['fechacreacion'] || 'N/A' }}</td>
-                  <td>{{solic['fechainicio'] || 'N/A' }}</td>
-                  <td>{{solic['fechafin'] || 'N/A' }}</td>
-                  <td>{{solic['estado'] || 'N/A' }}</td>
-                  <td>
-                    <a (click)="resendEmail(i)" *ngIf="mensajeCosulatdos">
-                      <i class="fas fa-redo text-info"></i>
-                    </a>
-                  </td>
-                  <td>
-                    <a (click)="detalleSolicitud(i)" *ngIf="mensajeCosulatdos">
-                      <i class="fas fa-pencil-alt text-info"></i>
-                    </a>
-                  </td>
-                  <td>
-                    <a (click)="eliminarMensaje(i)" *ngIf="mensajeCosulatdos">
-                      <i class="fas fa-trash-alt text-danger"></i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
+                    <div class="table-responsive">
+                        <table class="table table-hover" style="text-align: center;">
+                            <thead class="" style="background: #00223C; color: white;">
+                                <tr id="tblfamiliares">
+                                    <th (click)='ordenar("titulo")'>
+                                        Titulo
+                                        <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'titulo'"></i>
+                                    </th>
+                                    <th (click)='ordenar("fechacreacion1")'>
+                                        Fecha Creación
+                                        <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechacreacion1'">
+                                        </i>
+                                    </th>
+                                    <th (click)='ordenar("fechainicio1")'>
+                                        Fecha Inicio
+                                        <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechainicio1'">
+                                        </i>
+                                    </th>
+                                    <th (click)='ordenar("fechafin1")'>
+                                        Fecha Fin
+                                        <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'fechafin1'">
+                                        </i>
+                                    </th>
+                                    <th (click)='ordenar("estado")'>
+                                        Estado
+                                        <i class="fas fa-arrow-{{arrow}}" *ngIf="orderSelect == 'estado'">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        Reenviar Correo
+                                    </th>
+                                    <th>
+                                        Editar
+                                    </th>
+                                    <th>
+                                        Eliminar
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngIf="!mensajeCosulatdos || mensajeCosulatdos==null || mensajeCosulatdos.length==0">
+                                    <td colspan="7">
+                                        No hay comunicados enviados.
+                                    </td>
+                                </tr>
+                                <tr
+                                    *ngFor="let solic of mensajeCosulatdos | paginate: {  itemsPerPage: 5, currentPage: p, id: 'second' } ; index as i  ">
+                                    <th>{{solic['titulo'] || 'N/A' }}</th>
+                                    <td>{{solic['fechacreacion'] || 'N/A' }}</td>
+                                    <td>{{solic['fechainicio'] || 'N/A' }}</td>
+                                    <td>{{solic['fechafin'] || 'N/A' }}</td>
+                                    <td>{{solic['estado'] || 'N/A' }}</td>
+                                    <td>
+                                        <a (click)="resendEmail(i)" *ngIf="mensajeCosulatdos">
+                                            <i class="fas fa-redo text-info"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a (click)="detalleSolicitud(i)" *ngIf="mensajeCosulatdos">
+                                            <i class="fas fa-pencil-alt text-info"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a (click)="eliminarMensaje(i)" *ngIf="mensajeCosulatdos">
+                                            <i class="fas fa-trash-alt text-danger"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
 
-            </table>
-            <div class="col-md-12">
-              <pagination-controls (pageChange)="p = $event" id="second" style="text-align: center;" class="col-sm-12"
-                previousLabel="Anterior" nextLabel="Siguiente">
-              </pagination-controls>
+                        </table>
+                        <div class="col-md-12">
+                            <pagination-controls (pageChange)="p = $event" id="second" style="text-align: center;"
+                                class="col-sm-12" previousLabel="Anterior" nextLabel="Siguiente">
+                            </pagination-controls>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
-
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modificar Comunicado</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div style="padding: 15px;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Modificar Comunicado
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="padding: 15px;">
+                    <form class="form-sample mt-1" [formGroup]="formulario" (ngSubmit)="updateNovedad()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="text-danger" style="font-size: x-small">
+                                    * Campos obligatorios
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label" for="titulo">
+                                        Título:
+                                        <b class="text-danger">*</b>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" formControlName="titulo" id="titulo"
+                                            [(ngModel)]="mensajeTitulo">
+                                        <small class="text-danger"
+                                            *ngIf="formulario.get('titulo')!.errors && formulario.get('titulo')!.touched">
+                                            Digite un título para el Comunicado.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-          <form class="form-sample mt-1" [formGroup]="formulario" (ngSubmit)="updateNovedad()">
-            <div class="row">
-              <div class="col-md-6">
-                <p class="text-danger" style="font-size: x-small">* Campos obligatorios</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group row">
-                  <label class="col-sm-3 col-form-label" for="titulo">Título: <b class="text-danger">*</b></label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" formControlName="titulo" id="titulo" [(ngModel)]="mensajeTitulo">
-                    <small class="text-danger" *ngIf="formulario.get('titulo').errors?.required && formulario.get('titulo').touched">
-                      Digite un título para el Comunicado.
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </div>
-    
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group row">
-                  <label class="col-sm-3 col-12 col-form-label">Descripción: <span class="text-danger">*</span></label>
-                  <div class="col-sm-9 col-12">
-                    <textarea class="form-control form-control-sm" formControlName="descripcion" [(ngModel)]="mensajeMensaje"></textarea>
-                    <small class="text-danger" *ngIf="formulario.get('descripcion').errors?.required && formulario.get('descripcion').touched">
-                      Digite una descripción para el Comunicado.
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-12 col-form-label">
+                                        Descripción:
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-9 col-12">
+                                        <textarea class="form-control form-control-sm" formControlName="descripcion"
+                                            [(ngModel)]="mensajeMensaje"></textarea>
+                                        <small class="text-danger"
+                                            *ngIf="formulario.get('descripcion')!.errors && formulario.get('descripcion')!.touched">
+                                            Digite una descripción para el Comunicado.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group row">
-                  <label class="col-sm-3 col-12 col-form-label">Estado: <span class="text-danger">*</span></label>
-                  <div class="col-sm-9 col-12">
-                    <select class="form-control form-control-sm"  [(ngModel)]="mensajeEstado" formControlName="estado" name="" id="">
-                      <option value="ACTIVO">ACTIVO</option>
-                      <option value="INACTIVO">INACTIVO</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-12 col-form-label">
+                                        Estado:
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-9 col-12">
+                                        <select class="form-control form-control-sm" [(ngModel)]="mensajeEstado"
+                                            formControlName="estado" name="" id="">
+                                            <option value="ACTIVO">ACTIVO</option>
+                                            <option value="INACTIVO">INACTIVO</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group row">
-                  <label class="col-sm-3 col-form-label" for="fechainicio">Fecha Inicio: <b class="text-danger">*</b></label>
-                  <div class="col-sm-9">
-                    <input type="date" class="form-control" formControlName="fechainicio" [(ngModel)]="mensajeFechaInicio" id="fechainicio" (change)='prueba()' >
-                    <small class="text-danger" *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched">
-                      Digite una fecha de inicio para el Comunicado.
-                    </small>
-                  </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label" for="fechainicio">
+                                        Fecha Inicio:
+                                        <b class="text-danger">*</b>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control" formControlName="fechainicio"
+                                            [(ngModel)]="mensajeFechaInicio" id="fechainicio" (change)='prueba()'>
+                                        <small class="text-danger"
+                                            *ngIf="formulario.get('fechainicio')!.errors && formulario.get('fechainicio')!.touched">
+                                            Digite una fecha de inicio para el Comunicado.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label" for="fechafin">
+                                        Fecha Hasta:
+                                        <b class="text-danger">*</b>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control" formControlName="fechafin"
+                                            [(ngModel)]="mensajeFechaFin" id="fechafin">
+                                        <small class="text-danger"
+                                            *ngIf="formulario.get('fechafin')!.errors && formulario.get('fechafin')!.touched">
+                                            Digite un a fecha de fin para el Comunicado.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="true">
+                            <div class="col-md-6  col-xs-12 col-sm-12 col-12">
+                                <table>
+                                    <thead>
+                                        <th></th>
+                                        <th></th>
+                                    </thead>
+                                    <tbody>
+                                        <td>
+                                            <i class="fas fa-times-circle"
+                                                *ngIf="nomArchivo == null || nomArchivo == 'N'"></i>
+                                            <i class="fas fa-check-circle "
+                                                *ngIf="nomArchivo !== null && nomArchivo !== 'N'"></i>
+                                        </td>
+                                        <td>
+                                            <p class="anexoP" *ngIf="nomArchivo == null || nomArchivo == 'N'">
+                                                Anexar un archivo
+                                            </p>
+                                            <p class="anexoP" *ngIf="nomArchivo !== null && nomArchivo !== 'N'">
+                                                &nbsp;{{nomArchivo}}
+                                            </p>
+                                        </td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6  col-xs-12 col-sm-12 col-12 ">
+                                <div class="botonAnexos" *ngIf="nomArchivo == null || nomArchivo == 'N'">
+                                    <div class="file-select btn btn-outline-light puntero btn-lg float-left"
+                                        id="src-file1">
+                                        <input type="file" class="puntero" name="src-file1" aria-label="Archivo"
+                                            style="height: 52px; width: 230px;" id="file" max-size="5000"
+                                            accept="image/*,.pdf" (change)="onFileSelect($event)">
+                                    </div>
+                                </div>
+                                <div class="botonAnexos" *ngIf="nomArchivo !== null && nomArchivo !== 'N'">
+                                    <button type="button" class="btn btn-outline-danger btn-lg float-left"
+                                        (click)="quitarArchivoSeleccionado()">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <small class="text-danger mt-2">
+                                    {{msjValidArchivoAnexo}}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="row botones">
+                            <div class="col-sm-12 col-12" style="text-align: center;" id="btnEnviar">
+                                <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">
+                                    Modificar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group row">
-                  <label class="col-sm-3 col-form-label" for="fechafin">Fecha Hasta: <b class="text-danger">*</b></label>
-                  <div class="col-sm-9">
-                    <input type="date" class="form-control" formControlName="fechafin" [(ngModel)]="mensajeFechaFin"  id="fechafin">
-                    <small class="text-danger" *ngIf="formulario.get('fechafin').errors?.required && formulario.get('fechafin').touched">
-                      Digite una fecha de fin para el Comunicado.
-                    </small>
-                  </div>
-                </div>
-              </div>
             </div>
-            <div class="row" *ngIf="true">
-              <div class="col-md-6  col-xs-12 col-sm-12 col-12">
-                <table>
-                  <thead>
-                    <th></th>
-                    <th></th>
-                  </thead>
-                  <tbody>
-                    <td>
-                      <i class="fas fa-times-circle" *ngIf="nomArchivo == null || nomArchivo == 'N'"></i>
-                      <i class="fas fa-check-circle " *ngIf="nomArchivo !== null && nomArchivo !== 'N'"></i>
-                    </td>
-                    <td>
-                      <p class="anexoP" *ngIf="nomArchivo == null || nomArchivo == 'N'">Anexar un archivo</p>
-                      <p class="anexoP" *ngIf="nomArchivo !== null && nomArchivo !== 'N'">&nbsp;{{nomArchivo}}</p>
-                    </td>
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-md-6  col-xs-12 col-sm-12 col-12 ">
-                <div class="botonAnexos" *ngIf="nomArchivo == null || nomArchivo == 'N'">
-                  <div class="file-select btn btn-outline-light puntero btn-lg float-left" id="src-file1">
-                    <input type="file" class="puntero" name="src-file1" aria-label="Archivo"
-                      style="height: 52px; width: 230px;" id="file" max-size="5000" accept="image/*,.pdf"
-                      (change)="onFileSelect($event)">
-                  </div>
-                </div>
-                <div class="botonAnexos" *ngIf="nomArchivo !== null && nomArchivo !== 'N'">
-                  <button type="button" class="btn btn-outline-danger btn-lg float-left"
-                    (click)="quitarArchivoSeleccionado()">Borrar</button>
-                </div>
-              </div>
-              <div>
-                <small class="text-danger mt-2">
-                  {{msjValidArchivoAnexo}}
-                </small>
-              </div>
-            </div>
-    
-    
-            <div class="row botones">
-              <div class="col-sm-12 col-12" style="text-align: center;" id="btnEnviar">
-                <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Modificar</button>
-              </div>
-            </div>
-    
-          </form>
-    
-    
-      </div>
-      </div>
+        </div>
     </div>
-  </div>
 </div>
 <!------------------------------------------------------------------------------->

@@ -23,9 +23,11 @@
 
 <p
   *ngIf="!reporteSeleccionado && recursosHumanosService.opciones && recursosHumanosService.opciones.length!=0 && recursosHumanosService.opciones">
-  Seleccione la opción que desea realizar.</p>
-<p *ngIf="recursosHumanosService.opciones && recursosHumanosService.opciones && !recursosHumanosService.opciones">No hay opciones
-  habilitadas.</p>
+  Seleccione la opción que desea realizar.
+</p>
+<p *ngIf="recursosHumanosService.opciones && !recursosHumanosService.opciones">
+  No hay opciones habilitadas.
+</p>
 <div class="row animated fadeIn fast"
   *ngIf="recursosHumanosService.opciones && recursosHumanosService.opciones.length>0 && !reporteSeleccionado">
   <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card"
@@ -37,21 +39,23 @@
 
           <!-- Alerta  -->
           <!-- <div class="notifyVA"
-                  *ngIf='((usuarioServicio.notificacionesAusentismo != null && usuarioServicio.notificacionesAusentismo != 0) &&  op.codigo == 43 )'>
-                  <span class="heartbitVA "></span>
-                 
-                </div> -->
+                    *ngIf='((usuarioServicio.notificacionesAusentismo != null && usuarioServicio.notificacionesAusentismo != 0) &&  op.codigo == 43 )'>
+                    <span class="heartbitVA "></span>
+                   
+                  </div> -->
           <!-- fin alerta -->
           <div class="ml-3 d-flex align-items-center row">
             <h6>{{ op['descripcion'] || ''}}</h6>
             <!-- <span *ngIf='(usuarioServicio.notificacionesAusentismo != null && usuarioServicio.notificacionesAusentismo != 0)  &&  op.codigo == 43' 
-                          class="badge bg-danger notifyRedonVA text-white ">{{usuarioServicio.notificacionesAusentismo}} pendientes
-                       </span> -->
+                            class="badge bg-danger notifyRedonVA text-white ">{{usuarioServicio.notificacionesAusentismo}} pendientes
+                         </span> -->
           </div>
         </div>
       </div>
       <div class="card-footer text-right">
-        <button type="button" class="btn btn-outline-primary" (click)="seleccionarReporte(i)">Seleccionar</button>
+        <button type="button" class="btn btn-outline-primary" (click)="seleccionarReporte(i)">
+          Seleccionar
+        </button>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CambioClaveComponent } from './cambio-clave.component';
 
@@ -6,14 +6,12 @@ describe('CambioClaveComponent', () => {
   let component: CambioClaveComponent;
   let fixture: ComponentFixture<CambioClaveComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [ CambioClaveComponent ]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CambioClaveComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

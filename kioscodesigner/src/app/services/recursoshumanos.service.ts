@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class RecursosHumanosService {
 
   mensajes: any = [];
   opciones: any = [];
-  urlMsj = null;
+  urlMsj = '';
 
   constructor(public http: HttpClient) { }
 
@@ -125,5 +125,4 @@ export class RecursosHumanosService {
   clear() {
     this.mensajes = [];
   }
-  
 }

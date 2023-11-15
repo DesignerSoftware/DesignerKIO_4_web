@@ -4,13 +4,8 @@
 
 export const environment = {
   production: true,
-  //urlKioskoDesigner: 'http://localhost:8080/restKiosco-master/wsKiosco/restapi/',
-  urlKioskoReportes: 'http://localhost:8082/wsreporte/webresources/',
+  urlKioskoReportes: 'http://localhost:8080/wsreporte/webresources/',
   urlKiosko: 'http://localhost:4200',
-  // urlMysql: 'com.mysql.jdbc.Driver',
-  // urlDriverMysql='jdbc:mysql://localhost:3306/kiosco',
-  // userMysql : 'root',
-  // passMysql: ''
 };
 
 /*

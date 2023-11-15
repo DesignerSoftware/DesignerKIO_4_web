@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +9,12 @@ export class ReportesService {
   opcionesReportes: any = [];
   reportesEmpleado: any = [];
   reportesJefe: any = [];
-  codigoReporteSeleccionado;
+  codigoReporteSeleccionado: any = null;
   reporteSeleccionado = null;
-  nombreReporteSeleccionado;
-  numeroReporte = null;
-  
-  constructor(private http: HttpClient) { }
+  nombreReporteSeleccionado = null;
+  numeroReporte: number = 0;
 
+  constructor(private http: HttpClient) { }
   generarReporte(reporte: string, envioCorreo: boolean, correo: string, descripcionReporte: string, codigoReporte: string, nit: string, cadena: string, usuario: string, grupo: string, urlKiosco: string) {
     const url = `${environment.urlKioskoReportes}reportes/generaReporte/${reporte}/${envioCorreo}/${correo}?descripcionReporte=${descripcionReporte}&codigoReporte=${codigoReporte}&nit=${nit}&cadena=${cadena}&usuario=${usuario}&grupo=${grupo}&urlKiosco=${urlKiosco}`;
     // console.log(url);
@@ -49,6 +47,6 @@ export class ReportesService {
     this.nombreReporteSeleccionado = null;
     this.reportesEmpleado = [];
     this.reportesJefe = [];
-    this.numeroReporte = null;
+    this.numeroReporte = 0;
   }
 }

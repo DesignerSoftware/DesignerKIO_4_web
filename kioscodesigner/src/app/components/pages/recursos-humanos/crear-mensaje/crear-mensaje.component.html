@@ -1,153 +1,146 @@
 <div class="page-header animated fadeIn fast">
-  <h3 class="page-title">
-    Crear Comunicado Recursos Humanos
-  </h3>
+    <h3 class="page-title">
+        Crear Comunicado Recursos Humanos
+    </h3>
 </div>
 
 <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a [routerLink]="['/recursoshumanos']">Recursos Humanos</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Crear Comunicado</li>
-  </ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/recursoshumanos']">Recursos Humanos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Comunicado</li>
+    </ol>
 </nav>
-
-
 <div class="container animated fadeIn fast">
-  <!-- <form> -->
+    <!-- <form> -->
+    <div class="card">
+        <div class="col-12 grid-margin p-5">
+            <h4 class="card-title">
+                <i class="fas fa-users"></i>
+                Crear Comunicado
+            </h4>
+            <p class="card-description">
+                Por favor diligencie los siguientes campos del formulario con la información del comunicado a crear.
+            </p>
+            <form class="form-sample mt-1" [formGroup]="formulario" (ngSubmit)="enviarNovedad()">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="text-danger" style="font-size: x-small">* Campos obligatorios</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="titulo">Título: <b
+                                    class="text-danger">*</b></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" formControlName="titulo" id="titulo">
+                                <small class="text-danger"
+                                    *ngIf="formulario.get('titulo')!.errors && formulario.get('titulo')!.touched">
+                                    Digite un título para el comunicados.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-
-  <div class="card">
-
-    <div class="col-12 grid-margin p-5">
-      <h4 class="card-title">
-        <i class="fas fa-users"></i>
-        Crear Comunicado
-      </h4>
-
-      <p class="card-description">
-        Por favor diligencie los siguientes campos del formulario con la información del comunicado a crear.
-      </p>
-
-      <form class="form-sample mt-1" [formGroup]="formulario" (ngSubmit)="enviarNovedad()">
-        <div class="row">
-          <div class="col-md-6">
-            <p class="text-danger" style="font-size: x-small">* Campos obligatorios</p>
-          </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-12 col-form-label">Descripción: <span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-9 col-12">
+                                <textarea class="form-control form-control-sm" formControlName="descripcion"></textarea>
+                                <small class="text-danger"
+                                    *ngIf="formulario.get('descripcion')!.errors && formulario.get('descripcion')!.touched">
+                                    Digite una descripción para el comunicados.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="fechainicio">Fecha Inicio: <b
+                                    class="text-danger">*</b></label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" formControlName="fechainicio" id="fechainicio">
+                                <small class="text-danger"
+                                    *ngIf="formulario.get('fechainicio')!.errors && formulario.get('fechainicio')!.touched">
+                                    Digite una fecha de inicio para el comunicados.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="fechafin">Fecha Hasta: <b
+                                    class="text-danger">*</b></label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" formControlName="fechafin" id="fechafin">
+                                <small class="text-danger"
+                                    *ngIf="formulario.get('fechafin')!.errors && formulario.get('fechafin')!.touched">
+                                    Digite una fecha de fin para el comunicados.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="correo">
+                        <div class="custom-control custom-checkbox ">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1"
+                                formControlName="enviocorreo">
+                            <label class="custom-control-label" for="customCheck1">¿Desea enviar por correo el
+                                comunicado?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="true">
+                    <div class="col-md-6  col-xs-12 col-sm-12 col-12">
+                        <table>
+                            <thead>
+                                <th></th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                <td>
+                                    <i class="fas fa-times-circle" *ngIf="nomArchivo == null"></i>
+                                    <i class="fas fa-check-circle " *ngIf="nomArchivo !== null"></i>
+                                </td>
+                                <td>
+                                    <p class="anexoP" *ngIf="nomArchivo == null">Anexar un archivo</p>
+                                    <p class="anexoP" *ngIf="nomArchivo !== null">&nbsp;{{nomArchivo}}</p>
+                                </td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6  col-xs-12 col-sm-12 col-12 ">
+                        <div class="botonAnexos" *ngIf="nomArchivo == null">
+                            <div class="file-select btn btn-outline-light puntero btn-lg float-left" id="src-file1">
+                                <input type="file" class="puntero" name="src-file1" aria-label="Archivo"
+                                    style="height: 52px; width: 230px;" id="file" max-size="5000" accept="image/*,.pdf"
+                                    (change)="onFileSelect($event)">
+                            </div>
+                        </div>
+                        <div class="botonAnexos" *ngIf="nomArchivo !== null">
+                            <button type="button" class="btn btn-outline-danger btn-lg float-left"
+                                (click)="quitarArchivoSeleccionado()">Borrar</button>
+                        </div>
+                    </div>
+                    <div>
+                        <small class="text-danger mt-2">
+                            {{msjValidArchivoAnexo}}
+                        </small>
+                    </div>
+                </div>
+                <div class="row botones">
+                    <div class="col-sm-12 col-12" style="text-align: center;" id="btnEnviar">
+                        <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Crear</button>
+                    </div>
+                </div>
+            </form>
+            <!--- </form> --->
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label" for="titulo">Título: <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" formControlName="titulo" id="titulo">
-                <small class="text-danger"
-                  *ngIf="formulario.get('titulo').errors?.required && formulario.get('titulo').touched">
-                  Digite un título para el comunicados.
-                </small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group row">
-              <label class="col-sm-3 col-12 col-form-label">Descripción: <span class="text-danger">*</span></label>
-              <div class="col-sm-9 col-12">
-                <textarea class="form-control form-control-sm" formControlName="descripcion"></textarea>
-                <small class="text-danger"
-                  *ngIf="formulario.get('descripcion').errors?.required && formulario.get('descripcion').touched">
-                  Digite una descripción para el comunicados.
-                </small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label" for="fechainicio">Fecha Inicio: <b
-                  class="text-danger">*</b></label>
-              <div class="col-sm-9">
-                <input type="date" class="form-control" formControlName="fechainicio" id="fechainicio">
-                <small class="text-danger"
-                  *ngIf="formulario.get('fechainicio').errors?.required && formulario.get('fechainicio').touched">
-                  Digite una fecha de inicio para el comunicados.
-                </small>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label" for="fechafin">Fecha Hasta: <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
-                <input type="date" class="form-control" formControlName="fechafin" id="fechafin">
-                <small class="text-danger"
-                  *ngIf="formulario.get('fechafin').errors?.required && formulario.get('fechafin').touched">
-                  Digite una fecha de fin para el comunicados.
-                </small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="correo">
-            <div class="custom-control custom-checkbox ">
-              <input type="checkbox" class="custom-control-input" id="customCheck1" formControlName="enviocorreo">
-              <label class="custom-control-label" for="customCheck1">¿Desea enviar por correo el comunicado?</label>
-            </div>
-          </div>
-        </div>
-        <div class="row" *ngIf="true">
-          <div class="col-md-6  col-xs-12 col-sm-12 col-12">
-            <table>
-              <thead>
-                <th></th>
-                <th></th>
-              </thead>
-              <tbody>
-                <td>
-                  <i class="fas fa-times-circle" *ngIf="nomArchivo == null"></i>
-                  <i class="fas fa-check-circle " *ngIf="nomArchivo !== null"></i>
-                </td>
-                <td>
-                  <p class="anexoP" *ngIf="nomArchivo == null">Anexar un archivo</p>
-                  <p class="anexoP" *ngIf="nomArchivo !== null">&nbsp;{{nomArchivo}}</p>
-                </td>
-              </tbody>
-            </table>
-          </div>
-          <div class="col-md-6  col-xs-12 col-sm-12 col-12 ">
-            <div class="botonAnexos" *ngIf="nomArchivo == null">
-              <div class="file-select btn btn-outline-light puntero btn-lg float-left" id="src-file1">
-                <input type="file" class="puntero" name="src-file1" aria-label="Archivo"
-                  style="height: 52px; width: 230px;" id="file" max-size="5000" accept="image/*,.pdf"
-                  (change)="onFileSelect($event)">
-              </div>
-            </div>
-            <div class="botonAnexos" *ngIf="nomArchivo !== null">
-              <button type="button" class="btn btn-outline-danger btn-lg float-left"
-                (click)="quitarArchivoSeleccionado()">Borrar</button>
-            </div>
-          </div>
-          <div>
-            <small class="text-danger mt-2">
-              {{msjValidArchivoAnexo}}
-            </small>
-          </div>
-        </div>
-
-
-        <div class="row botones">
-          <div class="col-sm-12 col-12" style="text-align: center;" id="btnEnviar">
-            <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Crear</button>
-          </div>
-        </div>
-
-      </form>
-
-      <!--- </form> --->
     </div>
-  </div>
-
 </div>

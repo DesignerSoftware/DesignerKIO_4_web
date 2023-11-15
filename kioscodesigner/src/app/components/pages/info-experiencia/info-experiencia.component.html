@@ -1,6 +1,6 @@
 <div class="page-header animated fadeIn fast">
     <h3 class="page-title">
-      Experiencia Laboral 
+        Experiencia Laboral
     </h3>
 </div>
 <div class="col-12 grid-margin animated fadeIn fast" style="margin-bottom: 50px;">
@@ -8,96 +8,123 @@
         <div class="card-body">
             <h1 class="card-title ">Detalles Laborales</h1>
             <p class="card-description ">
-            En este apartado encontrará detalles e información ligada a su experiencia profesional.
+                En este apartado encontrará detalles e información ligada a su experiencia profesional.
             </p>
             <hr>
             <div class="row">
                 <div class="col-12 mt-3 mb-1">
-                <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">Experiencias Laborales</h4>
+                    <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">
+                        Experiencias Laborales</h4>
                 </div>
             </div>
-            <p *ngIf="usuarioServicio.datosExperienciaLab && usuarioServicio.datosExperienciaLab.length<=0" class="text-center">
-                No hay información asociada.</p> 
+            <p *ngIf="usuarioServicio.datosExperienciaLab && usuarioServicio.datosExperienciaLab.length<=0"
+                class="text-center">
+                No hay información asociada.</p>
             <div class="container" *ngFor="let op of usuarioServicio.datosExperienciaLab  index as i;">
-            
-            <!-- <div class="row text-center align-items-center d-flex"> -->
-            <div class="card">
-                <div class="containerInfo container">
-            <div class="row" *ngIf="usuarioServicio.datosExperienciaLab!=null && usuarioServicio.datosExperienciaLab[0]">
-                <div class="col-md-6">
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Empresa<i class="fas fa-industry primary font-large-1 float-left"></i></label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" value="{{op[1]}}" disabled />
+
+                <!-- <div class="row text-center align-items-center d-flex"> -->
+                <div class="card">
+                    <div class="containerInfo container">
+                        <div class="row"
+                            *ngIf="usuarioServicio.datosExperienciaLab!=null && usuarioServicio.datosExperienciaLab[0]">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm"
+                                        style="text-align: center;">Empresa<i
+                                            class="fas fa-industry primary font-large-1 float-left"></i></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" value="{{op[1]}}"
+                                            disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm"
+                                        style="text-align: center;">Cargo <i
+                                            class="fas fa-briefcase primary font-large-2 float-left"></i></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" value="{{op[6]}}"
+                                            disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"
+                            *ngIf="usuarioServicio.datosExperienciaLab!=null && usuarioServicio.datosExperienciaLab[0]">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm"
+                                        style="text-align: center;">Fecha Inicio<i
+                                            class="fas fa-calendar-alt primary font-large-2 float-left"></i></label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control form-control-sm" value="{{op[2]}}" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm"
+                                        style="text-align: center;">Fecha Retiro<i
+                                            class="fas fa-calendar-alt primary font-large-2 float-left"></i></label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control form-control-sm" value="{{op[3]}}" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"
+                            *ngIf="usuarioServicio.datosExperienciaLab!=null && usuarioServicio.datosExperienciaLab[0]">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm"
+                                        style="text-align: center;">Jefe inmediato<i
+                                            class="fas fa-user-tie primary font-large-2 float-left"></i></label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control form-control-sm" value="{{op[4]}}" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm"
+                                        style="text-align: center;">Celular Jefe<i
+                                            class="fas fa-phone primary font-large-2 float-left"></i></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" value="{{op[5]}}"
+                                            disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"
+                            *ngIf="usuarioServicio.datosExperienciaLab!=null && usuarioServicio.datosExperienciaLab[0]">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm"
+                                        style="text-align: center;">Motivo Retiro<i
+                                            class="fas fa-user-times primary font-large-2 float-left"></i></label>
+                                    <div class="col-sm-9">
+                                        <input type="textarea" class="form-control form-control-sm" value="{{op[8]}}"
+                                            disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm"
+                                        style="text-align: center;">Alcance<i
+                                            class="fas fa-check-square primary font-large-2 float-left"></i></label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control form-control-sm" value="{{op[7]}}"
+                                            disabled></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                </div>
-                <div class="col-md-6">
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Cargo <i class="fas fa-briefcase primary font-large-2 float-left"></i></label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" value="{{op[6]}}" disabled />
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="row" *ngIf="usuarioServicio.datosExperienciaLab!=null && usuarioServicio.datosExperienciaLab[0]">
-                <div class="col-md-6">
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha Inicio<i class="fas fa-calendar-alt primary font-large-2 float-left"></i></label>
-                    <div class="col-sm-9">
-                    <input class="form-control form-control-sm" value="{{op[2]}}" disabled />
-                    </div>
-                </div>
-                </div>
-                <div class="col-md-6">
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha Retiro<i class="fas fa-calendar-alt primary font-large-2 float-left"></i></label>
-                    <div class="col-sm-9">
-                    <input class="form-control form-control-sm" value="{{op[3]}}" disabled />
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="row" *ngIf="usuarioServicio.datosExperienciaLab!=null && usuarioServicio.datosExperienciaLab[0]">
-                <div class="col-md-6">
-                    <div class="form-group row">
-                    <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Jefe inmediato<i class="fas fa-user-tie primary font-large-2 float-left"></i></label>
-                    <div class="col-sm-9">
-                        <input class="form-control form-control-sm" value="{{op[4]}}" disabled />
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group row">
-                    <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Celular Jefe<i class="fas fa-phone primary font-large-2 float-left"></i></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control form-control-sm" value="{{op[5]}}" disabled />
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row" *ngIf="usuarioServicio.datosExperienciaLab!=null && usuarioServicio.datosExperienciaLab[0]">
-                <div class="col-md-6">
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Motivo Retiro<i class="fas fa-user-times primary font-large-2 float-left"></i></label>
-                    <div class="col-sm-9">
-                    <input type="textarea" class="form-control form-control-sm" value="{{op[8]}}" disabled />
-                    </div>
-                </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group row">
-                    <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Alcance<i class="fas fa-check-square primary font-large-2 float-left"></i></label>
-                    <div class="col-sm-9">
-                        <textarea class="form-control form-control-sm" value="{{op[7]}}" disabled></textarea>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            
-            </div>
-            </div>  
             </div>
             <hr>
 
@@ -105,38 +132,41 @@
     </div>
     <div class="row, text-center" id="div" style="margin-top: 20px;">
         <p>Informar corrección de experiencia laboral:
-          <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                (click)="abrirModal()">CLIC AQUI</button>
         </p>
-    </div>    
+    </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdropELab" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdropELab" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Informar inconsistencias de información</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-  
-        <form [formGroup]="formularioEl" novalidate (ngSubmit)="enviarReporteNovedad()">
-        <div class="modal-body">
-            <div class="mb-3">
-              <p><b>Estimado usuario:</b></p>
-                <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta 
-                    será enviada al contacto de nómina y RRHH {{usuarioServicio.nombreContactoSoporte||''}} </p>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
-              <p class="float-right"><small>Máx. 1000 carácteres.</small></p>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Informar inconsistencias de información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-  
+
+            <form [formGroup]="formularioEl" novalidate (ngSubmit)="enviarReporteNovedad()">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <p><b>Estimado usuario:</b></p>
+                        <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta
+                            será enviada al contacto de Gestión Humana {{usuarioServicio.nombreContactoSoporte||''}} </p>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000"
+                            formControlName="mensaje"></textarea>
+                        <p class="float-right"><small>Máx. 1000 carácteres.</small></p>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Enviar reporte</button>
+                </div>
+            </form>
         </div>
-  
-        <div class="modal-footer">
-          <button class="btn btn-primary">Enviar reporte</button>
-        </div>
-      </form>
-      </div>
     </div>
-  </div>
+</div>

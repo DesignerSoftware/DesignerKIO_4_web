@@ -6,25 +6,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KioscoDesigner</title>
-  <link defer rel="stylesheet" href="assets/libs/vendors/iconfonts/font-awesome/css/all.min.css">
-  <link defer rel="stylesheet" href="assets/libs/vendors/css/vendor.bundle.base.css">
-  <link defer rel="stylesheet" href="assets/libs/vendors/css/vendor.bundle.addons.css">
+  <link defer type="text/css" rel="stylesheet" href="/assets/libs/vendors/iconfonts/font-awesome/css/all.min.css">
+  <link defer type="text/css" rel="stylesheet" href="/assets/libs/vendors/css/vendor.bundle.base.css">
+  <link defer type="text/css" rel="stylesheet" href="/assets/libs/vendors/css/vendor.bundle.addons.css">
 
-  <link defer rel="stylesheet" href="assets/libs/css/style.css" rel="preload">
+  <link defer type="text/css" rel="stylesheet" href="/assets/libs/css/style.css" rel="preload">
 
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="manifest" href="manifest.webmanifest" url="window.location.href">
+  <link rel="manifest" href="./manifest.webmanifest" url="window.location.href">
   <meta name="theme-color" content="#1976d2">
-  <link rel="apple-touch-icon" href="assets/icons/icon-152x152.png">
+  <link rel="apple-touch-icon" href="./assets/icons/icon-152x152.png">
 
-  <!--<script async src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
   <!-- jQuery -->
-  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <!--script src="//code.jquery.com/jquery-3.6.1.min.js"></script-->
+  <script type="text/javascript" src="/assets/libs/js/jquery-3.6.3.min.js"></script>
   <!-- BS JavaScript -->
   <!--<script type="text/javascript" src="js/bootstrap.js"></script-->
   <!-- Have fun using Bootstrap JS -->
   <script type="text/javascript">
-    $(window).load(function () {
+    $(window).bind("load", function () {
       $('#prizePopup').modal('show');
     });
   </script>
@@ -101,16 +101,17 @@
   <app-root></app-root>
 
   <!-- plugins:js -->
-  <script src="assets/libs/vendors/js/vendor.bundle.base.js" async="async"></script>
-  <script src="assets/libs/vendors/js/vendor.bundle.addons.js" async="async"></script>
+  <script type="text/javascript" src="/assets/libs/vendors/js/vendor.bundle.base.js" async="async"></script>
+  <script type="text/javascript" src="/assets/libs/vendors/js/vendor.bundle.addons.js" async="async"></script>
   <!-- endinject -->
   <!-- <script src="assets/libs/js/off-canvas.js" async="async"></script> -->
-  <script src="assets/libs/js/hoverable-collapse.js" async="async"></script>
-  <script src="assets/libs/js/misc.js" async="async"></script>
-  <script src="assets/libs/js/settings.js" async="async"></script>
-  <script src="assets/libs/js/todolist.js" async="async"></script>
-  <script src="assets/libs/js/dashboard.js" async="async"></script>
-  <script defer src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v9.0" nonce="ypMqhqN9"></script>
+  <script type="text/javascript" src="/assets/libs/js/hoverable-collapse.js" async="async"></script>
+  <script type="text/javascript" src="/assets/libs/js/misc.js" async="async"></script>
+  <script type="text/javascript" src="/assets/libs/js/settings.js" async="async"></script>
+  <script type="text/javascript" src="/assets/libs/js/todolist.js" async="async"></script>
+  <script type="text/javascript" src="/assets/libs/js/dashboard.js" async="async"></script>
+  <!--script defer src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v9.0" nonce="ypMqhqN9"></script-->
+  <script defer type="text/javascript" src="/assets/libs/js/facebook_sdk_9_0.js" nonce="ypMqhqN9"></script>
   <!-- End custom js for this page-->
 
   <noscript>Please enable JavaScript to continue using this application.</noscript>

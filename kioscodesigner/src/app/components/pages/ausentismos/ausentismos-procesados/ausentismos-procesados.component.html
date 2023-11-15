@@ -6,8 +6,14 @@
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a [routerLink]="['/ausentismos']">Ausentismos</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Histórico de ausentismos procesados</li>
+    <li class="breadcrumb-item">
+      <a [routerLink]="['/ausentismos']">
+        Ausentismos
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      Histórico de ausentismos procesados
+    </li>
   </ol>
 </nav>
 <!-- partial -->
@@ -15,7 +21,9 @@
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <p class="card-description">Ausentismos procesados</p>
+        <p class="card-description">
+          Ausentismos procesados
+        </p>
         <div class="input-group mb-3 ">
           <input type="text" class="form-control" name="dataFilt" [(ngModel)]="dataFilt" placeholder="Buscar..."
             aria-label="Buscar..." aria-describedby="basic-addon2">
@@ -42,7 +50,7 @@
               </tr>
 
               <tr
-                *ngFor="let solic of solicitudesProcesadas | filterTable: dataFilt | paginate: { id: 'eightth', itemsPerPage: 10, currentPage: p8 }; index as i ">
+                *ngFor="let solic of solicitudesProcesadas | paginate: { id: 'eightth', itemsPerPage: 10, currentPage: p8 }; index as i ">
                 <td>
                   <a (click)="detalleSolicitud('ENVIADO', i)" *ngIf="solicitudesProcesadas">
                     <i class="far fa-eye text-info"></i>
@@ -154,8 +162,10 @@
                 <button type="button" class="btn btn-outline-dark" disabled (click)="descargarArchivo()">DESCARGAR ANEXO
                   <i class="fas fa-download"></i>
                 </button>
-                <p class="card-text" *ngIf="solicitudSeleccionada"><small class="text-muted">No se anexó un
-                    documento</small></p>
+                <p class="card-text" *ngIf="solicitudSeleccionada">
+                  <small class="text-muted">No se anexó un documento
+                  </small>
+                </p>
               </div>
             </div>
             <div class="row" *ngIf="anexoSeleccionado && anexoSeleccionado !== null && anexoSeleccionado !== ''">
@@ -169,8 +179,12 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-light" data-dismiss="modal">
+              Cerrar
+            </button>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>

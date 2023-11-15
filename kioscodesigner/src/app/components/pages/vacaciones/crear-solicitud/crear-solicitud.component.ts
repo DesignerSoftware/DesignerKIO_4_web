@@ -1,38 +1,39 @@
-import swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AusentismosService } from 'src/app/services/ausentismos.service';
+import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { VacacionesService } from 'src/app/services/vacaciones.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
-import { AusentismosService } from 'src/app/services/ausentismos.service';
-import { data } from 'jquery';
+import swal from 'sweetalert2';
 import * as moment from 'moment';
 
 @Component({
-  selector: "app-crear-solicitud",
-  templateUrl: "./crear-solicitud.component.html",
-  styleUrls: ["./crear-solicitud.component.css"],
+  selector: 'app-crear-solicitud',
+  templateUrl: './crear-solicitud.component.html',
+  styleUrls: ['./crear-solicitud.component.scss']
 })
 export class CrearSolicitudComponent implements OnInit {
-  formulario: FormGroup;
-  formularioReporteNov: FormGroup;
-  public ultimoPeriodo = null;
+
+  formulario: FormGroup = {} as FormGroup;
+  formularioReporteNov: FormGroup = {} as FormGroup;
+  public ultimoPeriodo: string = '';
   public periodosPendientes = null;
-  public diasUltimoPeriodo = null;
-  public totalDiasVacacionesProv = null; // días provisionados
+  public diasUltimoPeriodo: number = 0;
+  // días provisionados
+  public totalDiasVacacionesProv: string = ''; 
   public totalDiasVacacionesSolici = null;
   public totalDiasVacacionesLiquidados = null;
   public totalDiasVacacionesRechazados = null;
   public totalDiasVacacionesSubtipo = null;
-  public array = [];
+  public array: any = [];
   public campoFechaInicioValido = false;
   public mensajeValidacionFechaInicio = "";
-  public vacacion = null;
+  public vacacion: string = '';
   public autorizadorVacaciones = '...';
   estadoNovEmple = null;
-  msjNovEmpleTitle = null;
-  msjNovEmpleDetalle = null;
+  msjNovEmpleTitle: string = '';
+  msjNovEmpleDetalle: string = '';
 
   constructor(
     private vacacionesService: VacacionesService,
@@ -54,7 +55,6 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
   crearFormulario() {
-    //console.log("crearFormulario()");
     this.formulario = this.fb.group({
       fechainicio: [, Validators.required],
       fechainiciodt: [,],
@@ -64,7 +64,6 @@ export class CrearSolicitudComponent implements OnInit {
       tipo: ["TIEMPO", Validators.required],
       periodo: [],
     });
-
     this.formularioReporteNov = this.fb.group(
       {
         mensaje: ["", Validators.required]
@@ -72,25 +71,21 @@ export class CrearSolicitudComponent implements OnInit {
     );
   }
 
-  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+  // obtener la información del usuario del localStorage y guardarla en el service
+  getInfoUsuario() { 
     const sesion = this.usuarioService.getUserLoggedIn();
     this.usuarioService.setUsuario(sesion['usuario']);
     this.usuarioService.setEmpresa(sesion['empresa']);
     this.usuarioService.setTokenJWT(sesion['JWT']);
     this.usuarioService.setGrupo(sesion['grupo']);
     this.usuarioService.setUrlKiosco(sesion['urlKiosco']);
-    //console.log('usuario: ' + this.usuarioService.usuario + ' empresa: ' + this.usuarioService.empresa);
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], this.usuarioService.urlKioscoDomain)
       .subscribe(
-        data => {
-          //console.log('getInfoUsuario', data);
-          //console.log(sesion['grupo']);
+        (data: any) => {
           for (let i in data) {
             if (data[i][3] === sesion['grupo']) { // GRUPO
               const temp = data[i];
-              //console.log('cadena: ', temp[4]) // CADENA
               this.usuarioService.cadenaConexion = temp[4];
-              //console.log('pages CADENA: ', this.usuarioService.cadenaConexion)
               this.cargarDatosIniciales();
             }
           }
@@ -98,17 +93,16 @@ export class CrearSolicitudComponent implements OnInit {
       );
   }
 
+  // consultar todos los periodos de vacaciones y sus correspondientes dias
   cargarDatosIniciales() {
-    // consultar todos los periodos de vacaciones y sus correspondientes dias
     this.vacacionesService
       .getPeriodosvacacionesPendientes(
         this.usuarioService.usuario,
         this.usuarioService.empresa,
         this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         this.periodosPendientes = data;
-        //console.log(" periodosPendientes ", data);
       });
 
     // consultar el periodo de vacaciones más antiguo
@@ -118,7 +112,7 @@ export class CrearSolicitudComponent implements OnInit {
         this.usuarioService.empresa,
         this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         console.log("periodo: ", data);
         if (data && data[0]) {
           this.ultimoPeriodo = data[0][1];
@@ -126,10 +120,7 @@ export class CrearSolicitudComponent implements OnInit {
         } else {
           this.ultimoPeriodo = "No hay periodos disponibles";
         }
-        // console.log(" ultimoPeriodo ", this.ultimoPeriodo);
-        //this.vacacion = data[0]["rfVacacion"];
         this.vacacion = data[0][0];
-        //console.log("rfVacacion", this.vacacion);
       });
 
     // Consultar dias disponibles para solicitar ultimo periodo
@@ -139,11 +130,11 @@ export class CrearSolicitudComponent implements OnInit {
         this.usuarioService.empresa,
         this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         this.diasUltimoPeriodo = data;
         //console.log("dias ultimo periodo vacaciones: ", this.diasUltimoPeriodo);
         if (this.diasUltimoPeriodo == 0) {
-          this.formulario.get("dias").setErrors({ noDiasDispo: true });
+          this.formulario.get("dias")!.setErrors({ noDiasDispo: true });
         } else {
           this.creaListaDias();
         }
@@ -156,9 +147,8 @@ export class CrearSolicitudComponent implements OnInit {
         this.usuarioService.empresa,
         this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         this.totalDiasVacacionesProv = data;
-        //console.log(" totalDiasVacacionesProv ", data);
       });
 
     // consultar total de dias de vacaciones solicitados
@@ -168,9 +158,8 @@ export class CrearSolicitudComponent implements OnInit {
         this.usuarioService.empresa,
         this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         this.totalDiasVacacionesSolici = data;
-        //console.log(" totalDiasVacacionesSolicitados ", data);
       });
 
     // consultar total de dias de vacaciones con ultimo estado AUTORIZADO
@@ -181,9 +170,8 @@ export class CrearSolicitudComponent implements OnInit {
         this.usuarioService.cadenaConexion,
         "LIQUIDADO"
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         this.totalDiasVacacionesLiquidados = data;
-        //console.log(" totalDiasVacacioneLiquidados ", data);
       });
 
     // consultar total de dias de vacaciones con ultimo estado RECHAZADO
@@ -194,9 +182,8 @@ export class CrearSolicitudComponent implements OnInit {
         this.usuarioService.cadenaConexion,
         "RECHAZADO"
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         this.totalDiasVacacionesRechazados = data;
-        //console.log(" totalDiasVacacionesRechazados ", data);
       });
 
     this.vacacionesService
@@ -206,12 +193,10 @@ export class CrearSolicitudComponent implements OnInit {
         this.usuarioService.cadenaConexion
       )
       .subscribe(
-        (data) => {
+        (data: any) => {
           this.totalDiasVacacionesSubtipo = data;
-          //console.log(" totalDiasVacaciones en dinero", data);
         },
         (error) => {
-          //console.log("se ha presentado un error: " + error);
         }
       );
 
@@ -223,8 +208,7 @@ export class CrearSolicitudComponent implements OnInit {
         this.usuarioService.cadenaConexion
       )
       .subscribe(
-        (data) => {
-          //console.log('Autorizador vacaciones: ', data['resultado']);
+        (data: any) => {
           this.autorizadorVacaciones = data['resultado'];
         },
         (error) => {
@@ -236,15 +220,13 @@ export class CrearSolicitudComponent implements OnInit {
   sumaDias(num1: string, num2: string) {
     const numero1: number = parseFloat(num1);
     const numero2: number = parseFloat(num2);
-    //return Math.ceil(numero1+numero2);
     return Math.round(numero1 + numero2);
   }
 
   validaFechaNovedadEmpleadoXJefe() {
-    this.ausentismosService.getvalidaFechaNovedadEmpleadoXJefe(this.usuarioService.empresa, this.usuarioService.usuario, this.formatoddmmyyyy(this.formulario.get('fechainicio').value), this.usuarioService.cadenaConexion)
+    this.ausentismosService.getvalidaFechaNovedadEmpleadoXJefe(this.usuarioService.empresa, this.usuarioService.usuario, this.formatoddmmyyyy(this.formulario.get('fechainicio')!.value), this.usuarioService.cadenaConexion)
       .subscribe(
-        data => {
-          //console.log(data);
+        (data: any) => {
           this.estadoNovEmple = data['valida'];
           if (this.estadoNovEmple == 'KSA') {
             this.msjNovEmpleTitle = '¡Rango de fechas no válido!';
@@ -261,9 +243,6 @@ export class CrearSolicitudComponent implements OnInit {
             this.msjNovEmpleDetalle = '';
           }
           ;
-          /*console.log('impresive', this.ausentismoService.SolicitudesJefe);
-         //console.log<("Datos iniciales");
-          console.log(data);*/
         }
       );
   }
@@ -277,48 +256,36 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
   calcularFechasSolicitud() {
-    //console.log("calcula fecha regreso");
-    let diasASolicitar: number = this.formulario.get("dias").value;
-    //console.log("dias a solicitar: ", diasASolicitar);
+    let diasASolicitar: number = this.formulario.get("dias")!.value;
     const fechaInicioVacaciones: Date = new Date(
-      this.formulario.get("fechainicio").value
+      this.formulario.get("fechainicio")!.value
     );
     this.vacacionesService
       .calculaFechasSolicitud(
         this.usuarioService.usuario,
         this.usuarioService.empresa,
-        this.formulario.get("fechainicio").value,
+        this.formulario.get("fechainicio")!.value,
         diasASolicitar.toString(),
         this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        // console.log(data);
-        // console.log(this.formatommddyyyy(data[0][0]).toString());
-        // console.log(this.formatommddyyyy(data[0][1]));
-        // console.log("fecha a regresar: " + data);
-        /*this.formulario.get("fechafin").setValue(data[0][0]);
-        this.formulario.get("fecharegreso").setValue(data[0][1]);*/
-
-        this.formulario.get("fechafin").setValue(data[0][0]);
-        this.formulario.get("fecharegreso").setValue(data[0][1]);
+      .subscribe((data: any) => {
+        this.formulario.get("fechafin")!.setValue(data[0][0]);
+        this.formulario.get("fecharegreso")!.setValue(data[0][1]);
         this.asigFecha();
       });
   }
 
   validaFecha() {
-    //console.log("validaFecha ", this.formulario.get("fechainicio").value);
     let fechaInicio = this.formatoddmmyyyy(
-      this.formulario.get("fechainicio").value
+      this.formulario.get("fechainicio")!.value
     );
-    //console.log("validaFecha parseada ", fechaInicio);
     this.vacacionesService
       .validaFechaInicio(
         this.usuarioService.usuario,
         this.usuarioService.empresa,
         fechaInicio, this.usuarioService.cadenaConexion
       )
-      .subscribe((data) => {
-        //console.log("validaFecha: ", data["valido"]);
+      .subscribe((data: any) => {
         if (data["valido"]) {
           this.campoFechaInicioValido = true;
           this.mensajeValidacionFechaInicio = "";
@@ -326,34 +293,29 @@ export class CrearSolicitudComponent implements OnInit {
         } else {
           this.campoFechaInicioValido = false;
           this.mensajeValidacionFechaInicio = data["mensaje"];
-          this.formulario.get("fechainicio").setErrors({ noValido: true });
+          this.formulario.get("fechainicio")!.setErrors({ noValido: true });
           swal.fire({
             icon: "error",
             title: "¡Por favor verifique la fecha de inicio!",
             text: data["mensaje"],
             showConfirmButton: true,
           });
-          this.formulario.get("fechafin").setValue("");
-          this.formulario.get("fecharegreso").setValue("");
+          this.formulario.get("fechafin")!.setValue("");
+          this.formulario.get("fecharegreso")!.setValue("");
         }
       });
   }
 
   actualizaCampos() {
-    //console.log(this.formulario.get("dias").errors);
-    if (this.formulario.get("dias").errors) {
-      this.formulario.get("fechafin").setValue("");
-      this.formulario.get("fecharegreso").setValue("");
+    if (this.formulario.get("dias")!.errors) {
+      this.formulario.get("fechafin")!.setValue("");
+      this.formulario.get("fecharegreso")!.setValue("");
     } else {
       this.calcularFechasSolicitud();
     }
   }
 
   enviarSolicitud() {
-    //console.log("urlKioscoDomain"  , this.usuarioService.urlKioscoDomain);
-    //console.log(" formulario valido", this.formulario.valid);
-    //console.log("Valores: ", this.formulario.controls);
-    //console.log('refVacacion ' , this.vacacion);
     Object.values(this.formulario.controls).forEach((control) => {
       control.markAsTouched();
     });
@@ -377,21 +339,6 @@ export class CrearSolicitudComponent implements OnInit {
           })
           .then((result) => {
             if (result.value) {
-              //console.log("enviar solicitud");
-              /*console.log(
-                "ruta Kiosco: " + this.usuarioService.urlKioscoDomain
-              );
-              console.log(
-                "grupoEmpresarial: " + this.usuarioService.grupoEmpresarial
-              );*/
-              /*let fechainicio = this.formatoddmmyyyy(this.formulario.get('fechainicio').value);
-            this.vacacionesService.crearSolicitudVacaciones(this.usuarioService.usuario, this.usuarioService.empresa, 'ENVIADO', fechainicio,
-            this.formulario.get('fecharegreso').value, this.formulario.get('dias').value, this.vacacion, this.usuarioService.cadenaConexion)
-            .subscribe(
-              data => {
-                console.log(data);
-              }
-            )*/
               if (this.estadoNovEmple == 'KSA' || this.estadoNovEmple == 'SA' || this.estadoNovEmple == 'SV') {
                 swal.fire({
                   title: this.msjNovEmpleTitle,
@@ -403,34 +350,27 @@ export class CrearSolicitudComponent implements OnInit {
               } else {
                 swal.fire({
                   title: "Enviando la solicitud al sistema, por favor espere...",
-                  onBeforeOpen: () => {
+                  willOpen: () => {
                     swal.showLoading();
                     let fechainicio = this.formatoddmmyyyy(
-                      this.formulario.get("fechainicio").value
+                      this.formulario.get("fechainicio")!.value
                     );
-                    /*let fecharegreso = this.formatoddmmyyyy(
-                      this.formulario.get("fecharegreso").value
-                    );
-                    let fechafin = this.formatoddmmyyyy(
-                      this.formulario.get("fechafin").value
-                    );*/
                     this.vacacionesService
                       .crearSolicitudVacaciones(
                         this.usuarioService.usuario,
                         this.usuarioService.empresa,
                         'ENVIADO',
                         fechainicio,
-                        this.formulario.get("fecharegreso").value,
-                        this.formulario.get("dias").value,
+                        this.formulario.get("fecharegreso")!.value,
+                        this.formulario.get("dias")!.value,
                         this.vacacion,
                         this.usuarioService.cadenaConexion,
                         this.usuarioService.urlKioscoDomain,
                         this.usuarioService.grupoEmpresarial,
-                        this.formulario.get("fechafin").value
+                        this.formulario.get("fechafin")!.value
                       )
                       .subscribe(
-                        (data) => {
-                          //console.log(data);
+                        (data: any) => {
                           if (data["solicitudCreada"]) {
                             swal
                               .fire({
@@ -439,7 +379,7 @@ export class CrearSolicitudComponent implements OnInit {
                                   "Solicitud de vacaciones creada exitosamente",
                                 showConfirmButton: true,
                               })
-                              .then((res) => {
+                              .then((res: any) => {
                                 this.router.navigate(["/vacaciones"]);
                               });
                           } else {
@@ -449,12 +389,12 @@ export class CrearSolicitudComponent implements OnInit {
                                 title: data["mensaje"],
                                 showConfirmButton: true,
                               })
-                              .then((res) => {
+                              .then((res: any) => {
                                 this.router.navigate(["/vacaciones"]);
                               });
                           }
                         },
-                        (error) => {
+                        (error: any) => {
                           swal
                             .fire({
                               icon: "error",
@@ -463,7 +403,7 @@ export class CrearSolicitudComponent implements OnInit {
                                 "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
                               showConfirmButton: true,
                             })
-                            .then((res) => {
+                            .then((res: any) => {
                               this.router.navigate(["/vacaciones"]);
                             });
                         }
@@ -475,7 +415,6 @@ export class CrearSolicitudComponent implements OnInit {
             }
           });
       } else {
-        //console.log(this.formulario.controls);
         swal.fire({
           title: "¡Por favor valide el formulario!",
           text:
@@ -486,7 +425,7 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
-  formatoddmmyyyy(fecha) {
+  formatoddmmyyyy(fecha: string) {
     let anio = fecha.substring(0, 4);
     let mes = fecha.substring(5, 7);
     let dia = fecha.substring(8, 11);
@@ -494,11 +433,9 @@ export class CrearSolicitudComponent implements OnInit {
     return ensamble;
   }
 
-  formatommddyyyy(fecha) {
-    //console.log(fecha);
+  formatommddyyyy(fecha: string) {
     var momentVariable = moment(fecha, 'DD/MM/YYYY');
     var stringvalue = momentVariable.format('YYYY-MM-DD');
-    //console.log(stringvalue); // outputs 2018-08-25  
     return stringvalue;
   }
 
@@ -508,18 +445,15 @@ export class CrearSolicitudComponent implements OnInit {
 
   /*Método que envia el correo de notificación de corrección de información*/
   enviarReporteNovedad() {
-    //console.log('dominio ' , this.usuarioService.urlKioscoDomain)
-    //console.log('enviar', this.formularioReporteNov.controls);
     if (this.formularioReporteNov.valid) {
       swal.fire({
         title: "Enviando mensaje al área de nómina y RRHH, por favor espere...",
-        onBeforeOpen: () => {
+        willOpen: () => {
           swal.showLoading();
-          this.usuarioService.enviaCorreoNovedadRRHH(this.usuarioService.usuario, this.usuarioService.empresa, this.formularioReporteNov.get('mensaje').value,
+          this.usuarioService.enviaCorreoNovedadRRHH(this.usuarioService.usuario, this.usuarioService.empresa, this.formularioReporteNov.get('mensaje')!.value,
             'Solicitud de Corrección Jefe Inmediato', this.usuarioService.urlKioscoDomain, this.usuarioService.grupoEmpresarial, this.usuarioService.cadenaConexion)
             .subscribe(
               (data) => {
-                //console.log(data);
                 if (data) {
                   swal
                     .fire({
@@ -530,7 +464,7 @@ export class CrearSolicitudComponent implements OnInit {
                     })
                     .then((res) => {
                       $("#staticBackdropEJ").modal("hide");
-                      this.formularioReporteNov.get('mensaje').setValue('');
+                      this.formularioReporteNov.get('mensaje')!.setValue('');
                     });
                 } else {
                   swal
@@ -542,7 +476,7 @@ export class CrearSolicitudComponent implements OnInit {
                     })
                     .then((res) => {
                       $("#staticBackdropEJ").modal("hide");
-                      this.formularioReporteNov.get('mensaje').setValue('');
+                      this.formularioReporteNov.get('mensaje')!.setValue('');
                     });
                 }
               },
@@ -557,7 +491,7 @@ export class CrearSolicitudComponent implements OnInit {
                   })
                   .then((res) => {
                     $("#staticBackdropEJ").modal("hide");
-                    this.formularioReporteNov.get('mensaje').setValue('');
+                    this.formularioReporteNov.get('mensaje')!.setValue('');
                   });
               }
             );
@@ -578,23 +512,20 @@ export class CrearSolicitudComponent implements OnInit {
 
   // 211019 dar formato a fecha 
   asigFecha() {
-    let datetemp = this.formatoddmmyyyy(this.formulario.get('fechainicio').value);
-    //console.log('fecha: ' , datetemp)
-    this.formulario.get("fechainiciodt").setValue(datetemp);
-    document.getElementById("fechainiciodt").hidden = false;
-    document.getElementById("fechainicio").hidden = true;
+    let datetemp = this.formatoddmmyyyy(this.formulario.get('fechainicio')!.value);
+    this.formulario.get("fechainiciodt")!.setValue(datetemp);
+    document.getElementById("fechainiciodt")!.hidden = false;
+    document.getElementById("fechainicio")!.hidden = true;
   }
 
   backDt() {
-    //console.log("prueba1()");
-    document.getElementById("fechainiciodt").hidden = true;
-    document.getElementById("fechainicio").hidden = false;
+    document.getElementById("fechainiciodt")!.hidden = true;
+    document.getElementById("fechainicio")!.hidden = false;
   }
 
   backText() {
-    //console.log("prueba2()");
-    document.getElementById("fechainiciodt").hidden = false;
-    document.getElementById("fechainicio").hidden = true;
+    document.getElementById("fechainiciodt")!.hidden = false;
+    document.getElementById("fechainicio")!.hidden = true;
   }
 
 }

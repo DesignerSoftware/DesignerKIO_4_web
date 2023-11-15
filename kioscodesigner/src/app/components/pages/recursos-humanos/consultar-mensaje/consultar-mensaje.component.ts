@@ -1,47 +1,47 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { RecursosHumanosService } from 'src/app/services/recursoshumanos.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-consultar-mensaje',
   templateUrl: './consultar-mensaje.component.html',
-  styleUrls: ['./consultar-mensaje.component.css']
+  styleUrls: ['./consultar-mensaje.component.scss']
 })
 export class ConsultarMensajeComponent implements OnInit {
 
-  formulario: FormGroup;
-  mensajeCosulatdos = null;
-  mensajeCosulatdosFilter = null;
-  public dataFilt: any = "";
+  formulario: FormGroup = {} as FormGroup;
+  mensajeCosulatdos: any = null;
+  mensajeCosulatdosFilter: any = null;
+  //public dataFilt: any = "";
   public p: number = 1;
-  solicitudes = null;
-  anexo = null;
-  solicitudSeleccionada = null;
-  mensajeSeleccionado = null;
-  url = '';
+  //solicitudes = null;
+  //anexo: any = null;
+  //solicitudSeleccionada: any = null;
+  mensajeSeleccionado: any = null;
+  url: string = '';
 
-  _searchTerm = '';
+  _searchTerm: string = '';
   direccion = 'DESC';
   arrow = "up";
   orderSelect = 'fechacreacion1';
-  
-  mensajeTitulo = '';
-  mensajeMensaje = '';
-  mensajeFechaInicio = '';
-  mensajeFechaFin = '';
-  mensajeAnexo = '';
-  mensajeEstado = '';
-  mensajeSecuencia = '';
 
-  fileToUpload: File = null; // variable archivo seleccionado 
-  habilitaBtnCargar = false;
+  mensajeTitulo: string = '';
+  mensajeMensaje: string = '';
+  mensajeFechaInicio: string = '';
+  mensajeFechaFin: string = '';
+  mensajeAnexo: string = '';
+  mensajeEstado: string = '';
+  mensajeSecuencia: string = '';
+
+  fileToUpload: File = {} as File; // variable archivo seleccionado 
+  //habilitaBtnCargar = false;
   msjValidArchivoAnexo = '';
   nomArchivo = null;
   formato = "";
@@ -91,7 +91,7 @@ export class ConsultarMensajeComponent implements OnInit {
     //this.cadenasKioskos.getCadenasKioskosEmp(sesion['grupo'], this.usuarioService.urlKioscoDomain)
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
       .subscribe(
-        data => {
+        (data: any) => {
           //console.log('getInfoUsuario', data);
           //console.log(sesion['grupo']);
           for (let i in data) {
@@ -118,7 +118,7 @@ export class ConsultarMensajeComponent implements OnInit {
           this.usuarioService.empresa,
           this.usuarioService.cadenaConexion
         )
-        .subscribe((data) => {
+        .subscribe((data: any) => {
           //console.log(data["result"]);
           this.usuarioService.documento = data["result"];
           //console.log("ng OnInit:", this.usuarioService.documento);
@@ -142,16 +142,16 @@ export class ConsultarMensajeComponent implements OnInit {
         this.usuarioService.cadenaConexion,
         'N'
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         console.log('mensajeCosulatdos ', data);
         this.mensajeCosulatdosFilter = data;
         for (let i = 0; i < this.mensajeCosulatdosFilter.length; i++) {
-          this.mensajeCosulatdosFilter[i].fechacreacion1 = new Date(data[i].fechacreacion1);  
-          this.mensajeCosulatdosFilter[i].fechafin1 = new Date(data[i].fechafin1);  
-          this.mensajeCosulatdosFilter[i].fechainicio1 = new Date(data[i].fechainicio1);  
+          this.mensajeCosulatdosFilter[i].fechacreacion1 = new Date(data[i].fechacreacion1);
+          this.mensajeCosulatdosFilter[i].fechafin1 = new Date(data[i].fechafin1);
+          this.mensajeCosulatdosFilter[i].fechainicio1 = new Date(data[i].fechainicio1);
         }
         //console.log('mensajeCosulatdosFilter: ',this.mensajeCosulatdosFilter);
-        
+
         this.mensajeCosulatdos = data;
         //this.ordenarAsc();
       });
@@ -201,7 +201,7 @@ export class ConsultarMensajeComponent implements OnInit {
   // Método que retorna true si el tamaño del archivo no supera los 5MB
   validaSizeAnexo() {
     let valid = false;
-    let sizeArchivo = (this.formulario.get('anexo').value.size / 1048576);
+    let sizeArchivo = (this.formulario.get('anexo')!.value.size / 1048576);
     let sizeArchivo2 = parseFloat(parseFloat(sizeArchivo.toString()).toFixed(2));
     if (sizeArchivo2 <= 5) {
       valid = true;
@@ -214,9 +214,9 @@ export class ConsultarMensajeComponent implements OnInit {
   validaTipoArchivoAnexo() {
     //console.log("this.formulario.get('anexo').value", this.formulario.get('anexo').value);
     let valid = false;
-    if (this.formulario.get('anexo').value.type == 'image/png'
-      || this.formulario.get('anexo').value.type == 'image/jpeg'
-      || this.formulario.get('anexo').value.type == 'application/pdf'
+    if (this.formulario.get('anexo')!.value.type == 'image/png'
+      || this.formulario.get('anexo')!.value.type == 'image/jpeg'
+      || this.formulario.get('anexo')!.value.type == 'application/pdf'
     ) {
       valid = true;
       //console.log('Es PDF');
@@ -230,11 +230,11 @@ export class ConsultarMensajeComponent implements OnInit {
     //var file=(<HTMLInputElement>document.getElementById('file'));
     //file.value=null;
     this.msjValidArchivoAnexo = '';
-    this.formulario.get('anexo').setValue('');
+    this.formulario.get('anexo')!.setValue('');
     this.nomArchivo = null;
   }
 
-  formatoyyyymmdd(fecha) {
+  formatoyyyymmdd(fecha: string) {
     let dia = fecha.substring(0, 2);
     let mes = fecha.substring(3, 5);
     let anio = fecha.substring(6, 10);
@@ -246,7 +246,7 @@ export class ConsultarMensajeComponent implements OnInit {
   prueba() {
     //console.log('fechainicio' , this.mensajeFechaInicio);  
   }
-  formatoddmmyyyy(fecha) {
+  formatoddmmyyyy(fecha: string) {
     let anio = fecha.substring(0, 4);
     let mes = fecha.substring(5, 7);
     let dia = fecha.substring(8, 11);
@@ -254,19 +254,19 @@ export class ConsultarMensajeComponent implements OnInit {
     return ensamble;
   }
 
-  onFileSelect(event) {
+  onFileSelect(event: any) {
     if (event.target.files.length > 0) {
       //console.log('archivo seleccionado');
       const file = event.target.files[0];
       //console.log(file);
-      this.formulario.get('anexo').setValue(file);
+      this.formulario.get('anexo')!.setValue(file);
       //console.log('Name File' + file.name);
       if (this.validaTipoArchivoAnexo()) {
         //console.log('Es .pdf');
         this.msjValidArchivoAnexo = '';
-        this.nomArchivo = this.formulario.get('anexo').value.name;
+        this.nomArchivo = this.formulario.get('anexo')!.value.name;
         if (!this.validaSizeAnexo()) {
-          this.msjValidArchivoAnexo = 'El tamaño del archivo es demasiado grande. Seleccione un archivo de máximo 5MB.'
+          this.msjValidArchivoAnexo = 'El tamaño del archivo es demasiado grande. Seleccione un archivo de máximo 5MB.';
           swal.fire('Tamaño de archivo demasiado grande', 'Por favor seleccione un archivo de máximo 5MB', 'error');
         }
       } else {
@@ -297,13 +297,13 @@ export class ConsultarMensajeComponent implements OnInit {
 
     if (this.formulario.valid) {
       let incluyeAnexo = 'N';
-      if (this.formulario.get('anexo').value != null && this.formulario.get('anexo').value != "") {
+      if (this.formulario.get('anexo')!.value != null && this.formulario.get('anexo')!.value != "") {
         incluyeAnexo = 'S';
-        if (this.formulario.get('anexo').value.type == 'image/png') {
+        if (this.formulario.get('anexo')!.value.type == 'image/png') {
           this.formato = '.png';
-        } else if (this.formulario.get('anexo').value.type == 'image/jpeg') {
+        } else if (this.formulario.get('anexo')!.value.type == 'image/jpeg') {
           this.formato = '.jpg';
-        } else if (this.formulario.get('anexo').value.type == 'application/pdf') {
+        } else if (this.formulario.get('anexo')!.value.type == 'application/pdf') {
           this.formato = '.pdf';
         }
       } else if (this.nomArchivo !== 'N' && this.nomArchivo !== null) {
@@ -311,23 +311,23 @@ export class ConsultarMensajeComponent implements OnInit {
       }
       swal.fire({
         title: "Enviando la solicitud al sistema, por favor espere...",
-        onBeforeOpen: () => {
+        willOpen: () => {
           swal.showLoading();
           this.recursosHumanosService.updateMensaje(
             this.usuarioService.tokenJWT,
             this.usuarioService.usuario,
             this.usuarioService.empresa,
-            this.formatoddmmyyyy(this.formulario.get('fechainicio').value),
-            this.formatoddmmyyyy(this.formulario.get('fechafin').value),
-            this.formulario.get('titulo').value,
-            this.formulario.get('descripcion').value,
+            this.formatoddmmyyyy(this.formulario.get('fechainicio')!.value),
+            this.formatoddmmyyyy(this.formulario.get('fechafin')!.value),
+            this.formulario.get('titulo')!.value,
+            this.formulario.get('descripcion')!.value,
             incluyeAnexo,
             this.usuarioService.cadenaConexion,
             this.formato,
             this.mensajeSecuencia,
             this.mensajeEstado)
             .subscribe(
-              data => {
+              (data: any) => {
                 //console.log('rta: ', data);
                 if (data["NovedadModificada"]) {
                   if (incluyeAnexo == 'S') {
@@ -374,11 +374,11 @@ export class ConsultarMensajeComponent implements OnInit {
     }
   }
 
-  resendEmail(index: number){
+  resendEmail(index: number) {
     this.limpiarMensaje();
     this.mesajeSeleccionado(index);
     this.completarMensaje();
-    this.url =  this.usuarioService.getUrl() + '/#/login/' + this.usuarioService.grupoEmpresarial;
+    this.url = this.usuarioService.getUrl() + '/#/login/' + this.usuarioService.grupoEmpresarial;
     swal.fire({
       title: '¿Desea Enviar Correo del Comunicado Selecionado?.',
       text: '¿Desea continuar?',
@@ -392,7 +392,7 @@ export class ConsultarMensajeComponent implements OnInit {
       if (result.isConfirmed) {
         swal.fire({
           title: "Procesando solicitud, por favor espere...",
-          onBeforeOpen: () => {
+          willOpen: () => {
             swal.showLoading();
             this.recursosHumanosService.getResendEmail(
               this.usuarioService.tokenJWT,
@@ -403,7 +403,7 @@ export class ConsultarMensajeComponent implements OnInit {
               this.usuarioService.cadenaConexion,
               this.url)
               .subscribe(
-                (data) => {
+                (data: any) => {
                   if (data["correoEnviado"]) {
                     swal
                       .fire({
@@ -452,7 +452,7 @@ export class ConsultarMensajeComponent implements OnInit {
       if (result.isConfirmed) {
         swal.fire({
           title: "Procesando solicitud, por favor espere...",
-          onBeforeOpen: () => {
+          willOpen: () => {
             swal.showLoading();
             this.recursosHumanosService.deleteMsj(
               this.usuarioService.tokenJWT,
@@ -461,7 +461,7 @@ export class ConsultarMensajeComponent implements OnInit {
               this.usuarioService.empresa,
               this.usuarioService.cadenaConexion)
               .subscribe(
-                (data) => {
+                (data: any) => {
                   if (data["NovedadModificada"]) {
                     swal
                       .fire({
@@ -497,7 +497,7 @@ export class ConsultarMensajeComponent implements OnInit {
     const formData = new FormData();
     this.formato = '';
 
-    formData.append('fichero', this.formulario.get('anexo').value, nombreAnexo);
+    formData.append('fichero', this.formulario.get('anexo')!.value, nombreAnexo);
 
     this.http
       .post<any>(
@@ -542,32 +542,32 @@ export class ConsultarMensajeComponent implements OnInit {
     this.usuarioService.loadAllNotifications();
   }
 
-  ordenar(atributo: string){
+  ordenar(atributo: string) {
     this.orderSelect = atributo;
     //console.log('orderSelect: ', this.orderSelect);
-    this.direccion = this.direccion === 'ASC' ? 'DESC' : 'ASC'    
-    if (this.direccion=='ASC') {
+    this.direccion = this.direccion === 'ASC' ? 'DESC' : 'ASC'
+    if (this.direccion == 'ASC') {
       this.arrow = 'down';
-      this.ordenarAsc(atributo);      
-    }else {
+      this.ordenarAsc(atributo);
+    } else {
       this.arrow = 'up';
       this.ordenarDesc(atributo);
     }
   }
 
-  ordenarAsc(atributo: string){
+  ordenarAsc(atributo: string) {
     this.prueba1 = this.prueba1.sort(function (a, b) {
-      if (a> b) {
+      if (a > b) {
         return 1;
       }
       if (a < b) {
         return -1;
       }
       return 0; // a must be equal to b
-    });      
+    });
     //console.log('prueba1: ' , this.prueba1);
-    
-    this.mensajeCosulatdos = this.mensajeCosulatdos.sort(function (a, b) {
+
+    this.mensajeCosulatdos = this.mensajeCosulatdos.sort(function (a: any, b: any) {
       let atrTemp = atributo
       if (a[atrTemp] > b[atrTemp]) {
         return 1;
@@ -576,10 +576,10 @@ export class ConsultarMensajeComponent implements OnInit {
         return -1;
       }
       return 0; // a must be equal to b
-    });      
+    });
   }
-  ordenarDesc(atributo: string){
-    this.mensajeCosulatdos = this.mensajeCosulatdos.sort(function (a, b) {
+  ordenarDesc(atributo: string) {
+    this.mensajeCosulatdos = this.mensajeCosulatdos.sort(function (a: any, b: any) {
       let atrTemp = atributo
       if (a[atrTemp] < b[atrTemp]) {
         return 1;
@@ -588,7 +588,7 @@ export class ConsultarMensajeComponent implements OnInit {
         return -1;
       }
       return 0; // a must be equal to b
-    });   
+    });
   }
 
   get searchTerm(): string {
@@ -601,8 +601,8 @@ export class ConsultarMensajeComponent implements OnInit {
   }
 
   filter(v: string) {
-    return this.mensajeCosulatdosFilter.filter(x => x.titulo?.toLowerCase().indexOf(v.toLowerCase()) !== -1
-      || x.descripcion.toString()?.toLowerCase().indexOf(v.toLowerCase()) !== -1 
+    return this.mensajeCosulatdosFilter.filter((x: any) => x.titulo?.toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x.descripcion.toString()?.toLowerCase().indexOf(v.toLowerCase()) !== -1
       || x.estado?.toLowerCase().indexOf(v.toLowerCase()) !== -1
       || x.fechainicio?.toLowerCase().indexOf(v.toLowerCase()) !== -1
       || x.fechafin?.toLowerCase().indexOf(v.toLowerCase()) !== -1

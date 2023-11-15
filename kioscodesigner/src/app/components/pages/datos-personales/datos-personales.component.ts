@@ -1,27 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
-//import { KiopersonalizacionesService } from 'src/app/services/kiopersonalizaciones.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
 import { OpcionesKioskosService } from 'src/app/services/opciones-kioskos.service';
 import { ReportesService } from 'src/app/services/reportes.service';
-//import { environment } from 'src/environments/environment';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import swal from 'sweetalert2';
- 
 
 @Component({
   selector: 'app-datos-personales',
   templateUrl: './datos-personales.component.html',
-  styleUrls: ['./datos-personales.component.css']
+  styleUrls: ['./datos-personales.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class DatosPersonalesComponent implements OnInit {
-  fotoPerfil;
+
+  fotoPerfil: any;
   url = 'assets/images/fotos_empleados/sinFoto.jpg';
-  formulario: FormGroup;
+  formulario: FormGroup = this.fb.group({
+    mensaje: ["", Validators.required]
+  });
   public dataFilt: any = "";
   public p1: number = 1;
-
-  // datos = null;
 
   constructor(
     private fb: FormBuilder,
@@ -33,8 +32,6 @@ export class DatosPersonalesComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.cargaFoto();
-    //console.log('datos en info:',this.usuarioServicio.cadenaConexion);
     if (this.usuarioServicio.cadenaConexion) {
       this.cargarDatosIniciales();
     } else {
@@ -49,29 +46,23 @@ export class DatosPersonalesComponent implements OnInit {
     this.cargarTelefonosEmpleado();
     this.obtenerAnexosDocumentos();
     this.cargarNotificaciones();
-    //this.cargaFoto();
   }
 
-  getInfoUsuario() { // obtener la información del usuario del localStorage y guardarla en el service
+  // obtener la información del usuario del localStorage y guardarla en el service
+  getInfoUsuario() {
     const sesion = this.usuarioServicio.getUserLoggedIn();
     this.usuarioServicio.setUsuario(sesion['usuario']);
     this.usuarioServicio.setEmpresa(sesion['empresa']);
     this.usuarioServicio.setTokenJWT(sesion['JWT']);
     this.usuarioServicio.setGrupo(sesion['grupo']);
     this.usuarioServicio.setUrlKiosco(sesion['urlKiosco']);
-    //console.log('grupo en datos:' , this.usuarioServicio.setUrlKiosco(sesion['urlKiosco'],));
-    //console.log('usuario: ' + this.usuarioServicio.usuario + ' empresa: ' + this.usuarioServicio.empresa);
     this.cadenasKioskos.getCadenaKioskoXGrupoNit(sesion['grupo'], sesion['empresa'])
       .subscribe(
-        data => {
-          //console.log('getInfoUsuario', data);
-          //console.log(sesion['grupo']);
+        (data: any) => {
           for (let i in data) {
             if (data[i][3] === sesion['grupo']) { // GRUPO
               const temp = data[i];
-              //console.log('cadena: ', temp[4]) // CADENA
               this.usuarioServicio.cadenaConexion = temp[4];
-              //console.log('pages CADENA: ', this.usuarioServicio.cadenaConexion)
               this.cargarDatosIniciales();
             }
           }
@@ -91,44 +82,35 @@ export class DatosPersonalesComponent implements OnInit {
     if (this.usuarioServicio.datosPersonales == null) {
       this.usuarioServicio.getDatosUsuario(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
         .subscribe(
-          data => {
+          (data: any) => {
             this.usuarioServicio.datosPersonales = data;
-            //console.log('datos', this.usuarioServicio.datosPersonales);
           }
         );
     }
   }
 
   cargarDatosFamilias() {
-   //console.log(this.usuarioServicio.cadenaConexion);
     if (this.usuarioServicio.datosFamilia == null) {
       this.usuarioServicio.getDatosUsuarioFamilia(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
         .subscribe(
           data => {
             this.usuarioServicio.datosFamilia = data;
-            //console.log('datosFam', this.usuarioServicio.datosFamilia);
           }
         );
     }
   }
 
   cargarTelefonosEmpleado() {
-   //console.log(this.usuarioServicio.cadenaConexion);
-    if (this.usuarioServicio.telefonosEmpleado.length ==0) {
-      let vacio : Array<string>=[''];
+    if (this.usuarioServicio.telefonosEmpleado.length == 0) {
+      let vacio: Array<string> = [''];
       this.usuarioServicio.getTelefonosEmpleado(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.usuarioServicio.cadenaConexion)
         .subscribe(
-          (data :Array<string>) => {
-            if (data.length > 0){
+          (data: any) => {
+            if (data.length > 0) {
               this.usuarioServicio.telefonosEmpleado = data;
-// console.log('this.usuarioServicio.telefonosEmpleado ',this.usuarioServicio.telefonosEmpleado);
-
-            }else{
-
-               this.usuarioServicio.telefonosEmpleado.push(vacio[0]);
+            } else {
+              this.usuarioServicio.telefonosEmpleado.push(vacio[0]);
             }
-            
-            // console.log('telefonos', this.usuarioServicio.telefonosEmpleado);
           }
         );
     }
@@ -137,8 +119,7 @@ export class DatosPersonalesComponent implements OnInit {
     this.usuarioServicio.getObtenerAnexosDocumentos(this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa)
       .subscribe(
         data => {
-          this.usuarioServicio.documentosAnexos = data; 
-          //console.log('datos documentos ' +data);
+          this.usuarioServicio.documentosAnexos = data;
         }
       );
   }
@@ -147,20 +128,19 @@ export class DatosPersonalesComponent implements OnInit {
       .subscribe(
         data => {
           this.usuarioServicio.documentosAnexos = data;
-          //console.log('datos documentos ' +data);
         }
       );
   }
 
 
-  FactorRHp(n) {
-    //console.log('FactorRHp: ', n);
-    let resultado;
-    if (n == null || n == 'null' || n == '') { // true
+  FactorRHp(n: string): string {
+    //console.log('n', n);
+    let resultado: string;
+    if (n === null || n === 'null' || n === '') { 
       resultado = 'NO APLICA';
-    } else if (n != 'N') {
+    } else if (n === 'P') {
       resultado = 'POSITIVO';
-    }else {
+    } else {
       resultado = 'NEGATIVO';
     }
     return resultado;
@@ -169,29 +149,32 @@ export class DatosPersonalesComponent implements OnInit {
   filtrarOpcionesReportes() {
     let opkTempo: any = [];
     if (this.usuarioServicio.carnetSeleccionado.length === 0 || this.usuarioServicio.existeDocumentoAnexo.length === 0) {
-      opkTempo = this.opcionesKioskosServicio
-        .getOpcionesKiosco(this.usuarioServicio.empresa, this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion)
-        .subscribe((data) => {
-         //console.log('opciones Consultadas', data);
+      
+      opkTempo = this.opcionesKioskosServicio.getOpcionesKiosco(
+        this.usuarioServicio.empresa, this.usuarioServicio.usuario, 
+        this.usuarioServicio.cadenaConexion
+        ).subscribe((data: any) => {
           opkTempo = data;
           this.usuarioServicio.carnetSeleccionado = opkTempo.filter(
-            //(opcKio) => opcKio['opcionkioskopadre']['codigo'] === '30'
-            (opcKio) => {
-              if (opcKio.opcionkioskopadre && opcKio.opcionkioskopadre.codigo === '10' && opcKio.codigo == '13') {
+            (opcKio: any) => {
+              if (opcKio.opcionkioskopadre && opcKio.opcionkioskopadre.codigo === '10' && opcKio.codigo === '13') {
                 return true;
+              } else {
+                return false;
               }
             }
           );
           this.usuarioServicio.existeDocumentoAnexo = opkTempo.filter(
-                     (opcKio) => {
-                       if (opcKio.opcionkioskopadre && opcKio.opcionkioskopadre.codigo === '10' && opcKio.codigo==='14') {
-                        // console.log('aca estamos');
-                         return true;
-                       }
-                     }
-                   );
+            (opcKio: any) => {
+              if (opcKio.opcionkioskopadre && opcKio.opcionkioskopadre.codigo === '10' && opcKio.codigo === '14') {
+                return true;
+              } else {
+                return false;
+              }
+            }
+          );
         });
-    } 
+    }
     this.cargarFotoActual();
   }
 
@@ -203,7 +186,7 @@ export class DatosPersonalesComponent implements OnInit {
     this.usuarioServicio.documentoSeleccionado = index;
     swal.fire({
       title: "Descargando reporte, por favor espere...",
-      onBeforeOpen: () => {
+      willOpen: () => {
         swal.showLoading();
         this.usuarioServicio
           .getDescargarArchivo(
@@ -262,8 +245,7 @@ export class DatosPersonalesComponent implements OnInit {
                 window.URL.revokeObjectURL(data);
               }, 100);
             },
-            (error) => {
-             //console.log(error);
+            (error: any) => {
               swal.fire(
                 "Se ha presentado un error",
                 "Se presentó un error al descargar el documento, por favor intentelo de nuevo más tarde!",
@@ -277,17 +259,15 @@ export class DatosPersonalesComponent implements OnInit {
   }
 
   enviarReporteNovedad() {
-    //console.log('enviar', this.formulario.controls);
     if (this.formulario.valid) {
       swal.fire({
         title: "Enviando mensaje al área de nómina y RRHH, por favor espere...",
-        onBeforeOpen: () => {
+        willOpen: () => {
           swal.showLoading();
-          this.usuarioServicio.enviaCorreoNovedadRRHH(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.formulario.get('mensaje').value,
+          this.usuarioServicio.enviaCorreoNovedadRRHH(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.formulario.get('mensaje')!.value,
             'Solicitud para Corrección de Datos Personales', this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
             .subscribe(
               (data) => {
-                //console.log(data);
                 if (data) {
                   swal
                     .fire({
@@ -298,7 +278,7 @@ export class DatosPersonalesComponent implements OnInit {
                     })
                     .then((res) => {
                       $("#staticBackdrop").modal("hide");
-                      this.formulario.get('mensaje').setValue('');
+                      this.formulario.get('mensaje')!.setValue('');
                     });
                 } else {
                   swal
@@ -310,7 +290,7 @@ export class DatosPersonalesComponent implements OnInit {
                     })
                     .then((res) => {
                       $("#staticBackdrop").modal("hide");
-                      this.formulario.get('mensaje').setValue('');
+                      this.formulario.get('mensaje')!.setValue('');
                     });
                 }
               },
@@ -325,7 +305,7 @@ export class DatosPersonalesComponent implements OnInit {
                   })
                   .then((res) => {
                     $("#staticBackdrop").modal("hide");
-                    this.formulario.get('mensaje').setValue('');
+                    this.formulario.get('mensaje')!.setValue('');
                   });
               }
             );
@@ -345,25 +325,20 @@ export class DatosPersonalesComponent implements OnInit {
   }
 
   descargarCarnet() {
-    //console.log(this.usuarioServicio.datosPersonales[0][17])
-    //console.log("empresa ", this.usuarioServicio.empresa)
-    //console.log(this.usuarioServicio.carnetSeleccionado[0]["nombreruta"]);   
-
     this.cargarFotoActual();
     if (!this.usuarioServicio.existefotoPerfil) {
       swal
         .fire({
           icon: "error",
           title: "Por favor actualice su foto",
-          text:"",
+          text: "",
           showConfirmButton: true,
         })
     } else {
       swal.fire({
         title: "Generando carnet, por favor espere...",
-        onBeforeOpen: () => {
+        willOpen: () => {
           swal.showLoading();
-          //console.log("descargarReporte");
           this.usuarioServicio.getGenerarQR(
             this.usuarioServicio.usuario,
             this.usuarioServicio.telefonosEmpleado[0][0],
@@ -374,14 +349,12 @@ export class DatosPersonalesComponent implements OnInit {
             this.usuarioServicio.empresa
           )
             .subscribe(
-              (data) => {
-               //console.log(data);
+              (data: any) => {
                 this.reporteServicio
                   .generarReporte(
                     this.usuarioServicio.carnetSeleccionado[0]["nombreruta"],
-              /*this.formulario.get("enviocorreo").value*/false,
+                    false,
                     this.usuarioServicio.correo,
-                    //this.correo,
                     this.usuarioServicio.carnetSeleccionado[0]["descripcion"],
                     this.usuarioServicio.carnetSeleccionado[0]["codigo"],
                     this.usuarioServicio.empresa,
@@ -392,7 +365,6 @@ export class DatosPersonalesComponent implements OnInit {
                   )
                   .subscribe(
                     (res) => {
-                      //console.log(res);
                       swal.fire({
                         icon: "success",
                         title:
@@ -402,9 +374,7 @@ export class DatosPersonalesComponent implements OnInit {
                       });
                       const newBlob = new Blob([res], { type: "application/pdf" });
                       let fileUrl = window.URL.createObjectURL(newBlob); // add 290920
-  
-                      //if (window.navigator && window.navigator.msSaveOrOpenBlob) { 290920
-                      //window.navigator.msSaveOrOpenBlob(newBlob);
+
                       let nav = (window.navigator as any);
                       if (nav.msSaveOrOpenBlob) {
                         // add 290920
@@ -415,8 +385,6 @@ export class DatosPersonalesComponent implements OnInit {
                       } else {
                         window.open(fileUrl);
                       }
-                      //return;
-                      ///}
                       // For other browsers:
                       // Create a link pointing to the ObjectURL containing the blob.
                       const data = window.URL.createObjectURL(newBlob);
@@ -424,7 +392,7 @@ export class DatosPersonalesComponent implements OnInit {
                       link.href = data;
                       let f = new Date();
                       link.download =
-                      fileUrl+
+                        fileUrl +
                         "_" +
                         this.usuarioServicio.usuario +
                         "_" +
@@ -438,14 +406,13 @@ export class DatosPersonalesComponent implements OnInit {
                           view: window,
                         })
                       );
-  
+
                       setTimeout(function () {
                         // For Firefox it is necessary to delay revoking the ObjectURL
                         window.URL.revokeObjectURL(data);
                       }, 100);
                     },
                     (error) => {
-                     //console.log(error);
                       swal.fire(
                         "Se ha presentado un error",
                         "Se presentó un error al generar el reporte, por favor intentelo de nuevo más tarde!",
@@ -465,7 +432,7 @@ export class DatosPersonalesComponent implements OnInit {
                   })
                   .then((res) => {
                     $("#staticBackdrop").modal("hide");
-                    this.formulario.get('mensaje').setValue('');
+                    this.formulario.get('mensaje')!.setValue('');
                   });
               }
             );
@@ -474,19 +441,20 @@ export class DatosPersonalesComponent implements OnInit {
       });
 
     }
-    
+
   }
   cargarFotoActual() {
     this.usuarioServicio.getValidaFoto(this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion, this.usuarioServicio.empresa)
       .subscribe(
         data => {
-          // console.log('data: ' , data);
           this.usuarioServicio.existefotoPerfil = data;
-          // console.log(this.usuarioServicio.existefotoPerfil);
         }
       );
   }
   cargarNotificaciones() {
     this.usuarioServicio.loadAllNotifications();
-   }
+  }
+  onPageChange(p_val: number){
+    this.p1 = p_val;
+  }
 }

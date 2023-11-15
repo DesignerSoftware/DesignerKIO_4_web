@@ -6,10 +6,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class ValidadoresService {
 
-  constructor() {
-
-  }
-
+  constructor() { }
   passwordIguales(pass1Name: string, pass2Name: string) {
     return (formGroup: FormGroup) => {  // recibe el formulario
 

@@ -1,29 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { VacacionesService } from 'src/app/services/vacaciones.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { VacacionesService } from 'src/app/services/vacaciones.service';
 
 @Component({
   selector: 'app-soli-procesadas',
   templateUrl: './soli-procesadas.component.html',
-  styleUrls: ['./soli-procesadas.component.css']
+  styleUrls: ['./soli-procesadas.component.scss']
 })
 export class SoliProcesadasComponent implements OnInit {
-  solicitudesProcesadas = null;
-  solicitudSeleccionada = null;
-  public p8: number = 1;
-  public dataFilt: any = "";
+  solicitudesProcesadas: any = null;
+  solicitudSeleccionada: any = null;
+  solicitudesFiltradas: any = null;
 
-  constructor(private vacacionesService: VacacionesService, private usuarioService: UsuarioService) { 
+  public p8: number = 0;
+  _dataFilt: string = "";
+
+  constructor(private vacacionesService: VacacionesService,
+    private usuarioService: UsuarioService) {
     if (this.usuarioService.documento == null || this.usuarioService.documento.lenght === 0) {
       this.usuarioService.getDocumentoSeudonimo(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
-      .subscribe(
-        data => {
-          //console.log(data['result']);
-          this.usuarioService.documento = data['result'];
-          //console.log('ng OnInit:', this.usuarioService.documento);
-          this.obtenerSolicitudes();
-        }
-      );
+        .subscribe(
+          (data: any) => {
+            this.usuarioService.documento = data['result'];
+            this.obtenerSolicitudes();
+          }
+        );
     } else {
       this.obtenerSolicitudes();
     }
@@ -32,47 +33,61 @@ export class SoliProcesadasComponent implements OnInit {
   ngOnInit() {
   }
 
-  obtenerSolicitudes(){
+  obtenerSolicitudes() {
     this.vacacionesService.getSolicitudesXEmpleadoJefe(this.usuarioService.usuario, this.usuarioService.empresa, this.usuarioService.cadenaConexion)
-    .subscribe(
-      data => {
-        this.solicitudesProcesadas = data;
-        //console.log(this.solicitudesProcesadas);
-      }
-    );
+      .subscribe(
+        (data: any) => {
+          this.solicitudesProcesadas = data;
+        }
+      );
 
   }
 
-  detalleSolicitud(tipoSolicitud: string, index: string) {
+  detalleSolicitud(tipoSolicitud: string, index: any) {
     this.solicitudSeleccionada = this.solicitudesProcesadas[index];
-    /*this.tipoSolicitudSeleccionada = tipoSolicitud;
-    this.indexSolicitudSeleccionada = index;
-    //console.log('tipoSolicitud: ' + tipoSolicitud);
-    //console.log('index seleccionado: ' + index);
-    switch(tipoSolicitud) {
-      case 'ENVIADO': {
-        this.solicitudSeleccionada = this.solicitudesEnviadas[index];
-        break;
-      }
-      case 'APROBADO': {
-        this.solicitudSeleccionada = this.solicitudesAprobadas[index];
-        break;
-      }
-      case 'RECHAZADO': {
-        this.solicitudSeleccionada = this.solicitudesRechazadas[index];
-        break;
-      }
-      case 'LIQUIDADO': {
-        this.solicitudSeleccionada = this.solicitudesLiquidadas[index];
-        break;
-      }
-      case 'CANCELADO': {
-        this.solicitudSeleccionada = this.solicitudesCanceladas[index];
-        break;
-      }
-
-    }*/
     $('#staticBackdrop3').modal('show');
+  }
+
+  get dataFilt(): string{
+    return this._dataFilt;
+  }
+
+  set dataFilt(val: string){
+    this._dataFilt = val;
+    this.solicitudesProcesadas = this.filter(val, 1);
+  }
+
+  filter(v: string, t: number) {
+    console.log('v: ', v);
+    console.log('t: ', t);
+    if (v === '') {
+      switch (t) {
+        case 1: {
+          this.obtenerSolicitudes();
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+    switch (t) {
+      case 1: {
+        this.solicitudesFiltradas = this.solicitudesProcesadas;
+        break;
+      }
+      default: {
+        this.solicitudesFiltradas = null;
+        break;
+      }
+    }
+    return this.solicitudesFiltradas.filter((x: any) => x[0]?.toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x[1]?.toString()?.toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x[2]?.toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x[3]?.toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+      || x[4]?.toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+      //|| x[9]?.toString().toLowerCase().indexOf(v.toLowerCase()) !== -1
+    );
   }
 
 }

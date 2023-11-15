@@ -13,22 +13,22 @@
       </p>
       <hr>
       <div class="row">
-          <div class="col-12 mt-3 mb-1">
-
-            <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">Educación formal</h4>
-
-          </div>
+        <div class="col-12 mt-3 mb-1">
+          <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">
+            Educación formal</h4>
         </div>
-        <p *ngIf="usuarioServicio.datosEstudios && usuarioServicio.datosEstudios.length<=0" class="text-center">
-          No hay información asociada.</p>        
+      </div>
+      <p *ngIf="usuarioServicio.datosEstudios && usuarioServicio.datosEstudios.length<=0" class="text-center">
+        No hay información asociada.</p>
       <div class="container" *ngFor="let op of usuarioServicio.datosEstudios  index as i;">
-        
+
         <!-- <div class="row text-center align-items-center d-flex"> -->
 
         <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Educación<i class="fas fa-user-graduate primary font-large-1 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Educación<i
+                  class="fas fa-user-graduate primary font-large-1 float-left"></i></label>
               <div class="col-sm-9">
                 <input type="text" class="form-control form-control-sm" value="{{op[0]}}" disabled />
               </div>
@@ -36,7 +36,8 @@
           </div>
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Profesión <i class="fas fa-user-tie primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Profesión <i
+                  class="fas fa-user-tie primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input type="text" class="form-control form-control-sm" value="{{op[1]}}" disabled />
               </div>
@@ -46,7 +47,8 @@
         <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Institución<i class="fas fa-university primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Institución<i
+                  class="fas fa-university primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input class="form-control form-control-sm" value="{{op[2]}}" disabled />
               </div>
@@ -54,7 +56,8 @@
           </div>
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha expedición<i class="fas fa-calendar-alt primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha
+                expedición<i class="fas fa-calendar-alt primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input class="form-control form-control-sm" value="{{op[3]}}" disabled />
               </div>
@@ -64,7 +67,8 @@
         <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha vencimiento<i class="fas fa-calendar-times primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha
+                vencimiento<i class="fas fa-calendar-times primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input class="form-control form-control-sm" value="{{op[4]}}" disabled />
               </div>
@@ -72,7 +76,8 @@
           </div>
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Adiestramiento<i class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Adiestramiento<i
+                  class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input class="form-control form-control-sm" value="{{op[5]}}" disabled />
               </div>
@@ -82,7 +87,8 @@
         <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">No. tarjeta profesional<i class="fas fa-address-card primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">No.
+                tarjeta profesional<i class="fas fa-address-card primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input type="text" class="form-control form-control-sm" value="{{op[6]}}" disabled />
               </div>
@@ -90,7 +96,8 @@
           </div>
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Observación<i class="fas fa-clipboard-list primary font-large-2 float-left" style="padding-left: 10px;"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Observación<i
+                  class="fas fa-clipboard-list primary font-large-2 float-left" style="padding-left: 10px;"></i></label>
               <div class="col-sm-9">
                 <input type="text" class="form-control form-control-sm" value="{{op[7]}}" disabled />
               </div>
@@ -102,22 +109,24 @@
       <hr>
       <!-- Educaciones no formales -->
       <div class="row">
-          <div class="col-12 mt-3 mb-1">
+        <div class="col-12 mt-3 mb-1">
 
-            <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">Educación no formal</h4>
+          <h4 class="text-uppercase" style="text-align: center; margin-bottom: 20px; color: #00223C;">
+            Educación no formal</h4>
 
-          </div>
+        </div>
       </div>
       <p *ngIf="usuarioServicio.datosEstudiosNF && usuarioServicio.datosEstudiosNF.length<=0" class="text-center">
-        No hay información asociada.</p>  
+        No hay información asociada.</p>
       <div class="container" *ngFor="let dt of usuarioServicio.datosEstudiosNF  index as i;">
-        
+
 
 
         <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Educación<i class="fas fa-pencil-alt primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Educación<i
+                  class="fas fa-pencil-alt primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input type="text" class="form-control form-control-sm" value="{{dt[0]}}" disabled />
               </div>
@@ -125,7 +134,8 @@
           </div>
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Cursos<i class="fas fa-award primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Cursos<i
+                  class="fas fa-award primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input type="text" class="form-control form-control-sm" value="{{dt[1]}}" disabled />
               </div>
@@ -135,7 +145,8 @@
         <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Institución<i class="fas fa-building primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Institución<i
+                  class="fas fa-building primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input class="form-control form-control-sm" value="{{dt[2]}}" disabled />
               </div>
@@ -143,7 +154,8 @@
           </div>
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha expedición<i class="fas fa-calendar-alt primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha
+                expedición<i class="fas fa-calendar-alt primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input class="form-control form-control-sm" value="{{dt[3]}}" disabled />
               </div>
@@ -153,7 +165,8 @@
         <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha vencimiento<i class="fas fa-calendar-times primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Fecha
+                vencimiento<i class="fas fa-calendar-times primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input class="form-control form-control-sm" value="{{dt[4]}}" disabled />
               </div>
@@ -161,7 +174,8 @@
           </div>
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Adiestramiento<i class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Adiestramiento<i
+                  class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input class="form-control form-control-sm" value="{{dt[5]}}" disabled />
               </div>
@@ -171,31 +185,33 @@
         <div class="row" *ngIf="usuarioServicio.datosEstudios!=null && usuarioServicio.datosEstudios[0]">
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Observación <i class="fas fa-clipboard-list primary font-large-2 float-left"></i></label>
+              <label class="col-sm-3 col-form-label col-form-label-sm" style="text-align: center;">Observación <i
+                  class="fas fa-clipboard-list primary font-large-2 float-left"></i></label>
               <div class="col-sm-9">
                 <input type="text" class="form-control form-control-sm" value="{{dt[6]}}" disabled />
               </div>
             </div>
           </div>
-          
+
         </div>
         <hr>
       </div>
       <hr>
     </div>
-    
+
   </div>
 
   <div class="row, text-center" id="divFa" style="margin-top: 20px;">
     <p>Informar corrección de información acádemica:
-      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="abrirModal()">CLIC AQUI</button></p>
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        (click)="abrirModal()">CLIC AQUI</button>
+    </p>
   </div>
-  
+
 </div>
-
-
 <!-- Modal -->
-<div class="modal fade" id="staticBackdropFa" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdropFa" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -206,370 +222,22 @@
       </div>
 
       <form [formGroup]="formularioReporteNov" novalidate (ngSubmit)="enviarReporteNovedad()">
-      <div class="modal-body">
+        <div class="modal-body">
           <div class="mb-3">
             <p><b>Estimado usuario:</b></p>
-              <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta 
-                será enviada al contacto de nómina y RRHH {{usuarioServicio.nombreContactoSoporte||''}} </p>
-            <textarea class="form-control" id="exampleFormControlTextareaFa" rows="3" maxlength="1000" formControlName="mensaje"></textarea>
+            <p>Por favor digite la observación sobre la información que considera que se debe corregir, ésta
+              será enviada al contacto de Gestión Humana {{usuarioServicio.nombreContactoSoporte||''}} </p>
+            <textarea class="form-control" id="exampleFormControlTextareaFa" rows="3" maxlength="1000"
+              formControlName="mensaje"></textarea>
             <p class="float-right"><small>Máx. 1000 carácteres.</small></p>
           </div>
 
-      </div>
+        </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-primary">Enviar reporte</button>
-      </div>
-    </form>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Enviar reporte</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
-
-
-
-      <!-- <div class="grey-bg container-fluid" *ngFor="let op of usuarioServicio.datosEstudios  index as i;">
-          <section id="minimal-statistics">
-            <div class="row">
-              <div class="col-12 mt-3 mb-1">
-
-                <h4 class="text-uppercase">Educaciones formales</h4>
-
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-user-graduate primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                        <div class="media-body text-right">
-                          <h6>Educación</h6>
-                          <h5 class="card-title">{{op[0]}}</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card" style="margin-bottom: 3%;">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-user-tie primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                        <div class="media-body text-right">
-                          <h6>Titulo</h6>
-                          <h5 class="card-title">{{op[1]}}</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-university primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                        <div class="media-body text-right">
-                          <h6>Institución</h6>
-                          <h5 class="card-title">{{op[2]}}</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-calendar-alt primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                        <div class="media-body text-right">
-                          <h6>Fecha expedición</h6>
-                          <h5 class="card-title">{{op[3]}}</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="media-body text-left">
-                          <h6>Fecha vencimiento</h6>
-                          <h5 class="card-title">{{op[4]}}</h5>
-                        </div>
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-calendar-times primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="media-body text-left">
-                          <h6>Adiestramiento </h6>
-                          <h5 class="card-title">{{op[5]}}</h5>
-                        </div>
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="media-body text-left">
-                          <h6>No. tarjeta profesional</h6>
-                          <h5 class="card-title">{{op[6]}}</h5>
-                        </div>
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-address-card primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="media-body text-left">
-                          <h6>Observación</h6>
-                          <h5 class="card-title">{{op[7]}}</h5>
-                        </div>
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-clipboard-list primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </section>
-          <br>
-          <br>
-          <br>
-        </div> -->
-      <!-- </div> -->
-    <!-- </div>
-  </div>
-</div> -->
-<!-- <div class="page-header animated fadeIn fast">
-  <br>
-  <br>
-</div> -->
-
-
-<!-- <div class="col-12 grid-margin animated fadeIn fast"> -->
-<!-- <div class="card" *ngFor="let dt of usuarioServicio.datosEstudiosNF  index as i;">
-    <div class="card-body">
-
-
-
-      <div class="row text-center align-items-center d-flex">
-        <div class="grey-bg container-fluid">
-          <section id="stats-subtitle">
-            <div class="row">
-              <div class="col-12 mt-3 mb-1">
-                <h4 class="text-uppercase">Educaciones no formales</h4>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card" style="margin-bottom: 3%;">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-pencil-alt primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                        <div class="media-body text-right">
-                          <h6>Educación</h6>
-                          <h5 class="card-title">{{dt[0]}}</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-award primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                        <div class="media-body text-right">
-                          <h6>Cursos</h6>
-                          <h5 class="card-title">{{dt[1]}}</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-building primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                        <div class="media-body text-right">
-                          <h6>Institución</h6>
-                          <h5 class="card-title">{{dt[2]}}</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content" style="height: 148px;">
-                    <div class="card-body">
-                      <div class="media d-flex">
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-calendar-alt primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                        <div class="media-body text-right">
-                          <h6>Fecha expedición</h6>
-                          <h5 class="card-title">{{dt[3]}}</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="media-body text-left">
-                          <h6>Fecha vencimiento</h6>
-                          <h5 class="card-title">{{dt[4]}}</h5>
-                        </div>
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-calendar-times primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="media-body text-left">
-                          <h6>Adiestrar </h6>
-                          <h5 class="card-title">{{dt[5]}}</h5>
-                        </div>
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-chalkboard-teacher primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                  <div class="card-content">
-                    <div class="card-body" style="height: 148px;">
-                      <div class="media d-flex">
-                        <div class="media-body text-left">
-                          <h6>Observación</h6>
-                          <h5 class="card-title">{{dt[6]}}</h5>
-                        </div>
-                        <div class="align-self-center">
-                          <span style="font-size: 3rem; color: Dodgerblue;">
-                            <i class="fas fa-clipboard-list primary font-large-2 float-left"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div> 
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <br>
-          <br>
-          <br>
-        </div>
-      </div>
-    </div>
-  </div>   -->
-<!-- </div> -->
