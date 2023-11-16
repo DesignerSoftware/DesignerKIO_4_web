@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { OpcionesKioskosService } from 'src/app/services/opciones-kioskos.service';
@@ -18,7 +19,10 @@ export class NotificacionesMensajeComponent implements OnInit {
   reporteSeleccionado: any = null;
   codigoReporteSeleccionado: any = null;
 
-  constructor(private opcionesKioskosServicio: OpcionesKioskosService,
+  formulario: FormGroup = {} as FormGroup;
+
+  constructor(private fb: FormBuilder, 
+    private opcionesKioskosServicio: OpcionesKioskosService,
     public usuarioServicio: UsuarioService,
     private router: Router,
     public recursosHumanosService: RecursosHumanosService,
@@ -157,4 +161,81 @@ export class NotificacionesMensajeComponent implements OnInit {
       allowOutsideClick: () => !swal.isLoading(),
     });
   }
+
+  crearFormulario() {
+    this.formulario = this.fb.group(
+      {
+        mensaje: ["", Validators.required]
+      }
+    );
+  }
+  
+  abrirModal() {
+    $("#staticBackdrop").modal("show");
+  }
+
+  enviarReporteNovedad() {
+    if (this.formulario.valid) {
+      swal.fire({
+        title: "Enviando mensaje al Comité de Convivencia, por favor espere...",
+        willOpen: () => {
+          swal.showLoading();
+          this.usuarioServicio.enviaCorreoNovedadRRHH(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.formulario.get('mensaje')!.value,
+            'Solicitud para Corrección de información', this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
+            .subscribe(
+              (data: any) => {
+                if (data) {
+                  swal
+                    .fire({
+                      icon: "success",
+                      title:
+                        "Mensaje enviado exitosamente al área de nómina y RRHH para su validación.",
+                      showConfirmButton: true,
+                    })
+                    .then((res) => {
+                      $("#staticBackdrop").modal("hide");
+                      this.formulario.get('mensaje')!.setValue('');
+                    });
+                } else {
+                  swal.fire({
+                    icon: "error",
+                    title: "No fue posible enviar el correo",
+                    text: 'Por favor inténtelo de nuevo más tarde.',
+                    showConfirmButton: true,
+                  })
+                    .then((res: any) => {
+                      $("#staticBackdrop").modal("hide");
+                      this.formulario.get('mensaje')!.setValue('');
+                    });
+                }
+              },
+              (error) => {
+                swal
+                  .fire({
+                    icon: "error",
+                    title: "Hubo un error al enviar la petición",
+                    text:
+                      "Por favor inténtelo de nuevo más tarde. Si el error persiste contáctese con el área de nómina y recursos humanos de su empresa.",
+                    showConfirmButton: true,
+                  })
+                  .then((res: any) => {
+                    $("#staticBackdrop").modal("hide");
+                    this.formulario.get('mensaje')!.setValue('');
+                  });
+              }
+            );
+        },
+        allowOutsideClick: () => !swal.isLoading(),
+      });
+    } else {
+      swal.fire({
+        icon: "error",
+        title: "No ha digitado la observación",
+        text:
+          "Por favor digite una observación sobre la información que se debe corregir en el sistema.",
+        showConfirmButton: true
+      })
+    }
+  }
+
 }

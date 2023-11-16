@@ -2,6 +2,15 @@
   <div class="card-header text-center comunicado">
     Comunicados
   </div>
+  <div class="row, text-center" id="div" style="margin-top: 25px;">
+    <p>
+      Para crear una PQRSDCF:
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        (click)="abrirModal()">
+        CLIC AQUI
+      </button>
+    </p>
+  </div>
   <div style="width: 95%; padding: 10px; margin: auto;" *ngIf='mensajeRh.length>0'>
     <div *ngFor='let msj of mensajeRh; index as i' class="card" style="margin-top: 10px;">
       <div class="text-center comunicadoImg" *ngIf='msj["nombreadjunto"]!="N"'>
@@ -24,6 +33,92 @@
     *ngIf='mensajeRh.length==0 || mensajeRh.length==null || mensajeRh.length==""'>
     <div class="alert alert-secondary text-center" role="alert">
       No hay comunicados por visualizar.
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">
+          Peticiones, quejas, reclamos, sugerencias, denuncias, consultas o felicitaciones
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form [formGroup]="formulario" novalidate (ngSubmit)="enviarReporteNovedad()">
+        <div class="modal-body">
+          <div class="mb-3">
+            <p>
+              <b>
+                Estimado usuario:
+              </b>
+            </p>
+            <p>
+              Antes de presentar una PQRSDCF ante, por favor tenga en cuenta las siguientes definiciones para clasificar
+              su solicitud:
+            </p>
+            <ul>
+              <li>
+                <b>Petición:</b> 
+                Derecho reconocido por la Constitución a los ciudadanos, en virtud del cual estos pueden
+                dirigirse a las autoridades en demanda de algo que estimen justo y conveniente. Toda persona tiene
+                derecho a presentar una petición de conformidad con el artículo 23 de la Constitución Política y los
+                artículos 5to. y siguientes del Código Contencioso Administrativo.
+              </li>
+              <li>
+                <b>Queja:</b> 
+                Malestar o descontento por un servicio no prestado oportuna o eficazmente por una entidad.
+                Manifestación de inconformidad sobre la conducta o acción irregular en la prestación de servicios.
+              </li>
+              <li>
+                <b>Reclamo:</b> 
+                Derecho que tiene todo ciudadano de exigir o demandar solución referente a la atención
+                inadecuada u omisión de la prestación del servicio. Es la manera de exigirle a la entidad que corrija la
+                situación que impide o atropella el ejercicio de los derechos o que mejore la calidad de un servicio.
+                Manifestación sobre la prestación irregular de un servicio o sobre la deficiente atención.
+              </li>
+              <li>
+                <b>Sugerencia:</b> 
+                Acto de proponer, recomendar, una idea o propuesta para mejorar la prestación de un servicio
+                en la entidad.
+              </li>
+              <li>
+                <b>Denuncia:</b> 
+                Acto de poner en conocimiento del funcionario competente, la comisión de un hecho delictuoso,
+                sujeto acción pública, del que se hubiere tenido noticias por cualquier medio.
+              </li>
+              <li>
+                <b>Consulta:</b> 
+                .
+              </li>
+              <li>
+                <b>Felicitación:</b> 
+                .
+              </li>
+            </ul>
+            <p>
+              Este mensaje será enviado al Comité de Conviencia para su evaluación y tratamiento.
+            </p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000"
+              formControlName="mensaje"></textarea>
+            <p class="float-right"><small>
+                Máx. 1000 carácteres.
+              </small></p>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary">
+            Enviar PQRSDCF
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
