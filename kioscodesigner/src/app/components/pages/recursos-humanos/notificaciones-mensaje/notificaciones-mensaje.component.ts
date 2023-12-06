@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { OpcionesKioskosService } from 'src/app/services/opciones-kioskos.service';
+import { PQRSService } from 'src/app/services/pqrs.service';
 import { RecursosHumanosService } from 'src/app/services/recursoshumanos.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import swal from 'sweetalert2';
@@ -20,13 +21,19 @@ export class NotificacionesMensajeComponent implements OnInit {
   codigoReporteSeleccionado: any = null;
 
   formulario: FormGroup = {} as FormGroup;
+  opPqrsf: string = '';
+  opciones: string[] = ['Petición', 'Queja', 'Reclamo', 'Sugerencia', 'Felicitación'];
+  mensaje: string = '';
+  habilitaPqrs: boolean = false;
+  opcionPQRS: any;
 
-  constructor(private fb: FormBuilder, 
+  constructor(private fb: FormBuilder,
     private opcionesKioskosServicio: OpcionesKioskosService,
     public usuarioServicio: UsuarioService,
     private router: Router,
     public recursosHumanosService: RecursosHumanosService,
-    private cadenasKioskos: CadenaskioskosappService
+    private cadenasKioskos: CadenaskioskosappService,
+    private pqrsServicio: PQRSService
   ) { }
 
   ngOnInit() {
@@ -35,6 +42,7 @@ export class NotificacionesMensajeComponent implements OnInit {
     } else {
       this.getInfoUsuario();
     }
+    this.crearFormulario();
   }
 
   // obtener la información del usuario del localStorage y guardarla en el service
@@ -66,6 +74,7 @@ export class NotificacionesMensajeComponent implements OnInit {
 
   cargarDatosIniciales() {
     this.getMensajesRrHh();
+    this.filtrarOpcionesKioskos();
   }
 
   getMensajesRrHh() {
@@ -77,6 +86,28 @@ export class NotificacionesMensajeComponent implements OnInit {
       )
       .subscribe((data) => {
         this.mensajeRh = data;
+      });
+  }
+
+  filtrarOpcionesKioskos() {
+    let opkTempo: any = [];
+
+    opkTempo = this.opcionesKioskosServicio
+      .getOpcionesKiosco(
+        this.usuarioServicio.empresa,
+        this.usuarioServicio.usuario,
+        this.usuarioServicio.cadenaConexion
+      )
+      .subscribe((data) => {
+        opkTempo = data;
+        this.opcionPQRS = opkTempo.filter(
+          (opcKio: any) => opcKio["clase"] === "OPCION" && opcKio['codigo'] === "0901" && opcKio['kiorol']['nombre'] === "EMPLEADO"
+        );
+        if (this.opcionPQRS) {
+          this.habilitaPqrs = true;
+        } else {
+          this.habilitaPqrs = false;
+        }
       });
   }
 
@@ -162,26 +193,42 @@ export class NotificacionesMensajeComponent implements OnInit {
     });
   }
 
+  isPQRS(): boolean {
+    return this.habilitaPqrs;
+  }
+
   crearFormulario() {
     this.formulario = this.fb.group(
       {
+        opPqrsf: ["", Validators.required],
         mensaje: ["", Validators.required]
       }
     );
   }
-  
+
   abrirModal() {
     $("#staticBackdrop").modal("show");
+    this.formulario.get('opPqrsf')!.setValue('');
+    this.formulario.get('mensaje')!.setValue('');
+    console.log('abriendo dialogo');
   }
 
   enviarReporteNovedad() {
+    console.log('tipo: ' + this.formulario.get('opPqrsf')!.value);
+    console.log('mensaje: ' + this.formulario.get('mensaje')!.value);
+    let tipoPqrs: String = this.formulario.get('opPqrsf')!.value;
+    tipoPqrs = tipoPqrs.replace('ó', 'o');
+    //let urlPQRS = this.usuarioServicio.getUrl() + '/#/login/' + this.usuarioServicio.grupoEmpresarial;
+    const sesion = this.usuarioServicio.getUserLoggedIn();
     if (this.formulario.valid) {
       swal.fire({
         title: "Enviando mensaje al Comité de Convivencia, por favor espere...",
         willOpen: () => {
           swal.showLoading();
-          this.usuarioServicio.enviaCorreoNovedadRRHH(this.usuarioServicio.usuario, this.usuarioServicio.empresa, this.formulario.get('mensaje')!.value,
-            'Solicitud para Corrección de información', this.usuarioServicio.urlKioscoDomain, this.usuarioServicio.grupoEmpresarial, this.usuarioServicio.cadenaConexion)
+          this.pqrsServicio.crearMensaje('', this.usuarioServicio.usuario, this.usuarioServicio.empresa,
+            tipoPqrs.toUpperCase(), this.formulario.get('mensaje')!.value,
+            this.usuarioServicio.cadenaConexion,
+            sesion['urlKiosco'])
             .subscribe(
               (data: any) => {
                 if (data) {
@@ -189,11 +236,12 @@ export class NotificacionesMensajeComponent implements OnInit {
                     .fire({
                       icon: "success",
                       title:
-                        "Mensaje enviado exitosamente al área de nómina y RRHH para su validación.",
+                        "Mensaje enviado exitosamente al Comité de Convivencia para su validación.",
                       showConfirmButton: true,
                     })
                     .then((res) => {
                       $("#staticBackdrop").modal("hide");
+                      this.formulario.get('opPqrsf')!.setValue('');
                       this.formulario.get('mensaje')!.setValue('');
                     });
                 } else {
@@ -205,6 +253,7 @@ export class NotificacionesMensajeComponent implements OnInit {
                   })
                     .then((res: any) => {
                       $("#staticBackdrop").modal("hide");
+                      this.formulario.get('opPqrsf')!.setValue('');
                       this.formulario.get('mensaje')!.setValue('');
                     });
                 }
@@ -220,6 +269,7 @@ export class NotificacionesMensajeComponent implements OnInit {
                   })
                   .then((res: any) => {
                     $("#staticBackdrop").modal("hide");
+                    this.formulario.get('opPqrsf')!.setValue('');
                     this.formulario.get('mensaje')!.setValue('');
                   });
               }
@@ -230,9 +280,9 @@ export class NotificacionesMensajeComponent implements OnInit {
     } else {
       swal.fire({
         icon: "error",
-        title: "No ha digitado la observación",
+        title: "No ha diligenciado el formulario correctamente",
         text:
-          "Por favor digite una observación sobre la información que se debe corregir en el sistema.",
+          "Por favor diligencie el formulario correctamente sobre la PQRSF que desea enviar.",
         showConfirmButton: true
       })
     }

@@ -2,9 +2,10 @@
   <div class="card-header text-center comunicado">
     Comunicados
   </div>
-  <div class="row, text-center" id="div" style="margin-top: 25px;">
+  <div class="row, text-center" id="div" style="margin-top: 25px;" 
+  *ngIf="isPQRS()">
     <p>
-      Para crear una PQRSDCF:
+      Buzón de sugerencias:
       <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
         (click)="abrirModal()">
         CLIC AQUI
@@ -43,14 +44,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">
-          Peticiones, quejas, reclamos, sugerencias, denuncias, consultas o felicitaciones
+          Peticiones, quejas, reclamos, sugerencias o felicitaciones
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
-      <form [formGroup]="formulario" novalidate (ngSubmit)="enviarReporteNovedad()">
+      <form [formGroup]="formulario" (ngSubmit)="enviarReporteNovedad()">
         <div class="modal-body">
           <div class="mb-3">
             <p>
@@ -59,63 +60,173 @@
               </b>
             </p>
             <p>
-              Antes de presentar una PQRSDCF ante, por favor tenga en cuenta las siguientes definiciones para clasificar
+              Antes de presentar una PQRSF ante, por favor tenga en cuenta las siguientes definiciones para clasificar
               su solicitud:
             </p>
-            <ul>
-              <li>
-                <b>Petición:</b> 
-                Derecho reconocido por la Constitución a los ciudadanos, en virtud del cual estos pueden
-                dirigirse a las autoridades en demanda de algo que estimen justo y conveniente. Toda persona tiene
-                derecho a presentar una petición de conformidad con el artículo 23 de la Constitución Política y los
-                artículos 5to. y siguientes del Código Contencioso Administrativo.
-              </li>
-              <li>
-                <b>Queja:</b> 
-                Malestar o descontento por un servicio no prestado oportuna o eficazmente por una entidad.
-                Manifestación de inconformidad sobre la conducta o acción irregular en la prestación de servicios.
-              </li>
-              <li>
-                <b>Reclamo:</b> 
-                Derecho que tiene todo ciudadano de exigir o demandar solución referente a la atención
-                inadecuada u omisión de la prestación del servicio. Es la manera de exigirle a la entidad que corrija la
-                situación que impide o atropella el ejercicio de los derechos o que mejore la calidad de un servicio.
-                Manifestación sobre la prestación irregular de un servicio o sobre la deficiente atención.
-              </li>
-              <li>
-                <b>Sugerencia:</b> 
-                Acto de proponer, recomendar, una idea o propuesta para mejorar la prestación de un servicio
-                en la entidad.
-              </li>
-              <li>
-                <b>Denuncia:</b> 
-                Acto de poner en conocimiento del funcionario competente, la comisión de un hecho delictuoso,
-                sujeto acción pública, del que se hubiere tenido noticias por cualquier medio.
-              </li>
-              <li>
-                <b>Consulta:</b> 
-                .
-              </li>
-              <li>
-                <b>Felicitación:</b> 
-                .
-              </li>
-            </ul>
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <!-- Peticion -->
+                <a data-toggle="collapse" data-target="#collapseOne">
+                  <div class="card-header" id="headingOne" style="background: #00223C; color: white;">
+                    <a class="text-center tablaA" type="button" data-toggle="collapse" data-target="#collapseOne"
+                      aria-expanded="false" aria-controls="collapseOne">
+                      <strong>Petición</strong>
+                    </a>
+                  </div>
+                </a>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <table class="table table-hover" style="text-align: center;">
+                      <tbody>
+                        <tr>
+                          <td>
+                            Derecho reconocido por la Constitución a los ciudadanos, en virtud del cual estos pueden
+                            dirigirse a las autoridades en demanda de algo que estimen justo y conveniente. Toda persona
+                            tiene
+                            derecho a presentar una petición de conformidad con el artículo 23 de la Constitución
+                            Política y los
+                            artículos 5to. y siguientes del Código Contencioso Administrativo.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- Queja -->
+                <a data-toggle="collapse" data-target="#collapseTwo">
+                  <div class="card-header" id="headingTwo" style="background: #00223C; color: white;">
+                    <a class="text-center tablaA" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                      aria-expanded="false" aria-controls="collapseTwo">
+                      <strong>Queja</strong>
+                    </a>
+                  </div>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <table class="table table-hover" style="text-align: center;">
+                      <tbody>
+                        <tr>
+                          <td>
+                            Malestar o descontento por un servicio no prestado oportuna o eficazmente por una entidad.
+                            Manifestación de inconformidad sobre la conducta o acción irregular en la prestación de
+                            servicios.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- Reclamo -->
+                <a data-toggle="collapse" data-target="#collapseThree">
+                  <div class="card-header" id="headingThree" style="background: #00223C; color: white;">
+                    <a class="text-center tablaA" type="button" data-toggle="collapse" data-target="#collapseThree"
+                      aria-expanded="false" aria-controls="collapseThree">
+                      <strong>Reclamo</strong>
+                    </a>
+                  </div>
+                </a>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <table class="table table-hover" style="text-align: center;">
+                      <tbody>
+                        <tr>
+                          <td>
+                            Derecho que tiene todo ciudadano de exigir o demandar solución referente a la atención
+                            inadecuada u omisión de la prestación del servicio. Es la manera de exigirle a la entidad
+                            que corrija la
+                            situación que impide o atropella el ejercicio de los derechos o que mejore la calidad de un
+                            servicio.
+                            Manifestación sobre la prestación irregular de un servicio o sobre la deficiente atención.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- Sugerencia -->
+                <a data-toggle="collapse" data-target="#collapseFour">
+                  <div class="card-header" id="headingFour" style="background: #00223C; color: white;">
+                    <a class="text-center tablaA" type="button" data-toggle="collapse" data-target="#collapseFour"
+                      aria-expanded="false" aria-controls="collapseFour">
+                      <strong>Sugerencia</strong>
+                    </a>
+                  </div>
+                </a>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <table class="table table-hover" style="text-align: center;">
+                      <tbody>
+                        <tr>
+                          <td>
+                            Acto de proponer, recomendar, una idea o propuesta para mejorar la prestación de un servicio
+                            en la entidad.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- Felicitación -->
+                <a data-toggle="collapse" data-target="#collapseFive">
+                  <div class="card-header" id="headingFive" style="background: #00223C; color: white;">
+                    <a class="text-center tablaA" type="button" data-toggle="collapse" data-target="#collapseFive"
+                      aria-expanded="false" aria-controls="collapseFive">
+                      <strong>Felicitación</strong>
+                    </a>
+                  </div>
+                </a>
+                <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <table class="table table-hover" style="text-align: center;">
+                      <tbody>
+                        <tr>
+                          <td>
+                            Es una expresión de satisfacción, agradecimiento o similar, 
+                            en la que se enfatiza la buena labor y se estimula a continuar en la misma labor. 
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- fin acordeón -->
+              </div>
+            </div>
+            <p>Una vez decidida la opción a escoger, por favor cree el mensaje que desea enviar.</p>
+
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">
+                  <strong>Paso 1.</strong> Escoger:
+                </label>
+                <div class="col-sm-6">
+                  <select name="" id="opPqrsf" [(ngModel)]="opPqrsf" formControlName="opPqrsf"
+                    class="form-control form-control-sm">
+                    <option selected disabled>Seleccione una opción</option>
+                    <option *ngFor="let a of this.opciones; index as i" [value]="a">
+                      {{a}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <p><strong>Paso 2.</strong> Redactar el mensaje.</p>
+            <textarea class="form-control" id="mensaje" rows="3" maxlength="1000"
+              formControlName="mensaje" [(ngModel)]="mensaje"></textarea>
+            <p class="float-right">
+              <small>
+                Máx. 1000 carácteres.
+              </small>
+            </p>
             <p>
               Este mensaje será enviado al Comité de Conviencia para su evaluación y tratamiento.
             </p>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="1000"
-              formControlName="mensaje"></textarea>
-            <p class="float-right"><small>
-                Máx. 1000 carácteres.
-              </small></p>
           </div>
-
         </div>
 
         <div class="modal-footer">
-          <button class="btn btn-primary">
-            Enviar PQRSDCF
+          <button type="submit" class="btn btn-primary btn-lg">
+            Enviar PQRSF
           </button>
         </div>
       </form>

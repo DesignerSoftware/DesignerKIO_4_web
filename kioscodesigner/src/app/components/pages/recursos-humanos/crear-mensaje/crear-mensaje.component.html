@@ -36,7 +36,7 @@
                                 <input type="text" class="form-control" formControlName="titulo" id="titulo">
                                 <small class="text-danger"
                                     *ngIf="formulario.get('titulo')!.errors && formulario.get('titulo')!.touched">
-                                    Digite un título para el comunicados.
+                                    Digite un título para el comunicado.
                                 </small>
                             </div>
                         </div>
@@ -91,8 +91,8 @@
                         <div class="custom-control custom-checkbox ">
                             <input type="checkbox" class="custom-control-input" id="customCheck1"
                                 formControlName="enviocorreo">
-                            <label class="custom-control-label" for="customCheck1">¿Desea enviar por correo el
-                                comunicado?</label>
+                            <label class="custom-control-label" for="customCheck1">
+                                ¿Desea enviar por correo el comunicado?</label>
                         </div>
                     </div>
                 </div>
@@ -136,7 +136,9 @@
                 </div>
                 <div class="row botones">
                     <div class="col-sm-12 col-12" style="text-align: center;" id="btnEnviar">
-                        <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">Crear</button>
+                        <button type="submit" class="btn btn-primary btn-lg" style="width: 200px">
+                            Crear
+                        </button>
                     </div>
                 </div>
             </form>
