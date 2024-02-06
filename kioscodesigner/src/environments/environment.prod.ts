@@ -12,6 +12,8 @@ export const environment = {
   //urlKiosko: 'https://www.nominasas.com:8179' 
   //urlKioskoReportes: 'https://ips-globalconsulting.co:8178/wsreporte/webresources/', 
   //urlKiosko: 'https://ips-globalconsulting.co:8179/' 
+  //urlKioskoReportes: 'http://win:8178/wsreporte/webresources/',
+  //urlKiosko: 'http://win:8179/'
 };
 
 

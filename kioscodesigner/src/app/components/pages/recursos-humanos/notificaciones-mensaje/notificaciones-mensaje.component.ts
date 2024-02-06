@@ -74,10 +74,12 @@ export class NotificacionesMensajeComponent implements OnInit {
 
   cargarDatosIniciales() {
     this.getMensajesRrHh();
-    this.filtrarOpcionesKioskos();
+    //this.filtrarOpcionesKioskos();
   }
 
   getMensajesRrHh() {
+    this.filtrarOpcionesKioskos();
+
     this.recursosHumanosService
       .getMensajes(
         this.usuarioServicio.empresa,
@@ -103,7 +105,8 @@ export class NotificacionesMensajeComponent implements OnInit {
         this.opcionPQRS = opkTempo.filter(
           (opcKio: any) => opcKio["clase"] === "OPCION" && opcKio['codigo'] === "0901" && opcKio['kiorol']['nombre'] === "EMPLEADO"
         );
-        if (this.opcionPQRS) {
+        
+        if (this.opcionPQRS.length > 0) {
           this.habilitaPqrs = true;
         } else {
           this.habilitaPqrs = false;
