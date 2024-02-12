@@ -220,6 +220,7 @@ export class HomeComponent implements OnInit {
         this.polarAreaChartData.datasets[0].data[3] = parseInt(diasEnv[2][2], 0);
         */
         this.totalDiasVacacionesSubtipo = data;
+       
       });
   }
 
