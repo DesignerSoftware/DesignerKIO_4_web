@@ -13,7 +13,7 @@
 
 <div class="container">
   <br>
-  <p *ngIf="vacacionesService.SolicitudesJefe " class="text-center">
+  <p *ngIf="!vacacionesService.SolicitudesJefe || vacacionesService.SolicitudesJefe.length == 0" class="text-center">
     No hay solicitudes pendientes por procesar.</p>
   <div class="card-deck" id="">
     <div class="card card1" *ngFor="let op of vacacionesService.SolicitudesJefe; index as i"

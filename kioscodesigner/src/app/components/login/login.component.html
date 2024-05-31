@@ -35,8 +35,9 @@
                                     <label for="inputUsuario">
                                         Usuario
                                     </label>
-                                    <small *ngIf="formulario.get('usuario')!.invalid && formulario.get('usuario')!.touched " 
-                                    class="text-danger">
+                                    <small
+                                        *ngIf="formulario.get('usuario')!.invalid && formulario.get('usuario')!.touched "
+                                        class="text-danger">
                                         Digite un usuario válido
                                     </small>
                                 </div>
@@ -51,8 +52,9 @@
                                         <label for="inputClave">
                                             Clave
                                         </label>
-                                        <small *ngIf="formulario.get('clave')!.errors && formulario.get('clave')!.touched " 
-                                        class="text-danger">
+                                        <small
+                                            *ngIf="formulario.get('clave')!.errors && formulario.get('clave')!.touched "
+                                            class="text-danger">
                                             Digite su clave
                                         </small>
                                     </div>
@@ -134,7 +136,7 @@
                             <div *ngIf="false"
                                 class="d-md-flex align-items-center justify-content-center d-flex align-items-center">
                                 <div class="d-flex align-items-center">
-                                    <a class="small" routerLink="/FAQ1"> 
+                                    <a class="small" routerLink="/FAQ1">
                                         Preguntas frecuentes
                                     </a>
                                     &nbsp;|&nbsp;

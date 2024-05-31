@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 })
 export class VacacionesService {
   opcionesKiosco: any = [];
-  SolicitudesJefe = null;
+  SolicitudesJefe: any = null;
 
   constructor(private http: HttpClient) { }
   
