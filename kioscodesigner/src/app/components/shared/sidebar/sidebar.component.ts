@@ -17,9 +17,9 @@ export class SidebarComponent implements OnInit {
   @Input() urlFotoPerfil ; // recibe valor de pages.component
   opcionesKioskos: any;
   opcionesKioskosAntes: any;
-  nombreUsuario;
-  fotoPerfil;
-  datos;
+  nombreUsuario: any;
+  fotoPerfil: any;
+  datos: any;
 
   constructor(private opcionesKioskosService: OpcionesKioskosService, private cadenasKioskos: CadenaskioskosappService,
     public usuarioServicio: UsuarioService, private loginService: LoginService, private router: Router, private reporteService: ReportesService) {

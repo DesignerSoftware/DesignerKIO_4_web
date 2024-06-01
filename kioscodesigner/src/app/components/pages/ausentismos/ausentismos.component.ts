@@ -71,9 +71,8 @@ export class AusentismosComponent implements OnInit {
 
   filtrarOpcionesReportes() {
     let opkTempo: any = [];
-    if (this.ausentismosService.opciones == null || this.ausentismosService.opciones.length === 0
-      //|| this.ausentismosService.opciones === []
-    ) {
+    //if (this.ausentismosService.opciones == null || this.ausentismosService.opciones.length === 0
+    //) {
       opkTempo = this.opcionesKioskosServicio
         .getOpcionesKiosco(this.usuarioServicio.empresa, this.usuarioServicio.usuario, this.usuarioServicio.cadenaConexion)
         .subscribe((data: any) => {
@@ -88,8 +87,8 @@ export class AusentismosComponent implements OnInit {
             }
           );
         });
-    } else {
-    }
+    //} else {
+    //}
   }
 
   seleccionarReporte(index: number) {

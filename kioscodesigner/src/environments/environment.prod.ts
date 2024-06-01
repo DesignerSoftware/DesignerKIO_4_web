@@ -2,8 +2,8 @@ export const environment = {
   production: true,
   //urlKioskoReportes: 'https://www.nomina.com.co:8178/wsreporte/webresources/', 
   //urlKiosko: 'https://www.nomina.com.co:8179' 
-  //urlKioskoReportes: 'https://www.nominas.co:8178/wsreporte/webresources/', 
-  //urlKiosko: 'https://www.nominas.co:8179' 
+  urlKioskoReportes: 'https://www.nominas.co:8178/wsreporte/webresources/', 
+  urlKiosko: 'https://www.nominas.co:8179' 
   //urlKioskoReportes: 'https://autogestion.mab.com.co:8080/wsreporte/webresources/', 
   //urlKiosko: 'https://autogestion.mab.com.co:8179' 
   //urlKioskoReportes: 'https://www.siete24.info:8178/wsreporte/webresources/', 
