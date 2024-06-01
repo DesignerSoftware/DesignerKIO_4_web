@@ -38,6 +38,20 @@ export class AusentismosService {
     });
   }
 
+  getSoliciAusentSinProcesarAutorizador(nit: string, seudonimo: string, estado: string, cadena: string) {
+    
+    const url = `${environment.urlKioskoReportes}ausentismos/soliciSinProcesarAutorizador`;
+    
+    return this.http.get(url, {
+      params: {
+        nit: nit,
+        jefe: seudonimo,
+        estado: estado,
+        cadena: cadena
+      }
+    });
+  }
+
   getProrroga(usuario: string, causa: string, fechainicio: string, nit:string, cadena: string) {
     const url = `${environment.urlKioskoReportes}ausentismos/prorroga`;
     console.log('url:' + url);
@@ -207,6 +221,18 @@ export class AusentismosService {
       }
     });
   } 
+
+/*Retorna las solicitudes ya procesadas por el autorizador*/
+getSolicitudesPorAutorizador(usuario: string, nit: string, cadena: string) {
+  const url = `${environment.urlKioskoReportes}ausentismos/solicitudesPorAutorizador`;
+  return this.http.get(url, {
+    params: {
+      usuario,
+      empresa: nit,
+      cadena: cadena
+    }
+  });
+} 
 
   pruebaToken(token: string) {
     const url = `${environment.urlKioskoReportes}ausentismos/token`;

@@ -28,6 +28,8 @@ import { ReportarAusentismoComponent } from './components/pages/ausentismos/repo
 import { VerAusentismosReportadosComponent } from './components/pages/ausentismos/ver-ausentismos-reportados/ver-ausentismos-reportados.component';
 import { ProcesarAusentismosComponent } from './components/pages/ausentismos/procesar-ausentismos/procesar-ausentismos.component';
 import { AusentismosProcesadosComponent } from './components/pages/ausentismos/ausentismos-procesados/ausentismos-procesados.component';
+import { ProcesarAusentismosPersonaComponent } from './components/pages/ausentismos/procesar-ausentismos-persona/procesar-ausentismos-persona.component';
+import { AusentismosProcesadosPersonaComponent } from './components/pages/ausentismos/ausentismos-procesados-persona/ausentismos-procesados-persona.component';
 import { InfoExperienciaComponent } from './components/pages/info-experiencia/info-experiencia.component';
 import { VerSoliciSinProcPersonaComponent } from './components/pages/vacaciones/ver-solici-sin-proc-persona/ver-solici-sin-proc-persona.component';
 import { VerSoliciProcPersonaComponent } from './components/pages/vacaciones/ver-solici-proc-persona/ver-solici-proc-persona.component';
@@ -66,7 +68,9 @@ const APP_ROUTES: Routes = [
     {path: 'ausentismos/reportarAusentismo', component: ReportarAusentismoComponent, canActivate: [AuthGuard]},
     {path: 'ausentismos/verAusentismosReportados', component: VerAusentismosReportadosComponent, canActivate: [AuthGuard]},
     {path: 'ausentismos/procesarAusentismos', component: ProcesarAusentismosComponent, canActivate: [AuthGuard]},
+    {path: 'ausentismos/procesarAusentismosPersona', component: ProcesarAusentismosPersonaComponent, canActivate: [AuthGuard]},
     {path: 'ausentismos/ausentismosProcesados', component: AusentismosProcesadosComponent, canActivate: [AuthGuard]},
+    {path: 'ausentismos/ausentismosProcesadosPersona', component: AusentismosProcesadosPersonaComponent, canActivate: [AuthGuard]},
     {path: 'recursoshumanos', component: RecursosHumanosComponent, canActivate: [AuthGuard]},
     {path: 'recursoshumanos/crearMensajes', component: CrearMensajeComponent, canActivate: [AuthGuard]},
     {path: 'recursoshumanos/consultarMensajes', component: ConsultarMensajeComponent, canActivate: [AuthGuard]},

@@ -32,7 +32,9 @@ import { InfoEstudiosComponent } from './components/pages/info-estudios/info-est
 import { InfoExperienciaComponent } from './components/pages/info-experiencia/info-experiencia.component';
 import { RecursosHumanosComponent } from './components/pages/recursos-humanos/recursos-humanos.component';
 import { AusentismosProcesadosComponent } from './components/pages/ausentismos/ausentismos-procesados/ausentismos-procesados.component';
+import { AusentismosProcesadosPersonaComponent } from './components/pages/ausentismos/ausentismos-procesados-persona/ausentismos-procesados-persona.component';
 import { ProcesarAusentismosComponent } from './components/pages/ausentismos/procesar-ausentismos/procesar-ausentismos.component';
+import { ProcesarAusentismosPersonaComponent } from './components/pages/ausentismos/procesar-ausentismos-persona/procesar-ausentismos-persona.component';
 import { ReportarAusentismoComponent } from './components/pages/ausentismos/reportar-ausentismo/reportar-ausentismo.component';
 import { VerAusentismosReportadosComponent } from './components/pages/ausentismos/ver-ausentismos-reportados/ver-ausentismos-reportados.component';
 import { ConsultarMensajeComponent } from './components/pages/recursos-humanos/consultar-mensaje/consultar-mensaje.component';
@@ -74,7 +76,9 @@ import { VerSoliciSinProcPersonaComponent } from './components/pages/vacaciones/
     InfoExperienciaComponent,
     RecursosHumanosComponent,
     AusentismosProcesadosComponent,
+    AusentismosProcesadosPersonaComponent,
     ProcesarAusentismosComponent,
+    ProcesarAusentismosPersonaComponent,
     ReportarAusentismoComponent,
     VerAusentismosReportadosComponent,
     ConsultarMensajeComponent,

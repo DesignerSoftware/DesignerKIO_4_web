@@ -1,0 +1,76 @@
+@media(max-width: 575px) {
+    #tablaperiodosDias  {
+        height: 150px !important;
+        margin-top: 20px;
+    }
+
+    #contentTable, #cardTable{
+        background-color: white !important;
+    }
+
+    #btnEnviar, #btnCancelar {
+        text-align: center !important;
+    }
+
+    #btnCancelar {
+        margin-top: 5px;
+    }
+
+}
+
+.sep{
+    margin-top: 15px;
+    text-align: center;
+}
+.puntero:hover{
+    cursor: pointer;
+    background-color: #DEDEDE;
+}
+#fechaSolici{
+    margin-bottom: 0px !important;
+}
+#hrSolici{
+    margin-top: 0px !important;
+}
+.cuerpo tr td{
+    border-top: 0px solid #e0e0ef;
+    padding: 0rem !important;
+}
+.tabla tr td{
+    padding: 5px !important;
+}
+.jsgrid-table td, .jsgrid-table th, .table td, .table th {
+    padding: .3rem;
+    font-size: 12px;
+}
+.tabladerecha{
+    margin-left: 5px !important;
+}
+/*
+.miTable_{
+    border: 1px solid grey;
+    border-radius: 3px;
+}
+
+.miTable .row div p{
+    margin-bottom: 0px;
+    padding: 5px;    
+}
+.izq {
+    border-right: 1px solid grey ;
+    border-top: 1px solid grey;
+    border-left: 1px solid grey;
+}
+.drch {
+    border-right: 1px solid grey ;
+    border-top: 1px solid grey;
+    
+}
+#izqUlt {
+    border-bottom: 1px solid grey ;
+}
+#drchUlt {
+    border-bottom: 1px solid grey ;   
+}
+
+*/
