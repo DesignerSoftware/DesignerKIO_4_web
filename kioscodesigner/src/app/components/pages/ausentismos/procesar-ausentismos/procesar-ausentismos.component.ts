@@ -7,6 +7,7 @@ import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.ser
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
+import { RespuestaSolicitud } from 'src/app/components/modelo/RespuestaSolicitud';
 
 @Component({
   selector: 'app-procesar-ausentismos',
@@ -164,7 +165,11 @@ export class ProcesarAusentismosComponent implements OnInit {
                     .subscribe(
                       (data) => {
                         console.log(data);
-                        if (data) {
+                        let dj: RespuestaSolicitud = JSON.parse(JSON.stringify(data)) as RespuestaSolicitud;
+                        console.log('dj-SV');
+                        console.log(dj);
+                        //if (data) {
+                        if (dj.solicitud === 'procesada' && dj.correo === 'enviado') {
                           swal
                             .fire({
                               icon: "success",
@@ -178,7 +183,22 @@ export class ProcesarAusentismosComponent implements OnInit {
                               this.reloadPage();
 
                             });
+                        } else if (dj.solicitud === 'procesada' && dj.correo === 'error') {
+                          swal
+                            .fire({
+                              icon: "warning",
+                              title:
+                                "¡La solicitud de ausentismo ha sido autorizada exitosamente, pero el correo no se envió! " + dj.excepcion,
+                              showConfirmButton: true,
+                            })
+                            .then((res) => {
+                              $("#exampleModalCenter").modal("hide");
+                              this.cargarNotificaciones();
+                              this.reloadPage();
+
+                            });
                         } else {
+                          console.log(data);
                           swal
                             .fire({
                               icon: "error",
@@ -202,6 +222,7 @@ export class ProcesarAusentismosComponent implements OnInit {
                           showConfirmButton: true,
                         })
                           .then((res) => {
+                            console.log(res);
                             $("#exampleModalCenter").modal("hide");
                             this.cargarNotificaciones();
                             this.reloadPage();
@@ -232,7 +253,11 @@ export class ProcesarAusentismosComponent implements OnInit {
                 .subscribe(
                   (data) => {
                     console.log(data);
-                    if (data) {
+                    let dj: RespuestaSolicitud = JSON.parse(JSON.stringify(data)) as RespuestaSolicitud;
+                    console.log('dj');
+                    console.log(dj);
+                    //if (data) {
+                    if (dj.solicitud === 'procesada' && dj.correo === 'enviado') {
                       swal
                         .fire({
                           icon: "success",
@@ -245,7 +270,21 @@ export class ProcesarAusentismosComponent implements OnInit {
                           this.cargarNotificaciones();
                           this.reloadPage();
                         });
+                    } else if (dj.solicitud === 'procesada' && dj.correo === 'error') {
+                      swal
+                        .fire({
+                          icon: "warning",
+                          title:
+                            "¡La solicitud de ausentismo ha sido autorizada exitosamente, pero el correo no se envió! " + dj.excepcion,
+                          showConfirmButton: true,
+                        })
+                        .then((res) => {
+                          $("#exampleModalCenter").modal("hide");
+                          this.cargarNotificaciones();
+                          this.reloadPage();
+                        });
                     } else {
+                      console.log(data);
                       swal
                         .fire({
                           icon: "error",
@@ -255,6 +294,7 @@ export class ProcesarAusentismosComponent implements OnInit {
                           showConfirmButton: true,
                         })
                         .then((res) => {
+                          console.log(res);
                           $("#exampleModalCenter").modal("hide");
                           this.reloadPage();
                         });
@@ -270,6 +310,7 @@ export class ProcesarAusentismosComponent implements OnInit {
                         showConfirmButton: true,
                       })
                       .then((res) => {
+                        console.log(res);
                         $("#exampleModalCenter").modal("hide");
                         this.reloadPage();
                       });
@@ -328,8 +369,12 @@ export class ProcesarAusentismosComponent implements OnInit {
                 .subscribe(
                   (data) => {
                     console.log('solicitud rechazada:', data);
-                    if (data) {
-                      swal
+                    let dj: RespuestaSolicitud = JSON.parse(JSON.stringify(data)) as RespuestaSolicitud;
+                    console.log('dj-rechazada');
+                    console.log(dj);
+                    //if (data) {
+                    if (dj.solicitud === 'procesada' && dj.correo === 'enviado') {
+                    swal
                         .fire({
                           icon: "success",
                           title:
@@ -341,11 +386,25 @@ export class ProcesarAusentismosComponent implements OnInit {
                           this.cargarNotificaciones();
                           this.reloadPage();
                         });
-                    } else {
+                    } else if (dj.solicitud === 'procesada' && dj.correo === 'error') {
+                      swal
+                          .fire({
+                            icon: "warning",
+                            title:
+                              "¡Solicitud de ausentismo rechazada exitosamente, pero el correo no se envió!"+dj.excepcion,
+                            showConfirmButton: true,
+                          })
+                          .then((res) => {
+                            $("#exampleModalCenter").modal("hide");
+                            this.cargarNotificaciones();
+                            this.reloadPage();
+                          });
+                      } else {
                       swal
                         .fire({
                           icon: "error",
-                          title: data["mensaje"],
+                          //title: data["mensaje"],
+                          title: dj.excepcion,
                           showConfirmButton: true,
                         })
                         .then((res) => {
