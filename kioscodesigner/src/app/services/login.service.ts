@@ -53,8 +53,9 @@ export class LoginService {
     enviarCorreoConfirmaCuenta(usuario: string, clave: string, nitEmpresa: string, cadena: string, grupoEmpr: string, urlKiosco: string) {
       //const url = `${environment.urlKioskoDesigner}restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&urlKiosco=${urlKiosco}`;
       // const url = `${environment.urlKioskoDesigner}restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&urlKiosco=${environment.urlKiosko}`;
-      const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${clave}&nit=${nitEmpresa}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
-      //console.log(url);
+      let cl = window.btoa(clave);
+      const url = `${environment.urlKioskoReportes}conexioneskioskos/restKiosco/jwtValidCuenta?usuario=${usuario}&clave=${cl}&nit=${nitEmpresa}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
+      console.log(url);
       return this.http.get<DatosEnvioCorreo>(url);
     }
   

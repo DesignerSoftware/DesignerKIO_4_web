@@ -241,17 +241,21 @@ export class LoginComponent implements OnInit {
   }
 
   enviarCorreoConfirmaCuenta(seudonimo: string) {
+    let empresa = this.formulario.get('empresa')!.value;
+    console.log('Empresa: '+empresa);
     swal.fire({
       title: 'Espera un momento.. Estamos enviándote el correo de confirmación',
       didOpen: () => {
         swal.showLoading();
-        this.usuarioService.inactivaTokensTipo('VALIDACUENTA', seudonimo, this.formulario.get('empresa')!.value!, this.usuarioService.cadenaConexion)
+        //this.usuarioService.inactivaTokensTipo('VALIDACUENTA', seudonimo, this.formulario.get('empresa')!.value!, this.usuarioService.cadenaConexion)
+        this.usuarioService.inactivaTokensTipo('VALIDACUENTA', seudonimo, empresa, this.usuarioService.cadenaConexion)
           .subscribe(
             data => {
               this.loginService.enviarCorreoConfirmaCuenta(
                 seudonimo,
                 this.formulario.get('clave')!.value!,
-                this.formulario.get('empresa')!.value!, this.usuarioService.cadenaConexion, this.usuarioService.grupoEmpresarial, this.urlKiosco
+                //this.formulario.get('empresa')!.value!, this.usuarioService.cadenaConexion, this.usuarioService.grupoEmpresarial, this.urlKiosco
+                empresa, this.usuarioService.cadenaConexion, this.usuarioService.grupoEmpresarial, this.urlKiosco
               ).subscribe(
                 data2 => {
                   if (data2['envioCorreo'] === true) {
