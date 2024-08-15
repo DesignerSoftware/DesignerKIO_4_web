@@ -16,16 +16,20 @@
     <div *ngFor='let msj of mensajeRh; index as i' class="card" style="margin-top: 10px;">
       <div class="text-center comunicadoImg" *ngIf='msj["nombreadjunto"]!="N"'>
         <div *ngIf='msj["formato"]==".pdf"'>
-          <a style="cursor: pointer;" (click)='descargarArchivo(i);'><img id="" [src]="cargaFoto(i)" alt="profile"
-              alt="foto"></a>
+          <a style="cursor: pointer;" (click)='descargarArchivo(i);'>
+            <img id="docComunicado" [src]="cargaFoto(i)" alt="documento"></a>
         </div>
         <div *ngIf='msj["formato"]==".png" || msj["formato"]==".jpg"'>
-          <img id="" [src]="cargaFoto(i)" alt="profile" alt="foto">
+          <img id="imgComunicado" [src]="cargaFoto(i)" alt="foto">
         </div>
       </div>
       <div class="card-body comunicadoTxt">
         <h4 class="">{{msj['titulo']}}</h4>
-        <p class="card-text">{{msj['descripcion']}}</p>
+        <!-- <p class="card-text">{{msj['descripcion']}}</p> -->
+        <div *ngIf='msj["formato"] != ".html"'>
+          <p class="card-text">{{msj['descripcion']}}</p>
+        </div>
+        <div *ngIf='msj["formato"] == ".html"' [innerHTML]="getDescripcion(i)"></div>
       </div>
     </div>
   </div>

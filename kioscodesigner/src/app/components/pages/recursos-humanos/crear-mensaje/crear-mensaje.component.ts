@@ -256,9 +256,13 @@ export class CrearMensajeComponent implements OnInit {
   // Método que retorna true si el tamaño del archivo no supera los 5MB
   validaSizeAnexo() {
     let valid = false;
+    let tamagno = this.formulario.get('anexo')!.value.size;
+    //console.log('tamagno: '+ tamagno);
     let sizeArchivo = (this.formulario.get('anexo')!.value.size / 1048576);
     let sizeArchivo2 = parseFloat(parseFloat(sizeArchivo.toString()).toFixed(2));
-    if (sizeArchivo2 <= 2.5) {
+    // 240723 EdwinH-Se cambia la validación del tamaño del archivo a adjuntar.
+    //if (sizeArchivo2 <= 2.5) {
+      if (sizeArchivo2 <= 5) {
       valid = true;
     }
     return valid;

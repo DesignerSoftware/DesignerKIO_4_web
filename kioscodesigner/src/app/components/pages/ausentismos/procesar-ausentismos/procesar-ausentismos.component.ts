@@ -8,6 +8,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
 import swal from 'sweetalert2';
 import { RespuestaSolicitud } from 'src/app/components/modelo/RespuestaSolicitud';
+import { shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-procesar-ausentismos',
@@ -41,6 +42,7 @@ export class ProcesarAusentismosComponent implements OnInit {
     this.getInfoUsuario();
     this.crearFormulario();
     this.cargarDatosSolicitudesProcesadas();
+    shareReplay(1);
   }
 
   crearFormulario() {

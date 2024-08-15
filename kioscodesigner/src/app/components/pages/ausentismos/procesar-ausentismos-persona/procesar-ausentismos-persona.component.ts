@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { shareReplay } from 'rxjs/operators';
 import { AusentismosService } from 'src/app/services/ausentismos.service';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -40,6 +41,7 @@ export class ProcesarAusentismosPersonaComponent implements OnInit {
     this.getInfoUsuario();
     this.crearFormulario();
     this.cargarDatosSolicitudesProcesadas();
+    shareReplay(1);
   }
 
   crearFormulario() {

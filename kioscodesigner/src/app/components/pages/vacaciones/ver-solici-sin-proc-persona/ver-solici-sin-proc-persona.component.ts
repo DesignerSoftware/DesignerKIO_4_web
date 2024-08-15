@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { shareReplay } from 'rxjs/operators';
 import { CadenaskioskosappService } from 'src/app/services/cadenaskioskosapp.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { VacacionesService } from 'src/app/services/vacaciones.service';
@@ -31,6 +32,7 @@ export class VerSoliciSinProcPersonaComponent implements OnInit {
     } else {
       this.getInfoUsuario();
     }
+    shareReplay(1);
   }
 
   crearFormulario() {

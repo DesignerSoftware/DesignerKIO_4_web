@@ -7,6 +7,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { VacacionesService } from 'src/app/services/vacaciones.service';
 import swal from 'sweetalert2';
 import * as moment from 'moment';
+import { shareReplay } from 'rxjs';
 
 @Component({
   selector: 'app-crear-solicitud',
@@ -52,6 +53,7 @@ export class CrearSolicitudComponent implements OnInit {
     } else {
       this.getInfoUsuario();
     }
+    shareReplay(1);
   }
 
   crearFormulario() {

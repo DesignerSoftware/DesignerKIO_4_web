@@ -290,5 +290,8 @@ export class NotificacionesMensajeComponent implements OnInit {
       })
     }
   }
-
+  getDescripcion(numero: number) {
+    let descripcion = this.mensajeRh[numero]['descripcion'];
+    return descripcion;
+  }  
 }

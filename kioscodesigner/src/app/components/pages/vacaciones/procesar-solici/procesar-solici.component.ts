@@ -34,6 +34,7 @@ export class ProcesarSoliciComponent implements OnInit {
     } else {
       this.getInfoUsuario();
     }
+    shareReplay(1);
   }
 
   crearFormulario() {

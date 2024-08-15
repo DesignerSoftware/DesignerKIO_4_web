@@ -82,6 +82,20 @@ export class AusentismosService {
     });
   }
 
+  getValidaTraslapamientoSoliciAusen(nit: string, seudonimo: string, fechaIni: string, fechaFin: string, refSolici: number, cadena: string){
+    const url = `${environment.urlKioskoReportes}ausentismos/validaTraslapamientoSoliciAusen`;
+    return this.http.get(url, {
+      params: {
+        nitempresa: nit,
+        cadena: cadena,
+        fechainicio: fechaIni,
+        fechafin: fechaFin,
+        refsolicitud: refSolici,
+        usuario: seudonimo,
+      }
+    });
+  }
+
   setNuevoEstadoSolicio(seudonimo: string, nit: string, cadena: string, estado: string, fechaInicio: string, secuencia: string, motivo: string, urlKiosco: string, grupoEmpr: string) {
     const url = `${environment.urlKioskoReportes}ausentismos/nuevoEstadoSolici?secuencia=${secuencia}&motivo=${motivo}&seudonimo=${seudonimo}&nitempresa=${nit}&estado=${estado}&fechainicio=${fechaInicio}&cadena=${cadena}&grupo=${grupoEmpr}&urlKiosco=${urlKiosco}`;
     //console.log('url:' + url);

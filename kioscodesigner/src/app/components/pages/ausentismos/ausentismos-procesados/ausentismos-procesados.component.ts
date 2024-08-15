@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { shareReplay } from 'rxjs/operators';
 import { AusentismosService } from 'src/app/services/ausentismos.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import swal from 'sweetalert2';
@@ -35,6 +36,7 @@ export class AusentismosProcesadosComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    shareReplay(1);
   }
 
   obtenerSolicitudes() {

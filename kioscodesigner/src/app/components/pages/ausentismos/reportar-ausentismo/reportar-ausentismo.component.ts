@@ -9,6 +9,7 @@ import swal from 'sweetalert2';
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
 import { PaginationInstance } from 'ngx-pagination';
+import { shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reportar-ausentismo',
@@ -61,6 +62,7 @@ export class ReportarAusentismoComponent implements OnInit {
     } else {
       this.getInfoUsuario();
     }
+    shareReplay(1);
   }
 
   crearFormulario() {
@@ -295,6 +297,8 @@ export class ReportarAusentismoComponent implements OnInit {
   }
 
   validaFechaNovedadEmpleadoXJefe() {
+//    this.ausentismosService.getValidaTraslapamientoSoliciAusen(this.usuarioService.empresa, this.usuarioService.usuario,
+//      this.formulario.get('fechainicio')!.value, this.formulario.get('fechafin')!.value, 0, this.usuarioService.cadenaConexion)
     this.ausentismosService.getvalidaFechaNovedadEmpleadoXJefe(this.usuarioService.empresa, this.usuarioService.usuario,
       this.formulario.get('fechafin')!.value, this.usuarioService.cadenaConexion)
       .subscribe(
